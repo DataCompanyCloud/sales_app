@@ -17,14 +17,12 @@ class ForgotPasswordPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF0081F5),
-        foregroundColor: Colors.white,
         title: Text(title),
         leading: IconButton(
-            onPressed: () {
-              context.pop();
-            },
-            icon: Icon(Icons.arrow_back_ios_new, size: 22)
+          onPressed: () {
+            context.pop();
+          },
+          icon: Icon(Icons.arrow_back_ios_new, size: 22)
         ),
       ),
       body: SizedBox(
@@ -44,7 +42,7 @@ class ForgotPasswordPage extends ConsumerWidget {
                 textAlign: TextAlign.center,
                 "Deseja recuperar sua senha\n e continuar?",
                 style: TextStyle(
-                    fontSize: 28
+                  fontSize: 28
                 ),
               ),
               Padding(padding: EdgeInsets.only(top: 32)),
@@ -54,18 +52,18 @@ class ForgotPasswordPage extends ConsumerWidget {
                   FocusManager.instance.primaryFocus?.unfocus();
                 },
                 decoration: InputDecoration(
-                    labelText: "E-mail",
-                    floatingLabelStyle: TextStyle(
-                        color: Colors.indigo
-                    ),
-                    prefixIcon: Icon(Icons.email),
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Colors.indigo,
-                            width: 2
-                        )
+                  hintText: "E-mail",
+                  prefixIcon: Icon(Icons.email),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide(
+                      color: Color(0xFF0081F5),
+                      width: 2
                     )
+                  )
                 ),
               ),
               Padding(padding: EdgeInsets.only(top: 22)),
@@ -74,19 +72,19 @@ class ForgotPasswordPage extends ConsumerWidget {
                   context.goNamed(AppRoutes.login.name);
                 },
                 style: ElevatedButton.styleFrom(
-                    elevation: 4,
-                    padding: EdgeInsets.symmetric(horizontal: 120, vertical: 16),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0)
-                    ),
-                    backgroundColor: Color(0xFF0081F5),
-                    foregroundColor: Colors.white
+                  elevation: 4,
+                  padding: EdgeInsets.symmetric(horizontal: 120, vertical: 16),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)
+                  ),
+                  backgroundColor: Color(0xFF0081F5),
+                  foregroundColor: Colors.white
                 ),
                 child: Text(
                   "Enviar Código",
                   style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16
                   ),
                 ),
               ),
@@ -102,7 +100,7 @@ class ForgotPasswordPage extends ConsumerWidget {
                 label: Text(
                   "Voltar para login",
                   style: TextStyle(
-                      color: Colors.black54
+                    color: Colors.black54
                   ),
                 ),
               ),

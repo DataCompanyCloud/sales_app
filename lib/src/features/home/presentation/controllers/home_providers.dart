@@ -5,4 +5,5 @@ final homeViewModelProvider = ChangeNotifierProvider((ref) {
   return HomeViewModel();
 });
 
+final previousTabIndexProvider = StateProvider<int>((ref) => 2);
 final homeIndexProvider = StateProvider<int>((ref) => 2);

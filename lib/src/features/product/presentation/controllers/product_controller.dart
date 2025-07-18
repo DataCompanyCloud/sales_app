@@ -16,7 +16,7 @@ enum LayoutProduct {
 }
 
 class ProductViewModel extends ChangeNotifier{
-  final List<Product> products = createProductFaker(12);
+  final List<Product> products = createProductFaker(100);
 
   LayoutProduct layoutProduct = LayoutProduct.gridColumn2;
 

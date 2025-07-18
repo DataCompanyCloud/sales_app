@@ -9,6 +9,9 @@ import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/features/customer/domain/entities/email.dart';
 import 'package:sales_app/src/features/customer/domain/entities/person_customer.dart';
 import 'package:sales_app/src/features/customer/domain/entities/phone.dart';
+import 'package:sales_app/src/features/customer/presentation/widgets/cards/create_person_customer_address_card.dart';
+import 'package:sales_app/src/features/customer/presentation/widgets/cards/create_person_customer_contact_card.dart';
+import 'package:sales_app/src/features/customer/presentation/widgets/cards/create_person_customer_info_card.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/units/document_generator.dart';
 import 'package:sales_app/src/features/customer/domain/entities/address.dart' as entity;
 
@@ -24,7 +27,6 @@ class CustomerViewModel extends ChangeNotifier {
   bool isEditing = false;
 
   late CustomerFilter currentFilter = CustomerFilter.all;
-
   List<Customer> get filteredCustomers {
     if (currentFilter == CustomerFilter.active) {
       return customers.where((c) => c.isActive).toList();
@@ -32,12 +34,34 @@ class CustomerViewModel extends ChangeNotifier {
 
     if (currentFilter == CustomerFilter.inactive) {
       return customers.where((c) => !c.isActive).toList();
-
     }
 
     return customers;
-
   }
+
+  // CreateCustomer
+  int currentStep = 0;
+
+  List<Widget> steps = [
+    CreatePersonCustomerInfoCard(),
+    CreatePersonCustomerAddressCard(),
+    CreatePersonCustomerContactCard(),
+  ];
+
+  void nextStep() {
+    if (currentStep < steps.length - 1) {
+      currentStep ++;
+      notifyListeners();
+    }
+  }
+
+  void previousStep() {
+    if (currentStep > 0) {
+      currentStep --;
+      notifyListeners();
+    }
+  }
+  //
 
   void changeFilter(CustomerFilter filter) {
     currentFilter = filter;

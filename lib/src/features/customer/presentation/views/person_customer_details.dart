@@ -13,6 +13,9 @@ class PersonCustomerDetails extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(customer.customerCode),
@@ -26,21 +29,19 @@ class PersonCustomerDetails extends ConsumerWidget {
           Padding(
             padding: EdgeInsets.all(8),
             child: TextButton(
-                onPressed: () {
+              onPressed: () {
 
-                },
-                child: Text(
-                  "Salvar",
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white
-                  ),
-                )
+              },
+              child: Text(
+                "Salvar",
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white
+                ),
+              )
             ),
           )
         ],
-        backgroundColor: Color(0xFF0081F5),
-        foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(bottom: 75),
@@ -54,15 +55,17 @@ class PersonCustomerDetails extends ConsumerWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(60),
                     border: Border.all(
-                        color: Colors.grey.shade400,
-                        width: 3
+                      color: customer.isActive
+                        ? Colors.green.shade800
+                        : Colors.red.shade800,
+                      width: 3
                     ),
                   ),
                   child: CircleAvatar(
                     radius: 50,
                     backgroundColor: customer.isActive
-                        ? Colors.green
-                        : Colors.red,
+                      ? Colors.green
+                      : Colors.red,
                     child: Icon(
                       Icons.person,
                       color: Colors.white,
@@ -76,7 +79,7 @@ class PersonCustomerDetails extends ConsumerWidget {
                 child: Column(
                   children: [
                     Card(
-                      color: Colors.white,
+                      color: colorScheme.surface,
                       elevation: 1,
                       margin: EdgeInsets.all(2),
                       child: Column(
@@ -90,9 +93,9 @@ class PersonCustomerDetails extends ConsumerWidget {
                               child: Text(
                                 "DETALHES DO CLIENTE",
                                 style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black38
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: colorScheme.onSurface
                                 ),
                               ),
                             ),
@@ -113,22 +116,22 @@ class PersonCustomerDetails extends ConsumerWidget {
                                   subtitle: Text(
                                     customer.fullName,
                                     style: TextStyle(
-                                        fontSize: 15
+                                      fontSize: 15
                                     ),
                                   ),
                                   trailing: TextButton(
-                                      onPressed: () {
+                                    onPressed: () {
 
-                                      },
-                                      child: Text(
-                                        "Editar",
-                                        style: TextStyle(
-                                            decoration: TextDecoration.underline,
-                                            decorationColor: Color(0xFF0081F5),
-                                            fontSize: 16,
-                                            color: Color(0xFF0081F5)
-                                        ),
-                                      )
+                                    },
+                                    child: Text(
+                                      "Editar",
+                                      style: TextStyle(
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: Color(0xFF0081F5),
+                                        fontSize: 16,
+                                        color: Color(0xFF0081F5)
+                                      ),
+                                    )
                                   ),
                                 ),
                                 ListTile(
@@ -137,22 +140,22 @@ class PersonCustomerDetails extends ConsumerWidget {
                                   subtitle: Text(
                                     customer.cpf.formatted,
                                     style: TextStyle(
-                                        fontSize: 15
+                                      fontSize: 15
                                     ),
                                   ),
                                   trailing: TextButton(
-                                      onPressed: () {
+                                    onPressed: () {
 
-                                      },
-                                      child: Text(
-                                        "Editar",
-                                        style: TextStyle(
-                                            decoration: TextDecoration.underline,
-                                            decorationColor: Color(0xFF0081F5),
-                                            fontSize: 16,
-                                            color: Color(0xFF0081F5)
-                                        ),
-                                      )
+                                    },
+                                    child: Text(
+                                      "Editar",
+                                      style: TextStyle(
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: Color(0xFF0081F5),
+                                        fontSize: 16,
+                                        color: Color(0xFF0081F5)
+                                      ),
+                                    )
                                   ),
                                 ),
                               ],
@@ -163,7 +166,7 @@ class PersonCustomerDetails extends ConsumerWidget {
                     ),
                     SizedBox(height: 8),
                     Card(
-                      color: Colors.white,
+                      color: colorScheme.surface,
                       elevation: 1,
                       margin: EdgeInsets.all(2),
                       child: Column(
@@ -177,9 +180,9 @@ class PersonCustomerDetails extends ConsumerWidget {
                               child: Text(
                                 "ENDEREÇO",
                                 style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black38
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: colorScheme.onSurface
                                 ),
                               ),
                             ),
@@ -204,18 +207,18 @@ class PersonCustomerDetails extends ConsumerWidget {
                                     ),
                                   ),
                                   trailing: TextButton(
-                                      onPressed: () {
+                                    onPressed: () {
 
-                                      },
-                                      child: Text(
-                                        "Editar",
-                                        style: TextStyle(
-                                            decoration: TextDecoration.underline,
-                                            decorationColor: Color(0xFF0081F5),
-                                            fontSize: 16,
-                                            color: Color(0xFF0081F5)
-                                        ),
-                                      )
+                                    },
+                                    child: Text(
+                                      "Editar",
+                                      style: TextStyle(
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: Color(0xFF0081F5),
+                                        fontSize: 16,
+                                        color: Color(0xFF0081F5)
+                                      ),
+                                    )
                                   ),
                                 ),
                                 ListTile(
@@ -224,22 +227,22 @@ class PersonCustomerDetails extends ConsumerWidget {
                                   subtitle: Text(
                                     customer.address.city,
                                     style: TextStyle(
-                                        fontSize: 15
+                                      fontSize: 15
                                     ),
                                   ),
                                   trailing: TextButton(
-                                      onPressed: () {
+                                    onPressed: () {
 
-                                      },
-                                      child: Text(
-                                        "Editar",
-                                        style: TextStyle(
-                                            decoration: TextDecoration.underline,
-                                            decorationColor: Color(0xFF0081F5),
-                                            fontSize: 16,
-                                            color: Color(0xFF0081F5)
-                                        ),
-                                      )
+                                    },
+                                    child: Text(
+                                      "Editar",
+                                      style: TextStyle(
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: Color(0xFF0081F5),
+                                        fontSize: 16,
+                                        color: Color(0xFF0081F5)
+                                      ),
+                                    )
                                   ),
                                 ),
                                 ListTile(
@@ -248,22 +251,22 @@ class PersonCustomerDetails extends ConsumerWidget {
                                   subtitle: Text(
                                     customer.address.cep.formatted,
                                     style: TextStyle(
-                                        fontSize: 15
+                                      fontSize: 15
                                     ),
                                   ),
                                   trailing: TextButton(
-                                      onPressed: () {
+                                    onPressed: () {
 
-                                      },
-                                      child: Text(
-                                        "Editar",
-                                        style: TextStyle(
-                                            decoration: TextDecoration.underline,
-                                            decorationColor: Color(0xFF0081F5),
-                                            fontSize: 16,
-                                            color: Color(0xFF0081F5)
-                                        ),
-                                      )
+                                    },
+                                    child: Text(
+                                      "Editar",
+                                      style: TextStyle(
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: Color(0xFF0081F5),
+                                        fontSize: 16,
+                                        color: Color(0xFF0081F5)
+                                      ),
+                                    )
                                   ),
                                 ),
                                 ListTile(
@@ -272,22 +275,22 @@ class PersonCustomerDetails extends ConsumerWidget {
                                   subtitle: Text(
                                     customer.address.street,
                                     style: TextStyle(
-                                        fontSize: 15
+                                      fontSize: 15
                                     ),
                                   ),
                                   trailing: TextButton(
-                                      onPressed: () {
+                                    onPressed: () {
 
-                                      },
-                                      child: Text(
-                                        "Editar",
-                                        style: TextStyle(
-                                            decoration: TextDecoration.underline,
-                                            decorationColor: Color(0xFF0081F5),
-                                            fontSize: 16,
-                                            color: Color(0xFF0081F5)
-                                        ),
-                                      )
+                                    },
+                                    child: Text(
+                                      "Editar",
+                                      style: TextStyle(
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: Color(0xFF0081F5),
+                                        fontSize: 16,
+                                        color: Color(0xFF0081F5)
+                                      ),
+                                    )
                                   ),
                                 ),
                               ],
@@ -298,7 +301,7 @@ class PersonCustomerDetails extends ConsumerWidget {
                     ),
                     SizedBox(height: 8),
                     Card(
-                      color: Colors.white,
+                      color: colorScheme.surface,
                       elevation: 1,
                       margin: EdgeInsets.all(2),
                       child: Column(
@@ -312,9 +315,9 @@ class PersonCustomerDetails extends ConsumerWidget {
                               child: Text(
                                 "CONTATO",
                                 style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black38
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: colorScheme.onSurface
                                 ),
                               ),
                             ),
@@ -335,7 +338,7 @@ class PersonCustomerDetails extends ConsumerWidget {
                                   subtitle: Text(
                                     customer.email.value,
                                     style: TextStyle(
-                                        fontSize: 15
+                                      fontSize: 15
                                     ),
                                   ),
                                 ),
@@ -345,31 +348,31 @@ class PersonCustomerDetails extends ConsumerWidget {
                                   subtitle: Text(
                                     customer.phones.first.value,
                                     style: TextStyle(
-                                        fontSize: 15
+                                      fontSize: 15
                                     ),
                                   ),
                                   trailing: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       IconButton(
-                                          onPressed: () {
+                                        onPressed: () {
 
-                                          },
-                                          icon: Icon(Icons.phone, size: 24)
+                                        },
+                                        icon: Icon(Icons.phone, size: 24)
                                       ),
                                       TextButton(
-                                          onPressed: () {
+                                        onPressed: () {
 
-                                          },
-                                          child: Text(
-                                            "Editar",
-                                            style: TextStyle(
-                                                decoration: TextDecoration.underline,
-                                                decorationColor: Color(0xFF0081F5),
-                                                fontSize: 16,
-                                                color: Color(0xFF0081F5)
-                                            ),
-                                          )
+                                        },
+                                        child: Text(
+                                          "Editar",
+                                          style: TextStyle(
+                                            decoration: TextDecoration.underline,
+                                            decorationColor: Color(0xFF0081F5),
+                                            fontSize: 16,
+                                            color: Color(0xFF0081F5)
+                                          ),
+                                        )
                                       ),
                                     ],
                                   ),

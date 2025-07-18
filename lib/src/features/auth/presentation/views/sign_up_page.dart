@@ -21,10 +21,10 @@ class SignUpPage extends ConsumerWidget {
         foregroundColor: Colors.white,
         title: Text(title),
         leading: IconButton(
-            onPressed: () {
-              context.pop();
-            },
-            icon: Icon(Icons.arrow_back_ios_new, size: 22)
+          onPressed: () {
+            context.pop();
+          },
+          icon: Icon(Icons.arrow_back_ios_new, size: 22)
         ),
       ),
       body: SizedBox(
@@ -43,8 +43,8 @@ class SignUpPage extends ConsumerWidget {
               Text(
                 "Cadastre-se",
                 style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24
                 ),
               ),
               Padding(padding: EdgeInsets.all(16)),
@@ -53,18 +53,18 @@ class SignUpPage extends ConsumerWidget {
                   FocusManager.instance.primaryFocus?.unfocus();
                 },
                 decoration: InputDecoration(
-                    labelText: "Nome",
-                    floatingLabelStyle: TextStyle(
-                        color: Colors.indigo
-                    ),
-                    prefixIcon: Icon(Icons.person),
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Colors.indigo,
-                            width: 2
-                        )
+                  hintText: "Nome",
+                  prefixIcon: Icon(Icons.person),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide(
+                      color: Color(0xFF0081F5),
+                      width: 2
                     )
+                  )
                 ),
               ),
               Padding(padding: EdgeInsets.all(16)),
@@ -74,18 +74,18 @@ class SignUpPage extends ConsumerWidget {
                   FocusManager.instance.primaryFocus?.unfocus();
                 },
                 decoration: InputDecoration(
-                    labelText: "E-mail",
-                    floatingLabelStyle: TextStyle(
-                        color: Colors.indigo
-                    ),
-                    prefixIcon: Icon(Icons.email),
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Colors.indigo,
-                            width: 2
-                        )
+                  hintText: "E-mail",
+                  prefixIcon: Icon(Icons.email),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide(
+                      color: Color(0xFF0081F5),
+                      width: 2
                     )
+                  )
                 ),
               ),
               Padding(padding: EdgeInsets.all(16)),
@@ -96,27 +96,27 @@ class SignUpPage extends ConsumerWidget {
                 },
                 obscureText: viewModelProvider.isVisible,
                 decoration: InputDecoration(
-                  labelText: "Senha",
-                  floatingLabelStyle: TextStyle(
-                      color: Colors.indigo
-                  ),
+                  hintText: "Senha",
                   prefixIcon: Icon(Icons.lock),
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15)
+                  ),
                   focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Colors.indigo,
-                          width: 2
-                      )
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide(
+                      color: Color(0xFF0081F5),
+                      width: 2
+                    )
                   ),
                   suffixIcon: IconButton(
-                      onPressed: () {
-                        viewModelProvider.toggleVisibility();
-                      },
-                      icon: Icon(
-                          viewModelProvider.isVisible
-                              ? Icons.visibility_off
-                              : Icons.visibility
-                      )
+                    onPressed: () {
+                      viewModelProvider.toggleVisibility();
+                    },
+                    icon: Icon(
+                      viewModelProvider.isVisible
+                        ? Icons.visibility_off
+                        : Icons.visibility
+                    )
                   ),
                 ),
               ),
@@ -127,47 +127,47 @@ class SignUpPage extends ConsumerWidget {
                   FocusManager.instance.primaryFocus?.unfocus();
                 },
                 decoration: InputDecoration(
-                    labelText: "Confirmar senha",
-                    floatingLabelStyle: TextStyle(
-                        color: Colors.indigo
-                    ),
-                    //
-                    // Fazer função de confirmaçao de senha;
-                    // ? confirmaçãoCorreta Icons.check_circle
-                    // : confirmaçãoIncorreta Icons.close_sharp
-                    //
-                    prefixIcon: Icon(
-                      Icons.cancel_sharp,
-                      color: Colors.red,
-                    ),
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Colors.indigo,
-                            width: 2
-                        )
+                  hintText: "Confirmar senha",
+                  //
+                  // Fazer função de confirmaçao de senha;
+                  // ? confirmaçãoCorreta Icons.check_circle
+                  // : confirmaçãoIncorreta Icons.close_sharp
+                  //
+                  prefixIcon: Icon(
+                    Icons.cancel_sharp,
+                    color: Colors.red,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide(
+                      color: Color(0xFF0081F5),
+                      width: 2
                     )
+                  )
                 ),
               ),
               Padding(padding: EdgeInsets.only(top: 22)),
               ElevatedButton(
                 onPressed: () {
-                  context.go('/');
+
                 },
                 style: ElevatedButton.styleFrom(
-                    elevation: 4,
-                    padding: EdgeInsets.symmetric(horizontal: 120, vertical: 16),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0)
-                    ),
-                    backgroundColor: Color(0xFF0081F5),
-                    foregroundColor: Colors.white
+                  elevation: 4,
+                  padding: EdgeInsets.symmetric(horizontal: 120, vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0)
+                  ),
+                  backgroundColor: Color(0xFF0081F5),
+                  foregroundColor: Colors.white
                 ),
                 child: Text(
                   "Registrar",
                   style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16
                   ),
                 ),
               ),

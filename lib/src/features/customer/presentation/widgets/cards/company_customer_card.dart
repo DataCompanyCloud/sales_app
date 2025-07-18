@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sales_app/src/core/router/app_router.dart';
 import 'package:sales_app/src/features/customer/domain/entities/company_customer.dart';
+import 'package:sales_app/src/features/customer/presentation/router/customer_router.dart';
 
 class CompanyCustomerCard extends ConsumerWidget {
   final CompanyCustomer customer;
@@ -14,6 +14,9 @@ class CompanyCustomerCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Container(
       margin: EdgeInsets.symmetric(vertical: 4),
       decoration: BoxDecoration(
@@ -22,7 +25,7 @@ class CompanyCustomerCard extends ConsumerWidget {
       ),
       child: InkWell(
         onTap: () {
-          context.pushNamed(AppRoutes.customerDetails.name, extra: customer.customerId);
+          context.pushNamed(CustomerRouter.customerDetails.name, extra: customer.customerId);
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -54,45 +57,45 @@ class CompanyCustomerCard extends ConsumerWidget {
               ],
             ),
             Expanded(
-                child: Container(
-                  height: 75,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(10),
-                        bottomRight: Radius.circular(10)
-                    ),
+              child: Container(
+                height: 75,
+                decoration: BoxDecoration(
+                  color: colorScheme.surface,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(10),
+                    bottomRight: Radius.circular(10)
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                  customer.legalName
-                              ),
-                              Text(
-                                  customer.cnpj.formatted
-                              ),
-                              Text(
-                                  "${customer.address.city}, ${customer.address.state}"
-                              ),
-                            ],
-                          ),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              customer.legalName
+                            ),
+                            Text(
+                              customer.cnpj.formatted
+                            ),
+                            Text(
+                              "${customer.address.city}, ${customer.address.state}"
+                            ),
+                          ],
                         ),
-                        Padding(
-                            padding: EdgeInsets.all(12),
-                            child: Icon(Icons.chevron_right, size: 28)
-                        ),
-                      ],
-                    ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(12),
+                        child: Icon(Icons.chevron_right, size: 28)
+                      ),
+                    ],
                   ),
-                )
+                ),
+              )
             )
           ],
         ),
