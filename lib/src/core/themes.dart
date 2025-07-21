@@ -16,12 +16,14 @@ final ThemeData salesAppLightTheme = ThemeData(
     bodySmall: TextStyle(color: Colors.black)
   ),
   colorScheme: const ColorScheme.light(
-    primary: Color(0xFF0081F5),   // Cor principal (ícones ativos, AppBar, botões)
-    onPrimary: Colors.black38,    // Texto/ícone sobre a cor "primary"
-    secondary: Color(0xFF0081F5), // Cor secundária (badges, detalhes, etc.)
-    onSecondary: Colors.white,    // Texto/ícone sobre a cor "secondary"
-    surface: Colors.white,        // Fundo de Cards, BottomSheet, Dialogs
-    onSurface: Colors.black,      // Texto/ícone sobre a cor "surface"
+    primary: Color(0xFF0081F5),     // Cor principal (ícones ativos, AppBar, botões)
+    onPrimary: Colors.black38,      // Texto/ícone sobre a cor "primary"
+    secondary: Color(0xFF0081F5),   // Cor secundária (badges, detalhes, etc.)
+    onSecondary: Colors.white,      // Texto/ícone sobre a cor "secondary"
+    tertiary: Color(0xFFE0E0E0),    // Cor terciária
+    onTertiary: Color(0xFFD1D1D1),  // Texto/ícone sobre a cor "tertiary"
+    surface: Colors.white,          // Fundo de Cards, BottomSheet, Dialogs
+    onSurface: Colors.black,        // Texto/ícone sobre a cor "surface"
   ),
 );
 
@@ -45,6 +47,8 @@ final ThemeData salesAppDarkTheme = ThemeData(
     onPrimary: Colors.grey,
     secondary: Colors.white,
     onSecondary: Colors.black,
+    tertiary: Color(0xFF3B3B3B),
+    onTertiary: Color(0xFF4E4E4E),
     surface: Color(0xFF3B3B3B),
     onSurface: Colors.white,
   ),

@@ -57,14 +57,14 @@ Unit createUnit() {
   return random.element(units);
 }
 
-List<ImageModel> createImages() {
+List<ImageEntity> createImages() {
   final images = [
     'assets/images/black_shirt.jpg',
     'assets/images/grey_sneakers.jpg'
   ];
 
   return List.generate(random.integer(images.length + 1, min: 0), (index) {
-    return ImageModel(
+    return ImageEntity(
         id: index + 1,
         url: images[index]
     );
@@ -104,6 +104,7 @@ List<Product> createProductFaker(int quantity) {
   final List<Product> output = List<Product>.generate(quantity, (index) {
     final faker = Faker();
     final id = index + 1;
+
     return Product(
         id: id,
         code: id.toString().padLeft(8, "0"),  // "00000001"

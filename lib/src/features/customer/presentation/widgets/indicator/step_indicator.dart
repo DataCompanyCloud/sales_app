@@ -4,11 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class StepIndicator extends ConsumerWidget {
   final List<String> steps;
   final int currentStep;
+  final Function(int) onStepTapped;
 
   const StepIndicator ({
     super.key,
     required this.steps,
     required this.currentStep,
+    required this.onStepTapped
   });
 
   @override
@@ -40,15 +42,23 @@ class StepIndicator extends ConsumerWidget {
 
             final isCurrent = currentStep == stepIndex;
             final isCompleted = currentStep > stepIndex;
+            final isClickable = stepIndex <= currentStep;
 
-            return Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: isCurrent || isCompleted ? Color(0xFF0F4D86) : Colors.grey,
+            return GestureDetector(
+              onTap: isClickable
+              ? () {
+                onStepTapped(stepIndex);
+              }
+              : null,
+              child: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: isCurrent || isCompleted ? Color(0xFF0F4D86) : Colors.grey,
+                ),
+                child: Icon(icon, color: Colors.white, size: 24),
               ),
-              child: Icon(icon, color: Colors.white, size: 24),
             );
           } else {
             final leftStep = (index - 1) ~/ 2;

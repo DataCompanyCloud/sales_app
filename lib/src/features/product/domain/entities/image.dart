@@ -1,22 +1,14 @@
-class ImageModel {
-  final int id;
-  final String url;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  ImageModel({
-    required this.id,
-    required this.url
-  }) {
+part 'image.freezed.dart';
+part 'image.g.dart';
 
-    if (id <= 0) {
-      throw ArgumentError('IamgeModel: "id" cannot be negative.');
-    }
-    if (url.trim().isEmpty) {
-      throw ArgumentError('ImageModel: "url" cannot be null.');
-    }
+@freezed
+abstract class ImageEntity with _$ImageEntity{
+  const factory ImageEntity({
+    required int id,
+    required String url
+  }) = _ImageEntity;
 
-    final uri = Uri.tryParse(url);
-    if (uri == null) {
-      throw ArgumentError('ImageModel: "url" invalid.');
-    }
-  }
+  factory ImageEntity.fromJson(Map<String, dynamic> json) => _$ImageEntityFromJson(json);
 }

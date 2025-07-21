@@ -1,20 +1,14 @@
-class Category {
-  final int id;
-  final String name;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  Category({
-    required this.id,
-    required this.name
-  }) {
+part 'category.freezed.dart';
+part 'category.g.dart';
 
-    if (id <= 0) {
-      throw ArgumentError('Category: "id" cannot be negative.');
-    }
-    if (name.trim().isEmpty) {
-      throw ArgumentError('Category: "name" cannot be null.');
-    }
-    if (name.trim().length < 3) {
-      throw ArgumentError('Category: "name" must have at least three characters.');
-    }
-  }
+@freezed
+abstract class Category with _$Category{
+  const factory Category({
+    required int id,
+    required String name
+  }) = _Category;
+
+  factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
 }

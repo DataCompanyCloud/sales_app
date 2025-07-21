@@ -50,29 +50,8 @@ class ProductPage extends ConsumerWidget {
                     width: 90,
                     height: 45,
                     child: ElevatedButton(
-                        onPressed: () {
-
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF0081F5),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        child: Icon(Icons.filter_alt, color: Colors.white, size: 22)
-                    ),
-                  ),
-                  SizedBox(width: 12),
-                  SizedBox(
-                    width: 90,
-                    height: 45,
-                    child: ElevatedButton(
                       onPressed: () {
-                        showModalBottomSheet(
-                          isScrollControlled: true,
-                          context: context,
-                          builder: (context) => DraggableLayoutProduct()
-                        );
+
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFF0081F5),
@@ -80,7 +59,30 @@ class ProductPage extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      child: Icon(Icons.remove_red_eye, color: Colors.white, size: 22)
+                      child: Icon(Icons.filter_alt, color: Colors.white, size: 22)
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 6),
+                    child: SizedBox(
+                      width: 90,
+                      height: 45,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          showModalBottomSheet(
+                            isScrollControlled: true,
+                            context: context,
+                            builder: (context) => DraggableLayoutProduct()
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFF0081F5),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Icon(Icons.remove_red_eye, color: Colors.white, size: 22)
+                      ),
                     ),
                   ),
                 ],

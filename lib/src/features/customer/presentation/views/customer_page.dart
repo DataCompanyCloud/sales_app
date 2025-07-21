@@ -24,6 +24,8 @@ class CustomerPage extends ConsumerWidget {
     final currentIndex = ref.watch(customerIndexProvider);
     final viewModelProvider = ref.watch(customerViewModelProvider);
     final customers = viewModelProvider.filteredCustomers;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return Scaffold(
       appBar: AppBar(
@@ -31,17 +33,17 @@ class CustomerPage extends ConsumerWidget {
         foregroundColor: Colors.white,
         title: Text(title),
         leading: IconButton(
-            onPressed: () {
-              context.goNamed(HomeRouter.home.name);
-            },
-            icon: Icon(Icons.arrow_back_ios_new, size: 22)
+          onPressed: () {
+            context.goNamed(HomeRouter.home.name);
+          },
+          icon: Icon(Icons.arrow_back_ios_new, size: 22)
         ),
         actions: [
           IconButton(
-              onPressed: () {
+            onPressed: () {
 
-              },
-              icon: Icon(Icons.filter_alt)
+            },
+            icon: Icon(Icons.filter_alt)
           ),
         ],
       ),
@@ -63,10 +65,9 @@ class CustomerPage extends ConsumerWidget {
                           viewModelProvider.changeFilter(CustomerFilter.all);
                         },
                         style: ElevatedButton.styleFrom(
-                          side: BorderSide(color: Colors.grey.shade300, width: 1),
                           backgroundColor: viewModelProvider.currentFilter == CustomerFilter.all
-                            ? Colors.white
-                            : Colors.grey.shade300,
+                            ? colorScheme.onTertiary
+                            : colorScheme.tertiary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(10),
@@ -78,8 +79,8 @@ class CustomerPage extends ConsumerWidget {
                             "Todos",
                             style: TextStyle(
                               color: viewModelProvider.currentFilter == CustomerFilter.all
-                                ? Colors.black
-                                : Colors.black38
+                                ? colorScheme.onSurface
+                                : Colors.grey
                             ),
                           )
                       ),
@@ -88,10 +89,9 @@ class CustomerPage extends ConsumerWidget {
                           viewModelProvider.changeFilter(CustomerFilter.active);
                         },
                         style: ElevatedButton.styleFrom(
-                          side: BorderSide(color: Colors.grey.shade300, width: 1),
                           backgroundColor: viewModelProvider.currentFilter == CustomerFilter.active
-                            ? Colors.white
-                            : Colors.grey.shade300,
+                            ? colorScheme.onTertiary
+                            : colorScheme.tertiary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(0)
                           )
@@ -100,8 +100,8 @@ class CustomerPage extends ConsumerWidget {
                           "Ativos",
                           style: TextStyle(
                             color: viewModelProvider.currentFilter == CustomerFilter.active
-                              ? Colors.black
-                              : Colors.black38,
+                              ? colorScheme.onSurface
+                              : Colors.grey,
                           ),
                         )
                       ),
@@ -110,10 +110,9 @@ class CustomerPage extends ConsumerWidget {
                           viewModelProvider.changeFilter(CustomerFilter.inactive);
                         },
                         style: ElevatedButton.styleFrom(
-                          side: BorderSide(color: Colors.grey.shade300, width: 1),
                           backgroundColor: viewModelProvider.currentFilter == CustomerFilter.inactive
-                            ? Colors.white
-                            : Colors.grey.shade300,
+                            ? colorScheme.onTertiary
+                            : colorScheme.tertiary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
                               topRight: Radius.circular(10),
@@ -125,8 +124,8 @@ class CustomerPage extends ConsumerWidget {
                           "Inativos",
                           style: TextStyle(
                             color: viewModelProvider.currentFilter == CustomerFilter.inactive
-                              ? Colors.black
-                              : Colors.black38,
+                              ? colorScheme.onSurface
+                              : Colors.grey,
                           ),
                         )
                       ),

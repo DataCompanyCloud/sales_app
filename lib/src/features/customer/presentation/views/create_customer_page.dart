@@ -103,7 +103,7 @@ class CreateCustomer extends ConsumerWidget {
                           TextSpan(
                             text: "ou ",
                             style: TextStyle(
-                              color: colorScheme.secondary
+                              color: colorScheme.onSurface
                             )
                           ),
                           TextSpan(

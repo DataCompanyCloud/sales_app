@@ -20,8 +20,8 @@ class CompanyCustomerCard extends ConsumerWidget {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 4),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.grey.shade200, width: 2)
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: colorScheme.onTertiary, width: 2)
       ),
       child: InkWell(
         onTap: () {
@@ -37,20 +37,20 @@ class CompanyCustomerCard extends ConsumerWidget {
                   height: 75,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      bottomLeft: Radius.circular(8),
+                      topLeft: Radius.circular(10),
+                      bottomLeft: Radius.circular(10),
                     ),
                     color: customer.isActive ? Colors.green : Colors.red,
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        bottomLeft: Radius.circular(10)
+                      topLeft: Radius.circular(10),
+                      bottomLeft: Radius.circular(10)
                     ),
                     child: Icon(
-                        Icons.apartment,
-                        color: Colors.white,
-                        size: 38
+                      Icons.apartment,
+                      color: Colors.white,
+                      size: 38
                     ),
                   ),
                 ),

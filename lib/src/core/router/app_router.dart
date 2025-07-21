@@ -14,6 +14,7 @@ enum AppRoutes {
   passwordRecovery,
   customer,
   customerDetails,
+  createCustomer,
   home,
   order,
   product,

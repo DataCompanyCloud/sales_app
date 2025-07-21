@@ -22,7 +22,7 @@ enum CustomerFilter {
 }
 
 class CustomerViewModel extends ChangeNotifier {
-  final List<Customer> customers = createCustomerFaker(2000);
+  final List<Customer> customers = createCustomerFaker(500);
 
   bool isEditing = false;
 
@@ -60,6 +60,11 @@ class CustomerViewModel extends ChangeNotifier {
       currentStep --;
       notifyListeners();
     }
+  }
+
+  void onStepTapped(int index) {
+    currentStep = index;
+    notifyListeners();
   }
   //
 

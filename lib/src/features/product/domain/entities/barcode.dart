@@ -1,9 +1,14 @@
-class Barcode {
-  final String type;
-  final String value;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  Barcode({
-    required this.type,
-    required this.value
-  });
+part 'barcode.freezed.dart';
+part 'barcode.g.dart';
+
+@freezed
+abstract class Barcode with _$Barcode{
+  const factory Barcode({
+    required String type,
+    required String value
+  }) = _Barcode;
+
+  factory Barcode.fromJson(Map<String, dynamic> json) => _$BarcodeFromJson(json);
 }

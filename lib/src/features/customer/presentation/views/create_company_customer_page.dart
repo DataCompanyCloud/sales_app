@@ -46,7 +46,8 @@ class CreateCompanyCustomer extends ConsumerWidget {
                   padding: EdgeInsets.symmetric(vertical: 16),
                   child: StepIndicator(
                     steps: ['Dados', 'Endereço', 'Contato'],
-                    currentStep: viewModelProvider.currentStep
+                    currentStep: viewModelProvider.currentStep,
+                    onStepTapped: viewModelProvider.onStepTapped,
                   ),
                 ),
               ),

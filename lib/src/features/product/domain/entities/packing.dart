@@ -1,27 +1,20 @@
 import 'package:sales_app/src/features/product/domain/entities/barcode.dart';
 import 'package:sales_app/src/features/product/domain/entities/unit.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Packing {
-  final int id;
-  final Barcode? barcode;
-  final Unit unit;
-  final double quantity;
-  final String? description;
+part 'packing.freezed.dart';
+part 'packing.g.dart';
 
+@freezed
+abstract class Packing with _$Packing {
+  const factory Packing({
+    required int id,
+    Barcode? barcode,
+    required Unit unit,
+    required double quantity,
+    String? description,
+  }) = _Packing;
 
-  Packing({
-    required this.id,
-    this.barcode,
-    required this.unit,
-    required this.quantity,
-    this.description
-  }) {
-
-    if (id <= 0) {
-      throw ArgumentError('Packing: "id" cannot be negative.');
-    }
-    if (quantity <= 0) {
-      throw ArgumentError('Packing: "quantity" cannot be negative.');
-    }
-  }
+  factory Packing.fromJson(Map<String, dynamic> json) =>
+      _$PackingFromJson(json);
 }
