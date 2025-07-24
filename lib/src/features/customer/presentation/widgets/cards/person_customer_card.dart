@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sales_app/src/features/customer/domain/entities/person_customer.dart';
+import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/features/customer/presentation/router/customer_router.dart';
 
 class PersonCustomerCard extends ConsumerWidget {
@@ -16,6 +16,8 @@ class PersonCustomerCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+
+    //return customer.
 
     return Container(
       margin: EdgeInsets.symmetric(vertical: 4),
@@ -77,13 +79,13 @@ class PersonCustomerCard extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              customer.fullName
+                              customer.fullName ?? "--"
                             ),
                             Text(
-                              customer.cpf.formatted
+                              customer.cpf?.value ?? '--'
                             ),
                             Text(
-                              "${customer.address.city}, ${customer.address.state}"
+                              "${customer.address?.city}, ${customer.address?.state}"
                             ),
                           ],
                         ),

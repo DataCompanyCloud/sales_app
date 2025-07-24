@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/customer/presentation/controllers/customer_providers.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/cards/create_company_customer_address_card.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/cards/create_company_customer_contact_card.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/cards/create_company_customer_info_card.dart';
+import 'package:sales_app/src/features/customer/presentation/widgets/dialogs/quit_dialog.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/indicator/step_indicator.dart';
 
 class CreateCompanyCustomer extends ConsumerWidget {
@@ -26,11 +26,10 @@ class CreateCompanyCustomer extends ConsumerWidget {
         title: Text(title),
         leading: IconButton(
           onPressed: () {
-            if (viewModelProvider.currentStep > 0) {
-              viewModelProvider.previousStep();
-            } else {
-              context.pop();
-            }
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => QuitDialog()
+            );
           },
           icon: Icon(Icons.arrow_back_ios_new, size: 22),
         ),

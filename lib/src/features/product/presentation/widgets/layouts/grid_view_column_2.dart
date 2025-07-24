@@ -30,7 +30,7 @@ class GridViewColumn2 extends ConsumerWidget {
         return Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(12)),
-            border: Border.all(color: Colors.grey.shade200, width: 2)
+            border: Border.all(color: colorScheme.tertiary, width: 2)
           ),
           child: InkWell(
             onTap: () {

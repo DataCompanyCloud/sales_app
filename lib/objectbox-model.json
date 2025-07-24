@@ -1,0 +1,270 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:432953924842435418",
+      "lastPropertyId": "5:73801948456243537",
+      "name": "AddressModel",
+      "properties": [
+        {
+          "id": "1:7284620626712528568",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7354794762417306541",
+          "name": "state",
+          "type": 9
+        },
+        {
+          "id": "3:916491568320398817",
+          "name": "city",
+          "type": 9
+        },
+        {
+          "id": "4:1550180828288338453",
+          "name": "street",
+          "type": 9
+        },
+        {
+          "id": "5:73801948456243537",
+          "name": "cepId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "1:7746997633670504157",
+          "relationTarget": "CEPModel"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:4221905269265581793",
+      "lastPropertyId": "2:7469011924183893834",
+      "name": "CEPModel",
+      "properties": [
+        {
+          "id": "1:8992255059104080029",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7469011924183893834",
+          "name": "value",
+          "type": 9,
+          "flags": 2048,
+          "indexId": "2:1071186376349641279"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:4931396956815028254",
+      "lastPropertyId": "2:452267822610304438",
+      "name": "CNPJModel",
+      "properties": [
+        {
+          "id": "1:4750136389644107260",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:452267822610304438",
+          "name": "value",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "3:8389823318566283635"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:5480217283706692019",
+      "lastPropertyId": "2:5309300056128533752",
+      "name": "CPFModel",
+      "properties": [
+        {
+          "id": "1:1517574472103092716",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5309300056128533752",
+          "name": "value",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "4:5166293784256338952"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:8950103311333418903",
+      "lastPropertyId": "12:5132787006208385930",
+      "name": "CustomerModel",
+      "properties": [
+        {
+          "id": "1:5989674748482891944",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:5695261680559240477",
+          "name": "customerCode",
+          "type": 9
+        },
+        {
+          "id": "3:7713718491700191173",
+          "name": "fullName",
+          "type": 9
+        },
+        {
+          "id": "4:375748648287111350",
+          "name": "legalName",
+          "type": 9
+        },
+        {
+          "id": "5:5414777189586911400",
+          "name": "tradeName",
+          "type": 9
+        },
+        {
+          "id": "6:8577946193311855572",
+          "name": "isActive",
+          "type": 1
+        },
+        {
+          "id": "7:7494324650893096911",
+          "name": "addressId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "5:4343525203586360445",
+          "relationTarget": "AddressModel"
+        },
+        {
+          "id": "8:4453939979525758357",
+          "name": "emailId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "6:6119132886092621509",
+          "relationTarget": "EmailModel"
+        },
+        {
+          "id": "9:3528907690205750651",
+          "name": "cpfId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "7:7149710535363310192",
+          "relationTarget": "CPFModel"
+        },
+        {
+          "id": "10:1159344734712711173",
+          "name": "cnpjId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "8:1802049108313081498",
+          "relationTarget": "CNPJModel"
+        },
+        {
+          "id": "12:5132787006208385930",
+          "name": "isSynced",
+          "type": 1
+        }
+      ],
+      "relations": [
+        {
+          "id": "1:44003885547434781",
+          "name": "phones",
+          "targetId": "7:5601539737760454721"
+        }
+      ]
+    },
+    {
+      "id": "6:4257251537068545827",
+      "lastPropertyId": "2:8149318600700015712",
+      "name": "EmailModel",
+      "properties": [
+        {
+          "id": "1:1305428374971759217",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8149318600700015712",
+          "name": "value",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "9:2382245270041220391"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "7:5601539737760454721",
+      "lastPropertyId": "2:5975880100124429623",
+      "name": "PhoneModel",
+      "properties": [
+        {
+          "id": "1:4334573189430561915",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5975880100124429623",
+          "name": "value",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "10:519557315458891607"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "8:1453793584900561144",
+      "lastPropertyId": "3:6556163420933894572",
+      "name": "BarcodeModel",
+      "properties": [
+        {
+          "id": "1:401222028088216476",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5121205624865350314",
+          "name": "type",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "11:5932735236987555884"
+        },
+        {
+          "id": "3:6556163420933894572",
+          "name": "value",
+          "type": 9
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "8:1453793584900561144",
+  "lastIndexId": "11:5932735236987555884",
+  "lastRelationId": "1:44003885547434781",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [
+    1526057732092009515
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}

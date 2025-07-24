@@ -13,7 +13,7 @@ part 'product.g.dart';
 abstract class Product with _$Product {
   const Product._(); // permite métodos/fábricas custom
 
-  /// criar um produto sem validação
+  /// criar sem validação
   const factory Product.raw({
     required int id,
     required String code,
@@ -27,7 +27,7 @@ abstract class Product with _$Product {
     required List<Packing> packings,
   }) = _Product;
 
-  /// cria validações
+  /// cria com validações
   factory Product ({
     required int id,
     required String code,

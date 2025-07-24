@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sales_app/src/features/customer/presentation/controllers/customer_controller.dart';
+import 'package:sales_app/src/features/customer/presentation/controllers/customer_controller_old.dart';
 
 final customerViewModelProvider = ChangeNotifierProvider((ref) {
   return CustomerViewModel();

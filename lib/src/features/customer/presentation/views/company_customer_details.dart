@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sales_app/src/features/customer/domain/entities/company_customer.dart';
+import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 
 class CompanyCustomerDetails extends ConsumerWidget {
   final CompanyCustomer customer;
@@ -18,12 +18,12 @@ class CompanyCustomerDetails extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(customer.customerCode),
+        title: Text(customer.customerCode ?? "--"),
         leading: IconButton(
-            onPressed: () {
-              context.pop();
-            },
-            icon: Icon(Icons.arrow_back_ios_new, size: 22)
+          onPressed: () {
+            context.pop();
+          },
+          icon: Icon(Icons.arrow_back_ios_new, size: 22)
         ),
         actions: [
           Padding(
@@ -114,7 +114,7 @@ class CompanyCustomerDetails extends ConsumerWidget {
                                   visualDensity: VisualDensity(vertical: 0.2),
                                   title: Text("Razão Social: "),
                                   subtitle: Text(
-                                    customer.legalName,
+                                    customer.legalName ?? "--",
                                     style: TextStyle(
                                       fontSize: 15
                                     ),
@@ -138,7 +138,7 @@ class CompanyCustomerDetails extends ConsumerWidget {
                                   visualDensity: VisualDensity(vertical: 0.2),
                                   title: Text("Nome Fantasia: "),
                                   subtitle: Text(
-                                    customer.tradeName,
+                                    customer.tradeName ?? "--",
                                     style: TextStyle(
                                       fontSize: 15
                                     ),
@@ -162,7 +162,7 @@ class CompanyCustomerDetails extends ConsumerWidget {
                                   visualDensity: VisualDensity(vertical: 0.2),
                                   title: Text("CNPJ: "),
                                   subtitle: Text(
-                                    customer.cnpj.formatted,
+                                    customer.cnpj?.value ?? '',
                                     style: TextStyle(
                                       fontSize: 15
                                     ),
@@ -225,7 +225,7 @@ class CompanyCustomerDetails extends ConsumerWidget {
                                   visualDensity: VisualDensity(vertical: 0.2),
                                   title: Text("Estado: "),
                                   subtitle: Text(
-                                    customer.address.state,
+                                    customer.address?.state ?? '',
                                     style: TextStyle(
                                       fontSize: 15
                                     ),
@@ -249,7 +249,7 @@ class CompanyCustomerDetails extends ConsumerWidget {
                                   visualDensity: VisualDensity(vertical: 0.2),
                                   title: Text("Cidade: "),
                                   subtitle: Text(
-                                    customer.address.city,
+                                    customer.address?.city ?? '',
                                     style: TextStyle(
                                       fontSize: 15
                                     ),
@@ -273,7 +273,7 @@ class CompanyCustomerDetails extends ConsumerWidget {
                                   visualDensity: VisualDensity(vertical: 0.2),
                                   title: Text("CEP: "),
                                   subtitle: Text(
-                                    customer.address.cep.formatted,
+                                    customer.address?.cep?.value ?? '',
                                     style: TextStyle(
                                         fontSize: 15
                                     ),
@@ -297,7 +297,7 @@ class CompanyCustomerDetails extends ConsumerWidget {
                                   visualDensity: VisualDensity(vertical: 0.2),
                                   title: Text("Rua: "),
                                   subtitle: Text(
-                                    customer.address.street,
+                                    customer.address?.street ?? '',
                                     style: TextStyle(
                                       fontSize: 15
                                     ),
@@ -360,7 +360,7 @@ class CompanyCustomerDetails extends ConsumerWidget {
                                   visualDensity: VisualDensity(vertical: 0.2),
                                   title: Text("Email: "),
                                   subtitle: Text(
-                                    customer.email.value,
+                                    customer.email?.value ?? '',
                                     style: TextStyle(
                                       fontSize: 15
                                     ),
@@ -370,7 +370,7 @@ class CompanyCustomerDetails extends ConsumerWidget {
                                   visualDensity: VisualDensity(vertical: 0.2),
                                   title: Text("Telefone: "),
                                   subtitle: Text(
-                                    customer.phones.first.value,
+                                    customer.phones?.first.value ?? '',
                                     style: TextStyle(
                                       fontSize: 15
                                     ),

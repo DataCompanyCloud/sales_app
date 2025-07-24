@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sales_app/src/features/customer/domain/entities/person_customer.dart';
+import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 
 class PersonCustomerDetails extends ConsumerWidget {
   final PersonCustomer customer;
@@ -18,7 +18,7 @@ class PersonCustomerDetails extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(customer.customerCode),
+        title: Text(customer.customerCode ?? "--"),
         leading: IconButton(
             onPressed: () {
               context.pop();
@@ -114,7 +114,7 @@ class PersonCustomerDetails extends ConsumerWidget {
                                   visualDensity: VisualDensity(vertical: 0.2),
                                   title: Text("Nome: "),
                                   subtitle: Text(
-                                    customer.fullName,
+                                    customer.fullName ?? "--",
                                     style: TextStyle(
                                       fontSize: 15
                                     ),
@@ -138,7 +138,7 @@ class PersonCustomerDetails extends ConsumerWidget {
                                   visualDensity: VisualDensity(vertical: 0.2),
                                   title: Text("CPF: "),
                                   subtitle: Text(
-                                    customer.cpf.formatted,
+                                    customer.cpf?.value ?? '',
                                     style: TextStyle(
                                       fontSize: 15
                                     ),
@@ -201,7 +201,7 @@ class PersonCustomerDetails extends ConsumerWidget {
                                   visualDensity: VisualDensity(vertical: 0.2),
                                   title: Text("Estado: "),
                                   subtitle: Text(
-                                    customer.address.state,
+                                    customer.address?.state ?? '',
                                     style: TextStyle(
                                         fontSize: 15
                                     ),
@@ -225,7 +225,7 @@ class PersonCustomerDetails extends ConsumerWidget {
                                   visualDensity: VisualDensity(vertical: 0.2),
                                   title: Text("Cidade: "),
                                   subtitle: Text(
-                                    customer.address.city,
+                                    customer.address?.city ?? '',
                                     style: TextStyle(
                                       fontSize: 15
                                     ),
@@ -249,7 +249,7 @@ class PersonCustomerDetails extends ConsumerWidget {
                                   visualDensity: VisualDensity(vertical: 0.2),
                                   title: Text("CEP: "),
                                   subtitle: Text(
-                                    customer.address.cep.formatted,
+                                    customer.address?.cep?.value ?? '',
                                     style: TextStyle(
                                       fontSize: 15
                                     ),
@@ -273,7 +273,7 @@ class PersonCustomerDetails extends ConsumerWidget {
                                   visualDensity: VisualDensity(vertical: 0.2),
                                   title: Text("Rua: "),
                                   subtitle: Text(
-                                    customer.address.street,
+                                    customer.address?.street ?? '',
                                     style: TextStyle(
                                       fontSize: 15
                                     ),
@@ -336,7 +336,7 @@ class PersonCustomerDetails extends ConsumerWidget {
                                   visualDensity: VisualDensity(vertical: 0.2),
                                   title: Text("Email: "),
                                   subtitle: Text(
-                                    customer.email.value,
+                                    customer.email?.value ?? '',
                                     style: TextStyle(
                                       fontSize: 15
                                     ),
@@ -346,7 +346,7 @@ class PersonCustomerDetails extends ConsumerWidget {
                                   visualDensity: VisualDensity(vertical: 0.2),
                                   title: Text("Telefone: "),
                                   subtitle: Text(
-                                    customer.phones.first.value,
+                                    customer.phones?.first.value ?? '',
                                     style: TextStyle(
                                       fontSize: 15
                                     ),

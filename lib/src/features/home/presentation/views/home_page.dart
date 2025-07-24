@@ -259,7 +259,7 @@ class HomePage extends ConsumerWidget {
                     title: Text("Detalhes de Pedido"),
                     trailing: Icon(Icons.chevron_right),
                     onTap: () {
-                      context.push('/home/order_details');
+
                     },
                   ),
                   ListTile(

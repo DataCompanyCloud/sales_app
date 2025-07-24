@@ -89,18 +89,12 @@ class ProductPage extends ConsumerWidget {
               ),
             ),
             Expanded(
-              child: Stack(
-                children: [
-                  Positioned.fill(
-                    child: switch(viewModelProvider.layoutProduct) {
-                      LayoutProduct.listSmallCard => ListViewColumnSmall(products: viewModelProvider.products),
-                      LayoutProduct.listBigCard => ListViewColumnBig(products: viewModelProvider.products),
-                      LayoutProduct.gridColumn2 => GridViewColumn2(products: viewModelProvider.products),
-                      LayoutProduct.gridColumn3 => GridViewColumn3(products: viewModelProvider.products),
-                    },
-                  ),
-                ],
-              ),
+              child: switch(viewModelProvider.layoutProduct) {
+                LayoutProduct.listSmallCard => ListViewColumnSmall(products: viewModelProvider.products),
+                LayoutProduct.listBigCard => ListViewColumnBig(products: viewModelProvider.products),
+                LayoutProduct.gridColumn2 => GridViewColumn2(products: viewModelProvider.products),
+                LayoutProduct.gridColumn3 => GridViewColumn3(products: viewModelProvider.products),
+              },
             ),
           ],
         ),

@@ -1,30 +1,20 @@
 import 'package:sales_app/src/features/customer/domain/entities/cep.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Address {
-  final String state;
-  final String city;
-  final String street;
-  final CEP cep;
+part 'address.freezed.dart';
+part 'address.g.dart';
 
-  Address({
-    required this.state,
-    required this.city,
-    required this.street,
-    required this.cep
-  }) {
+@freezed
+abstract class Address with _$Address {
+  const factory Address({
+    required String? state,
+    required String? city,
+    required String? street,
+    // Bairro String
+    // Número int?
+    required CEP? cep
+  }) = _Address;
 
-    if (state.trim().isEmpty) {
-      throw ArgumentError('Address: "state" cannot be empty.');
-    }
-    if (city.trim().isEmpty) {
-      throw ArgumentError('Address: "city" cannot be empty.');
-    }
-    if (street.trim().isEmpty) {
-      throw ArgumentError('Address: "street" cannot be empty.');
-    }
-    if (cep.value.isEmpty) {
-      throw ArgumentError('Address: "cep" cannot be empty.');
-    }
-
-  }
+  factory Address.fromJson(Map<String, dynamic> json) =>
+      _$AddressFromJson(json);
 }

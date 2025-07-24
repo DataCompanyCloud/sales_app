@@ -1,10 +1,8 @@
-import 'package:sales_app/src/core/exceptions/app_exception.dart';
-
 enum AppExceptionCode {
   CODE_000_ERROR_UNEXPECTED,
-  CODE_001,
-  CODE_002,
-  CODE_003,
+  CODE_001_CUSTOMER_LOCAL_NOT_FOUND,
+  CODE_002_CUSTOMER_SERVER_NOT_FOUND,
+  CODE_003_CUSTOMER_DATA_INVALID,
   CODE_004,
   CODE_005,
   CODE_006

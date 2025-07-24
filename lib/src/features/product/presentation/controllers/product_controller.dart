@@ -78,7 +78,7 @@ List<Category> createCategories() {
 
   return List.generate(random.integer(names.length + 1, min: 0), (index) {
     return Category(
-      id: index + 1,
+      categoryId: index + 1,
       name: names[index],
     );
   });

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/router/app_router.dart';
+import 'package:sales_app/src/features/customer/presentation/controllers/customer_providers.dart';
 
 class QuitDialog extends ConsumerWidget {
 
@@ -33,6 +34,7 @@ class QuitDialog extends ConsumerWidget {
             TextButton(
               onPressed: () {
                 context.goNamed(AppRoutes.createCustomer.name);
+                ref.read(customerViewModelProvider.notifier).resetSteps();
               },
               child: Text(
                 "Sim",
