@@ -9,8 +9,8 @@ class CreatePersonCustomerAddressCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    // final theme = Theme.of(context);
+    // final colorScheme = theme.colorScheme;
 
     return SafeArea(
       child: Column(
@@ -38,9 +38,7 @@ class CreatePersonCustomerAddressCard extends ConsumerWidget {
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.location_on),
                 hintText: "CEP",
-                hintStyle: TextStyle(
-                color: colorScheme.onPrimary
-                ),
+                hintStyle: TextStyle(color: Colors.grey),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15)
                 ),
@@ -62,9 +60,7 @@ class CreatePersonCustomerAddressCard extends ConsumerWidget {
               },
               decoration: InputDecoration(
                 hintText: "Estado",
-                hintStyle: TextStyle(
-                  color: colorScheme.onPrimary
-                ),
+                hintStyle: TextStyle(color: Colors.grey),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15)
                 ),
@@ -86,9 +82,7 @@ class CreatePersonCustomerAddressCard extends ConsumerWidget {
               },
               decoration: InputDecoration(
                 hintText: "Cidade",
-                hintStyle: TextStyle(
-                  color: colorScheme.onPrimary
-                ),
+                hintStyle: TextStyle(color: Colors.grey),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15)
                 ),
@@ -110,9 +104,7 @@ class CreatePersonCustomerAddressCard extends ConsumerWidget {
               },
               decoration: InputDecoration(
                 hintText: "Rua",
-                hintStyle: TextStyle(
-                  color: colorScheme.onPrimary
-                ),
+                hintStyle: TextStyle(color: Colors.grey),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15)
                 ),

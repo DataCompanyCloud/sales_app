@@ -49,6 +49,7 @@ class LoginPage extends ConsumerWidget {
                 },
                 decoration: InputDecoration(
                   hintText: "E-mail",
+                  hintStyle: TextStyle(color: Colors.grey),
                   prefixIcon: Icon(Icons.email),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15)
@@ -71,6 +72,7 @@ class LoginPage extends ConsumerWidget {
                 obscureText: viewModelProvider.isVisible,
                 decoration: InputDecoration(
                   hintText: "Senha",
+                  hintStyle: TextStyle(color: Colors.grey),
                   prefixIcon: Icon(Icons.lock),
                   suffixIcon: IconButton(
                     onPressed: () {

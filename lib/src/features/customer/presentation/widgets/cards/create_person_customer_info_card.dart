@@ -9,8 +9,8 @@ class CreatePersonCustomerInfoCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    // final theme = Theme.of(context);
+    // final colorScheme = theme.colorScheme;
 
     return SafeArea(
       child: Column(
@@ -37,9 +37,7 @@ class CreatePersonCustomerInfoCard extends ConsumerWidget {
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.person_rounded),
                 hintText: "Nome Completo",
-                hintStyle: TextStyle(
-                  color: colorScheme.onPrimary
-                ),
+                hintStyle: TextStyle(color: Colors.grey),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15)
                 ),
@@ -63,9 +61,7 @@ class CreatePersonCustomerInfoCard extends ConsumerWidget {
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.numbers_rounded),
                 hintText: "CPF",
-                hintStyle: TextStyle(
-                  color: colorScheme.onPrimary
-                ),
+                hintStyle: TextStyle(color: Colors.grey),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15)
                 ),

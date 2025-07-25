@@ -53,6 +53,7 @@ class ForgotPasswordPage extends ConsumerWidget {
                 },
                 decoration: InputDecoration(
                   hintText: "E-mail",
+                  hintStyle: TextStyle(color: Colors.grey),
                   prefixIcon: Icon(Icons.email),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15)
@@ -95,12 +96,12 @@ class ForgotPasswordPage extends ConsumerWidget {
                 },
                 icon: Icon(
                   Icons.arrow_back,
-                  color: Colors.black54,
+                  color: Colors.grey,
                 ),
                 label: Text(
                   "Voltar para login",
                   style: TextStyle(
-                    color: Colors.black54
+                    color: Colors.grey
                   ),
                 ),
               ),

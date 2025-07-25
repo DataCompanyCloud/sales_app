@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 enum AppExceptionCode {
   CODE_000_ERROR_UNEXPECTED,
   CODE_001_CUSTOMER_LOCAL_NOT_FOUND,

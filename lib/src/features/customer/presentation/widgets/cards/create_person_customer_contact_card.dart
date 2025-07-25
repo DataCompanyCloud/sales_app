@@ -9,8 +9,8 @@ class CreatePersonCustomerContactCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    // final theme = Theme.of(context);
+    // final colorScheme = theme.colorScheme;
 
     return SafeArea(
       child: Column(
@@ -38,9 +38,7 @@ class CreatePersonCustomerContactCard extends ConsumerWidget {
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.email),
                 hintText: "E-mail",
-                hintStyle: TextStyle(
-                  color: colorScheme.onPrimary
-                ),
+                hintStyle: TextStyle(color: Colors.grey),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15)
                 ),
@@ -68,9 +66,7 @@ class CreatePersonCustomerContactCard extends ConsumerWidget {
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.phone),
                       hintText: "+99",
-                      hintStyle: TextStyle(
-                        color: colorScheme.onPrimary
-                      ),
+                      hintStyle: TextStyle(color: Colors.grey),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15)
                       ),
@@ -94,9 +90,7 @@ class CreatePersonCustomerContactCard extends ConsumerWidget {
                     },
                     decoration: InputDecoration(
                       hintText: "Número de Telefone",
-                      hintStyle: TextStyle(
-                        color: colorScheme.onPrimary
-                      ),
+                      hintStyle: TextStyle(color: Colors.grey),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15)
                       ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
-import 'package:sales_app/src/features/customer/presentation/controllers/customer_providers.dart';
 import 'package:sales_app/src/features/customer/presentation/views/company_customer_details.dart';
 import 'package:sales_app/src/features/customer/presentation/views/person_customer_details.dart';
+import 'package:sales_app/src/features/customer/presentation/widgets/skeleton/customer_details_skeleton.dart';
 import 'package:sales_app/src/features/customer/providers.dart';
 
 
@@ -23,19 +23,20 @@ class CustomerDetails extends ConsumerWidget {
     // final customer = viewModelProvider.getCustomerById(customerId);
     final controller = ref.watch(customerDetailsControllerProvider(customerId));
 
-    return Scaffold(
-      body: controller.when(
-        error: (error, stack) => Center(child: Text("$error\n $stack")),
-        loading: () => Center(child: CircularProgressIndicator(),),
-        data: (customer) {
-          return customer.maybeMap(
-            person: (person) => PersonCustomerDetails(customer: person),
-            company: (company) => CompanyCustomerDetails(customer: company),
+    return controller.when(
+      error: (error, stack) => Scaffold(
+        appBar: AppBar(title: Text('Erro')),
+        body: Center(child: Text("$error\n $stack")),
+      ),
+      loading: () => CustomerDetailsSkeleton(),
+      data: (customer) {
+        return customer.maybeMap(
+          person: (person) => PersonCustomerDetails(customer: person),
+          company: (company) => CompanyCustomerDetails(customer: company),
 
-            orElse: () => SizedBox()
-          );
-        },
-      )
+          orElse: () => const Scaffold(body: SizedBox()),
+        );
+      },
     );
   }
 }

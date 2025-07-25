@@ -54,6 +54,7 @@ class SignUpPage extends ConsumerWidget {
                 },
                 decoration: InputDecoration(
                   hintText: "Nome",
+                    hintStyle: TextStyle(color: Colors.grey),
                   prefixIcon: Icon(Icons.person),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15)
@@ -75,6 +76,7 @@ class SignUpPage extends ConsumerWidget {
                 },
                 decoration: InputDecoration(
                   hintText: "E-mail",
+                    hintStyle: TextStyle(color: Colors.grey),
                   prefixIcon: Icon(Icons.email),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15)
@@ -97,6 +99,7 @@ class SignUpPage extends ConsumerWidget {
                 obscureText: viewModelProvider.isVisible,
                 decoration: InputDecoration(
                   hintText: "Senha",
+                  hintStyle: TextStyle(color: Colors.grey),
                   prefixIcon: Icon(Icons.lock),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15)
@@ -128,6 +131,7 @@ class SignUpPage extends ConsumerWidget {
                 },
                 decoration: InputDecoration(
                   hintText: "Confirmar senha",
+                  hintStyle: TextStyle(color: Colors.grey),
                   //
                   // Fazer função de confirmaçao de senha;
                   // ? confirmaçãoCorreta Icons.check_circle

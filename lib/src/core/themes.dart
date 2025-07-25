@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 // Tema claro
 final ThemeData salesAppLightTheme = ThemeData(
@@ -30,6 +31,9 @@ final ThemeData salesAppLightTheme = ThemeData(
 // Tema escuro
 final ThemeData salesAppDarkTheme = ThemeData(
   brightness: Brightness.dark,
+  extensions: const [
+    SkeletonizerConfigData.dark(), // dark theme config
+  ],
   primarySwatch: Colors.blue,
   scaffoldBackgroundColor: Colors.black,
   appBarTheme: AppBarTheme(
