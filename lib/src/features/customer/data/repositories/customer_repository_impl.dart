@@ -1,5 +1,4 @@
 import 'package:objectbox/objectbox.dart';
-import 'package:sales_app/objectbox.g.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/customer/data/models/address_model.dart';
@@ -90,7 +89,6 @@ class CustomerRepositoryImpl extends CustomerRepository{
 
     return model.toEntity();
   }
-
 
   @override
   Future<void> update(Customer customer) async {

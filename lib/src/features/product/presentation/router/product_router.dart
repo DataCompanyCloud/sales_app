@@ -14,7 +14,7 @@ final productRoutes =  GoRoute(
   path: '/product',
   name: ProductRouter.product.name,
   builder: (context, state) {
-    return ProductPage(title: "Produtos");
+    return ProductPage(title: "Catálogo de Produtos");
   },
   /*
   pageBuilder: (context, state) {
@@ -49,7 +49,7 @@ final productRoutes =  GoRoute(
       name: ProductRouter.productDetails.name,
       builder: (context, state) {
         final product = state.extra as Product;
-        return ProductDetails(title: "", products: product);
+        return ProductDetails(title: product.code, products: product);
       },
     ),
   ]

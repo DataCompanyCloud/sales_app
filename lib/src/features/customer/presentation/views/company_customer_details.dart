@@ -40,7 +40,16 @@ class CompanyCustomerDetails extends ConsumerWidget {
                 ),
               )
             ),
-          )
+          ),
+          Padding(
+            padding: EdgeInsets.only(right: 12),
+            child: IconButton(
+              onPressed: () {
+
+              },
+              icon: Icon(Icons.rss_feed, size: 32)
+            ),
+          ),
         ],
       ),
       body: SafeArea(
@@ -96,7 +105,7 @@ class CompanyCustomerDetails extends ConsumerWidget {
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
-                                    color: colorScheme.onSurface
+                                    color: Colors.grey
                                   ),
                                 ),
                               ),
@@ -109,7 +118,7 @@ class CompanyCustomerDetails extends ConsumerWidget {
                                     thickness: 1.5,
                                     indent: 15,
                                     endIndent: 15,
-                                    color: Colors.grey.shade200,
+                                    color: Colors.grey.shade500,
                                   ),
                                   ListTile(
                                     visualDensity: VisualDensity(vertical: 0.2),
@@ -207,7 +216,7 @@ class CompanyCustomerDetails extends ConsumerWidget {
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
-                                    color: colorScheme.onSurface
+                                    color: Colors.grey
                                   ),
                                 ),
                               ),
@@ -216,7 +225,7 @@ class CompanyCustomerDetails extends ConsumerWidget {
                               thickness: 1.5,
                               indent: 15,
                               endIndent: 15,
-                              color: Colors.grey.shade200,
+                              color: Colors.grey.shade500,
                             ),
                             Padding(
                               padding: EdgeInsets.only(top: 4),
@@ -342,7 +351,7 @@ class CompanyCustomerDetails extends ConsumerWidget {
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
-                                    color: colorScheme.onSurface
+                                    color: Colors.grey
                                   ),
                                 ),
                               ),
@@ -351,7 +360,7 @@ class CompanyCustomerDetails extends ConsumerWidget {
                               thickness: 1.5,
                               indent: 15,
                               endIndent: 15,
-                              color: Colors.grey.shade200,
+                              color: Colors.grey.shade500,
                             ),
                             Padding(
                               padding: EdgeInsets.only(top: 4),

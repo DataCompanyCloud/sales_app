@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/router/app_router.dart';
+import 'package:sales_app/src/features/error_page/presentation/router/error_router.dart';
 import 'package:sales_app/src/features/home/presentation/controllers/home_providers.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/navigator/navigator_bar.dart';
 
@@ -259,7 +261,10 @@ class HomePage extends ConsumerWidget {
                     title: Text("Detalhes de Pedido"),
                     trailing: Icon(Icons.chevron_right),
                     onTap: () {
-
+                      context.pushNamed(
+                        ErrorRouter.error.name,
+                        extra: AppException.errorUnexpected("Algo deu errado"),
+                      );
                     },
                   ),
                   ListTile(

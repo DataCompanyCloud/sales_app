@@ -6,7 +6,7 @@ import 'package:sales_app/src/features/customer/providers.dart';
 class CustomerController extends AutoDisposeAsyncNotifier<List<Customer>>{
 
   /// Primeiro busca no banco local
-  /// se não encontrar nada busca da api
+  /// se não encontrar nada busca da API
   @override
   FutureOr<List<Customer>> build() async {
     await Future.delayed(Duration(seconds: 2));

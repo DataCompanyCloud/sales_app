@@ -8,7 +8,7 @@ part 'packing.g.dart';
 @freezed
 abstract class Packing with _$Packing {
   const factory Packing({
-    required int id,
+    required int packingId,
     Barcode? barcode,
     required Unit unit,
     required double quantity,

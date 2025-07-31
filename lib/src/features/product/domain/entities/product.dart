@@ -11,11 +11,11 @@ part 'product.g.dart';
 
 @freezed
 abstract class Product with _$Product {
-  const Product._(); // permite métodos/fábricas custom
+  const Product._();
 
   /// criar sem validação
   const factory Product.raw({
-    required int id,
+    required int productId,
     required String code,
     required String name,
     String? description,
@@ -27,9 +27,9 @@ abstract class Product with _$Product {
     required List<Packing> packings,
   }) = _Product;
 
-  /// cria com validações
+  /// TODO Precisa fazer as validações somente quando as infromações forem diferentes de null!
   factory Product ({
-    required int id,
+    required int productId,
     required String code,
     required String name,
     String? description,
@@ -39,12 +39,12 @@ abstract class Product with _$Product {
     required List<ImageEntity> images,
     required List<Category> categories,
     required List<Packing> packings,
-  }){
+  }) {
     if (name.trim().isEmpty) {
       throw AppException.errorUnexpected("Nome vazio");
     }
 
-    return Product.raw(id: id, code: code, name: name, price: price, unit: unit, images: images, categories: categories, packings: packings);
+    return Product.raw(productId: productId, code: code, name: name, price: price, barcode: barcode, unit: unit, images: images, categories: categories, packings: packings);
   }
 
   factory Product.fromJson(Map<String, dynamic> json) =>

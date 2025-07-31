@@ -6,7 +6,7 @@ part 'image.g.dart';
 @freezed
 abstract class ImageEntity with _$ImageEntity{
   const factory ImageEntity({
-    required int id,
+    required int imageId,
     required String url
   }) = _ImageEntity;
 

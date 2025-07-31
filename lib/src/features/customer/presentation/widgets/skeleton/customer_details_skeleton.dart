@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class CustomerDetailsSkeleton extends ConsumerWidget {
@@ -10,8 +11,21 @@ class CustomerDetailsSkeleton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(""),
-        leading: Icon(Icons.arrow_back_ios_new, size: 22)
+        title: Align(
+          alignment: Alignment.centerLeft,
+          child: Transform.scale(
+            scale: 0.5,
+            child: CircularProgressIndicator(
+              color: Colors.white,
+            ),
+          ),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            context.pop();
+          }, 
+          icon: Icon(Icons.arrow_back_ios_new, size: 22)
+        )
       ),
       body: Skeletonizer(
         enabled: true,

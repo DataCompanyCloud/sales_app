@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
-import 'package:sales_app/src/features/customer/presentation/router/customer_router.dart';
 
 class PersonCustomerCard extends ConsumerWidget {
   final PersonCustomer customer;
@@ -17,90 +15,119 @@ class PersonCustomerCard extends ConsumerWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    //return customer.
-
     return Container(
       margin: EdgeInsets.symmetric(vertical: 4),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: colorScheme.onTertiary, width: 2)
       ),
-      child: InkWell(
-        onTap: () {
-          context.pushNamed(CustomerRouter.customerDetails.name, extra: customer.customerId);
-        },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Column(
-              children: [
-                Container(
-                  width: 75,
-                  height: 75,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      bottomLeft: Radius.circular(10)
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              Column(
+                children: [
+                  Container(
+                    width: 75,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      color: customer.isActive
+                        ? Colors.green.shade900
+                        : Colors.red.shade900,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                      )
                     ),
-                    color: customer.isActive ? Colors.green : Colors.red,
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      bottomLeft: Radius.circular(10)
-                    ),
-                    child: Icon(
-                      Icons.person,
-                      color: Colors.white,
-                      size: 38
+                    alignment: Alignment.center,
+                    child: Text(
+                      customer.customerCode ?? "--",
+                      style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
                     ),
                   ),
+                  Container(
+                    padding: EdgeInsets.only(bottom: 8),
+                    width: 75,
+                    height: 55,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(10)
+                      ),
+                      color: customer.isActive ? Colors.green : Colors.red,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        bottomLeft: Radius.circular(10)
+                      ),
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.white,
+                        size: 38
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Expanded(
+            child: Container(
+              height: 75,
+              decoration: BoxDecoration(
+                color: colorScheme.surface,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  bottomRight: Radius.circular(10)
                 ),
-              ],
-            ),
-            Expanded(
-              child: Container(
-                height: 75,
-                decoration: BoxDecoration(
-                  color: colorScheme.surface,
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(10),
-                    bottomRight: Radius.circular(10)
-                  ),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              customer.fullName ?? "--"
+              ),
+              child: Padding(
+                padding: EdgeInsets.only(left: 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            customer.fullName ?? "--",
+                          ),
+                          Text(
+                            customer.cpf?.value ?? "--"
+                          ),
+                          Text(
+                            "${customer.address?.city}, ${customer.address?.state}"
+                          ),
+                        ],
+                      ),
+                    ),
+                    Icon(Icons.chevron_right, size: 28),
+                    Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 5, right: 5),
+                          child: Container(
+                            width: 9,
+                            height: 9,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: customer.isSynced
+                                ? Colors.cyan
+                                : Colors.red
                             ),
-                            Text(
-                              customer.cpf?.value ?? '--'
-                            ),
-                            Text(
-                              "${customer.address?.city}, ${customer.address?.state}"
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(12),
-                        child: Icon(Icons.chevron_right, size: 28)
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+                  ],
                 ),
-              )
+              ),
             )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

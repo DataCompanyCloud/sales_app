@@ -21,4 +21,3 @@ class AppException implements Exception {
     return AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, message);
   }
 }
-

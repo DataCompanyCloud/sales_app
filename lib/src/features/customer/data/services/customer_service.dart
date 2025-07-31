@@ -1,4 +1,6 @@
 import 'package:sales_app/src/core/api/api_client.dart';
+import 'package:sales_app/src/core/exceptions/app_exception.dart';
+import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'dart:math';
 import 'package:faker/faker.dart';
@@ -24,11 +26,11 @@ class CustomerService {
     // final customers = json
     //     .map((json) => Customer.fromJson(json as Map<String, dynamic>))
     //     .toList();
-    await Future.delayed(Duration(seconds: 5));
+    // await Future.delayed(Duration(seconds: 5));
 
     final subList = customers.sublist(start, end);
 
-    for(final customer in subList) {
+    for (final customer in subList) {
       await repository.insert(customer);
     }
 
@@ -37,6 +39,15 @@ class CustomerService {
 
   Future<Customer?> getById(int customerId) async {
     await Future.delayed(Duration(seconds: 3));
+
+    final faker = Faker();
+    if (faker.randomGenerator.integer(10, min: 1) > 5) {
+      throw AppException(
+        AppExceptionCode.CODE_002_CUSTOMER_SERVER_NOT_FOUND,
+        "Falha ao obter dados do cliente $customerId"
+      );
+    }
+
     final index = customers.indexWhere((e) => e.customerId == customerId);
 
     if (index == -1) {
@@ -78,11 +89,30 @@ List<Customer> createCustomerFaker(int quantity) {
     final id = index + 1;
 
     Customer customer = Customer.company(
+      customerId: id,
+      customerCode: id.toString().padLeft(6, "0"),
+      tradeName: faker.company.name(),
+      legalName: faker.company.name(),
+      cnpj: CNPJ(value: generateCnpj(formatted: true)),
+      email: Email(value: gerarEmail()),
+      phones: [Phone(value: gerarPhone())],
+      address: entity.Address(
+        state: faker.address.state(),
+        city: faker.address.city(),
+        street: faker.address.streetAddress(),
+        cep: CEP(value: generateCep(formatted: true)),
+      ),
+      isActive: faker.randomGenerator.boolean(),
+      isSynced: faker.randomGenerator.boolean()
+    );
+
+    // Troca para Customer.person aleatoriamente
+    if (faker.randomGenerator.boolean()) {
+      customer = Customer.person(
         customerId: id,
         customerCode: id.toString().padLeft(6, "0"),
-        tradeName: faker.company.name(),
-        legalName: faker.company.name(),
-        cnpj: CNPJ(value: generateCnpj(formatted: true)),
+        fullName: faker.person.name(),
+        cpf: CPF(value: generateCpf(formatted: true)),
         email: Email(value: gerarEmail()),
         phones: [Phone(value: gerarPhone())],
         address: entity.Address(
@@ -92,26 +122,7 @@ List<Customer> createCustomerFaker(int quantity) {
           cep: CEP(value: generateCep(formatted: true)),
         ),
         isActive: faker.randomGenerator.boolean(),
-        isSynced: true
-    );
-
-    // Troca para Customer.person aleatoriamente
-    if (faker.randomGenerator.boolean()) {
-      customer = Customer.person(
-          customerId: id,
-          customerCode: id.toString().padLeft(6, "0"),
-          fullName: faker.person.name(),
-          cpf: CPF(value: generateCpf(formatted: true)),
-          email: Email(value: gerarEmail()),
-          phones: [Phone(value: gerarPhone())],
-          address: entity.Address(
-            state: faker.address.state(),
-            city: faker.address.city(),
-            street: faker.address.streetAddress(),
-            cep: CEP(value: generateCep(formatted: true)),
-          ),
-          isActive: faker.randomGenerator.boolean(),
-          isSynced: true
+        isSynced: faker.randomGenerator.boolean()
       );
     }
 

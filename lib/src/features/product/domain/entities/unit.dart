@@ -6,7 +6,7 @@ part 'unit.g.dart';
 @freezed
 abstract class Unit with _$Unit{
   const factory Unit({
-    required String name,
+    required String unitName,
     required String abbreviation
   }) = _Unit;
 
