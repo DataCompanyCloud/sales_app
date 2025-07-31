@@ -1,5 +1,5 @@
 import 'package:objectbox/objectbox.dart';
-import 'package:sales_app/src/features/customer/domain/entities/email.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/email.dart';
 
 @Entity()
 class EmailModel {

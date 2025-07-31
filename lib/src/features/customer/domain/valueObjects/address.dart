@@ -1,4 +1,4 @@
-import 'package:sales_app/src/features/customer/domain/entities/cep.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/cep.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'address.freezed.dart';

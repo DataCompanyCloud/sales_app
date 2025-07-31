@@ -9,18 +9,22 @@ class CustomerController extends AutoDisposeAsyncNotifier<List<Customer>>{
   /// se não encontrar nada busca da API
   @override
   FutureOr<List<Customer>> build() async {
-    await Future.delayed(Duration(seconds: 2));
-
+    final filter = ref.watch(customerFilterProvider);
     final repository = await ref.watch(customerRepositoryProvider.future);
-    await repository.deleteAll();
-    final customer = await repository.fetchAll();
 
-    if (customer.isNotEmpty) {
-      return customer;
+    // Tenta sincronizar com a API (se possível)
+    try {
+      final service = await ref.watch(customerServiceProvider.future);
+      final newCustomers = await service.getAll(filter);
+
+      if (newCustomers.isNotEmpty) {
+        await repository.saveAll(newCustomers); // Atualiza cache local
+      }
+    } catch (e) {
+      print("Falha ao sincronizar com API: $e");
     }
 
-    final service = await ref.watch(customerServiceProvider.future);
-
-    return await service.getAll(start: 0, end: 30);
+    // 🔹 Sempre retorna a lista do banco local (fonte da verdade)
+    return await repository.fetchAll(filter);
   }
 }

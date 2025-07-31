@@ -10,6 +10,7 @@ import 'package:sales_app/src/features/customer/data/models/email_model.dart';
 import 'package:sales_app/src/features/customer/data/models/phone_model.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/features/customer/domain/repositories/customer_repository.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/customer_filter.dart';
 
 class CustomerRepositoryImpl extends CustomerRepository{
   final Store store;
@@ -17,11 +18,50 @@ class CustomerRepositoryImpl extends CustomerRepository{
   CustomerRepositoryImpl(this.store);
 
   @override
-  Future<List<Customer>> fetchAll() async {
+  Future<List<Customer>> fetchAll(CustomerFilter filter) async {
     final box = store.box<CustomerModel>();
     final models = await box.getAllAsync();
-    return models.map((m) => m.toEntity()).toList();
+
+    final customers = models.map((m) => m.toEntity()).toList();
+
+    return customers.where((c) {
+      final name = filter.name;
+      final document = filter.document;
+      final email = filter.email;
+      final phone = filter.phone;
+
+      // 🔹 Filtro por nome
+      if (name != null && name.isNotEmpty) {
+        final nameFiltered = (c.maybeMap(
+          person: (p) => p.fullName ?? '',
+          company: (co) => co.tradeName ?? co.legalName ?? '',
+          orElse: () => '',
+        )).toLowerCase();
+
+        if (!nameFiltered.contains(name.toLowerCase())) return false;
+      }
+
+      // 🔹 Filtro por documento (CPF/CNPJ)
+      if (document != null && document.isNotEmpty) {
+        final doc = c.maybeMap(
+          person: (p) => p.cpf?.value ?? '',
+          company: (co) => co.cnpj?.value ?? '',
+          orElse: () => '',
+        );
+
+        if (!doc.contains(document)) return false;
+      }
+
+      // 🔹 Filtro por e-mail
+      if (email != null && email.isNotEmpty) {
+        final emailFiltered = c.email?.value.toLowerCase() ?? '';
+        if (!emailFiltered.contains(email.toLowerCase())) return false;
+      }
+
+      return true;
+    }).toList();
   }
+
 
   @override
   Future<Customer> fetchById(int customerId) async {
@@ -36,8 +76,60 @@ class CustomerRepositoryImpl extends CustomerRepository{
     return model.toEntity();
   }
 
+
   @override
-  Future<Customer> insert(Customer customer) async {
+  Future<void> saveAll(List<Customer> customers) async {
+    final customerBox = store.box<CustomerModel>();
+    final phoneBox = store.box<PhoneModel>();
+    final addressBox = store.box<AddressModel>();
+    final cepBox = store.box<CEPModel>();
+    final emailBox = store.box<EmailModel>();
+    final cpfBox = store.box<CPFModel>();
+    final cnpjBox = store.box<CNPJModel>();
+
+    store.runInTransaction(TxMode.write, () {
+      for (final customer in customers) {
+        final oldModel = customerBox.get(customer.customerId);
+
+        final newModel = customer.maybeMap(
+          person: (p) => p.toModel(),
+          company: (c) => c.toModel(),
+          raw: (r) => r.toModel(),
+          orElse: () => throw AppException(
+            AppExceptionCode.CODE_003_CUSTOMER_DATA_INVALID,
+            "Dados do Cliente inválidos para atualização",
+          ),
+        );
+
+        if (oldModel != null) {
+          // 🔹 Remove relacionamentos antigos
+          if (oldModel.email.target != null) emailBox.remove(oldModel.email.targetId);
+          if (oldModel.cpf.target != null) cpfBox.remove(oldModel.cpf.targetId);
+          if (oldModel.cnpj.target != null) cnpjBox.remove(oldModel.cnpj.targetId);
+
+          for (final phone in oldModel.phones) {
+            phoneBox.remove(phone.id);
+          }
+
+          final oldAddress = oldModel.address.target;
+          if (oldAddress != null) {
+            if (oldAddress.cep.target != null) {
+              cepBox.remove(oldAddress.cep.targetId);
+            }
+            addressBox.remove(oldAddress.id);
+          }
+
+          // 🔹 Mantém o mesmo ID do registro antigo
+          newModel.id = oldModel.id;
+        }
+
+        customerBox.put(newModel);
+      }
+    });
+  }
+
+  @override
+  Future<Customer> save(Customer customer) async {
     final customerBox = store.box<CustomerModel>();
     final phoneBox = store.box<PhoneModel>();
     final addressBox = store.box<AddressModel>();
@@ -88,11 +180,6 @@ class CustomerRepositoryImpl extends CustomerRepository{
     }
 
     return model.toEntity();
-  }
-
-  @override
-  Future<void> update(Customer customer) async {
-    await insert(customer);
   }
 
   @override
@@ -172,4 +259,5 @@ class CustomerRepositoryImpl extends CustomerRepository{
       customerBox.removeAll();
     });
   }
+
 }

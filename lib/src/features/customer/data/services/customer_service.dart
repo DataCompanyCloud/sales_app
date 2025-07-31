@@ -4,12 +4,13 @@ import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'dart:math';
 import 'package:faker/faker.dart';
-import 'package:sales_app/src/features/customer/domain/entities/cep.dart';
-import 'package:sales_app/src/features/customer/domain/entities/cnpj.dart';
-import 'package:sales_app/src/features/customer/domain/entities/cpf.dart';
-import 'package:sales_app/src/features/customer/domain/entities/email.dart';
-import 'package:sales_app/src/features/customer/domain/entities/phone.dart';
-import 'package:sales_app/src/features/customer/domain/entities/address.dart' as entity;
+import 'package:sales_app/src/features/customer/domain/valueObjects/cep.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/cnpj.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/cpf.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/customer_filter.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/email.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/phone.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/address.dart' as entity;
 import 'package:sales_app/src/features/customer/domain/repositories/customer_repository.dart';
 
 class CustomerService {
@@ -20,7 +21,7 @@ class CustomerService {
 
   CustomerService(this.apiClient, this.repository);
 
-  Future<List<Customer>> getAll({int start = 0, int end = 30}) async {
+  Future<List<Customer>> getAll(CustomerFilter filter) async {
     // final json = await apiClient.get<List<dynamic>>(ApiEndpoints.customers(start: start, end: end));
     //
     // final customers = json
@@ -28,17 +29,12 @@ class CustomerService {
     //     .toList();
     // await Future.delayed(Duration(seconds: 5));
 
-    final subList = customers.sublist(start, end);
-
-    for (final customer in subList) {
-      await repository.insert(customer);
-    }
-
+    final subList = customers.sublist(filter.page, filter.limit);
     return subList;
   }
 
   Future<Customer?> getById(int customerId) async {
-    await Future.delayed(Duration(seconds: 3));
+    // await Future.delayed(Duration(seconds: 3));
 
     final faker = Faker();
     if (faker.randomGenerator.integer(10, min: 1) > 5) {
@@ -54,7 +50,7 @@ class CustomerService {
       return null;
     }
 
-    return await repository.insert(customers[index]);
+    return await repository.save(customers[index]);
   }
 }
 

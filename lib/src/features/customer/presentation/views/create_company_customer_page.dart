@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sales_app/src/features/customer/presentation/controllers/customer_providers.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/cards/create_company_customer_address_card.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/cards/create_company_customer_contact_card.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/cards/create_company_customer_info_card.dart';
@@ -17,7 +16,7 @@ class CreateCompanyCustomer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModelProvider = ref.watch(customerViewModelProvider);
+    // final viewModelProvider = ref.watch(customerViewModelProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -45,43 +44,43 @@ class CreateCompanyCustomer extends ConsumerWidget {
                   padding: EdgeInsets.symmetric(vertical: 16),
                   child: StepIndicator(
                     steps: ['Dados', 'Endereço', 'Contato'],
-                    currentStep: viewModelProvider.currentStep,
-                    onStepTapped: viewModelProvider.onStepTapped,
+                    currentStep: 1,//viewModelProvider.currentStep,
+                    onStepTapped: (a) {}// viewModelProvider.onStepTapped,
                   ),
                 ),
               ),
               /// informações dos cards aqui
-              if (viewModelProvider.currentStep == 0) CreateCompanyCustomerInfoCard(),
-
-              if (viewModelProvider.currentStep == 1) CreateCompanyCustomerAddressCard(),
-
-              if (viewModelProvider.currentStep == 2) CreateCompanyCustomerContactCard(),
+              // if (viewModelProvider.currentStep == 0) CreateCompanyCustomerInfoCard(),
+              //
+              // if (viewModelProvider.currentStep == 1) CreateCompanyCustomerAddressCard(),
+              //
+              // if (viewModelProvider.currentStep == 2) CreateCompanyCustomerContactCard(),
             ],
           ),
         ),
       ),
 
-      floatingActionButton: viewModelProvider.currentStep < viewModelProvider.steps.length - 1
-      ? FloatingActionButton(
-        backgroundColor: Color(0xFF0081F5),
-        onPressed: () {
-          viewModelProvider.nextStep();
-        },
-        child: Icon(
-          Icons.arrow_forward,
-          color: Colors.white,
-        ),
-      )
-      : FloatingActionButton(
-        backgroundColor: Color(0xFF0081F5),
-        onPressed: () {
-
-        },
-        child: Icon(
-          Icons.check,
-          color: Colors.white,
-        ),
-      )
+      // floatingActionButton: viewModelProvider.currentStep < viewModelProvider.steps.length - 1
+      // ? FloatingActionButton(
+      //   backgroundColor: Color(0xFF0081F5),
+      //   onPressed: () {
+      //     viewModelProvider.nextStep();
+      //   },
+      //   child: Icon(
+      //     Icons.arrow_forward,
+      //     color: Colors.white,
+      //   ),
+      // )
+      // : FloatingActionButton(
+      //   backgroundColor: Color(0xFF0081F5),
+      //   onPressed: () {
+      //
+      //   },
+      //   child: Icon(
+      //     Icons.check,
+      //     color: Colors.white,
+      //   ),
+      // )
     );
   }
 }

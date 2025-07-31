@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
-import 'package:sales_app/src/features/customer/presentation/controllers/customer_providers.dart';
 import 'package:sales_app/src/features/customer/presentation/router/customer_router.dart';
+import 'package:sales_app/src/features/customer/presentation/widgets/buttons/customer_status_buttons.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/cards/company_customer_card.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/cards/person_customer_card.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/skeleton/customer_page_skeleton.dart';
@@ -23,7 +23,6 @@ class CustomerPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentIndex = ref.watch(customerIndexProvider);
     // final viewModelProvider = ref.watch(customerViewModelProvider);
     final controller = ref.watch(customerControllerProvider);
 
@@ -71,91 +70,7 @@ class CustomerPage extends ConsumerWidget {
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Padding(
-                padding: EdgeInsets.only(top: 10, left: 2),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 4),
-                      child: Row(
-                        children: [
-                          FilledButton(
-                              onPressed: () {
-                                // viewModelProvider.changeFilter(CustomerFilter.all);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                // backgroundColor: viewModelProvider.currentFilter == CustomerFilter.all
-                                //     ? colorScheme.onTertiary
-                                //     : colorScheme.tertiary,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10),
-                                        bottomLeft: Radius.circular(10)
-                                    ),
-                                  )
-                              ),
-                              child: Text(
-                                "Todos",
-                                style: TextStyle(
-                                  // color: viewModelProvider.currentFilter == CustomerFilter.all
-                                  //     ? colorScheme.onSurface
-                                  //     : Colors.grey
-                                ),
-                              )
-                          ),
-                          FilledButton(
-                              onPressed: () {
-                                // viewModelProvider.changeFilter(CustomerFilter.active);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                // backgroundColor: viewModelProvider.currentFilter == CustomerFilter.active
-                                //     ? colorScheme.onTertiary
-                                //     : colorScheme.tertiary,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(0)
-                                  )
-                              ),
-                              child: Text(
-                                "Ativos",
-                                style: TextStyle(
-                                  // color: viewModelProvider.currentFilter == CustomerFilter.active
-                                  //   ? colorScheme.onSurface
-                                  //   : Colors.grey,
-                                ),
-                              )
-                          ),
-                          FilledButton(
-                              onPressed: () {
-                                // viewModelProvider.changeFilter(CustomerFilter.inactive);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                // backgroundColor: viewModelProvider.currentFilter == CustomerFilter.inactive
-                                //     ? colorScheme.onTertiary
-                                //     : colorScheme.tertiary,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(10),
-                                          bottomRight: Radius.circular(10)
-                                      )
-                                  )
-                              ),
-                              child: Text(
-                                "Inativos",
-                                style: TextStyle(
-                                  // color: viewModelProvider.currentFilter == CustomerFilter.inactive
-                                  //     ? colorScheme.onSurface
-                                  //     : Colors.grey,
-                                ),
-                              )
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              CustomerStatusButtons(),
               Expanded(
                 child: ListView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
@@ -186,7 +101,7 @@ class CustomerPage extends ConsumerWidget {
             },
             child: Icon(Icons.group_add),
           ),
-          bottomNavigationBar: CustomBottomNavigationBar(currentIndex: currentIndex),
+          bottomNavigationBar: CustomBottomNavigationBar(currentIndex: 3),
         );
       }
     );

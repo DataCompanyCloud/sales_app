@@ -1,9 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:sales_app/src/features/customer/domain/entities/address.dart';
-import 'package:sales_app/src/features/customer/domain/entities/cnpj.dart';
-import 'package:sales_app/src/features/customer/domain/entities/cpf.dart';
-import 'package:sales_app/src/features/customer/domain/entities/email.dart';
-import 'package:sales_app/src/features/customer/domain/entities/phone.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/address.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/cnpj.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/cpf.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/email.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/phone.dart';
 
 part 'customer.freezed.dart';
 part 'customer.g.dart';

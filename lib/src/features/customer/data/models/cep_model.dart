@@ -1,5 +1,5 @@
 import 'package:objectbox/objectbox.dart';
-import 'package:sales_app/src/features/customer/domain/entities/cep.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/cep.dart';
 
 @Entity()
 class CEPModel{

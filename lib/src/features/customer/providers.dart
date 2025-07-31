@@ -5,12 +5,21 @@ import 'package:sales_app/src/features/customer/data/repositories/customer_repos
 import 'package:sales_app/src/features/customer/data/services/customer_service.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/features/customer/domain/repositories/customer_repository.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/customer_filter.dart';
 import 'package:sales_app/src/features/customer/presentation/controllers/customer_controller.dart';
 import 'package:sales_app/src/features/customer/presentation/controllers/customer_details_controller.dart';
 
 final customerRepositoryProvider = FutureProvider.autoDispose<CustomerRepository>((ref) async {
   final store = await ref.watch(datasourceProvider.future);
   return CustomerRepositoryImpl(store);
+});
+
+final customerFilterProvider = StateProvider.autoDispose<CustomerFilter>((ref) {
+  return CustomerFilter(
+    status: CustomerStatusFilter.all,
+    page: 0,
+    limit: 30
+  );
 });
 
 final customerServiceProvider = FutureProvider.autoDispose<CustomerService>((ref) async {
