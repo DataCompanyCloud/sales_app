@@ -14,15 +14,7 @@ class CustomerPageSkeleton extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: Color(0xFF0081F5),
         foregroundColor: Colors.white,
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: Transform.scale(
-            scale: 0.5,
-            child: CircularProgressIndicator(
-              color: Colors.white,
-            ),
-          ),
-        ),
+        title: Text("Clientes"),
         leading: IconButton(
           onPressed: () {
             context.goNamed(HomeRouter.home.name);

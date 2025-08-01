@@ -21,9 +21,9 @@ final ThemeData salesAppLightTheme = ThemeData(
     onPrimary: Colors.black38,      // Texto/ícone sobre a cor "primary"
     secondary: Color(0xFF0081F5),   // Cor secundária (badges, detalhes, etc.)
     onSecondary: Colors.white,      // Texto/ícone sobre a cor "secondary"
-    tertiary: Color(0xFFE0E0E0),    // Cor terciária
+    tertiary: Color(0xFFFAFAFA),    // Cor terciária
     onTertiary: Color(0xFFD1D1D1),  // Texto/ícone sobre a cor "tertiary"
-    surface: Colors.white,          // Fundo de Cards, BottomSheet, Dialogs
+    surface: Color(0xFFFAFAFA),     // Fundo de Cards, BottomSheet, Dialogs
     onSurface: Colors.black,        // Texto/ícone sobre a cor "surface"
   ),
 );

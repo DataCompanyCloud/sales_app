@@ -11,12 +11,12 @@ class CustomerDetailsSkeleton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: Transform.scale(
-            scale: 0.5,
-            child: CircularProgressIndicator(
-              color: Colors.white,
+        title: Skeletonizer(
+          enabled: true,
+          child: Bone.text(
+            width: 100,
+            style: TextStyle(
+              fontSize: 28,
             ),
           ),
         ),
@@ -25,7 +25,7 @@ class CustomerDetailsSkeleton extends ConsumerWidget {
             context.pop();
           }, 
           icon: Icon(Icons.arrow_back_ios_new, size: 22)
-        )
+        ),
       ),
       body: Skeletonizer(
         enabled: true,

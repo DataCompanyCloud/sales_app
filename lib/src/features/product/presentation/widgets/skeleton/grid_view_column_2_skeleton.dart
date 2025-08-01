@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class GridViewColumn2Skeleton extends ConsumerWidget {
@@ -15,20 +17,9 @@ class GridViewColumn2Skeleton extends ConsumerWidget {
         backgroundColor: Color(0xFF0081F5),
         foregroundColor: Colors.white,
         title: Text("Catálogo de Produtos"),
-        /*
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Transform.scale(
-            scale: 0.5,
-            child: CircularProgressIndicator(
-              color: Colors.white,
-            ),
-          ),
-        ),
-        */
         leading: IconButton(
           onPressed: () {
-
+            context.goNamed(HomeRouter.home.name);
           },
           icon: Icon(Icons.arrow_back_ios_new, size: 22)
         ),

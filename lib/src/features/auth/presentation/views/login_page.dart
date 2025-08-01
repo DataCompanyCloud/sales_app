@@ -116,16 +116,16 @@ class LoginPage extends ConsumerWidget {
               Padding(padding: EdgeInsets.only(top: 22)),
               ElevatedButton(
                 onPressed: () {
-                  context.goNamed(AppRoutes.home.name);
+                  context.goNamed(AppRoutes.sync.name);
                 },
                 style: ElevatedButton.styleFrom(
-                    elevation: 4,
-                    padding: EdgeInsets.symmetric(horizontal: 120, vertical: 16),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0)
-                    ),
-                    backgroundColor: Color(0xFF0081F5),
-                    foregroundColor: Colors.white
+                  elevation: 4,
+                  padding: EdgeInsets.symmetric(horizontal: 120, vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0)
+                  ),
+                  backgroundColor: Color(0xFF0081F5),
+                  foregroundColor: Colors.white
                 ),
                 child: Text(
                   "Login",
