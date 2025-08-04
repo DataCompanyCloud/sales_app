@@ -1,4 +1,3 @@
-import 'package:objectbox/objectbox.dart';
 import 'package:sales_app/objectbox.g.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';

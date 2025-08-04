@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sales_app/src/features/customer/presentation/widgets/cards/create_person_customer_address_card.dart';
-import 'package:sales_app/src/features/customer/presentation/widgets/cards/create_person_customer_contact_card.dart';
-import 'package:sales_app/src/features/customer/presentation/widgets/cards/create_person_customer_info_card.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/dialogs/quit_dialog.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/indicator/step_indicator.dart';
 

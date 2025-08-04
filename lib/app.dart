@@ -9,6 +9,7 @@ class SalesApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final goRouter = ref.watch(goRouterProvider);
     return MaterialApp.router(
       title: 'Sales App',
       debugShowCheckedModeBanner: false,
@@ -22,7 +23,7 @@ class SalesApp extends ConsumerWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate
       ],
-      routerConfig: goRouterProvider,
+      routerConfig: goRouter,
       theme: salesAppLightTheme,
       darkTheme: salesAppDarkTheme,
       themeMode: ThemeMode.system,

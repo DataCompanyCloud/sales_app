@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/router/app_router.dart';
 import 'package:sales_app/src/features/auth/presentation/controllers/login_providers.dart';
+import 'package:sales_app/src/features/auth/providers.dart';
 
 class LoginPage extends ConsumerWidget {
   final String title;
@@ -15,6 +16,9 @@ class LoginPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModelProvider = ref.watch(loginViewModelProvider);
+    final authController = ref.watch(authControllerProvider.notifier);
+    final authState = ref.watch(authControllerProvider);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF0081F5),
@@ -43,6 +47,7 @@ class LoginPage extends ConsumerWidget {
               ),
               Padding(padding: EdgeInsets.all(16)),
               TextField(
+                controller: viewModelProvider.emailController,
                 keyboardType: TextInputType.emailAddress,
                 onTapOutside: (event) {
                   FocusManager.instance.primaryFocus?.unfocus();
@@ -57,7 +62,9 @@ class LoginPage extends ConsumerWidget {
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
                     borderSide: BorderSide(
-                      color: Color(0xFF0081F5),
+                      color: viewModelProvider.invalidEmail
+                        ? Colors.red
+                        : Color(0xFF0081F5),
                       width: 2
                     )
                   )
@@ -65,6 +72,7 @@ class LoginPage extends ConsumerWidget {
               ),
               Padding(padding: EdgeInsets.only(top: 16)),
               TextField(
+                controller: viewModelProvider.passwordController,
                 keyboardType: TextInputType.visiblePassword,
                 onTapOutside: (event) {
                   FocusManager.instance.primaryFocus?.unfocus();
@@ -90,7 +98,9 @@ class LoginPage extends ConsumerWidget {
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
                     borderSide: BorderSide(
-                      color: Color(0xFF0081F5),
+                      color: viewModelProvider.invalidPassword
+                        ? Colors.red
+                        : Color(0xFF0081F5),
                       width: 2
                     ),
                   ),
@@ -116,7 +126,9 @@ class LoginPage extends ConsumerWidget {
               Padding(padding: EdgeInsets.only(top: 22)),
               ElevatedButton(
                 onPressed: () {
-                  context.goNamed(AppRoutes.sync.name);
+                  // if ()
+                  // context.goNamed(AppRoutes.sync.name);
+                  authController.login('lucas', '123');
                 },
                 style: ElevatedButton.styleFrom(
                   elevation: 4,

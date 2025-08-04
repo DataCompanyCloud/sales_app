@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/router/app_router.dart';
-import 'package:sales_app/src/features/auth/presentation/controllers/sync_providers.dart';
 
 class SyncPage extends ConsumerWidget {
   final String title;
@@ -14,97 +13,57 @@ class SyncPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModelProvider = ref.watch(syncViewModelProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        // automaticallyImplyLeading: false,
-        title: Text(title),
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Padding(
+              padding: EdgeInsets.only(bottom: 8),
+              child: Text(
+                "Bem-vindo ao SalesApp!",
+                style: TextStyle(
+                  color: Color(0xFF0081F5),
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+            ),
             Text(
               "Olá, vejo que é sua primeira vez aqui.\nDeseja sincronizar seus dados com a nuvem?",
+              textAlign: TextAlign.center,
               style: TextStyle(
+                color: Colors.grey,
                 fontSize: 18
               ),
             ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    viewModelProvider.toggleOption(0);
-                  },
-                  icon: Icon(
-                    viewModelProvider.isPressed == 0
-                      ? Icons.check_box
-                      : Icons.check_box_outline_blank
-                  ),
-                  color: viewModelProvider.isPressed == 0
-                    ? Colors.cyan
-                    : Colors.grey
-                ),
-                const Text("Recomendado"),
-                IconButton(
-                  onPressed: () {
-                    viewModelProvider.toggleOption(1);
-                  },
-                  icon: Icon(
-                    viewModelProvider.isPressed == 1
-                      ? Icons.check_box
-                      : Icons.check_box_outline_blank
-                  ),
-                  color: viewModelProvider.isPressed == 1
-                    ? Colors.cyan
-                    : Colors.grey
-                ),
-                const Text("Tudo"),
-                // TODO Fazer a função de personalização para a página de sincronização. 
-                IconButton(
-                  onPressed: () {
-                    viewModelProvider.toggleOption(2);
-                  },
-                  icon: Icon(
-                    viewModelProvider.isPressed == 2
-                      ? Icons.check_box
-                      : Icons.check_box_outline_blank
-                  ),
-                  color: viewModelProvider.isPressed == 2
-                    ? Colors.cyan
-                    : Colors.grey
-                ),
-                const Text("Personalizado"),
-              ],
-            ),
             Padding(
-              padding: EdgeInsets.only(bottom: 12, left: 8, right: 8),
+              padding: EdgeInsets.only(top: 32, bottom: 12, left: 32, right: 32),
               child: Container(
                 width: double.infinity,
-                height: 80,
+                height: 48,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: Colors.blue
+                  color: Color(0xFF0081F5)
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 12),
                   child: Row(
                     children: [
                       Icon(
-                        viewModelProvider.isPressed == 1
-                          ? Icons.check_box
-                          : Icons.check_box_outline_blank,
-                        color: viewModelProvider.isPressed == 1
-                          ? Colors.white
-                          : Colors.blue.shade800
+                        Icons.check_box,
+                        color: Colors.white,
                       ),
-                      Text(
-                        "Produtos",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: Text(
+                          "Produtos",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white
+                          ),
                         ),
                       ),
                     ],
@@ -113,64 +72,31 @@ class SyncPage extends ConsumerWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(bottom: 12, left: 8, right: 8),
+              padding: EdgeInsets.only(bottom: 12, left: 32, right: 32),
               child: Container(
                 width: double.infinity,
-                height: 80,
+                height: 48,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: Colors.blue
+                  color: Color(0xFF0081F5)
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 12),
                   child: Row(
                     children: [
                       Icon(
-                        viewModelProvider.isPressed == 1 || viewModelProvider.isPressed == 0
-                          ? Icons.check_box
-                          : Icons.check_box_outline_blank,
-                        color: viewModelProvider.isPressed == 1 || viewModelProvider.isPressed == 0
-                          ? Colors.white
-                          : Colors.blue.shade800
+                        Icons.check_box,
+                        color: Colors.white,
                       ),
-                      Text(
-                        "Clientes",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 12, left: 8, right: 8),
-              child: Container(
-                width: double.infinity,
-                height: 80,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.blue
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 12),
-                  child: Row(
-                    children: [
-                      Icon(
-                        viewModelProvider.isPressed == 1
-                          ? Icons.check_box
-                          : Icons.check_box_outline_blank,
-                        color: viewModelProvider.isPressed == 1
-                          ? Colors.white
-                          : Colors.blue.shade800
-                      ),
-                      Text(
-                        "Pedidos",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: Text(
+                          "Clientes",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white
+                          ),
                         ),
                       ),
                     ],

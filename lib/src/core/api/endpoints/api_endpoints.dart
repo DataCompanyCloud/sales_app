@@ -1,5 +1,8 @@
 
 class ApiEndpoints {
+  static const version = "v1";
+
+  static const String login = '/login';
 
   /// /customers
   /// Rota para obter customers
