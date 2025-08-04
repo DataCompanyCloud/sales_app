@@ -1,9 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:sales_app/src/features/customer/domain/entities/address.dart';
-import 'package:sales_app/src/features/customer/domain/entities/cnpj.dart';
-import 'package:sales_app/src/features/customer/domain/entities/cpf.dart';
-import 'package:sales_app/src/features/customer/domain/entities/email.dart';
-import 'package:sales_app/src/features/customer/domain/entities/phone.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/address.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/cnpj.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/cpf.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/email.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/phone.dart';
 
 part 'customer.freezed.dart';
 part 'customer.g.dart';
@@ -21,7 +21,8 @@ abstract class Customer with _$Customer {
     List<Phone>? phones,
     Address? address,
     required bool isActive,
-    required bool isSynced
+    @Default(false)
+    bool isSynced
   }) = PersonCustomer;
 
   const factory Customer.company({
@@ -34,7 +35,8 @@ abstract class Customer with _$Customer {
     List<Phone>? phones,
     Address? address,
     required bool isActive,
-    required bool isSynced
+    @Default(false)
+    bool isSynced
   }) = CompanyCustomer;
 
   const factory Customer.raw({
@@ -49,7 +51,8 @@ abstract class Customer with _$Customer {
     List<Phone>? phones,
     Address? address,
     required bool isActive,
-    required bool isSynced
+    @Default(false)
+    bool isSynced
   }) = RawCustomer;
 
   /// TODO Precisa fazer as validações somente quando as informações forem diferentes de null!
@@ -65,6 +68,7 @@ abstract class Customer with _$Customer {
     List<Phone>? phones,
     Address? address,
     required bool isActive,
+    @Default(false)
     required bool isSynced
   }) {
 

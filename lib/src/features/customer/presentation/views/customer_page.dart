@@ -3,8 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
-import 'package:sales_app/src/features/customer/presentation/controllers/customer_providers.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/customer_filter.dart';
 import 'package:sales_app/src/features/customer/presentation/router/customer_router.dart';
+import 'package:sales_app/src/features/customer/presentation/widgets/buttons/customer_status_buttons.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/cards/company_customer_card.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/cards/person_customer_card.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/skeleton/customer_page_skeleton.dart';
@@ -12,6 +13,7 @@ import 'package:sales_app/src/features/customer/providers.dart';
 import 'package:sales_app/src/features/error_page/presentation/views/error_page.dart';
 import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/navigator/navigator_bar.dart';
+
 
 class CustomerPage extends ConsumerWidget {
   final String title;
@@ -23,10 +25,9 @@ class CustomerPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentIndex = ref.watch(customerIndexProvider);
     // final viewModelProvider = ref.watch(customerViewModelProvider);
     final controller = ref.watch(customerControllerProvider);
-
+    final status = ref.watch(customerStatusFilterProvider);
     // final theme = Theme.of(context);
     // final colorScheme = theme.colorScheme;
 
@@ -38,6 +39,46 @@ class CustomerPage extends ConsumerWidget {
       ),
       loading: () =>  CustomerPageSkeleton(),
       data: (customers) {
+        int countAll       = 0;
+        int countActive    = 0;
+        int countBlocked   = 0;
+        int countSynced    = 0;
+        int countNotSynced = 0;
+
+        final customerFiltered = customers.where((customer) {
+          // conta no “all”
+          countAll++;
+
+          // conta ativo vs bloqueado
+          if (customer.isActive) {
+            countActive++;
+          } else {
+            countBlocked++;
+          }
+
+          // conta sincronizado vs não sincronizado
+          if (customer.isSynced) {
+            countSynced++;
+          } else {
+            countNotSynced++;
+          }
+
+          if (status == CustomerStatusFilter.active) {
+            return customer.isActive;
+          }
+          if (status == CustomerStatusFilter.blocked) {
+            return !customer.isActive;
+          }
+          if (status == CustomerStatusFilter.synced) {
+            return customer.isSynced;
+          }
+          if (status == CustomerStatusFilter.notSynced) {
+            return !customer.isSynced;
+          }
+          // Se for "all", retorna todos
+          return true;
+        }).toList();
+
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Color(0xFF0081F5),
@@ -71,105 +112,34 @@ class CustomerPage extends ConsumerWidget {
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Padding(
-                padding: EdgeInsets.only(top: 10, left: 2),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 4),
-                      child: Row(
-                        children: [
-                          FilledButton(
-                              onPressed: () {
-                                // viewModelProvider.changeFilter(CustomerFilter.all);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                // backgroundColor: viewModelProvider.currentFilter == CustomerFilter.all
-                                //     ? colorScheme.onTertiary
-                                //     : colorScheme.tertiary,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10),
-                                        bottomLeft: Radius.circular(10)
-                                    ),
-                                  )
-                              ),
-                              child: Text(
-                                "Todos",
-                                style: TextStyle(
-                                  // color: viewModelProvider.currentFilter == CustomerFilter.all
-                                  //     ? colorScheme.onSurface
-                                  //     : Colors.grey
-                                ),
-                              )
-                          ),
-                          FilledButton(
-                              onPressed: () {
-                                // viewModelProvider.changeFilter(CustomerFilter.active);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                // backgroundColor: viewModelProvider.currentFilter == CustomerFilter.active
-                                //     ? colorScheme.onTertiary
-                                //     : colorScheme.tertiary,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(0)
-                                  )
-                              ),
-                              child: Text(
-                                "Ativos",
-                                style: TextStyle(
-                                  // color: viewModelProvider.currentFilter == CustomerFilter.active
-                                  //   ? colorScheme.onSurface
-                                  //   : Colors.grey,
-                                ),
-                              )
-                          ),
-                          FilledButton(
-                              onPressed: () {
-                                // viewModelProvider.changeFilter(CustomerFilter.inactive);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                // backgroundColor: viewModelProvider.currentFilter == CustomerFilter.inactive
-                                //     ? colorScheme.onTertiary
-                                //     : colorScheme.tertiary,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(10),
-                                          bottomRight: Radius.circular(10)
-                                      )
-                                  )
-                              ),
-                              child: Text(
-                                "Inativos",
-                                style: TextStyle(
-                                  // color: viewModelProvider.currentFilter == CustomerFilter.inactive
-                                  //     ? colorScheme.onSurface
-                                  //     : Colors.grey,
-                                ),
-                              )
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+              CustomerStatusButtons(
+                countAll: countAll,
+                countActive: countActive,
+                countBlocked: countBlocked,
+                countSynced: countSynced,
+                countNotSynced: countNotSynced,
               ),
+
               Expanded(
                 child: ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                  itemCount: customers.length,
+                  padding: EdgeInsets.symmetric(horizontal: 4),
+                  itemCount: customerFiltered.length,
                   itemBuilder: (context, index) {
-                    final customer = customers[index];
+                    final customer = customerFiltered[index];
                     return customer.maybeMap(
-                      person: (person) => InkWell(
-                        onTap: () => context.pushNamed(CustomerRouter.customerDetails.name, extra: customer.customerId),
-                        child: PersonCustomerCard(customer: person)
+                      person: (person) => Padding(
+                        padding: const EdgeInsets.only(bottom: 4),
+                        child: InkWell(
+                          onTap: () => context.pushNamed(CustomerRouter.customerDetails.name, extra: customer.customerId),
+                          child: PersonCustomerCard(customer: person)
+                        ),
                       ),
-                      company: (company) => InkWell(
-                        onTap: () => context.pushNamed(CustomerRouter.customerDetails.name, extra: customer.customerId),
-                        child: CompanyCustomerCard(customer: company)
+                      company: (company) => Padding(
+                        padding: const EdgeInsets.only(bottom: 4),
+                        child: InkWell(
+                          onTap: () => context.pushNamed(CustomerRouter.customerDetails.name, extra: customer.customerId),
+                          child: CompanyCustomerCard(customer: company)
+                        ),
                       ),
                       orElse: () => SizedBox()
                     );
@@ -186,7 +156,7 @@ class CustomerPage extends ConsumerWidget {
             },
             child: Icon(Icons.group_add),
           ),
-          bottomNavigationBar: CustomBottomNavigationBar(currentIndex: currentIndex),
+          bottomNavigationBar: CustomBottomNavigationBar(currentIndex: 3),
         );
       }
     );

@@ -16,10 +16,9 @@ class CompanyCustomerCard extends ConsumerWidget {
     final colorScheme = theme.colorScheme;
 
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 4),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: colorScheme.onTertiary, width: 2)
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: colorScheme.onTertiary, width: 2)
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,

@@ -1,6 +1,6 @@
 import 'package:objectbox/objectbox.dart';
 import 'package:sales_app/src/features/customer/data/models/cep_model.dart';
-import 'package:sales_app/src/features/customer/domain/entities/address.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/address.dart';
 
 @Entity()
 class AddressModel {

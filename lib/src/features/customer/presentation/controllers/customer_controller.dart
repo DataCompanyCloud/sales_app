@@ -3,24 +3,30 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/features/customer/providers.dart';
 
-class CustomerController extends AutoDisposeAsyncNotifier<List<Customer>>{
+class CustomerController extends AsyncNotifier<List<Customer>>{
 
   /// Primeiro busca no banco local
   /// se não encontrar nada busca da API
   @override
   FutureOr<List<Customer>> build() async {
-    await Future.delayed(Duration(seconds: 2));
+    final filter = ref.watch(customerFilterProvider);
+    final repository = await ref.read(customerRepositoryProvider.future);
 
-    final repository = await ref.watch(customerRepositoryProvider.future);
-    await repository.deleteAll();
-    final customer = await repository.fetchAll();
+    // Tenta sincronizar com a API (se possível)
+    try {
+      final service = await ref.read(customerServiceProvider.future);
+      final newCustomers = await service.getAll(filter);
 
-    if (customer.isNotEmpty) {
-      return customer;
+      if (newCustomers.isNotEmpty) {
+        await repository.saveAll(newCustomers); // Atualiza cache local
+      }
+    } catch (e) {
+      print("Falha ao sincronizar com API: $e");
     }
 
-    final service = await ref.watch(customerServiceProvider.future);
 
-    return await service.getAll(start: 0, end: 30);
+
+    // Sempre retorna a lista do banco local (fonte da verdade)
+    return await repository.fetchAll(filter);
   }
 }

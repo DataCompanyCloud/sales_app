@@ -1,60 +1,62 @@
 import 'package:sales_app/src/core/api/api_client.dart';
-import 'package:sales_app/src/core/exceptions/app_exception.dart';
-import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
+import 'package:sales_app/src/core/api/endpoints/api_endpoints.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'dart:math';
 import 'package:faker/faker.dart';
-import 'package:sales_app/src/features/customer/domain/entities/cep.dart';
-import 'package:sales_app/src/features/customer/domain/entities/cnpj.dart';
-import 'package:sales_app/src/features/customer/domain/entities/cpf.dart';
-import 'package:sales_app/src/features/customer/domain/entities/email.dart';
-import 'package:sales_app/src/features/customer/domain/entities/phone.dart';
-import 'package:sales_app/src/features/customer/domain/entities/address.dart' as entity;
+import 'package:sales_app/src/features/customer/domain/valueObjects/cep.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/cnpj.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/cpf.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/customer_filter.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/email.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/phone.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/address.dart' as entity;
 import 'package:sales_app/src/features/customer/domain/repositories/customer_repository.dart';
 
 class CustomerService {
-  final List<Customer> customers = createCustomerFaker(100);
+  // final List<Customer> customers = createCustomerFaker(100);
   final CustomerRepository repository;
 
   final ApiClient apiClient;
 
   CustomerService(this.apiClient, this.repository);
 
-  Future<List<Customer>> getAll({int start = 0, int end = 30}) async {
-    // final json = await apiClient.get<List<dynamic>>(ApiEndpoints.customers(start: start, end: end));
-    //
-    // final customers = json
-    //     .map((json) => Customer.fromJson(json as Map<String, dynamic>))
-    //     .toList();
-    // await Future.delayed(Duration(seconds: 5));
+  Future<List<Customer>> getAll(CustomerFilter filter) async {
+    final json = await apiClient.get<Map<String, dynamic>>(ApiEndpoints.customers, queryParameters: {
+      'start': 0,
+      'limit': 5000,
+    });
 
-    final subList = customers.sublist(start, end);
+    final data = json['data'] as List<dynamic>;
 
-    for (final customer in subList) {
-      await repository.insert(customer);
-    }
+    final customers = data
+        .map((c) {
+          final customer = Customer.fromJson(c)
+              .copyWith(isSynced: true);
+          return customer;
+        })
+        .toList();
 
-    return subList;
+    return customers;
   }
 
   Future<Customer?> getById(int customerId) async {
-    await Future.delayed(Duration(seconds: 3));
-
-    final faker = Faker();
-    if (faker.randomGenerator.integer(10, min: 1) > 5) {
-      throw AppException(
-        AppExceptionCode.CODE_002_CUSTOMER_SERVER_NOT_FOUND,
-        "Falha ao obter dados do cliente $customerId"
-      );
-    }
-
-    final index = customers.indexWhere((e) => e.customerId == customerId);
-
-    if (index == -1) {
-      return null;
-    }
-
-    return await repository.insert(customers[index]);
+    // await Future.delayed(Duration(seconds: 3));
+    return null;
+    // final faker = Faker();
+    // if (faker.randomGenerator.integer(10, min: 1) > 5) {
+    //   throw AppException(
+    //     AppExceptionCode.CODE_002_CUSTOMER_SERVER_NOT_FOUND,
+    //     "Falha ao obter dados do cliente $customerId"
+    //   );
+    // }
+    //
+    // final index = customers.indexWhere((e) => e.customerId == customerId);
+    //
+    // if (index == -1) {
+    //   return null;
+    // }
+    //
+    // return await repository.save(customers[index]);
   }
 }
 

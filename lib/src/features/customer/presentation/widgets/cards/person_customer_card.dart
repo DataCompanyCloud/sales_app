@@ -16,10 +16,9 @@ class PersonCustomerCard extends ConsumerWidget {
     final colorScheme = theme.colorScheme;
 
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 4),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: colorScheme.onTertiary, width: 2)
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: colorScheme.onTertiary, width: 2)
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -34,8 +33,8 @@ class PersonCustomerCard extends ConsumerWidget {
                     height: 20,
                     decoration: BoxDecoration(
                       color: customer.isActive
-                        ? Colors.green.shade900
-                        : Colors.red.shade900,
+                          ? Colors.green.shade900
+                          : Colors.red.shade900,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
                       )
