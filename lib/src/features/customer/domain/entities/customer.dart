@@ -21,7 +21,8 @@ abstract class Customer with _$Customer {
     List<Phone>? phones,
     Address? address,
     required bool isActive,
-    required bool isSynced
+    @Default(false)
+    bool isSynced
   }) = PersonCustomer;
 
   const factory Customer.company({
@@ -34,7 +35,8 @@ abstract class Customer with _$Customer {
     List<Phone>? phones,
     Address? address,
     required bool isActive,
-    required bool isSynced
+    @Default(false)
+    bool isSynced
   }) = CompanyCustomer;
 
   const factory Customer.raw({
@@ -49,7 +51,8 @@ abstract class Customer with _$Customer {
     List<Phone>? phones,
     Address? address,
     required bool isActive,
-    required bool isSynced
+    @Default(false)
+    bool isSynced
   }) = RawCustomer;
 
   /// TODO Precisa fazer as validações somente quando as informações forem diferentes de null!
@@ -65,6 +68,7 @@ abstract class Customer with _$Customer {
     List<Phone>? phones,
     Address? address,
     required bool isActive,
+    @Default(false)
     required bool isSynced
   }) {
 

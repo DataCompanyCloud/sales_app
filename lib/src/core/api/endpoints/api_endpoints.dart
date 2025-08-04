@@ -3,7 +3,7 @@ class ApiEndpoints {
 
   /// /customers
   /// Rota para obter customers
-  static String customers({required int start, required int end}) => '/customers/$start/$end';
+  static const String customers = '/customers';
 
 // Posts
   // static const String postsList     = '/posts';

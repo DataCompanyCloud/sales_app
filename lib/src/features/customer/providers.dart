@@ -14,6 +14,10 @@ final customerRepositoryProvider = FutureProvider.autoDispose<CustomerRepository
   return CustomerRepositoryImpl(store);
 });
 
+final customerStatusFilterProvider = StateProvider.autoDispose<CustomerStatusFilter>((ref) {
+  return CustomerStatusFilter.all;
+});
+
 final customerFilterProvider = StateProvider.autoDispose<CustomerFilter>((ref) {
   return CustomerFilter(
     status: CustomerStatusFilter.all,
@@ -22,13 +26,13 @@ final customerFilterProvider = StateProvider.autoDispose<CustomerFilter>((ref) {
   );
 });
 
-final customerServiceProvider = FutureProvider.autoDispose<CustomerService>((ref) async {
+final customerServiceProvider = FutureProvider<CustomerService>((ref) async {
   final apiClient = ref.watch(apiClientProvider);
   final repository = await ref.watch(customerRepositoryProvider.future);
   return CustomerService(apiClient, repository);
 });
 
-final customerControllerProvider = AutoDisposeAsyncNotifierProvider<CustomerController, List<Customer>> (() {
+final customerControllerProvider = AsyncNotifierProvider<CustomerController, List<Customer>> (() {
   return CustomerController();
 });
 

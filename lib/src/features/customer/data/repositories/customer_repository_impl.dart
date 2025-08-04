@@ -1,4 +1,5 @@
 import 'package:objectbox/objectbox.dart';
+import 'package:sales_app/objectbox.g.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/customer/data/models/address_model.dart';
@@ -20,48 +21,53 @@ class CustomerRepositoryImpl extends CustomerRepository{
   @override
   Future<List<Customer>> fetchAll(CustomerFilter filter) async {
     final box = store.box<CustomerModel>();
-    final models = await box.getAllAsync();
 
-    final customers = models.map((m) => m.toEntity()).toList();
+    // filters
+    final name = filter.name;
+    final document = filter.document;
+    final email = filter.email;
+    final phone = filter.phone;
 
-    return customers.where((c) {
-      final name = filter.name;
-      final document = filter.document;
-      final email = filter.email;
-      final phone = filter.phone;
+    Condition<CustomerModel>? conditions;
+    if (name != null && name.isNotEmpty) {
+      final nameFormat = name.toLowerCase();
+      conditions = CustomerModel_.fullName.contains(nameFormat, caseSensitive: false)
+        .or(CustomerModel_.legalName.contains(nameFormat, caseSensitive: false))
+        .or(CustomerModel_.tradeName.contains(nameFormat, caseSensitive: false));
+    }
 
-      // 🔹 Filtro por nome
-      if (name != null && name.isNotEmpty) {
-        final nameFiltered = (c.maybeMap(
-          person: (p) => p.fullName ?? '',
-          company: (co) => co.tradeName ?? co.legalName ?? '',
-          orElse: () => '',
-        )).toLowerCase();
+    final queryBuilder = box.query(conditions);
 
-        if (!nameFiltered.contains(name.toLowerCase())) return false;
-      }
+    // linkers
+    if (document != null && document.isNotEmpty) {
+      queryBuilder
+        .link(CustomerModel_.cpf, CPFModel_.value.contains(document));
+      queryBuilder
+        .link(CustomerModel_.cnpj, CNPJModel_.value.contains(document));
+    }
 
-      // 🔹 Filtro por documento (CPF/CNPJ)
-      if (document != null && document.isNotEmpty) {
-        final doc = c.maybeMap(
-          person: (p) => p.cpf?.value ?? '',
-          company: (co) => co.cnpj?.value ?? '',
-          orElse: () => '',
-        );
+    if (email != null && email.isNotEmpty) {
+      final emailFormat = email.toLowerCase();
+      queryBuilder.link(
+        CustomerModel_.email,
+        EmailModel_.value.contains(emailFormat, caseSensitive: false),
+      );
+    }
 
-        if (!doc.contains(document)) return false;
-      }
+    if (phone != null && phone.isNotEmpty) {
+      queryBuilder.linkMany(
+        CustomerModel_.phones,
+        PhoneModel_.value.contains(phone),
+      );
+    }
 
-      // 🔹 Filtro por e-mail
-      if (email != null && email.isNotEmpty) {
-        final emailFiltered = c.email?.value.toLowerCase() ?? '';
-        if (!emailFiltered.contains(email.toLowerCase())) return false;
-      }
+    final query = queryBuilder.build();
+    final models = await query.findAsync();
+    query.close();
 
-      return true;
-    }).toList();
+    // Converte para entidades
+    return models.map((m) => m.toEntity()).toList();
   }
-
 
   @override
   Future<Customer> fetchById(int customerId) async {
