@@ -20,7 +20,6 @@ final customerStatusFilterProvider = StateProvider.autoDispose<CustomerStatusFil
 
 final customerFilterProvider = StateProvider.autoDispose<CustomerFilter>((ref) {
   return CustomerFilter(
-    status: CustomerStatusFilter.all,
     page: 0,
     limit: 30
   );

@@ -6,7 +6,7 @@ import 'package:sales_app/src/features/customer/presentation/views/company_custo
 import 'package:sales_app/src/features/customer/presentation/views/person_customer_details.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/skeleton/customer_details_skeleton.dart';
 import 'package:sales_app/src/features/customer/providers.dart';
-import 'package:sales_app/src/features/error_page/presentation/views/error_page.dart';
+import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
 
 
 class CustomerDetails extends ConsumerWidget {

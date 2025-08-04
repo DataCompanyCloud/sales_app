@@ -14,4 +14,6 @@ abstract class CustomerRepository {
   Future<void> delete(Customer customer);
   /// Remova TODOS os cliente
   Future<void> deleteAll();
+  /// Retorna a quantidade total de clientes no banco
+  Future<int> count();
 }
