@@ -10,43 +10,23 @@ class CustomerPageSkeleton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xFF0081F5),
-        foregroundColor: Colors.white,
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: Transform.scale(
-            scale: 0.5,
-            child: CircularProgressIndicator(
-              color: Colors.white,
-            ),
+    return Skeletonizer(
+      enabled: true,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: 10, left: 6),
+            child: Bone.button(
+              width: 250,
+              borderRadius: BorderRadius.circular(10),
+            )
           ),
-        ),
-        leading: IconButton(
-          onPressed: () {
-            context.goNamed(HomeRouter.home.name);
-          },
-          icon: Icon(Icons.arrow_back_ios_new, size: 22)
-        ),
-      ),
-      body: Skeletonizer(
-        enabled: true,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: 10, left: 6),
-              child: Bone.button(
-                width: 250,
-                borderRadius: BorderRadius.circular(10),
-              )
-            ),
-            Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                itemCount: 10,
-                itemBuilder: (context, index) {
+          Expanded(
+            child: ListView.builder(
+              padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+              itemCount: 10,
+              itemBuilder: (context, index) {
                 return Card(
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 8),
@@ -58,10 +38,9 @@ class CustomerPageSkeleton extends ConsumerWidget {
                   ),
                 );
               }),
-            ),
-          ],
-        )
-      ),
+          ),
+        ],
+      )
     );
   }
 }

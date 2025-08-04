@@ -266,4 +266,10 @@ class CustomerRepositoryImpl extends CustomerRepository{
     });
   }
 
+  @override
+  Future<int> count() {
+    final customerBox = store.box<CustomerModel>();
+    return Future.value(customerBox.count());
+  }
+
 }

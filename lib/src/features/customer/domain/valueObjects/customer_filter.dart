@@ -14,7 +14,6 @@ enum CustomerStatusFilter {
 @freezed
 abstract class CustomerFilter with _$CustomerFilter  {
   const factory CustomerFilter({
-    @Default(CustomerStatusFilter.all) CustomerStatusFilter status,
     String? customerCode,
     String? name,
     String? phone,

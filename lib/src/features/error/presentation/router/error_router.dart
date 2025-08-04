@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
-import 'package:sales_app/src/features/error_page/presentation/views/error_page.dart';
+import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
 
 enum ErrorRouter {
   error
