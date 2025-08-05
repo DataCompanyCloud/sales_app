@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/features/customer/providers.dart';
 
-class CustomerController extends AsyncNotifier<List<Customer>>{
+class CustomerController extends AutoDisposeAsyncNotifier<List<Customer>>{
 
   /// Primeiro busca no banco local
   /// se não encontrar nada busca da API

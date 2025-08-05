@@ -19,7 +19,7 @@ final customerRoutes = GoRoute(
   path: '/customer',
   name: CustomerRouter.customer.name,
   builder: (context, state) {
-    return CustomerPage(title: "Clientes");
+    return CustomerPage();
   },
   /*
   pageBuilder: (context, state) {

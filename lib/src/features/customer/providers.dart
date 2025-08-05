@@ -31,9 +31,9 @@ final customerServiceProvider = FutureProvider<CustomerService>((ref) async {
   return CustomerService(apiClient, repository);
 });
 
-final customerControllerProvider = AsyncNotifierProvider<CustomerController, List<Customer>> (() {
-  return CustomerController();
-});
+final customerControllerProvider = AutoDisposeAsyncNotifierProvider<CustomerController, List<Customer>>(
+  CustomerController.new,
+);
 
 final customerDetailsControllerProvider = AsyncNotifierProvider.autoDispose.family<CustomerDetailsController,Customer,int>(
   CustomerDetailsController.new,

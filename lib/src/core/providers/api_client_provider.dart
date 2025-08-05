@@ -5,8 +5,8 @@ import 'package:sales_app/src/core/api/dio_api_client.dart';
 
 final dioProvider = Provider<Dio>((ref) {
   final dio = Dio(BaseOptions(
-    baseUrl: 'http://192.168.254.122:3000',
-    connectTimeout: Duration(seconds: 10),
+    baseUrl: 'http://192.168.254.187:3000',
+    connectTimeout: Duration(seconds: 1),
     receiveTimeout: Duration(seconds: 10),
   ));
   return dio;

@@ -22,5 +22,29 @@ abstract class CustomerFilter with _$CustomerFilter  {
     @Default(0) int page,
     @Default(30) int limit
   }) = _CustomerFilter;
+
+  const CustomerFilter._();
+
+  /// Retorna true se **qualquer** um dos filtros obrigatórios estiver não-nulo e não-vazio
+  bool get hasActiveFilters {
+    return [
+      customerCode,
+      name,
+      phone,
+      document,
+      email,
+    ].any((s) => s?.isNotEmpty == true);
+  }
+
+  /// Quantos dos filtros (customerCode, name, phone, document, email) estão efetivamente preenchidos
+  int get activeFiltersCount {
+    return [
+      customerCode,
+      name,
+      phone,
+      document,
+      email,
+    ].where((s) => s?.isNotEmpty == true).length;
+  }
 }
 
