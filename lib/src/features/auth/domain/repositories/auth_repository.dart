@@ -1,4 +1,4 @@
-import 'package:sales_app/src/features/auth/domain/entites/user.dart';
+import 'package:sales_app/src/features/auth/domain/entities/user.dart';
 
 abstract class AuthRepository {
   /// Buscar um usuário

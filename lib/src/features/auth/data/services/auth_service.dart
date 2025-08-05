@@ -1,6 +1,6 @@
 import 'package:sales_app/src/core/api/api_client.dart';
 import 'package:sales_app/src/core/api/endpoints/api_endpoints.dart';
-import 'package:sales_app/src/features/auth/domain/entites/user.dart';
+import 'package:sales_app/src/features/auth/domain/entities/user.dart';
 
 class AuthService {
   final ApiClient apiClient;

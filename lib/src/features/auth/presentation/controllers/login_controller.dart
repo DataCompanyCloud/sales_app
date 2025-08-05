@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 
 class LoginViewModel extends ChangeNotifier {
@@ -5,6 +6,7 @@ class LoginViewModel extends ChangeNotifier {
   final TextEditingController passwordController = TextEditingController(text: "");
 
   bool isVisible = true;
+  bool isSelected = false;
   bool invalidEmail = false;
   bool invalidPassword = false;
 
@@ -45,4 +47,10 @@ class LoginViewModel extends ChangeNotifier {
     isVisible = !isVisible;
     notifyListeners();
   }
+
+  void toggleRemember() {
+    isSelected = !isSelected;
+    notifyListeners();
+  }
 }
+*/

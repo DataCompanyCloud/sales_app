@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sales_app/src/features/auth/domain/entites/user.dart';
+import 'package:sales_app/src/features/auth/domain/entities/user.dart';
 import 'package:sales_app/src/features/auth/providers.dart';
 
 class AuthController extends AsyncNotifier<User?> {

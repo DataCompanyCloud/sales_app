@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:sales_app/src/features/auth/domain/entites/user.dart';
+import 'package:sales_app/src/features/auth/domain/entities/user.dart';
 import 'package:sales_app/src/features/auth/domain/repositories/auth_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -11,7 +11,6 @@ import 'package:sales_app/src/features/customer/presentation/widgets/cards/perso
 import 'package:sales_app/src/features/customer/presentation/widgets/draggable/draggable_customer_filter.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/skeleton/customer_page_skeleton.dart';
 import 'package:sales_app/src/features/customer/providers.dart';
-import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_screen.dart';
 import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/navigator/navigator_bar.dart';
