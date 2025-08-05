@@ -20,11 +20,6 @@ class LoginPage extends ConsumerWidget {
     final authState = ref.watch(authControllerProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xFF0081F5),
-        foregroundColor: Colors.white,
-        title: Text(title),
-      ),
       body: SizedBox(
         width: double.infinity,
         height: double.infinity,
@@ -126,8 +121,8 @@ class LoginPage extends ConsumerWidget {
               Padding(padding: EdgeInsets.only(top: 22)),
               ElevatedButton(
                 onPressed: () {
-                  // if ()
-                  // context.goNamed(AppRoutes.sync.name);
+                  if (authState.isLoading) return;
+
                   authController.login('lucas', '123');
                 },
                 style: ElevatedButton.styleFrom(
@@ -136,11 +131,11 @@ class LoginPage extends ConsumerWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0)
                   ),
-                  backgroundColor: Color(0xFF0081F5),
+                  backgroundColor: authState.isLoading ? Colors.grey : Color(0xFF0081F5),
                   foregroundColor: Colors.white
                 ),
                 child: Text(
-                  "Login",
+                  authState.isLoading ? "Carregando" : "Login",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16

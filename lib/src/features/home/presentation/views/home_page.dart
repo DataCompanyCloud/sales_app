@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/router/app_router.dart';
-import 'package:sales_app/src/features/error_page/presentation/router/error_router.dart';
+import 'package:sales_app/src/features/error/presentation/router/error_router.dart';
 import 'package:sales_app/src/features/home/presentation/controllers/home_providers.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/navigator/navigator_bar.dart';
 
@@ -215,147 +215,149 @@ class HomePage extends ConsumerWidget {
           )
         )
       ),
-      body: Padding(
-        padding: EdgeInsets.all(12.0),
-        child: Column(
-          children: [
-            Card(
-              color: colorScheme.surface,
-              elevation: 3,
-              margin: EdgeInsets.all(2),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 12),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 16.0),
-                      child: Text(
-                        "Meu Aplicativo",
-                        style: TextStyle(
-                          fontSize: 20,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(12.0),
+          child: Column(
+            children: [
+              Card(
+                color: colorScheme.surface,
+                elevation: 3,
+                margin: EdgeInsets.all(2),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 12),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 16.0),
+                        child: Text(
+                          "Meu Aplicativo",
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(padding: EdgeInsets.only(top: 12)),
-                  ListTile(
-                    visualDensity: VisualDensity(vertical: 3),
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.grey.shade100,
-                      child: Icon(Icons.format_list_bulleted, color: Colors.black87),
-                    ),
-                    title: Text("Lista de Pedidos"),
-                    trailing: Icon(Icons.chevron_right),
-                    onTap: () {
-
-                    },
-                  ),
-                  ListTile(
-                    visualDensity: VisualDensity(vertical: 3),
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.grey.shade100,
-                      child: Icon(Icons.analytics_outlined, color: Colors.black87),
-                    ),
-                    title: Text("Detalhes de Pedido"),
-                    trailing: Icon(Icons.chevron_right),
-                    onTap: () {
-                      context.pushNamed(
-                        ErrorRouter.error.name,
-                        extra: AppException.errorUnexpected("Algo deu errado"),
-                      );
-                    },
-                  ),
-                  ListTile(
-                    visualDensity: VisualDensity(vertical: 3),
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.grey.shade100,
-                      child: Icon(Icons.history, color: Colors.black87),
-                    ),
-                    title: Text("Histórico de Pedido"),
-                    trailing: Icon(Icons.chevron_right),
-                    onTap: () {
-
-                    },
-                  ),
-                  ListTile(
-                    visualDensity: VisualDensity(vertical: 3),
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.grey.shade100,
-                      child: Icon(Icons.support_agent_outlined, color: Colors.black87),
-                    ),
-                    title: Text("Suporte"),
-                    trailing: Icon(Icons.chevron_right),
-                    onTap: () {
-
-                    },
-                  ),
-                ],
-              ),
-            ),
-            Padding(padding: EdgeInsets.only(top: 12)),
-            Card(
-              color: colorScheme.surface,
-              elevation: 3,
-              margin: EdgeInsets.all(2),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 12),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 16.0),
-                      child: Text(
-                        "Informações",
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
+                    Padding(padding: EdgeInsets.only(top: 12)),
+                    ListTile(
+                      visualDensity: VisualDensity(vertical: 3),
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.grey.shade100,
+                        child: Icon(Icons.format_list_bulleted, color: Colors.black87),
                       ),
-                    )
-                  ),
-                  Padding(padding: EdgeInsets.only(top: 12)),
-                  ListTile(
-                    visualDensity: VisualDensity(vertical: 3),
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.grey.shade100,
-                      child: Icon(Icons.search, color: Colors.black87),
+                      title: Text("Lista de Pedidos"),
+                      trailing: Icon(Icons.chevron_right),
+                      onTap: () {
+        
+                      },
                     ),
-                    title: Text("Pesquisa"),
-                    trailing: Icon(Icons.chevron_right),
-                    onTap: () {
-
-                    },
-                  ),
-                  ListTile(
-                    visualDensity: VisualDensity(vertical: 3),
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.grey.shade100,
-                      child: Icon(Icons.star_border_outlined, color: Colors.black87),
+                    ListTile(
+                      visualDensity: VisualDensity(vertical: 3),
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.grey.shade100,
+                        child: Icon(Icons.analytics_outlined, color: Colors.black87),
+                      ),
+                      title: Text("Detalhes de Pedido"),
+                      trailing: Icon(Icons.chevron_right),
+                      onTap: () {
+                        context.pushNamed(
+                          ErrorRouter.error.name,
+                          extra: AppException.errorUnexpected("Algo deu errado"),
+                        );
+                      },
                     ),
-                    title: Text("Favoritos"),
-                    trailing: Icon(Icons.chevron_right),
-                    onTap: () {
-
-                    },
-                  ),
-                  ListTile(
-                    visualDensity: VisualDensity(vertical: 3),
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.grey.shade100,
-                      child: Icon(Icons.cookie_outlined, color: Colors.black87),
+                    ListTile(
+                      visualDensity: VisualDensity(vertical: 3),
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.grey.shade100,
+                        child: Icon(Icons.history, color: Colors.black87),
+                      ),
+                      title: Text("Histórico de Pedido"),
+                      trailing: Icon(Icons.chevron_right),
+                      onTap: () {
+        
+                      },
                     ),
-                    title: Text("Cookies"),
-                    trailing: Icon(Icons.chevron_right),
-                    onTap: () {
-
-                    },
-                  ),
-                ],
+                    ListTile(
+                      visualDensity: VisualDensity(vertical: 3),
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.grey.shade100,
+                        child: Icon(Icons.support_agent_outlined, color: Colors.black87),
+                      ),
+                      title: Text("Suporte"),
+                      trailing: Icon(Icons.chevron_right),
+                      onTap: () {
+        
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+              Padding(padding: EdgeInsets.only(top: 12)),
+              Card(
+                color: colorScheme.surface,
+                elevation: 3,
+                margin: EdgeInsets.all(2),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 12),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 16.0),
+                        child: Text(
+                          "Informações",
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                      )
+                    ),
+                    Padding(padding: EdgeInsets.only(top: 12)),
+                    ListTile(
+                      visualDensity: VisualDensity(vertical: 3),
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.grey.shade100,
+                        child: Icon(Icons.search, color: Colors.black87),
+                      ),
+                      title: Text("Pesquisa"),
+                      trailing: Icon(Icons.chevron_right),
+                      onTap: () {
+        
+                      },
+                    ),
+                    ListTile(
+                      visualDensity: VisualDensity(vertical: 3),
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.grey.shade100,
+                        child: Icon(Icons.star_border_outlined, color: Colors.black87),
+                      ),
+                      title: Text("Favoritos"),
+                      trailing: Icon(Icons.chevron_right),
+                      onTap: () {
+        
+                      },
+                    ),
+                    ListTile(
+                      visualDensity: VisualDensity(vertical: 3),
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.grey.shade100,
+                        child: Icon(Icons.cookie_outlined, color: Colors.black87),
+                      ),
+                      title: Text("Cookies"),
+                      trailing: Icon(Icons.chevron_right),
+                      onTap: () {
+        
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(currentIndex: currentIndex),

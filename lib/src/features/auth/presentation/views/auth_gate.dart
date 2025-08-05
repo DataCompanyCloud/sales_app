@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/router/app_router.dart';
 import 'package:sales_app/src/features/auth/providers.dart';
-import 'package:sales_app/src/features/error_page/presentation/views/error_page.dart';
+import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
 import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
 
 class AuthGate extends ConsumerWidget {
@@ -21,7 +21,12 @@ class AuthGate extends ConsumerWidget {
           : AppException.errorUnexpected(error.toString()),
       ),
       loading: () => const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+        body: Column(
+          children: [
+            Center(child: CircularProgressIndicator(color: Colors.red,)),
+            Text("Carregando")
+          ],
+        ),
       ),
       data: (user) {
         // Se não estiver logado, vai para /login

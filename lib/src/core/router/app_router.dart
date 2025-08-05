@@ -8,7 +8,7 @@ import 'package:sales_app/src/features/auth/presentation/views/sign_up_page.dart
 import 'package:sales_app/src/features/auth/presentation/views/sync_page.dart';
 import 'package:sales_app/src/features/auth/providers.dart';
 import 'package:sales_app/src/features/customer/presentation/router/customer_router.dart';
-import 'package:sales_app/src/features/error_page/presentation/router/error_router.dart';
+import 'package:sales_app/src/features/error/presentation/router/error_router.dart';
 import 'package:sales_app/src/features/forgot_password/presentation/views/forgot_password_page.dart';
 import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
 import 'package:sales_app/src/features/order/presentation/router/order_router.dart';

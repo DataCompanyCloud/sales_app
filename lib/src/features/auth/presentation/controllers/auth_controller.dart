@@ -24,7 +24,7 @@ class AuthController extends AsyncNotifier<User?> {
       final user = await service.login(login, password);
 
       final repo = ref.read(authRepositoryProvider);
-      // await repo.save(user);
+      await repo.save(user);
       state = AsyncData(user);
     } catch (e, st) {
       state = AsyncError(e, st);
