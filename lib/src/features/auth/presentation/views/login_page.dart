@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/router/app_router.dart';
 import 'package:sales_app/src/features/auth/providers.dart';
-import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
 
 class LoginPage extends ConsumerWidget {
   final String title;

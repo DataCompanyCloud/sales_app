@@ -5,13 +5,15 @@ import 'package:sales_app/src/features/customer/presentation/views/create_custom
 import 'package:sales_app/src/features/customer/presentation/views/create_person_customer_page.dart';
 import 'package:sales_app/src/features/customer/presentation/views/customer_details.dart';
 import 'package:sales_app/src/features/customer/presentation/views/customer_page.dart';
+import 'package:sales_app/src/features/customer/presentation/views/insert_customer_cnpj.dart';
 
 enum CustomerRouter {
   customer,
   customerDetails,
   createCustomer,
   createPersonCustomer,
-  createCompanyCustomer
+  createCompanyCustomer,
+  insertCustomerCnpj
 }
 
 final previousTabIndexProvider = StateProvider<int>((ref) => 3);
@@ -71,11 +73,20 @@ final customerRoutes = GoRoute(
           },
         ),
         GoRoute(
-          path: 'create_company_customer',
-          name: CustomerRouter.createCompanyCustomer.name,
+          path: 'insert_customer_cnpj',
+          name: CustomerRouter.insertCustomerCnpj.name,
           builder: (context, state) {
-            return CreateCompanyCustomer(title: "Adicionar Cliente - Empresa");
+            return InsertCustomerCnpj(title: "Adicionar Cliente - Empresa");
           },
+          routes: [
+            GoRoute(
+              path: 'create_company_customer',
+              name: CustomerRouter.createCompanyCustomer.name,
+              builder: (context, state) {
+                return CreateCompanyCustomer(title: "Adicionar Cliente - Empresa");
+              },
+            )
+          ]
         ),
       ]
     ),

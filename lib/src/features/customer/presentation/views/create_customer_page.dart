@@ -63,7 +63,7 @@ class CreateCustomer extends ConsumerWidget {
                       height: 180,
                       child: ElevatedButton(
                         onPressed: () {
-                          context.goNamed(CustomerRouter.createCompanyCustomer.name);
+                          context.goNamed(CustomerRouter.insertCustomerCnpj.name);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFF0081F5),
