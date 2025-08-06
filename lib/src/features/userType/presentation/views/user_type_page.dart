@@ -7,11 +7,11 @@ class UserTypePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    /// TODO Terminar a página de tipo de usuário
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(top: 72),
+      body: SizedBox(
+        width: double.infinity,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -25,8 +25,26 @@ class UserTypePage extends ConsumerWidget {
                 ),
               ],
             ),
-            Text("Conecte-se"),
-            Text("Descrição"),
+            Padding(
+              padding: const EdgeInsets.only(top: 28, bottom: 12),
+              child: Text(
+                "Conecte-se",
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF0081F5)
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 58),
+              child: Text(
+                "Já é um cliente DataCompany?",
+                style: TextStyle(
+                  fontSize: 16
+                ),
+              ),
+            ),
             SizedBox(
               width: 200,
               height: 52,
@@ -39,14 +57,40 @@ class UserTypePage extends ConsumerWidget {
                   backgroundColor: Color(0xFF0081F5),
                   foregroundColor: Colors.white
                 ),
-                child: Text("Login")
+                child: Text(
+                  "Login",
+                  style: TextStyle(
+                    fontSize: 16
+                  ),
+                )
               ),
             ),
-            Divider(
-              thickness: 1,
-              color: Colors.grey,
-              indent: 32,
-              endIndent: 32,
+            Padding(
+              padding: const EdgeInsets.only(top: 32, bottom: 32),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Divider(
+                      color: Colors.grey,
+                      thickness: 1,
+                      indent: 32,
+                      endIndent: 12,
+                    )
+                  ),
+                  Text(
+                    "Ou",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  Expanded(
+                    child: Divider(
+                      color: Colors.grey,
+                      thickness: 1,
+                      indent: 12,
+                      endIndent: 32,
+                    )
+                  ),
+                ],
+              ),
             ),
             SizedBox(
               width: 200,
@@ -62,10 +106,13 @@ class UserTypePage extends ConsumerWidget {
                 ),
                 icon: Icon(Icons.circle, color: Colors.white),
                 label: Text(
-                  "Google"
+                  "Google",
+                  style: TextStyle(
+                    fontSize: 16
+                  ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
