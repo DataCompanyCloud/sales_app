@@ -83,7 +83,7 @@ final customerRoutes = GoRoute(
               path: 'create_company_customer',
               name: CustomerRouter.createCompanyCustomer.name,
               builder: (context, state) {
-                return CreateCompanyCustomer(title: "Adicionar Cliente - Empresa");
+                return CreateCompanyCustomerPage();
               },
             )
           ]

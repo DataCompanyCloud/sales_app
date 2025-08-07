@@ -28,12 +28,12 @@ abstract class Customer with _$Customer {
   const factory Customer.company({
     required int customerId,
     required String? customerCode,
-    required String? legalName,
-    required String? tradeName,
-    CNPJ? cnpj,
-    Email? email,
-    List<Phone>? phones,
-    Address? address,
+    required String? legalName, // 1
+    required String? tradeName, // 1
+    CNPJ? cnpj, // 1
+    Email? email, // 3
+    List<Phone>? phones, // 3
+    Address? address, // 2
     required bool isActive,
     @Default(false)
     bool isSynced

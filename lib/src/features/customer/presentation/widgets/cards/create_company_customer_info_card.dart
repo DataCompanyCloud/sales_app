@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CreateCompanyCustomerInfoCard extends ConsumerWidget {
+class CreateCompanyCustomerInfoCard extends ConsumerStatefulWidget {
 
-  const CreateCompanyCustomerInfoCard ({
+  const CreateCompanyCustomerInfoCard({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => CreateCompanyCustomerState();
+}
+
+class CreateCompanyCustomerState extends ConsumerState<CreateCompanyCustomerInfoCard>{
+  final realNameController = TextEditingController();
+
+  /// TODO: Finalizar as lógicas dos controllers em addClientes
+  // void isComplete() {
+  //   realNameController.addListener(_validate);
+  // }
+
+  @override
+  Widget build(BuildContext context) {
     // final theme = Theme.of(context);
     // final colorScheme = theme.colorScheme;
 
@@ -31,6 +43,7 @@ class CreateCompanyCustomerInfoCard extends ConsumerWidget {
           Padding(
             padding: EdgeInsets.all(0),
             child: TextField(
+              controller: realNameController,
               onTapOutside: (event) {
                 FocusManager.instance.primaryFocus?.unfocus();
               },

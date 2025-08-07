@@ -13,6 +13,9 @@ class InsertCustomerCnpj extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -28,22 +31,33 @@ class InsertCustomerCnpj extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 24, bottom: 4),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Informe o CNPJ:",
-                  style: TextStyle(
-                    fontSize: 16
-                  ),
-                )
+              padding: const EdgeInsets.only(bottom: 32),
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: colorScheme.onSurface
+                    ),
+                  children: [
+                    TextSpan(text: "Informe o "),
+                    TextSpan(
+                      text: "CNPJ",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue,
+                      )
+                    ),
+                    TextSpan(text: " da empresa para que possamos \npreencher os dados cadastrais automaticamente.")
+                  ]
+                ),
               ),
             ),
             Row(
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.only(left: 12, right: 12),
+                    padding: EdgeInsets.only(left: 80, right: 80),
                     child: TextField(
                       keyboardType: TextInputType.number,
                       onTapOutside: (event) {
@@ -66,60 +80,41 @@ class InsertCustomerCnpj extends ConsumerWidget {
                     ),
                   ),
                 ),
-                /*
-                Padding(
-                  padding: EdgeInsets.only(right: 12),
-                  child: SizedBox(
-                    width: 80,
-                    height: 40,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF0081F5)
-                      ),
-                      child: Icon(
-                        Icons.send,
-                        size: 24,
-                        color: Colors.white,
-                      )
-                    ),
-                  ),
-                ),
-                */
               ],
             ),
             Padding(
               padding: EdgeInsets.only(top: 16),
               child: SizedBox(
-                width: double.infinity,
+                width: 320,
                 height: 48,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 28, right: 28),
                   child: ElevatedButton(
                     onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF0081F5)
-                      ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF0081F5)
+                    ),
                     child: Text(
                       "Continuar",
                       style: TextStyle(
                         fontSize: 16,
+                        fontWeight: FontWeight.bold,
                         color: Colors.white
                       ),
-                    )
+                    ),
                   ),
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 32, bottom: 16),
+              padding: const EdgeInsets.only(top: 64, bottom: 16),
               child: Row(
                 children: [
                   Expanded(
                     child: Divider(
                       color: Colors.grey,
                       thickness: 1,
-                      indent: 32,
+                      indent: 80,
                       endIndent: 12,
                     )
                   ),
@@ -132,7 +127,7 @@ class InsertCustomerCnpj extends ConsumerWidget {
                       color: Colors.grey,
                       thickness: 1,
                       indent: 12,
-                      endIndent: 32,
+                      endIndent: 80,
                     )
                   ),
                 ],

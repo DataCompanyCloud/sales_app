@@ -42,17 +42,14 @@ class StepIndicator extends ConsumerWidget {
 
             final isCurrent = currentStep == stepIndex;
             final isCompleted = currentStep > stepIndex;
-            final isClickable = stepIndex <= currentStep;
 
             return GestureDetector(
-              onTap: isClickable
-              ? () {
+              onTap: () {
                 onStepTapped(stepIndex);
-              }
-              : null,
+              },
               child: Container(
-                width: 40,
-                height: 40,
+                width: isCurrent ? 50 : 40,
+                height: isCurrent ? 50 : 40,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: isCurrent || isCompleted ? Color(0xFF0F4D86) : Colors.grey,
