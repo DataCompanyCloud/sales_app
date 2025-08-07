@@ -102,157 +102,163 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
           ),
         ],
       ),
-      body: Column(
-        children: [
-          AnimatedSize(
-            //vsync: vsync,
-            duration: Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-            child: isSearchOpen
-                ? Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 8,
-              ),
-              child: TextField(
-                controller: _searchController,
-                autofocus: true,
-                decoration: InputDecoration(
-                  hintText: 'Pesquisar...',
-                  prefixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          if (controller.isLoading) return;
+          ref.refresh(customerControllerProvider);
+        },
+        child: Column(
+          children: [
+            AnimatedSize(
+              //vsync: vsync,
+              duration: Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+              child: isSearchOpen
+                  ? Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
                 ),
-                onChanged: (value) {
-                  // atualiza o provider com o texto atual
-                  ref.read(searchQueryProvider.notifier).state = value;
-                },
-                onSubmitted: (query) {
-                  ref.read(customerFilterProvider.notifier).state = CustomerFilter(
-                    name: _searchController.text
-                  );
-                },
-              ),
-            ) : SizedBox.shrink(),
-          ),
-          Expanded(
-            child: controller.when(
-              error: (error, stack) => ErrorScreen(
-                exception: error is AppException
+                child: TextField(
+                  controller: _searchController,
+                  autofocus: true,
+                  decoration: InputDecoration(
+                    hintText: 'Pesquisar...',
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  onChanged: (value) {
+                    // atualiza o provider com o texto atual
+                    ref.read(searchQueryProvider.notifier).state = value;
+                  },
+                  onSubmitted: (query) {
+                    ref.read(customerFilterProvider.notifier).state = CustomerFilter(
+                      name: _searchController.text
+                    );
+                  },
+                ),
+              ) : SizedBox.shrink(),
+            ),
+            Expanded(
+              child: controller.when(
+                error: (error, stack) => ErrorScreen(
+                  exception: error is AppException
                     ? error
                     : AppException.errorUnexpected(error.toString()),
-              ),
-              loading: () =>  CustomerPageSkeleton(),
-              data: (customers) {
-                if(customers.isEmpty) {
-                  return Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.cloud_rounded,
-                          size: 96,
-                        ),
-                        Padding(padding: EdgeInsets.only(top: 12)),
-                        Text("Nenhum cliente para ser mostrado"),
-                        Padding(padding: EdgeInsets.only(top: 16)),
-                        InkWell(
-                          onTap: () => ref.refresh(customerControllerProvider.future),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("Tentar novamente"),
+                ),
+                loading: () =>  CustomerPageSkeleton(),
+                data: (customers) {
+                  if(customers.isEmpty) {
+                    return Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.cloud_rounded,
+                            size: 96,
+                          ),
+                          Padding(padding: EdgeInsets.only(top: 12)),
+                          Text("Nenhum cliente para ser mostrado"),
+                          Padding(padding: EdgeInsets.only(top: 16)),
+                          InkWell(
+                            onTap: () => ref.refresh(customerControllerProvider.future),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("Tentar novamente"),
+                            )
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+
+                  int countAll       = 0;
+                  int countActive    = 0;
+                  int countBlocked   = 0;
+                  int countSynced    = 0;
+                  int countNotSynced = 0;
+
+                  final customerFiltered = customers.where((customer) {
+                    // conta no “all”
+                    countAll++;
+
+                    // conta ativo vs bloqueado
+                    if (customer.isActive) {
+                      countActive++;
+                    } else {
+                      countBlocked++;
+                    }
+
+                    // conta sincronizado vs não sincronizado
+                    if (customer.isSynced) {
+                      countSynced++;
+                    } else {
+                      countNotSynced++;
+                    }
+
+                    if (status == CustomerStatusFilter.active) {
+                      return customer.isActive;
+                    }
+                    if (status == CustomerStatusFilter.blocked) {
+                      return !customer.isActive;
+                    }
+                    if (status == CustomerStatusFilter.synced) {
+                      return customer.isSynced;
+                    }
+                    if (status == CustomerStatusFilter.notSynced) {
+                      return !customer.isSynced;
+                    }
+                    // Se for "all", retorna todos
+                    return true;
+                  }).toList();
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      CustomerStatusButtons(
+                        countAll: countAll,
+                        countActive: countActive,
+                        countBlocked: countBlocked,
+                        countSynced: countSynced,
+                        countNotSynced: countNotSynced,
+                      ),
+
+                      Expanded(
+                          child: ListView.builder(
+                              padding: EdgeInsets.symmetric(horizontal: 4),
+                              itemCount: customerFiltered.length,
+                              itemBuilder: (context, index) {
+                                final customer = customerFiltered[index];
+                                return customer.maybeMap(
+                                    person: (person) => Padding(
+                                      padding: const EdgeInsets.only(bottom: 4),
+                                      child: InkWell(
+                                          onTap: () => context.pushNamed(CustomerRouter.customerDetails.name, extra: customer.customerId),
+                                          child: PersonCustomerCard(customer: person)
+                                      ),
+                                    ),
+                                    company: (company) => Padding(
+                                      padding: const EdgeInsets.only(bottom: 4),
+                                      child: InkWell(
+                                          onTap: () => context.pushNamed(CustomerRouter.customerDetails.name, extra: customer.customerId),
+                                          child: CompanyCustomerCard(customer: company)
+                                      ),
+                                    ),
+                                    orElse: () => SizedBox()
+                                );
+                              }
                           )
-                        ),
-                      ],
-                    ),
+                      )
+                    ],
                   );
                 }
-            
-                int countAll       = 0;
-                int countActive    = 0;
-                int countBlocked   = 0;
-                int countSynced    = 0;
-                int countNotSynced = 0;
-            
-                final customerFiltered = customers.where((customer) {
-                  // conta no “all”
-                  countAll++;
-            
-                  // conta ativo vs bloqueado
-                  if (customer.isActive) {
-                    countActive++;
-                  } else {
-                    countBlocked++;
-                  }
-            
-                  // conta sincronizado vs não sincronizado
-                  if (customer.isSynced) {
-                    countSynced++;
-                  } else {
-                    countNotSynced++;
-                  }
-            
-                  if (status == CustomerStatusFilter.active) {
-                    return customer.isActive;
-                  }
-                  if (status == CustomerStatusFilter.blocked) {
-                    return !customer.isActive;
-                  }
-                  if (status == CustomerStatusFilter.synced) {
-                    return customer.isSynced;
-                  }
-                  if (status == CustomerStatusFilter.notSynced) {
-                    return !customer.isSynced;
-                  }
-                  // Se for "all", retorna todos
-                  return true;
-                }).toList();
-            
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    CustomerStatusButtons(
-                      countAll: countAll,
-                      countActive: countActive,
-                      countBlocked: countBlocked,
-                      countSynced: countSynced,
-                      countNotSynced: countNotSynced,
-                    ),
-            
-                    Expanded(
-                        child: ListView.builder(
-                            padding: EdgeInsets.symmetric(horizontal: 4),
-                            itemCount: customerFiltered.length,
-                            itemBuilder: (context, index) {
-                              final customer = customerFiltered[index];
-                              return customer.maybeMap(
-                                  person: (person) => Padding(
-                                    padding: const EdgeInsets.only(bottom: 4),
-                                    child: InkWell(
-                                        onTap: () => context.pushNamed(CustomerRouter.customerDetails.name, extra: customer.customerId),
-                                        child: PersonCustomerCard(customer: person)
-                                    ),
-                                  ),
-                                  company: (company) => Padding(
-                                    padding: const EdgeInsets.only(bottom: 4),
-                                    child: InkWell(
-                                        onTap: () => context.pushNamed(CustomerRouter.customerDetails.name, extra: customer.customerId),
-                                        child: CompanyCustomerCard(customer: company)
-                                    ),
-                                  ),
-                                  orElse: () => SizedBox()
-                              );
-                            }
-                        )
-                    )
-                  ],
-                );
-              }
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xFF0081F5),

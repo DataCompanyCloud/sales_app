@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/router/app_router.dart';
+import 'package:sales_app/src/features/auth/presentation/controllers/sync_controller.dart';
 
 class SyncPage extends ConsumerWidget {
   final String title;
@@ -13,6 +14,8 @@ class SyncPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final progressCustomer = ref.watch(syncProgressCustomerProvider);
+    final processProducts = ref.watch(syncProgressProductsProvider);
 
     return Scaffold(
       body: Center(
@@ -81,24 +84,33 @@ class SyncPage extends ConsumerWidget {
                   color: Color(0xFF0081F5)
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 12),
+                  padding: const EdgeInsets.only(left: 12, right: 12),
                   child: Row(
                     children: [
                       Icon(
                         Icons.check_box,
                         color: Colors.white,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8),
-                        child: Text(
-                          "Clientes",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: Text(
+                            "Clientes",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white
+                            ),
                           ),
                         ),
                       ),
+                      Text(
+                        '${progressCustomer.round()} %',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -109,7 +121,12 @@ class SyncPage extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.goNamed(AppRoutes.home.name);
+          if (progressCustomer>= 100) {
+            context.goNamed(AppRoutes.home.name);
+            return;
+          }
+          ref.refresh(syncCustomerProvider);
+          // context.goNamed(AppRoutes.home.name);
         },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30)

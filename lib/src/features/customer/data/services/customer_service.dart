@@ -22,8 +22,8 @@ class CustomerService {
 
   Future<List<Customer>> getAll(CustomerFilter filter) async {
     final json = await apiClient.get<Map<String, dynamic>>(ApiEndpoints.customers, queryParameters: {
-      'start': 0,
-      'limit': 5000,
+      'start': filter.page,
+      'limit': filter.limit,
     });
 
     final data = json['data'] as List<dynamic>;

@@ -71,7 +71,7 @@ final goRouterProvider = Provider((ref) {
       ),
       GoRoute(
         path: '/login',
-        builder: (context, state) => LoginPage(title: "Login"),
+        builder: (context, state) => LoginPage(),
         name: AppRoutes.login.name,
         routes: [
           GoRoute(

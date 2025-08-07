@@ -13,6 +13,8 @@ class AuthService {
       'password': password,
     });
 
+    print(json);
+
     return User.fromJson(json);
   }
 }

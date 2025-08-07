@@ -1,29 +1,44 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/customer_filter.dart';
+import 'package:sales_app/src/features/customer/providers.dart';
 
-class SyncController extends ChangeNotifier {
-  int? isPressed = 0; // 0 = Recomendado, 1 = Tudo, 2 = Personalizado
-  final Set<String> selectedManualItems = {};
+final syncProgressCustomerProvider = StateProvider.autoDispose<double>((ref) => 0.0);
+final syncCustomerProvider = FutureProvider.autoDispose<void>((ref) async {
+  final repository = await ref.read(customerRepositoryProvider.future);
+  final service = await ref.read(customerServiceProvider.future);
 
-  void toggleOption(int optionIndex) {
-    isPressed = optionIndex;
-    if (optionIndex == 2) {
-      selectedManualItems.clear();
+  ref.read(syncProgressCustomerProvider.notifier).state = 0.0;
+  // 1) pega total real
+  final total = 5000;
+  const pageSize = 100;
+
+  // 2) itera em páginas
+  for (var offset = 0; offset < total; offset += pageSize) {
+    try {
+      final pageIndex = offset;
+      final batch = await service.getAll(
+        CustomerFilter(page: pageIndex, limit: pageSize),
+      );
+      print("$offset - ${offset + pageSize} = ${batch.length}");
+      if (batch.isEmpty) {
+        print("Cabou");
+        break;
+      }
+      await repository.saveAll(batch);
+
+      // opcional: atualiza progresso
+      final pct = ((offset + batch.length) / total) * 100;
+      ref.read(syncProgressCustomerProvider.notifier).state = pct;
+    } catch (e) {
+      print(e);
     }
 
-    notifyListeners();
   }
+});
 
-  void toggleManualItem(String item) {
-    if (selectedManualItems.contains(item)) {
-      selectedManualItems.remove(item);
-    } else {
-      selectedManualItems.add(item);
-    }
-
-    notifyListeners();
-  }
-
-  bool isManualItemSelected(String item) {
-    return selectedManualItems.contains(item);
-  }
-}
+final syncProgressProductsProvider = StateProvider.autoDispose<double>((ref) => 0.0);
+final syncProductsProvider = FutureProvider.autoDispose<void>((ref) async {
+  ref.read(syncProgressProductsProvider.notifier).state = 0.0;
+  await Future.delayed(Duration(seconds: 4));
+  ref.read(syncProgressProductsProvider.notifier).state = 100;
+});
