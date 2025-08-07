@@ -19,6 +19,18 @@ class AuthController extends AsyncNotifier<User?> {
     return null;
   }
 
+  Future<void> updateAuth(User user) async {
+    try {
+      state = AsyncLoading();
+      final repo = ref.read(authRepositoryProvider);
+      await repo.save(user);
+      state = AsyncData(user);
+    } catch (e, st) {
+      state = AsyncError(e, st);
+    }
+  }
+
+
   Future<void> login(String login, String password, bool rememberMe) async {
     state = const AsyncLoading();
 
@@ -26,15 +38,19 @@ class AuthController extends AsyncNotifier<User?> {
       final service = await ref.read(authServicesProvider.future);
       final user = await service.login(login, password);
 
+      final userLogged = user.copyWith(
+        rememberMe: rememberMe
+      );
+
       if (rememberMe) {
         final repo = ref.read(authRepositoryProvider);
-        await repo.save(user);
+        await repo.save(userLogged);
       }
 
-      state = AsyncData(user);
+      state = AsyncData(userLogged);
     } on DioException catch (e) {
       final status = e.response?.statusCode;
-      AppException exception = AppException(AppExceptionCode.CODE_012_AUTH_NETWORK_ERROR, e.toString());//"Falha ao fazer login");
+      AppException exception = AppException(AppExceptionCode.CODE_012_AUTH_NETWORK_ERROR, "Falha ao fazer login");
 
       if (status == 401) {
         exception = AppException(AppExceptionCode.CODE_007_AUTH_INVALID_CREDENTIALS, "Credênciais inválidas");

@@ -76,29 +76,9 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
           icon: Icon(Icons.arrow_back_ios_new, size: 22)
         ),
         actions: [
-          Row(
-            children: [
-              IconButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                    isScrollControlled: true,
-                    context: context,
-                    builder: (context) => DraggableCustomerFilter()
-                  );
-                },
-                icon: filterActives > 0
-                  ? Badge.count(
-                      count: filterActives,
-                      child: Icon(Icons.filter_alt),
-                    )
-                  : Icon(Icons.filter_alt)
-                ,
-              ),
-              IconButton(
-                onPressed: _toggleSearch,
-                icon: Icon(isSearchOpen ? Icons.close : Icons.search),
-              ),
-            ],
+          IconButton(
+            onPressed: _toggleSearch,
+            icon: Icon(isSearchOpen ? Icons.close : Icons.search),
           ),
         ],
       ),

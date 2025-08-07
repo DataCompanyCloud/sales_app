@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/router/app_router.dart';
-import 'package:sales_app/src/features/auth/presentation/controllers/sync_controller.dart';
+import 'package:sales_app/src/features/sync/presentation/controllers/sync_controller.dart';
 
 class SyncPage extends ConsumerWidget {
   final String title;
@@ -121,8 +121,12 @@ class SyncPage extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (progressCustomer>= 100) {
-            context.goNamed(AppRoutes.home.name);
+          context.goNamed(AppRoutes.home.name);
+          // final user = ref.read(authControllerProvider);
+          // ref.read(authControllerProvider.notifier).updateAuth(user.value!.copyWith(hasSynced: true));
+          return;
+          if (progressCustomer >= 100) {
+
             return;
           }
           ref.refresh(syncCustomerProvider);

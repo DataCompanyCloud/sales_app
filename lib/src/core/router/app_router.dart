@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/auth/domain/entities/user.dart';
 import 'package:sales_app/src/features/auth/presentation/views/auth_gate.dart';
 import 'package:sales_app/src/features/auth/presentation/views/login_page.dart';
-import 'package:sales_app/src/features/auth/presentation/views/sync_page.dart';
+import 'package:sales_app/src/features/sync/presentation/views/sync_page.dart';
 import 'package:sales_app/src/features/auth/providers.dart';
 import 'package:sales_app/src/features/customer/presentation/router/customer_router.dart';
 import 'package:sales_app/src/features/error/presentation/router/error_router.dart';
@@ -53,21 +53,25 @@ final goRouterProvider = Provider((ref) {
       final fullPath = state.fullPath ?? "";
       final goingToLogin = fullPath == '/login' || fullPath.startsWith('/login/');
 
-      // se não autenticado e não estiver indo pra /login, manda pra /login
       if (user == null && !goingToLogin) {
         return '/login';
       }
-      // se autenticado e estiver em /login, manda pra /home
+
       if (user != null && goingToLogin) {
         return '/home';
       }
-      // senão, continua onde está
+
       return null;
     },
     routes: [
       GoRoute(
         path: '/',
         builder: (ctx, state) => AuthGate(),
+      ),
+      GoRoute(
+        path: '/sync',
+        builder: (context, state) => SyncPage(title: "Bem-vindo ao SalesApp"),
+        name: AppRoutes.sync.name,
       ),
       GoRoute(
         path: '/login',
@@ -78,11 +82,6 @@ final goRouterProvider = Provider((ref) {
             path: 'password',
             builder: (context, state) => ForgotPasswordPage(title: "Esquecer senha"),
             name: AppRoutes.passwordRecovery.name,
-          ),
-          GoRoute(
-            path: 'sync',
-            builder: (context, state) => SyncPage(title: "Bem-vindo ao SalesApp"),
-            name: AppRoutes.sync.name,
           ),
           GoRoute(
             path: '/userType',

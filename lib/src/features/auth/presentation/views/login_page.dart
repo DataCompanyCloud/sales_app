@@ -26,8 +26,8 @@ class LoginPageState extends ConsumerState<LoginPage> {
   @override
   void initState() {
     super.initState();
-    _loginController = TextEditingController();
-    _passwordController = TextEditingController();
+    _loginController = TextEditingController(text: "lucas");
+    _passwordController = TextEditingController(text: "123");
   }
 
   @override
@@ -82,7 +82,6 @@ class LoginPageState extends ConsumerState<LoginPage> {
                     ),
                   ),
                   SizedBox(height: 48,),
-                  Text(loginError ?? ""),
                   TextField(
                     controller: _loginController,
                     decoration: InputDecoration(
