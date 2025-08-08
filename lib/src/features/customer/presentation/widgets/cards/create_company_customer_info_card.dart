@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class CreateCompanyCustomerInfoCard extends ConsumerStatefulWidget {
 
   const CreateCompanyCustomerInfoCard({
-    super.key,
+    super.key
   });
 
   @override
@@ -13,11 +13,28 @@ class CreateCompanyCustomerInfoCard extends ConsumerStatefulWidget {
 
 class CreateCompanyCustomerState extends ConsumerState<CreateCompanyCustomerInfoCard>{
   final realNameController = TextEditingController();
+  final cnpjController = TextEditingController();
+  bool isComplete = false;
 
   /// TODO: Finalizar as lógicas dos controllers em addClientes
-  // void isComplete() {
-  //   realNameController.addListener(_validate);
-  // }
+  @override
+  void initState() {
+    super.initState();
+    realNameController.addListener(_validate);
+  }
+
+  void _validate() {
+    final text = realNameController.text.trim();
+    isComplete = text.isNotEmpty;
+  }
+
+  @override
+  void dispose() {
+    realNameController.dispose();
+    super.dispose();
+  }
+
+  TextEditingController get textController => realNameController;
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +107,7 @@ class CreateCompanyCustomerState extends ConsumerState<CreateCompanyCustomerInfo
           Padding(
             padding: EdgeInsets.only(top: 12),
             child: TextField(
+              controller: cnpjController,
               keyboardType: TextInputType.number,
               onTapOutside: (event) {
                 FocusManager.instance.primaryFocus?.unfocus();
