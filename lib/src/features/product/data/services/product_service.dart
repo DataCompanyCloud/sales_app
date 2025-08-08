@@ -144,8 +144,8 @@ List<Product> createProductFaker(int quantity) {
       ,
       price: double.parse(
         faker.randomGenerator.boolean()
-          ? faker.randomGenerator.decimal(min: 60, scale: 3).toStringAsFixed(2)
-          : faker.randomGenerator.decimal(min: 6, scale: 3).toStringAsFixed(2)
+          ? faker.randomGenerator.decimal(min: 100, scale: 3).toStringAsFixed(2)
+          : faker.randomGenerator.decimal(min: 10, scale: 3).toStringAsFixed(2)
       ),
       unit: createUnit(),
       images: createImages(),

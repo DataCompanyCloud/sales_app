@@ -14,6 +14,7 @@ class DraggableLayoutProduct extends ConsumerWidget {
 
     return DraggableScrollableSheet(
       expand: false,
+      initialChildSize: 0.8,
       builder: (context, scrollController) {
         return SingleChildScrollView(
           controller: scrollController,

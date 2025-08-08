@@ -16,42 +16,39 @@ class GridViewColumn2Skeleton extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: Color(0xFF0081F5),
         foregroundColor: Colors.white,
-        title: Text("Catálogo de Produtos"),
+        title: Text("Produtos"),
         leading: IconButton(
           onPressed: () {
             context.goNamed(HomeRouter.home.name);
           },
           icon: Icon(Icons.arrow_back_ios_new, size: 22)
         ),
+        actions: [
+          Skeletonizer(
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: Bone.iconButton(size: 40),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: Bone.iconButton(size: 40),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8, right: 6),
+                  child: Bone.iconButton(size: 40),
+                )
+              ],
+            )
+          )
+        ],
       ),
       body: Skeletonizer(
         enabled: true,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Padding(
-              padding: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 12),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(
-                    width: 90,
-                    height: 45,
-                    child: Bone.button(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  SizedBox(width: 6),
-                  SizedBox(
-                    width: 90,
-                    height: 45,
-                    child: Bone.button(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
             Expanded(
               child: Skeletonizer(
                 enabled: true,

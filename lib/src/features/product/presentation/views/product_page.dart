@@ -41,21 +41,29 @@ class ProductPage extends ConsumerWidget {
           appBar: AppBar(
             title: Text(title),
             leading: IconButton(
-                onPressed: () {
-                  context.goNamed(HomeRouter.home.name);
-                },
-                icon: Icon(Icons.arrow_back_ios_new, size: 22)
+              onPressed: () {
+                context.goNamed(HomeRouter.home.name);
+              },
+              icon: Icon(Icons.arrow_back_ios_new, size: 22)
             ),
             actions: [
-              Padding(
-                padding: EdgeInsets.only(right: 4),
-                child: IconButton(
-                    onPressed: () {
-
-                    },
-                    icon: Icon(Icons.sync)
-                ),
-              )
+              IconButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) => DraggableLayoutProduct()
+                  );
+                },
+                icon: Icon(Icons.remove_red_eye)
+              ),
+              IconButton(
+                onPressed: () {}, 
+                icon: Icon(Icons.filter_alt)
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.search)
+              ),
             ],
             backgroundColor: Color(0xFF0081F5),
             foregroundColor: Colors.white,
@@ -65,53 +73,53 @@ class ProductPage extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 12),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(
-                        width: 90,
-                        height: 45,
-                        child: ElevatedButton(
-                          onPressed: () {
-
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF0081F5),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          child: Icon(Icons.filter_alt, color: Colors.white, size: 22)
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 6),
-                        child: SizedBox(
-                          width: 90,
-                          height: 45,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              showModalBottomSheet(
-                                isScrollControlled: true,
-                                context: context,
-                                builder: (context) => DraggableLayoutProduct()
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF0081F5),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            child: Icon(Icons.remove_red_eye, color: Colors.white, size: 22)
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 12),
+                //   child: Row(
+                //     mainAxisSize: MainAxisSize.min,
+                //     children: [
+                //       SizedBox(
+                //         width: 90,
+                //         height: 45,
+                //         child: ElevatedButton(
+                //           onPressed: () {
+                //
+                //           },
+                //           style: ElevatedButton.styleFrom(
+                //             backgroundColor: Color(0xFF0081F5),
+                //             shape: RoundedRectangleBorder(
+                //               borderRadius: BorderRadius.circular(10),
+                //             ),
+                //           ),
+                //           child: Icon(Icons.filter_alt, color: Colors.white, size: 22)
+                //         ),
+                //       ),
+                //       Padding(
+                //         padding: EdgeInsets.only(left: 6),
+                //         child: SizedBox(
+                //           width: 90,
+                //           height: 45,
+                //           child: ElevatedButton(
+                //             onPressed: () {
+                //               showModalBottomSheet(
+                //                 isScrollControlled: true,
+                //                 context: context,
+                //                 builder: (context) => DraggableLayoutProduct()
+                //               );
+                //             },
+                //             style: ElevatedButton.styleFrom(
+                //               backgroundColor: Color(0xFF0081F5),
+                //               shape: RoundedRectangleBorder(
+                //                 borderRadius: BorderRadius.circular(10),
+                //               ),
+                //             ),
+                //             child: Icon(Icons.remove_red_eye, color: Colors.white, size: 22)
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 Expanded(
                   child: switch(viewModelProvider.layoutProduct) {
                     LayoutProduct.listSmallCard => ListViewColumnSmall(products: viewModelProvider.products),
