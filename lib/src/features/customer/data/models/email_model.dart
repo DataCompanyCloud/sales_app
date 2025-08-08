@@ -6,7 +6,6 @@ class EmailModel {
   @Id()
   int id;
 
-  @Unique()
   String value;
 
   EmailModel ({

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sales_app/src/features/customer/domain/valueObjects/customer_filter.dart';
 import 'package:sales_app/src/features/customer/providers.dart';
 
 class CustomerStatusButtons extends ConsumerWidget {
@@ -64,9 +63,7 @@ class CustomerStatusButtons extends ConsumerWidget {
 
             return FilledButton(
               onPressed: () {
-                ref
-                    .read(customerStatusFilterProvider.notifier)
-                    .state = opt.status;
+                ref.read(customerStatusFilterProvider.notifier).state = opt.status;
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor:

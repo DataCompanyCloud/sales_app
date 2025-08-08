@@ -6,7 +6,6 @@ class PhoneModel {
   @Id()
   int id;
 
-  @Unique()
   String value;
 
   PhoneModel ({

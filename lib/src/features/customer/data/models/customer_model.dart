@@ -8,16 +8,17 @@ import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 
 @Entity()
 class CustomerModel {
-  /// companyId
-  @Id(assignable: true)
-  int id;
+  /// customerId
+  @Id()
+  int id;                  // local
+  String customerUuId;     // obrigatório, gerado no app
+  int? serverId;        // nulo até sincronizar
 
   String? customerCode;
   String? fullName;
   String? legalName;
   String? tradeName;
   bool isActive;
-  bool isSynced;
 
   final address = ToOne<AddressModel>();
   final email = ToOne<EmailModel>();
@@ -27,9 +28,10 @@ class CustomerModel {
   final cnpj = ToOne<CNPJModel>();
 
   CustomerModel({
-    this.id = 0,
+    required this.id,
+    required this.customerUuId,
+    this.serverId,
     this.isActive = true,
-    this.isSynced = false,
     this.customerCode,
     this.fullName,
     this.legalName,
@@ -47,20 +49,23 @@ extension CustomerModelMapper on CustomerModel {
     if (cpf.target != null && cnpj.target == null) {
       return Customer.person(
         customerId: id,
+        customerUuId: customerUuId,
+        serverId: serverId,
         customerCode: customerCode,
         fullName: fullName,
         cpf: cpf.target?.toEntity(),
         email: modelEmail?.toEntity(),
         phones: phoneList,
         address: modelAddress?.toEntity(),
-        isActive: isActive,
-        isSynced: isSynced
+        isActive: isActive
       );
     }
 
     if (cnpj.target != null && cpf.target == null) {
       return Customer.company(
         customerId: id,
+        customerUuId: customerUuId,
+        serverId: serverId,
         customerCode: customerCode,
         legalName: legalName,
         tradeName: tradeName,
@@ -68,14 +73,15 @@ extension CustomerModelMapper on CustomerModel {
         email: modelEmail?.toEntity(),
         phones: phoneList,
         address: modelAddress?.toEntity(),
-        isActive: isActive,
-        isSynced: isSynced
+        isActive: isActive
       );
     }
 
     // fallback: raw
     return Customer.raw(
       customerId: id,
+      customerUuId: customerUuId,
+      serverId: serverId,
       customerCode: customerCode,
       fullName: fullName,
       legalName: legalName,
@@ -85,8 +91,7 @@ extension CustomerModelMapper on CustomerModel {
       email: modelEmail?.toEntity(),
       phones: phoneList,
       address: modelAddress?.toEntity(),
-      isActive: isActive,
-      isSynced: isSynced
+      isActive: isActive
     );
   }
 }
@@ -95,10 +100,11 @@ extension CustomerPersonMapper on PersonCustomer {
   CustomerModel toModel() {
     final entity = CustomerModel(
       id: customerId,
+      customerUuId: customerUuId,
+      serverId: serverId,
       isActive: isActive,
       customerCode: customerCode,
-      fullName: fullName,
-      isSynced: isSynced
+      fullName: fullName
     );
 
     if (cpf != null) {
@@ -122,11 +128,12 @@ extension CustomerCompanyMapper on CompanyCustomer {
   CustomerModel toModel() {
     final entity = CustomerModel(
       id: customerId,
+      customerUuId: customerUuId,
+      serverId: serverId,
       isActive: isActive,
       customerCode: customerCode,
       legalName: legalName,
-      tradeName: tradeName,
-      isSynced: isSynced
+      tradeName: tradeName
     );
 
     if (cnpj != null) {
@@ -150,12 +157,13 @@ extension CustomerMapper on RawCustomer {
   CustomerModel toModel() {
     final entity = CustomerModel(
       id: customerId,
+      customerUuId: customerUuId,
+      serverId: serverId,
       isActive: isActive,
       customerCode: customerCode,
       fullName: fullName,
       legalName: legalName,
-      tradeName: tradeName,
-      isSynced: isSynced
+      tradeName: tradeName
     );
 
     if (cpf != null) {

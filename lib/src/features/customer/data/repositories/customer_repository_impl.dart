@@ -10,7 +10,6 @@ import 'package:sales_app/src/features/customer/data/models/email_model.dart';
 import 'package:sales_app/src/features/customer/data/models/phone_model.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/features/customer/domain/repositories/customer_repository.dart';
-import 'package:sales_app/src/features/customer/domain/valueObjects/customer_filter.dart';
 
 class CustomerRepositoryImpl extends CustomerRepository{
   final Store store;
@@ -18,67 +17,79 @@ class CustomerRepositoryImpl extends CustomerRepository{
   CustomerRepositoryImpl(this.store);
 
   @override
-  Future<List<Customer>> fetchAll(CustomerFilter filter) async {
+  Future<List<Customer>> fetchAll({String? search}) async {
     final box = store.box<CustomerModel>();
 
-    // filters
-    final name = filter.name;
-    final document = filter.document;
-    final email = filter.email;
-    final phone = filter.phone;
-
-    Condition<CustomerModel>? conditions;
-    if (name != null && name.isNotEmpty) {
-      final nameFormat = name.toLowerCase();
-      conditions = CustomerModel_.fullName.contains(nameFormat, caseSensitive: false)
-        .or(CustomerModel_.legalName.contains(nameFormat, caseSensitive: false))
-        .or(CustomerModel_.tradeName.contains(nameFormat, caseSensitive: false));
+    // Se não houver termo, retorna tudo (ou adapte para paginação/sort)
+    final raw = (search ?? '').trim();
+    if (raw.isEmpty) {
+      final all = await box.getAllAsync();
+      return all.map((m) => m.toEntity()).toList();
     }
 
-    final queryBuilder = box.query(conditions);
+    final term = raw.toLowerCase();
+    final digits = raw.replaceAll(RegExp(r'\D+'), '');
 
-    // linkers
-    if (document != null && document.isNotEmpty) {
-      queryBuilder
-        .link(CustomerModel_.cpf, CPFModel_.value.contains(document));
-      queryBuilder
-        .link(CustomerModel_.cnpj, CNPJModel_.value.contains(document));
+    // 1) Busca por NOME (fullName | legalName | tradeName), case-insensitive
+    final nameCond =
+    CustomerModel_.fullName.contains(term, caseSensitive: false)
+        .or(CustomerModel_.legalName.contains(term, caseSensitive: false))
+        .or(CustomerModel_.tradeName.contains(term, caseSensitive: false));
+
+    final nameQuery = box.query(nameCond).build();
+    final byName = await nameQuery.findAsync();
+    nameQuery.close();
+
+    // 2) Busca por DOCUMENTO (CPF/CNPJ) quando houver dígitos no termo
+    final List<CustomerModel> byDoc = [];
+    if (digits.isNotEmpty) {
+      // CPF
+      final cpfQB = box.query();
+      cpfQB.link(CustomerModel_.cpf, CPFModel_.value.contains(digits));
+      final cpfQuery = cpfQB.build();
+      final cpfMatches = await cpfQuery.findAsync();
+      cpfQuery.close();
+
+      // CNPJ
+      final cnpjQB = box.query();
+      cnpjQB.link(CustomerModel_.cnpj, CNPJModel_.value.contains(digits));
+      final cnpjQuery = cnpjQB.build();
+      final cnpjMatches = await cnpjQuery.findAsync();
+      cnpjQuery.close();
+
+      byDoc
+        ..addAll(cpfMatches)
+        ..addAll(cnpjMatches);
     }
 
-    if (email != null && email.isNotEmpty) {
-      final emailFormat = email.toLowerCase();
-      queryBuilder.link(
-        CustomerModel_.email,
-        EmailModel_.value.contains(emailFormat, caseSensitive: false),
-      );
+    // 3) Mescla resultados removendo duplicados por id
+    final seen = <int>{};
+    final merged = <CustomerModel>[];
+    for (final m in [...byName, ...byDoc]) {
+      if (seen.add(m.id)) merged.add(m);
     }
 
-    if (phone != null && phone.isNotEmpty) {
-      queryBuilder.linkMany(
-        CustomerModel_.phones,
-        PhoneModel_.value.contains(phone),
-      );
-    }
-
-    final query = queryBuilder.build();
-    final models = await query.findAsync();
-    query.close();
-
-    // Converte para entidades
-    return models.map((m) => m.toEntity()).toList();
+    return merged.map((m) => m.toEntity()).toList();
   }
+
 
   @override
   Future<Customer> fetchById(int customerId) async {
-    final customerBox = store.box<CustomerModel>();
+    try {
+      final customerBox = store.box<CustomerModel>();
 
-    final model = await customerBox.getAsync(customerId);
+      final model = await customerBox.getAsync(customerId);
 
-    if (model == null) {
-      throw AppException(AppExceptionCode.CODE_001_CUSTOMER_LOCAL_NOT_FOUND, "Cliente não encontrado");
+      if (model == null) {
+        throw AppException(AppExceptionCode.CODE_001_CUSTOMER_LOCAL_NOT_FOUND, "Cliente não encontrado");
+      }
+
+      return model.toEntity();
+    } on AppException catch (_) {
+      rethrow;
+    } catch (e) {
+      throw AppException.errorUnexpected(e.toString());
     }
-
-    return model.toEntity();
   }
 
 
@@ -143,49 +154,62 @@ class CustomerRepositoryImpl extends CustomerRepository{
     final cpfBox = store.box<CPFModel>();
     final cnpjBox = store.box<CNPJModel>();
 
-    final insertId = store.runInTransaction(TxMode.write, () {
-      final oldModel = customerBox.get(customer.customerId);
+    final id = store.runInTransaction(TxMode.write, () {
+      final existing = customerBox.get(customer.customerId);
 
-      // Cria novo modelo com os dados atualizados
+      // Cria o modelo novo a partir da entity
       final newModel = customer.maybeMap(
         person: (p) => p.toModel(),
         company: (c) => c.toModel(),
         raw: (r) => r.toModel(),
-        orElse: () => throw AppException(AppExceptionCode.CODE_003_CUSTOMER_DATA_INVALID,"Dados do Cliente inválidos para atualização"),
+        orElse: () => throw AppException(
+          AppExceptionCode.CODE_003_CUSTOMER_DATA_INVALID,
+          "Dados do Cliente inválidos para atualização",
+        ),
       );
 
-      if (oldModel != null) {
-        // Limpa relacionamentos antigos
-        if (oldModel.email.target != null) emailBox.remove(oldModel.email.targetId);
-        if (oldModel.cpf.target != null) cpfBox.remove(oldModel.cpf.targetId);
-        if (oldModel.cnpj.target != null) cnpjBox.remove(oldModel.cnpj.targetId);
+      if (existing != null) {
+        newModel.id = existing.id;
 
-        for (final phone in oldModel.phones) {
-          phoneBox.remove(phone.id);
+        // Limpa relacionamentos antigos com checagem de ID > 0
+        final emailId = existing.email.targetId;
+        if (emailId != 0) emailBox.remove(emailId);
+
+        final cpfId = existing.cpf.targetId;
+        if (cpfId != 0) cpfBox.remove(cpfId);
+
+        final cnpjId = existing.cnpj.targetId;
+        if (cnpjId != 0) cnpjBox.remove(cnpjId);
+
+        for (final ph in existing.phones) {
+          if (ph.id != 0) phoneBox.remove(ph.id);
         }
 
-        final oldAddress = oldModel.address.target;
-        if (oldAddress != null) {
-          if (oldAddress.cep.target != null) {
-            cepBox.remove(oldAddress.cep.targetId);
-          }
-          addressBox.remove(oldAddress.id);
+        final oldAddr = existing.address.target;
+        if (oldAddr != null) {
+          final cepId = oldAddr.cep.targetId;
+          if (cepId != 0) cepBox.remove(cepId);
+          if (oldAddr.id != 0) addressBox.remove(oldAddr.id);
         }
 
-        newModel.id = oldModel.id;
+      } else {
+        newModel.id = 0;
       }
 
+      // Importante: put() cuidará de persistir ToOne/ToMany que você setou em newModel
       return customerBox.put(newModel);
     });
 
-    final model = await customerBox.getAsync(insertId);
-
-    if (model == null) {
-      throw AppException(AppExceptionCode.CODE_001_CUSTOMER_LOCAL_NOT_FOUND,"Cliente não encontrado após sua inserção");
+    final saved = await customerBox.getAsync(id);
+    if (saved == null) {
+      throw AppException(
+        AppExceptionCode.CODE_001_CUSTOMER_LOCAL_NOT_FOUND,
+        "Cliente não encontrado após sua inserção",
+      );
     }
-
-    return model.toEntity();
+    return saved.toEntity();
   }
+
 
   @override
   Future<void> delete(Customer customer) async {

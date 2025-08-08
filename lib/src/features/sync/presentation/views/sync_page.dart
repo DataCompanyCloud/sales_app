@@ -15,7 +15,7 @@ class SyncPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final progressCustomer = ref.watch(syncProgressCustomerProvider);
-    final processProducts = ref.watch(syncProgressProductsProvider);
+    // final processProducts = ref.watch(syncProgressProductsProvider);
 
     return Scaffold(
       body: Center(
@@ -129,7 +129,7 @@ class SyncPage extends ConsumerWidget {
 
             return;
           }
-          ref.refresh(syncCustomerProvider);
+          final _ = ref.refresh(syncCustomerProvider);
           // context.goNamed(AppRoutes.home.name);
         },
         shape: RoundedRectangleBorder(

@@ -50,6 +50,7 @@ dependencies:
   infinite_scroll_pagination: ^5.1.0
   shared_preferences: ^2.5.3
   connectivity_plus: ^6.1.4
+  uuid: ^4.4.2
 
 dev_dependencies:
   flutter_test:

@@ -55,7 +55,7 @@ final customerRoutes = GoRoute(
       name: CustomerRouter.customerDetails.name,
       builder: (context, state) {
         final customerId = state.extra as int;
-        return CustomerDetails(title: "", customerId: customerId);
+        return CustomerDetails(customerId: customerId);
       }
     ),
     GoRoute(

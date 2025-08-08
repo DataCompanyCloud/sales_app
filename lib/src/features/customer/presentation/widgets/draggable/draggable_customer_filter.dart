@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sales_app/src/features/customer/domain/valueObjects/customer_filter.dart';
-import 'package:sales_app/src/features/customer/providers.dart';
 
 
 // TODO precisa melhorar o Filtro do customer
@@ -18,7 +16,7 @@ class DraggableCustomerFilter extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(customerFilterProvider);
+    // final filter = ref.watch(customerFilterProvider);
 
     return DraggableScrollableSheet(
       expand: false,
@@ -183,13 +181,13 @@ class DraggableCustomerFilter extends ConsumerWidget {
                       backgroundColor:  WidgetStatePropertyAll(Colors.blue)
                     ),
                     onPressed: () {
-                      ref.read(customerFilterProvider.notifier).state = CustomerFilter(
-                        customerCode: _controllerCode.text,
-                        email: _controllerEmail.text,
-                        name: _controllerName.text,
-                        phone: _controllerPhone.text,
-                        document: _controllerDocument.text
-                      );
+                      // ref.read(customerFilterProvider.notifier).state = CustomerFilter(
+                      //   customerCode: _controllerCode.text,
+                      //   email: _controllerEmail.text,
+                      //   name: _controllerName.text,
+                      //   phone: _controllerPhone.text,
+                      //   document: _controllerDocument.text
+                      // );
                       context.pop();
                     },
                     child: Text(

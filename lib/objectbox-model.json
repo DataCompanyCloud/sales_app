@@ -4,249 +4,62 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:432953924842435418",
-      "lastPropertyId": "5:73801948456243537",
+      "id": "1:5950748883845668060",
+      "lastPropertyId": "5:3068069855416046105",
       "name": "AddressModel",
       "properties": [
         {
-          "id": "1:7284620626712528568",
+          "id": "1:3339804727499001738",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:7354794762417306541",
+          "id": "2:8751525358418206521",
           "name": "state",
           "type": 9
         },
         {
-          "id": "3:916491568320398817",
+          "id": "3:7913892130487717460",
           "name": "city",
           "type": 9
         },
         {
-          "id": "4:1550180828288338453",
+          "id": "4:1562184001339274971",
           "name": "street",
           "type": 9
         },
         {
-          "id": "5:73801948456243537",
+          "id": "5:3068069855416046105",
           "name": "cepId",
           "type": 11,
           "flags": 520,
-          "indexId": "1:7746997633670504157",
+          "indexId": "1:9165809312383430962",
           "relationTarget": "CEPModel"
         }
       ],
       "relations": []
     },
     {
-      "id": "2:4221905269265581793",
-      "lastPropertyId": "2:7469011924183893834",
-      "name": "CEPModel",
-      "properties": [
-        {
-          "id": "1:8992255059104080029",
-          "name": "id",
-          "type": 6,
-          "flags": 1
-        },
-        {
-          "id": "2:7469011924183893834",
-          "name": "value",
-          "type": 9,
-          "flags": 2048,
-          "indexId": "2:1071186376349641279"
-        }
-      ],
-      "relations": []
-    },
-    {
-      "id": "3:4931396956815028254",
-      "lastPropertyId": "2:452267822610304438",
-      "name": "CNPJModel",
-      "properties": [
-        {
-          "id": "1:4750136389644107260",
-          "name": "id",
-          "type": 6,
-          "flags": 1
-        },
-        {
-          "id": "2:452267822610304438",
-          "name": "value",
-          "type": 9,
-          "flags": 2080,
-          "indexId": "3:8389823318566283635"
-        }
-      ],
-      "relations": []
-    },
-    {
-      "id": "4:5480217283706692019",
-      "lastPropertyId": "2:5309300056128533752",
-      "name": "CPFModel",
-      "properties": [
-        {
-          "id": "1:1517574472103092716",
-          "name": "id",
-          "type": 6,
-          "flags": 1
-        },
-        {
-          "id": "2:5309300056128533752",
-          "name": "value",
-          "type": 9,
-          "flags": 2080,
-          "indexId": "4:5166293784256338952"
-        }
-      ],
-      "relations": []
-    },
-    {
-      "id": "5:8950103311333418903",
-      "lastPropertyId": "12:5132787006208385930",
-      "name": "CustomerModel",
-      "properties": [
-        {
-          "id": "1:5989674748482891944",
-          "name": "id",
-          "type": 6,
-          "flags": 129
-        },
-        {
-          "id": "2:5695261680559240477",
-          "name": "customerCode",
-          "type": 9
-        },
-        {
-          "id": "3:7713718491700191173",
-          "name": "fullName",
-          "type": 9
-        },
-        {
-          "id": "4:375748648287111350",
-          "name": "legalName",
-          "type": 9
-        },
-        {
-          "id": "5:5414777189586911400",
-          "name": "tradeName",
-          "type": 9
-        },
-        {
-          "id": "6:8577946193311855572",
-          "name": "isActive",
-          "type": 1
-        },
-        {
-          "id": "7:7494324650893096911",
-          "name": "addressId",
-          "type": 11,
-          "flags": 520,
-          "indexId": "5:4343525203586360445",
-          "relationTarget": "AddressModel"
-        },
-        {
-          "id": "8:4453939979525758357",
-          "name": "emailId",
-          "type": 11,
-          "flags": 520,
-          "indexId": "6:6119132886092621509",
-          "relationTarget": "EmailModel"
-        },
-        {
-          "id": "9:3528907690205750651",
-          "name": "cpfId",
-          "type": 11,
-          "flags": 520,
-          "indexId": "7:7149710535363310192",
-          "relationTarget": "CPFModel"
-        },
-        {
-          "id": "10:1159344734712711173",
-          "name": "cnpjId",
-          "type": 11,
-          "flags": 520,
-          "indexId": "8:1802049108313081498",
-          "relationTarget": "CNPJModel"
-        },
-        {
-          "id": "12:5132787006208385930",
-          "name": "isSynced",
-          "type": 1
-        }
-      ],
-      "relations": [
-        {
-          "id": "1:44003885547434781",
-          "name": "phones",
-          "targetId": "7:5601539737760454721"
-        }
-      ]
-    },
-    {
-      "id": "6:4257251537068545827",
-      "lastPropertyId": "2:8149318600700015712",
-      "name": "EmailModel",
-      "properties": [
-        {
-          "id": "1:1305428374971759217",
-          "name": "id",
-          "type": 6,
-          "flags": 1
-        },
-        {
-          "id": "2:8149318600700015712",
-          "name": "value",
-          "type": 9,
-          "flags": 2080,
-          "indexId": "9:2382245270041220391"
-        }
-      ],
-      "relations": []
-    },
-    {
-      "id": "7:5601539737760454721",
-      "lastPropertyId": "2:5975880100124429623",
-      "name": "PhoneModel",
-      "properties": [
-        {
-          "id": "1:4334573189430561915",
-          "name": "id",
-          "type": 6,
-          "flags": 1
-        },
-        {
-          "id": "2:5975880100124429623",
-          "name": "value",
-          "type": 9,
-          "flags": 2080,
-          "indexId": "10:519557315458891607"
-        }
-      ],
-      "relations": []
-    },
-    {
-      "id": "8:1453793584900561144",
-      "lastPropertyId": "3:6556163420933894572",
+      "id": "2:3542795919293655054",
+      "lastPropertyId": "3:4402119092442645615",
       "name": "BarcodeModel",
       "properties": [
         {
-          "id": "1:401222028088216476",
+          "id": "1:2221994295602016689",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:5121205624865350314",
+          "id": "2:4286540229633587628",
           "name": "type",
           "type": 9,
           "flags": 2048,
-          "indexId": "11:5932735236987555884"
+          "indexId": "2:6911620884546187978"
         },
         {
-          "id": "3:6556163420933894572",
+          "id": "3:4402119092442645615",
           "name": "value",
           "type": 9
         }
@@ -254,25 +67,88 @@
       "relations": []
     },
     {
-      "id": "9:2821925438904179965",
-      "lastPropertyId": "3:165233902347486854",
-      "name": "CategoryModel",
+      "id": "3:8937040984307652411",
+      "lastPropertyId": "2:7083155395864183512",
+      "name": "CEPModel",
       "properties": [
         {
-          "id": "1:4032685072747303012",
+          "id": "1:8789578819670505081",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:8522626701113015606",
+          "id": "2:7083155395864183512",
+          "name": "value",
+          "type": 9,
+          "flags": 2048,
+          "indexId": "3:3604266056027458579"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:1980829104907809550",
+      "lastPropertyId": "2:8642446760248812749",
+      "name": "CNPJModel",
+      "properties": [
+        {
+          "id": "1:2873172704606548531",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8642446760248812749",
+          "name": "value",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "4:5954504074057675256"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:3015521738572656303",
+      "lastPropertyId": "2:4243677397154124951",
+      "name": "CPFModel",
+      "properties": [
+        {
+          "id": "1:7514376719520798600",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4243677397154124951",
+          "name": "value",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "5:2521533189738142970"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "6:3152128342049086957",
+      "lastPropertyId": "3:8456339243039482901",
+      "name": "CategoryModel",
+      "properties": [
+        {
+          "id": "1:6445839929021730235",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5894709428879573403",
           "name": "categoryId",
           "type": 6,
           "flags": 8,
-          "indexId": "12:6321422563474559672"
+          "indexId": "6:6195290285504283639"
         },
         {
-          "id": "3:165233902347486854",
+          "id": "3:8456339243039482901",
           "name": "name",
           "type": 9
         }
@@ -280,25 +156,131 @@
       "relations": []
     },
     {
-      "id": "10:6055735859133791649",
-      "lastPropertyId": "3:5563643284485668416",
-      "name": "ImageModel",
+      "id": "7:1263172198055680557",
+      "lastPropertyId": "12:7590618501933147904",
+      "name": "CustomerModel",
       "properties": [
         {
-          "id": "1:2605701867853379793",
+          "id": "1:7616728590520606039",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:4566804827332744074",
+          "id": "2:6449279806583030712",
+          "name": "customerUuId",
+          "type": 9
+        },
+        {
+          "id": "3:556585918158122796",
+          "name": "serverId",
+          "type": 6
+        },
+        {
+          "id": "4:749879222116328759",
+          "name": "customerCode",
+          "type": 9
+        },
+        {
+          "id": "5:4250148965567025457",
+          "name": "fullName",
+          "type": 9
+        },
+        {
+          "id": "6:679726659204697149",
+          "name": "legalName",
+          "type": 9
+        },
+        {
+          "id": "7:2333890992068627329",
+          "name": "tradeName",
+          "type": 9
+        },
+        {
+          "id": "8:9185315175156384140",
+          "name": "isActive",
+          "type": 1
+        },
+        {
+          "id": "9:7191707602962505406",
+          "name": "addressId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "7:8140223745908724189",
+          "relationTarget": "AddressModel"
+        },
+        {
+          "id": "10:113058529191250382",
+          "name": "emailId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "8:376789543454305753",
+          "relationTarget": "EmailModel"
+        },
+        {
+          "id": "11:764691446439251885",
+          "name": "cpfId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "9:48348358854859704",
+          "relationTarget": "CPFModel"
+        },
+        {
+          "id": "12:7590618501933147904",
+          "name": "cnpjId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "10:7131474741512768437",
+          "relationTarget": "CNPJModel"
+        }
+      ],
+      "relations": [
+        {
+          "id": "1:1817470927145398022",
+          "name": "phones",
+          "targetId": "11:8644626093126028655"
+        }
+      ]
+    },
+    {
+      "id": "8:8833018713646883519",
+      "lastPropertyId": "2:8530211525488609144",
+      "name": "EmailModel",
+      "properties": [
+        {
+          "id": "1:2605924593711843556",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8530211525488609144",
+          "name": "value",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "9:596039571503506880",
+      "lastPropertyId": "3:7069981453397914247",
+      "name": "ImageModel",
+      "properties": [
+        {
+          "id": "1:2502774003594424521",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4713835980734594450",
           "name": "imageId",
           "type": 6,
           "flags": 8,
-          "indexId": "13:8398372390786716664"
+          "indexId": "11:3858817322793126271"
         },
         {
-          "id": "3:5563643284485668416",
+          "id": "3:7069981453397914247",
           "name": "url",
           "type": 9
         }
@@ -306,164 +288,178 @@
       "relations": []
     },
     {
-      "id": "11:8547271939008530165",
-      "lastPropertyId": "6:7982250798404713871",
+      "id": "10:8861618279435724926",
+      "lastPropertyId": "6:1584928531826680158",
       "name": "PackingModel",
       "properties": [
         {
-          "id": "1:3917091665102451490",
+          "id": "1:938545326003699716",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:6012275072060139274",
+          "id": "2:3481806737566285789",
           "name": "packingId",
           "type": 6,
           "flags": 8,
-          "indexId": "14:267460422827450619"
+          "indexId": "12:5269423783238947310"
         },
         {
-          "id": "3:2719496814427820607",
+          "id": "3:673092867480993450",
           "name": "description",
           "type": 9
         },
         {
-          "id": "4:2292369677331175829",
+          "id": "4:3385004401959470260",
           "name": "quantity",
           "type": 8
         },
         {
-          "id": "5:2891199466792771711",
+          "id": "5:5953566906776332966",
           "name": "barcodeId",
           "type": 11,
           "flags": 520,
-          "indexId": "15:6734575196138513606",
+          "indexId": "13:7357648050293952845",
           "relationTarget": "BarcodeModel"
         },
         {
-          "id": "6:7982250798404713871",
+          "id": "6:1584928531826680158",
           "name": "unitId",
           "type": 11,
           "flags": 520,
-          "indexId": "16:2693271747062221347",
+          "indexId": "14:3736110559211980775",
           "relationTarget": "UnitModel"
         }
       ],
       "relations": []
     },
     {
-      "id": "12:5214092351470611834",
-      "lastPropertyId": "8:3357419315146837650",
+      "id": "11:8644626093126028655",
+      "lastPropertyId": "2:2569831595846420171",
+      "name": "PhoneModel",
+      "properties": [
+        {
+          "id": "1:2109798507188367189",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2569831595846420171",
+          "name": "value",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "12:9222948947059695042",
+      "lastPropertyId": "8:6673242451362519772",
       "name": "ProductModel",
       "properties": [
         {
-          "id": "1:4688050991217948388",
+          "id": "1:4785442533121722632",
           "name": "id",
           "type": 6,
           "flags": 129
         },
         {
-          "id": "2:2669150143004829495",
+          "id": "2:1388092775368532977",
           "name": "productId",
           "type": 6
         },
         {
-          "id": "3:6023722795227144365",
+          "id": "3:3877967147126792245",
           "name": "code",
           "type": 9
         },
         {
-          "id": "4:8691265958600877232",
+          "id": "4:8057807042562155562",
           "name": "name",
           "type": 9
         },
         {
-          "id": "5:1303253213894813544",
+          "id": "5:209199645633744680",
           "name": "description",
           "type": 9
         },
         {
-          "id": "6:232550649543403424",
+          "id": "6:8944879852824523580",
           "name": "price",
           "type": 8
         },
         {
-          "id": "7:7143825447091740612",
+          "id": "7:409631027539760786",
           "name": "barcodeId",
           "type": 11,
           "flags": 520,
-          "indexId": "17:908925299169272185",
+          "indexId": "15:2896420044172356214",
           "relationTarget": "BarcodeModel"
         },
         {
-          "id": "8:3357419315146837650",
+          "id": "8:6673242451362519772",
           "name": "unitId",
           "type": 11,
           "flags": 520,
-          "indexId": "18:318043779773338056",
+          "indexId": "16:5673799964353073893",
           "relationTarget": "UnitModel"
         }
       ],
       "relations": [
         {
-          "id": "2:7711899899935554683",
+          "id": "2:2339639301444683398",
           "name": "category",
-          "targetId": "9:2821925438904179965"
+          "targetId": "6:3152128342049086957"
         },
         {
-          "id": "3:2115835499471609039",
+          "id": "3:1056323058059246312",
           "name": "image",
-          "targetId": "10:6055735859133791649"
+          "targetId": "9:596039571503506880"
         },
         {
-          "id": "4:8546816843953791380",
+          "id": "4:969558514495769098",
           "name": "packing",
-          "targetId": "11:8547271939008530165"
+          "targetId": "10:8861618279435724926"
         }
       ]
     },
     {
-      "id": "13:6113352611969226084",
-      "lastPropertyId": "4:5184544592307976115",
+      "id": "13:8044380180544958738",
+      "lastPropertyId": "3:2945828761746074761",
       "name": "UnitModel",
       "properties": [
         {
-          "id": "1:8730115008010310242",
+          "id": "1:7951920278854137334",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "3:7560452673045654753",
-          "name": "abbreviation",
-          "type": 9
-        },
-        {
-          "id": "4:5184544592307976115",
+          "id": "2:1776995929187659991",
           "name": "unitName",
           "type": 9,
           "flags": 2048,
-          "indexId": "20:4027964469980490168"
+          "indexId": "17:1532275478103804891"
+        },
+        {
+          "id": "3:2945828761746074761",
+          "name": "abbreviation",
+          "type": 9
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "13:6113352611969226084",
-  "lastIndexId": "20:4027964469980490168",
-  "lastRelationId": "4:8546816843953791380",
+  "lastEntityId": "13:8044380180544958738",
+  "lastIndexId": "17:1532275478103804891",
+  "lastRelationId": "4:969558514495769098",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
-  "retiredIndexUids": [
-    9174063531121756328
-  ],
-  "retiredPropertyUids": [
-    1526057732092009515,
-    2097002137993817481
-  ],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
   "retiredRelationUids": [],
   "version": 1
 }

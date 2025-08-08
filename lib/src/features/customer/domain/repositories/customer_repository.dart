@@ -1,9 +1,8 @@
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
-import 'package:sales_app/src/features/customer/domain/valueObjects/customer_filter.dart';
 
 abstract class CustomerRepository {
   /// Busca todos os Clientes
-  Future<List<Customer>> fetchAll(CustomerFilter filter);
+  Future<List<Customer>> fetchAll({String? search});
   /// Busca um cliente pelo ID
   Future<Customer> fetchById(int customerId);
   /// Salva vários cliente

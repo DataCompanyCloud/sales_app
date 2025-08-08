@@ -7,6 +7,7 @@ class ApiEndpoints {
   /// /customers
   /// Rota para obter customers
   static const String customers = '/customers';
+  static String customerById({required int customerId}) => '/customer/$customerId';
 
 // Posts
   // static const String postsList     = '/posts';

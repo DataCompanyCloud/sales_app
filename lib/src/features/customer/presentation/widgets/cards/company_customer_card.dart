@@ -114,7 +114,7 @@ class CompanyCustomerCard extends ConsumerWidget {
                             height: 9,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
-                              color: customer.isSynced
+                              color: customer.serverId != null
                                 ? Colors.cyan
                                 : Colors.red
                             ),

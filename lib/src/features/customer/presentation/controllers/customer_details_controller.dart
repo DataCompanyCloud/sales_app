@@ -1,21 +1,25 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sales_app/src/core/exceptions/app_exception.dart';
-import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/features/customer/providers.dart';
 
 class CustomerDetailsController extends AutoDisposeFamilyAsyncNotifier<Customer, int>{
   @override
-  FutureOr<Customer> build(int arg) async {
+  FutureOr<Customer> build(int id) async {
     final service = await ref.watch(customerServiceProvider.future);
-    final customer = await service.getById(arg);
+    final repository = await ref.watch(customerRepositoryProvider.future);
 
-    if (customer == null) {
-      throw AppException(AppExceptionCode.CODE_002_CUSTOMER_SERVER_NOT_FOUND, "Cliente não encontrado");
+    // 1) Tenta servidor
+    try {
+      final remote = await service.getById(id);
+      await repository.save(remote); // mantém cache atualizado
+      return remote;
+    } catch (e) {
+      print(e);
     }
 
-    return customer;
+    // 2) Fallback: tenta local
+    return await repository.fetchById(id);
   }
 }

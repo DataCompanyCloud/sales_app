@@ -34,7 +34,7 @@ enum AppRoutes {
 
 class _AuthStateChange extends ChangeNotifier {
   _AuthStateChange(Ref ref) {
-    ref.listen<AsyncValue<User?>>(authControllerProvider, (_, __) {
+    ref.listen<AsyncValue<User?>>(authControllerProvider, (_, _) {
       notifyListeners();
     });
   }

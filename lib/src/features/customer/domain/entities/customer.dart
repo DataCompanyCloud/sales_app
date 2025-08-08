@@ -13,34 +13,36 @@ abstract class Customer with _$Customer {
   const Customer._();
 
   const factory Customer.person({
-    required int customerId,
+    required int customerId,                // ObjectBox ID
+    required String customerUuId,           // gerado no app
+    int? serverId,                       // vindo do server
     required String? customerCode,
     required String? fullName,
     CPF? cpf,
     Email? email,
     List<Phone>? phones,
     Address? address,
-    required bool isActive,
-    @Default(false)
-    bool isSynced
+    required bool isActive
   }) = PersonCustomer;
 
   const factory Customer.company({
-    required int customerId,
+    required int customerId,                // ObjectBox ID
+    required String customerUuId,             // gerado no app
+    int? serverId,                       // vindo do server
     required String? customerCode,
-    required String? legalName, // 1
-    required String? tradeName, // 1
-    CNPJ? cnpj, // 1
-    Email? email, // 3
-    List<Phone>? phones, // 3
-    Address? address, // 2
+    required String? legalName,
+    required String? tradeName,
+    CNPJ? cnpj,
+    Email? email,
+    List<Phone>? phones,
+    Address? address,
     required bool isActive,
-    @Default(false)
-    bool isSynced
   }) = CompanyCustomer;
 
   const factory Customer.raw({
-    required int customerId,
+    required int customerId,                // ObjectBox ID
+    required String customerUuId,             // gerado no app
+    int? serverId,                       // vindo do server
     required String? customerCode,
     required String? fullName,
     required String? legalName,
@@ -50,14 +52,14 @@ abstract class Customer with _$Customer {
     Email? email,
     List<Phone>? phones,
     Address? address,
-    required bool isActive,
-    @Default(false)
-    bool isSynced
+    required bool isActive
   }) = RawCustomer;
 
   /// TODO Precisa fazer as validações somente quando as informações forem diferentes de null!
   factory Customer({
-    required int customerId,
+    required int customerId,                // ObjectBox ID
+    required String customerUuId,             // gerado no app
+    int? serverId,                       // vindo do server
     required String? customerCode,
     required String? fullName,
     required String? legalName,
@@ -67,10 +69,9 @@ abstract class Customer with _$Customer {
     Email? email,
     List<Phone>? phones,
     Address? address,
-    required bool isActive,
-    @Default(false)
-    required bool isSynced
+    required bool isActive
   }) {
+    // Validações
 
     // if (customerId <= 0) {
     //   throw AppException.errorUnexpected('Customer ID não pode ser negativo ou igual a 0.');
@@ -80,7 +81,7 @@ abstract class Customer with _$Customer {
     //   throw AppException.errorUnexpected('Customer vazio');
     // }
 
-    return Customer.raw(customerId: customerId, customerCode: customerCode, fullName: fullName, legalName: legalName, tradeName: tradeName, cpf: cpf, cnpj: cnpj, email: email, phones: phones, address: address, isActive: isActive, isSynced: isSynced);
+    return Customer.raw(customerId: customerId, customerUuId: customerUuId, serverId: serverId, customerCode: customerCode, fullName: fullName, legalName: legalName, tradeName: tradeName, cpf: cpf, cnpj: cnpj, email: email, phones: phones, address: address, isActive: isActive);
   }
 
   factory Customer.fromJson(Map<String, dynamic> json) =>

@@ -3,17 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
-import 'package:sales_app/src/features/customer/domain/valueObjects/customer_filter.dart';
 import 'package:sales_app/src/features/customer/presentation/router/customer_router.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/buttons/customer_status_buttons.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/cards/company_customer_card.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/cards/person_customer_card.dart';
-import 'package:sales_app/src/features/customer/presentation/widgets/draggable/draggable_customer_filter.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/skeleton/customer_page_skeleton.dart';
 import 'package:sales_app/src/features/customer/providers.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_screen.dart';
 import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/navigator/navigator_bar.dart';
+
+
 
 class CustomerPage extends ConsumerStatefulWidget {
   const CustomerPage({
@@ -27,7 +27,6 @@ class CustomerPage extends ConsumerStatefulWidget {
 
 class CustomerPageState extends ConsumerState<CustomerPage>{
   final isSearchOpenProvider = StateProvider<bool>((_) => false);
-  final searchQueryProvider   = StateProvider<String>((_) => '');
   final _searchController = TextEditingController();
 
   @override
@@ -46,23 +45,19 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
     isOpen.state = !isOpen.state;
 
     if (!isOpen.state) {
-      ref.read(customerFilterProvider.notifier).state = CustomerFilter();
+      ref.read(customerSearchProvider.notifier).state = null;
       _searchController.clear();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // final viewModelProvider = ref.watch(customerViewModelProvider);
     final controller = ref.watch(customerControllerProvider);
     final status = ref.watch(customerStatusFilterProvider);
-    final filter = ref.watch(customerFilterProvider);
-    final filterActives = filter.activeFiltersCount;
+    final isSearchOpen  = ref.watch(isSearchOpenProvider);
+
     // final theme = Theme.of(context);
     // final colorScheme = theme.colorScheme;
-
-    final isSearchOpen   = ref.watch(isSearchOpenProvider);
-    final searchQuery    = ref.watch(searchQueryProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -85,7 +80,7 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
       body: RefreshIndicator(
         onRefresh: () async {
           if (controller.isLoading) return;
-          ref.refresh(customerControllerProvider);
+          final _ = ref.refresh(customerControllerProvider);
         },
         child: Column(
           children: [
@@ -94,7 +89,7 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
               duration: Duration(milliseconds: 300),
               curve: Curves.easeInOut,
               child: isSearchOpen
-                  ? Padding(
+                ? Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 8,
@@ -109,14 +104,10 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  onChanged: (value) {
-                    // atualiza o provider com o texto atual
-                    ref.read(searchQueryProvider.notifier).state = value;
-                  },
-                  onSubmitted: (query) {
-                    ref.read(customerFilterProvider.notifier).state = CustomerFilter(
-                      name: _searchController.text
-                    );
+                  onSubmitted: (search) {
+                    if (search.isEmpty) return;
+
+                    ref.read(customerSearchProvider.notifier).state = search;
                   },
                 ),
               ) : SizedBox.shrink(),
@@ -132,25 +123,27 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
                 data: (customers) {
                   if(customers.isEmpty) {
                     return Center(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.cloud_rounded,
-                            size: 96,
-                          ),
-                          Padding(padding: EdgeInsets.only(top: 12)),
-                          Text("Nenhum cliente para ser mostrado"),
-                          Padding(padding: EdgeInsets.only(top: 16)),
-                          InkWell(
-                            onTap: () => ref.refresh(customerControllerProvider.future),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text("Tentar novamente"),
-                            )
-                          ),
-                        ],
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.cloud_rounded,
+                              size: 96,
+                            ),
+                            Padding(padding: EdgeInsets.only(top: 12)),
+                            Text("Nenhum cliente para ser mostrado"),
+                            Padding(padding: EdgeInsets.only(top: 16)),
+                            InkWell(
+                              onTap: () => ref.refresh(customerControllerProvider.future),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text("Tentar novamente", style: TextStyle(color: Colors.blue),),
+                              )
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   }
@@ -173,7 +166,7 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
                     }
 
                     // conta sincronizado vs não sincronizado
-                    if (customer.isSynced) {
+                    if (customer.serverId != null) {
                       countSynced++;
                     } else {
                       countNotSynced++;
@@ -186,10 +179,10 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
                       return !customer.isActive;
                     }
                     if (status == CustomerStatusFilter.synced) {
-                      return customer.isSynced;
+                      return customer.serverId != null;
                     }
                     if (status == CustomerStatusFilter.notSynced) {
-                      return !customer.isSynced;
+                      return customer.serverId == null;
                     }
                     // Se for "all", retorna todos
                     return true;
