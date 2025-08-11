@@ -4,8 +4,6 @@ import 'package:sales_app/src/core/api/endpoints/api_endpoints.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
-import 'dart:math';
-import 'package:faker/faker.dart';
 import 'package:sales_app/src/features/customer/domain/repositories/customer_repository.dart';
 
 class CustomerService {

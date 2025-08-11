@@ -251,9 +251,7 @@ class HomePage extends ConsumerWidget {
                       ),
                       title: Text("Lista de Pedidos"),
                       trailing: Icon(Icons.chevron_right),
-                      onTap: () {
-        
-                      },
+                      onTap: () {},
                     ),
                     ListTile(
                       visualDensity: VisualDensity(vertical: 3),
@@ -278,9 +276,7 @@ class HomePage extends ConsumerWidget {
                       ),
                       title: Text("Histórico de Pedido"),
                       trailing: Icon(Icons.chevron_right),
-                      onTap: () {
-        
-                      },
+                      onTap: () {},
                     ),
                     ListTile(
                       visualDensity: VisualDensity(vertical: 3),
@@ -290,9 +286,12 @@ class HomePage extends ConsumerWidget {
                       ),
                       title: Text("Suporte"),
                       trailing: Icon(Icons.chevron_right),
-                      onTap: () {
-        
-                      },
+                      onTap: () {},
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(12), bottomRight: Radius.circular(12)
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -327,9 +326,7 @@ class HomePage extends ConsumerWidget {
                       ),
                       title: Text("Pesquisa"),
                       trailing: Icon(Icons.chevron_right),
-                      onTap: () {
-        
-                      },
+                      onTap: () {},
                     ),
                     ListTile(
                       visualDensity: VisualDensity(vertical: 3),
@@ -339,9 +336,7 @@ class HomePage extends ConsumerWidget {
                       ),
                       title: Text("Favoritos"),
                       trailing: Icon(Icons.chevron_right),
-                      onTap: () {
-        
-                      },
+                      onTap: () {},
                     ),
                     ListTile(
                       visualDensity: VisualDensity(vertical: 3),
@@ -351,9 +346,12 @@ class HomePage extends ConsumerWidget {
                       ),
                       title: Text("Cookies"),
                       trailing: Icon(Icons.chevron_right),
-                      onTap: () {
-        
-                      },
+                      onTap: () {},
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(12), bottomRight: Radius.circular(12)
+                        ),
+                      ),
                     ),
                   ],
                 ),

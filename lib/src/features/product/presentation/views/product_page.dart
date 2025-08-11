@@ -15,19 +15,45 @@ import 'package:sales_app/src/features/product/presentation/widgets/layouts/list
 import 'package:sales_app/src/features/product/presentation/widgets/skeleton/grid_view_column_2_skeleton.dart';
 import 'package:sales_app/src/features/product/providers.dart';
 
-class ProductPage extends ConsumerWidget {
-  final String title;
-
-  const ProductPage ({
-    super.key,
-    required this.title
+class ProductPage extends ConsumerStatefulWidget {
+  const ProductPage({
+    super.key
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => ProductPageState();
+}
+
+
+class ProductPageState extends ConsumerState<ProductPage>{
+  final productIndexProvider = StateProvider<int>((ref) => 0);
+  final isSearchOpenProvider = StateProvider<bool>((_) => false);
+  final searchQueryProvider = StateProvider<String>((_) => '');
+  final _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _toggleSearch() {
+    final isOpen = ref.read(isSearchOpenProvider.notifier);
+    isOpen.state = !isOpen.state;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final currentIndex = ref.watch(productIndexProvider);
     final viewModelProvider = ref.watch(productViewModelProvider);
     final controller = ref.watch(productControllerProvider);
+
+    final isSearchOpen = ref.watch(isSearchOpenProvider);
 
     return controller.when(
       error: (error, stack) => ErrorPage(
@@ -39,7 +65,7 @@ class ProductPage extends ConsumerWidget {
       data: (product) {
         return Scaffold(
           appBar: AppBar(
-            title: Text(title),
+            title: Text("Produtos"),
             leading: IconButton(
               onPressed: () {
                 context.goNamed(HomeRouter.home.name);
@@ -57,69 +83,50 @@ class ProductPage extends ConsumerWidget {
                 icon: Icon(Icons.remove_red_eye)
               ),
               IconButton(
-                onPressed: () {}, 
+                onPressed: () {},
                 icon: Icon(Icons.filter_alt)
               ),
               IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.search)
+                onPressed: _toggleSearch,
+                icon: Icon(isSearchOpen ? Icons.close : Icons.search),
               ),
             ],
             backgroundColor: Color(0xFF0081F5),
             foregroundColor: Colors.white,
           ),
-          body: Padding(
-            padding: EdgeInsets.all(2),
+          body: RefreshIndicator(
+            onRefresh: () async {
+              if (controller.isLoading) return;
+              ref.refresh(productControllerProvider);
+            },
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                // Padding(
-                //   padding: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 12),
-                //   child: Row(
-                //     mainAxisSize: MainAxisSize.min,
-                //     children: [
-                //       SizedBox(
-                //         width: 90,
-                //         height: 45,
-                //         child: ElevatedButton(
-                //           onPressed: () {
-                //
-                //           },
-                //           style: ElevatedButton.styleFrom(
-                //             backgroundColor: Color(0xFF0081F5),
-                //             shape: RoundedRectangleBorder(
-                //               borderRadius: BorderRadius.circular(10),
-                //             ),
-                //           ),
-                //           child: Icon(Icons.filter_alt, color: Colors.white, size: 22)
-                //         ),
-                //       ),
-                //       Padding(
-                //         padding: EdgeInsets.only(left: 6),
-                //         child: SizedBox(
-                //           width: 90,
-                //           height: 45,
-                //           child: ElevatedButton(
-                //             onPressed: () {
-                //               showModalBottomSheet(
-                //                 isScrollControlled: true,
-                //                 context: context,
-                //                 builder: (context) => DraggableLayoutProduct()
-                //               );
-                //             },
-                //             style: ElevatedButton.styleFrom(
-                //               backgroundColor: Color(0xFF0081F5),
-                //               shape: RoundedRectangleBorder(
-                //                 borderRadius: BorderRadius.circular(10),
-                //               ),
-                //             ),
-                //             child: Icon(Icons.remove_red_eye, color: Colors.white, size: 22)
-                //           ),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
+                AnimatedSize(
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  child: isSearchOpen
+                      ? Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    child: TextField(
+                      controller: _searchController,
+                      autofocus: true,
+                      decoration: InputDecoration(
+                        hintText: "Pesquisar...",
+                        prefixIcon: Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      onChanged: (value) {
+                        ref.read(searchQueryProvider.notifier).state = value;
+                        /// TODO: Adicionar lógica para filtro de produtos
+                      },
+                    ),
+                  ) : SizedBox.shrink(),
+                ),
                 Expanded(
                   child: switch(viewModelProvider.layoutProduct) {
                     LayoutProduct.listSmallCard => ListViewColumnSmall(products: viewModelProvider.products),

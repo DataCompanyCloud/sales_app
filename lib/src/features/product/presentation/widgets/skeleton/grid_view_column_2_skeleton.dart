@@ -18,26 +18,30 @@ class GridViewColumn2Skeleton extends ConsumerWidget {
         foregroundColor: Colors.white,
         title: Text("Produtos"),
         leading: IconButton(
-          onPressed: () {
-            context.goNamed(HomeRouter.home.name);
-          },
-          icon: Icon(Icons.arrow_back_ios_new, size: 22)
+            onPressed: () {
+              context.goNamed(HomeRouter.home.name);
+            },
+            icon: Icon(Icons.arrow_back_ios_new, size: 22)
         ),
         actions: [
           Skeletonizer(
+            effect: ShimmerEffect(
+              baseColor: Color(0xFF0059A9),
+              highlightColor: Colors.white,
+            ),
             child: Row(
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 8),
-                  child: Bone.iconButton(size: 40),
+                  child: Bone.iconButton(size: 40)
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 8),
-                  child: Bone.iconButton(size: 40),
+                  child: Bone.iconButton(size: 40)
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 8, right: 6),
-                  child: Bone.iconButton(size: 40),
+                  child: Bone.iconButton(size: 40)
                 )
               ],
             )
