@@ -1,3 +1,4 @@
+import 'package:faker/faker.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
@@ -16,27 +17,47 @@ class ProductRepositoryImpl extends ProductRepository {
   ProductRepositoryImpl(this.store);
 
   @override
-  Future<List<Product>> fetchAll() async {
+  Future<List<Product>> fetchAll({String? search}) async {
     final box = store.box<ProductModel>();
+    
     final models = await box.getAllAsync();
     return models.map((m) => m.toEntity()).toList();
-  }
 
-  @override
-  Future<Product> fetchById(int id) async {
-    final productBox = store.box<ProductModel>();
-
-    final model = await productBox.getAsync(id);
-
-    if (model == null) {
-      throw AppException(AppExceptionCode.CODE_004_PRODUCT_LOCAL_NOT_FOUND, "Produto não encontrado");
+    // Se não houver termo, retorna tudo (ou adapte para paginção/sort)
+    final raw = (search ?? '').trim();
+    if (raw.isEmpty) {
+      final all = await box.getAllAsync();
+      return all.map((m) => m.toEntity()).toList();
     }
 
-    return model.toEntity();
+    final term = raw.toLowerCase();
+    final digits = raw.replaceAll(RegExp(r'\D+'), '');
+
+    // 1) Busca pro NOME ('name' do produto)
+    /// TODO: Adicionar lógica para buscar por 'name' / nome do produto
   }
 
   @override
-  Future<Product> insert(Product product) async {
+  Future<Product> fetchById(int productId) async {
+    try {
+      final productBox = store.box<ProductModel>();
+
+      final model = await productBox.getAsync(productId);
+
+      if (model == null) {
+        throw AppException(AppExceptionCode.CODE_004_PRODUCT_LOCAL_NOT_FOUND, "Produto não encontrado");
+      }
+
+      return model.toEntity();
+    } on AppException catch (_) {
+      rethrow;
+    } catch (e) {
+      throw AppException.errorUnexpected(e.toString());
+    }
+  }
+
+  @override
+  Future<void> saveAll(List<Product> products) async {
     final productBox = store.box<ProductModel>();
     final barcodeBox = store.box<BarcodeModel>();
     final unitBox = store.box<UnitModel>();
@@ -44,48 +65,100 @@ class ProductRepositoryImpl extends ProductRepository {
     final categoryBox = store.box<CategoryModel>();
     final packingBox = store.box<PackingModel>();
 
-    final insertId = store.runInTransaction(TxMode.write, () {
-      final oldModel = productBox.get(product.productId);
+    store.runInTransaction(TxMode.write, () {
+      for (final product in products) {
+        final oldModel = productBox.get(product.productId);
 
-      // Cria novo modelo com os dados atualizados
-      final newModel = product.maybeMap(
-        raw: (r) => r.toModel(),
-        orElse: () => throw AppException(AppExceptionCode.CODE_006_PRODUCT_DATA_INVALID, "Dados do Produto inválidos para atualização"),
-      );
+        final newModel = product.maybeMap(
+          raw: (r) => r.toModel(),
+          orElse: () =>
+          throw AppException(
+            AppExceptionCode.CODE_006_PRODUCT_DATA_INVALID,
+            "Dados do Produto inválidos para atualização",
+          ),
+        );
 
-      if (oldModel != null) {
-        // Limpa relacionamentos antigos
-        if (oldModel.barcode.target != null) barcodeBox.remove(oldModel.barcode.targetId);
-        if (oldModel.unit.target != null) unitBox.remove(oldModel.unit.targetId);
+        if (oldModel != null) {
+          if (oldModel.barcode.target != null) barcodeBox.remove(oldModel.barcode.targetId);
+          if (oldModel.unit.target != null) unitBox.remove(oldModel.unit.targetId);
 
-        for (final image in oldModel.image) {
-          imageBox.remove(image.id);
+          for (final packing in oldModel.packing) {
+            packingBox.remove(packing.id);
+          }
+          for (final category in oldModel.category) {
+            categoryBox.remove(category.id);
+          }
+          for (final image in oldModel.image) {
+            imageBox.remove(image.id);
+          }
+
+          newModel.id = oldModel.id;
         }
-        for (final category in oldModel.category) {
-          categoryBox.remove(category.id);
-        }
-        for (final packing in oldModel.packing) {
-          packingBox.remove(packing.id);
-        }
 
-        newModel.id = oldModel.id;
+        productBox.put(newModel);
       }
-
-      return productBox.put(newModel);
     });
-
-    final model = await productBox.getAsync(insertId);
-
-    if (model == null) {
-      throw AppException(AppExceptionCode.CODE_004_PRODUCT_LOCAL_NOT_FOUND, "Cliente não encontrado após a inserção");
-    }
-
-    return model.toEntity();
   }
 
   @override
-  Future<void> update(Product product) async {
-    await insert(product);
+  Future<Product> save(Product product) async {
+    final productBox = store.box<ProductModel>();
+    final barcodeBox = store.box<BarcodeModel>();
+    final unitBox = store.box<UnitModel>();
+    final imageBox = store.box<ImageModel>();
+    final categoryBox = store.box<CategoryModel>();
+    final packingBox = store.box<PackingModel>();
+
+    final id = store.runInTransaction(TxMode.write, () {
+      final existing = productBox.get(product.productId);
+
+      // Cria o modelo novo a partir da entity
+      final newModel = product.maybeMap(
+        raw: (r) => r.toModel(),
+        orElse: () =>
+        throw AppException(
+          AppExceptionCode.CODE_006_PRODUCT_DATA_INVALID,
+          "Dados do Produto inválidos para atualização",
+        ),
+      );
+
+      if (existing != null) {
+        newModel.id = existing.id;
+
+        // Limpa relacionamentos antigos com checagem de ID > 0
+        final barcodeId = existing.barcode.targetId;
+        if (barcodeId != 0) barcodeBox.remove(barcodeId);
+
+        final unitId = existing.unit.targetId;
+        if (unitId != 0) unitBox.remove(unitId);
+
+        for (final pk in existing.packing) {
+          if (pk.id != 0) packingBox.remove(pk.id);
+        }
+
+        for (final ct in existing.category) {
+          if (ct.id != 0) categoryBox.remove(ct.id);
+        }
+
+        for (final img in existing.image) {
+          if (img.id != 0) imageBox.remove(img.id);
+        }
+      } else {
+        newModel.id = 0;
+      }
+
+      // Importante: put() cuidará de persistir ToOne/ToMany que você setou em newModel
+      return productBox.put(newModel);
+    });
+
+    final saved = await productBox.getAsync(id);
+    if (saved == null) {
+      throw AppException(
+        AppExceptionCode.CODE_004_PRODUCT_LOCAL_NOT_FOUND,
+        "Produto não encontrado após sua inserção",
+      );
+    }
+    return saved.toEntity();
   }
 
   @override
@@ -157,4 +230,11 @@ class ProductRepositoryImpl extends ProductRepository {
       productBox.removeAll();
     });
   }
+
+  @override
+  Future<int> count() {
+    final productBox = store.box<ProductModel>();
+    return Future.value(productBox.count());
+  }
+
 }

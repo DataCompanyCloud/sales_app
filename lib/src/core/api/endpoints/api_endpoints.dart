@@ -3,6 +3,7 @@ class ApiEndpoints {
   static const version = "v1";
 
   static const String login = '/login';
+  static const String product = '/product';
 
   /// /customers
   /// Rota para obter customers
@@ -14,6 +15,7 @@ class ApiEndpoints {
   // static String      postById(int id) => '/posts/$id';
 
   /// /products
-  /// Rpta para obter products
-  static String products({required int start, required int end}) => '/products/$start/$end';
+  /// Rota para obter products
+  static const String products = '/products';
+  static String productById({required int productId}) => '/product/$productId';
 }

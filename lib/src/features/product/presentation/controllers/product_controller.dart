@@ -9,18 +9,23 @@ class ProductController extends AutoDisposeAsyncNotifier<List<Product>>{
   /// se não encontrar nada busca da API
   @override
   FutureOr<List<Product>> build() async {
-    await Future.delayed(Duration(seconds: 2));
-
+    final search = ref.watch(productSearchProvider);
     final repository = await ref.watch(productRepositoryProvider.future);
-    await repository.deleteAll();
-    final product = await repository.fetchAll();
+    state = AsyncLoading();
+    // Tenta sincronizar com a API (se possível)
+    try {
+      final service = await ref.read(productServiceProvider.future);
+      final newProducts = await service.getAll(search: search);
 
-    if (product.isNotEmpty) {
-      return product;
+      if (newProducts.isNotEmpty) {
+        await repository.saveAll(newProducts); // Atualiza cache local
+      }
+    } catch (e) {
+      print(e);
     }
 
-    final service = await ref.watch(productServiceProvider.future);
-
-    return await service.getAll(start: 0, end: 30);
+    // Sempre retorna a lista do banco local (fonte da verdade)
+    return await repository.fetchAll(search: search);
   }
+  
 }

@@ -5,7 +5,6 @@ import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
 import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/navigator/navigator_bar.dart';
-import 'package:sales_app/src/features/product/presentation/controllers/product_controller_old.dart';
 import 'package:sales_app/src/features/product/presentation/controllers/product_providers.dart';
 import 'package:sales_app/src/features/product/presentation/widgets/draggable/draggable_layout_product.dart';
 import 'package:sales_app/src/features/product/presentation/widgets/layouts/grid_view_column_2.dart';
@@ -24,12 +23,29 @@ class ProductPage extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => ProductPageState();
 }
 
+enum LayoutProduct {
+  listSmallCard,
+  listBigCard,
+  gridColumn2,
+  gridColumn3
+}
 
 class ProductPageState extends ConsumerState<ProductPage>{
   final productIndexProvider = StateProvider<int>((ref) => 0);
   final isSearchOpenProvider = StateProvider<bool>((_) => false);
   final searchQueryProvider = StateProvider<String>((_) => '');
   final _searchController = TextEditingController();
+
+  int currentPage = 0;
+  LayoutProduct layoutProduct = LayoutProduct.gridColumn2;
+
+  void selectedImage(int index) {
+    currentPage = index;
+  }
+
+  void updateLayout(LayoutProduct layout) {
+    layoutProduct = layout;
+  }
 
   @override
   void initState() {
@@ -49,9 +65,9 @@ class ProductPageState extends ConsumerState<ProductPage>{
 
   @override
   Widget build(BuildContext context) {
-    final currentIndex = ref.watch(productIndexProvider);
     final viewModelProvider = ref.watch(productViewModelProvider);
     final controller = ref.watch(productControllerProvider);
+    final currentIndex = ref.watch(productIndexProvider);
 
     final isSearchOpen = ref.watch(isSearchOpenProvider);
 
@@ -128,7 +144,7 @@ class ProductPageState extends ConsumerState<ProductPage>{
                   ) : SizedBox.shrink(),
                 ),
                 Expanded(
-                  child: switch(viewModelProvider.layoutProduct) {
+                  child: switch(layoutProduct) {
                     LayoutProduct.listSmallCard => ListViewColumnSmall(products: viewModelProvider.products),
                     LayoutProduct.listBigCard => ListViewColumnBig(products: viewModelProvider.products),
                     LayoutProduct.gridColumn2 => GridViewColumn2(products: viewModelProvider.products),
