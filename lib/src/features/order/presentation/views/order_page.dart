@@ -4,25 +4,49 @@ import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/navigator/navigator_bar.dart';
 import 'package:sales_app/src/features/order/presentation/controllers/order_providers.dart';
+import 'package:sales_app/src/features/order/presentation/widgets/indicator/order_step_indicator.dart';
 
-class OrderPage extends ConsumerWidget {
-  final String title;
-
+class OrderPage extends ConsumerStatefulWidget {
   const OrderPage({
     super.key,
-    required this.title
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => OrderPageState();
+}
+
+class OrderPageState extends ConsumerState<OrderPage>{
+  final List<String> steps = ['addCliente', 'addProduto', 'financeiro', 'compraFinalizada'];
+  final currentStepProvider = StateProvider((ref) => 0);
+
+  void onStepTapped(int step) {
+    ref.read(currentStepProvider.notifier).state = step;
+  }
+
+  void nextStep() {
+    final currentStep = ref.read(currentStepProvider);
+    if (currentStep < steps.length - 1) {
+      ref.read(currentStepProvider.notifier).state++;
+    }
+  }
+
+  void previousStep() {
+    final currentStep = ref.read(currentStepProvider);
+    if (currentStep > 0) {
+      ref.read(currentStepProvider.notifier).state--;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final currentIndex = ref.watch(orderIndexProvider);
-    // final viewModelProvider = ref.watch(orderViewModelProvider);
+    final currentStep = ref.watch(currentStepProvider);
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF0081F5),
         foregroundColor: Colors.white,
-        title: Text(title),
+        title: Text("Pedidos"),
         leading: IconButton(
             onPressed: () {
               context.goNamed(HomeRouter.home.name);
@@ -57,132 +81,60 @@ class OrderPage extends ConsumerWidget {
         width: double.infinity,
         height: double.infinity,
         child: Padding(
-          padding: EdgeInsets.only(top: 48, left: 28, right: 28),
+          padding: EdgeInsets.only(top: 22, left: 12, right: 12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Color(0xFF0081F5),
-                          shape: BoxShape.circle,
+              SizedBox(
+                width: double.infinity,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  child: OrderStepIndicator(
+                    steps: ['addCliente', 'addProduto', 'financeiro', 'compraFinalizada'],
+                    currentStep: currentStep,
+                    onStepTapped: (step) {
+                      onStepTapped(step);
+                    },
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  children: [
+                    Divider(
+                      color: Colors.grey,
+                      thickness: 1,
+                      indent: 12,
+                      endIndent: 12,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: SizedBox(
+                          width: 80,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xFF0081F5),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              elevation: 3
+                            ),
+                            child: Icon(
+                              Icons.add,
+                              size: 28,
+                              color: Colors.white,
+                            )
+                          ),
                         ),
-                        child: Icon(
-                          Icons.person_add, color: Colors.white, size: 22),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      height: 4,
-                      color: Colors.grey.shade500,
-                    ),
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade500,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.add_business, color: Colors.white, size: 22),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      height: 4,
-                      color: Colors.grey.shade500,
-                    ),
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade500,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.attach_money_sharp, color: Colors.white, size: 22),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        height: 4,
-                        color: Colors.grey.shade500,
                       ),
                     )
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade500,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.check, color: Colors.white, size: 22),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  Padding(padding: EdgeInsets.only(left: 12, right: 12),
-                    child: Divider(
-                      color: Colors.grey.shade400,
-                      height: 64,
-                    ),
-                  )
-                ],
-              ),
-              Padding(padding: EdgeInsets.only(left: 12, right: 12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 80,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () {
-
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF0081F5),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          elevation: 3
-                        ),
-                        child: Icon(
-                          Icons.add,
-                          size: 28,
-                          color: Colors.white,
-                        )
-                      ),
-                    ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

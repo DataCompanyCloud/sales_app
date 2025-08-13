@@ -125,12 +125,6 @@ class SyncPage extends ConsumerWidget {
           // final user = ref.read(authControllerProvider);
           // ref.read(authControllerProvider.notifier).updateAuth(user.value!.copyWith(hasSynced: true));
           return;
-          if (progressCustomer >= 100) {
-
-            return;
-          }
-          final _ = ref.refresh(syncCustomerProvider);
-          // context.goNamed(AppRoutes.home.name);
         },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30)

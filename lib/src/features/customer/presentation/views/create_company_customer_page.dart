@@ -103,6 +103,7 @@ class CreateCompanyCustomerState extends ConsumerState<CreateCompanyCustomerPage
   @override
   Widget build(BuildContext context) {
     final currentStep = ref.watch(currentStepProvider);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
@@ -136,17 +137,40 @@ class CreateCompanyCustomerState extends ConsumerState<CreateCompanyCustomerPage
                   ),
                 ),
               ),
-              /// informações dos cards aqui
-
               if (currentStep == 0) SafeArea(
-                  child: Column(
+                child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 20, left: 6, bottom: 4),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Dados do Cliente",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    )
+                  ),
+                  TextFieldCreateCustomer(controller: _legalNameController, hintText: "Razao social", icon: Icons.apartment_rounded),
+                  SizedBox(height: 12,),
+                  TextFieldCreateCustomer(controller: _tradeNameController, hintText: "Nome Fantasia", icon: Icons.apartment_rounded),
+                  SizedBox(height: 12,),
+                  TextFieldCreateCustomer(controller: _cnpjController, hintText: "CNPJ", icon: Icons.apartment_rounded),
+                ],
+              )
+            ),
+
+              if (currentStep == 1) SafeArea(
+                child: Column(
                   children: [
                     Padding(
                       padding: EdgeInsets.only(top: 20, left: 6, bottom: 4),
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Dados do Cliente",
+                          "Endereço",
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -154,40 +178,15 @@ class CreateCompanyCustomerState extends ConsumerState<CreateCompanyCustomerPage
                         ),
                       )
                     ),
-                    TextFieldCreateCustomer(controller: _legalNameController, hintText: "Razao social", icon: Icons.apartment_rounded),
+                    TextFieldCreateCustomer(controller: _cepController, hintText: "CEP", icon: Icons.location_on),
                     SizedBox(height: 12,),
-                    TextFieldCreateCustomer(controller: _tradeNameController, hintText: "Nome Fantasia", icon: Icons.apartment_rounded),
+                    TextFieldCreateCustomer(controller: _stateController, hintText: "Estado"),
                     SizedBox(height: 12,),
-                    TextFieldCreateCustomer(controller: _cnpjController, hintText: "CNPJ", icon: Icons.apartment_rounded),
+                    TextFieldCreateCustomer(controller: _cityController, hintText: "Cidade"),
+                    SizedBox(height: 12),
+                    TextFieldCreateCustomer(controller: _streetController, hintText: "Rua"),
                   ],
                 )
-              ),
-
-              if (currentStep == 1) SafeArea(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 20, left: 6, bottom: 4),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Endereço",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        )
-                      ),
-                      TextFieldCreateCustomer(controller: _cepController, hintText: "CEP", icon: Icons.location_on),
-                      SizedBox(height: 12,),
-                      TextFieldCreateCustomer(controller: _stateController, hintText: "Estado"),
-                      SizedBox(height: 12,),
-                      TextFieldCreateCustomer(controller: _cityController, hintText: "Cidade"),
-                      SizedBox(height: 12),
-                      TextFieldCreateCustomer(controller: _streetController, hintText: "Rua"),
-                    ],
-                  )
               ),
 
               if (currentStep == 2) SafeArea(

@@ -1,5 +1,5 @@
-import 'package:faker/faker.dart';
 import 'package:objectbox/objectbox.dart';
+import 'package:sales_app/objectbox.g.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/product/data/models/barcode_model.dart';
@@ -19,9 +19,9 @@ class ProductRepositoryImpl extends ProductRepository {
   @override
   Future<List<Product>> fetchAll({String? search}) async {
     final box = store.box<ProductModel>();
-    
-    final models = await box.getAllAsync();
-    return models.map((m) => m.toEntity()).toList();
+
+    // final models = await box.getAllAsync();
+    // return models.map((m) => m.toEntity()).toList();
 
     // Se não houver termo, retorna tudo (ou adapte para paginção/sort)
     final raw = (search ?? '').trim();
@@ -35,6 +35,19 @@ class ProductRepositoryImpl extends ProductRepository {
 
     // 1) Busca pro NOME ('name' do produto)
     /// TODO: Adicionar lógica para buscar por 'name' / nome do produto
+    final nameCond = ProductModel_.name.contains(term, caseSensitive: false);
+    final nameQuery = box.query(nameCond).build();
+    final byName = await nameQuery.findAsync();
+    nameQuery.close();
+
+    // 2) Mescla resultados removendo duplicados por id
+    final seen = <int>{};
+    final merged = <ProductModel>[];
+    for (final m in [...byName]) {
+      if (seen.add(m.id)) merged.add(m);
+    }
+
+    return merged.map((m) => m.toEntity()).toList();
   }
 
   @override

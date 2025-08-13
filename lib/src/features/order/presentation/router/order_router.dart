@@ -12,7 +12,7 @@ final orderRoutes = GoRoute(
   path: '/order',
   name: OrderRouter.order.name,
   builder: (context, state) {
-    return OrderPage(title: "Pedidos");
+    return OrderPage();
   }
   /*
   pageBuilder: (context, state) {
