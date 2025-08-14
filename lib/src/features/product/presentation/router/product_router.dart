@@ -49,7 +49,7 @@ final productRoutes =  GoRoute(
       name: ProductRouter.productDetails.name,
       builder: (context, state) {
         final product = state.extra as Product;
-        return ProductDetails(title: product.code, products: product);
+        return ProductDetails(products: product);
       },
     ),
   ]

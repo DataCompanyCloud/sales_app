@@ -105,7 +105,7 @@ class CustomerRepositoryImpl extends CustomerRepository{
 
     store.runInTransaction(TxMode.write, () {
       for (final customer in customers) {
-        final oldModel = customerBox.get(customer.customerId);
+        final existing = customerBox.get(customer.customerId);
 
         final newModel = customer.maybeMap(
           person: (p) => p.toModel(),
@@ -117,17 +117,17 @@ class CustomerRepositoryImpl extends CustomerRepository{
           ),
         );
 
-        if (oldModel != null) {
+        if (existing != null) {
           // 🔹 Remove relacionamentos antigos
-          if (oldModel.email.target != null) emailBox.remove(oldModel.email.targetId);
-          if (oldModel.cpf.target != null) cpfBox.remove(oldModel.cpf.targetId);
-          if (oldModel.cnpj.target != null) cnpjBox.remove(oldModel.cnpj.targetId);
+          if (existing.email.target != null) emailBox.remove(existing.email.targetId);
+          if (existing.cpf.target != null) cpfBox.remove(existing.cpf.targetId);
+          if (existing.cnpj.target != null) cnpjBox.remove(existing.cnpj.targetId);
 
-          for (final phone in oldModel.phones) {
+          for (final phone in existing.phones) {
             phoneBox.remove(phone.id);
           }
 
-          final oldAddress = oldModel.address.target;
+          final oldAddress = existing.address.target;
           if (oldAddress != null) {
             if (oldAddress.cep.target != null) {
               cepBox.remove(oldAddress.cep.targetId);
@@ -136,7 +136,9 @@ class CustomerRepositoryImpl extends CustomerRepository{
           }
 
           // 🔹 Mantém o mesmo ID do registro antigo
-          newModel.id = oldModel.id;
+          newModel.id = existing.id;
+        } else {
+          newModel.id = 0;
         }
 
         customerBox.put(newModel);

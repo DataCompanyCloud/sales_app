@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sales_app/src/features/product/presentation/controllers/product_controller_old.dart';
-import 'package:sales_app/src/features/product/presentation/controllers/product_providers.dart';
+import 'package:sales_app/src/features/product/presentation/views/product_page.dart';
 
-class DraggableLayoutProduct extends ConsumerWidget {
-
+class DraggableLayoutProduct extends ConsumerStatefulWidget {
   const DraggableLayoutProduct({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(productViewModelProvider);
+  ConsumerState<ConsumerStatefulWidget> createState() => DraggableLayoutProductState();
+}
+
+class DraggableLayoutProductState extends ConsumerState<DraggableLayoutProduct>{
+
+  LayoutProduct layoutProduct = LayoutProduct.gridColumn2;
+
+  void updateLayout(LayoutProduct layout) {
+    layoutProduct = layout;
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     return DraggableScrollableSheet(
       expand: false,
@@ -47,7 +56,7 @@ class DraggableLayoutProduct extends ConsumerWidget {
                     leading: Icon(Icons.view_list_rounded),
                     title: Text("Lista 1"),
                     onTap: () {
-                      viewModel.updateLayout(LayoutProduct.listSmallCard);
+                      updateLayout(LayoutProduct.listSmallCard);
                       context.pop();
                     }
                   ),
@@ -58,7 +67,7 @@ class DraggableLayoutProduct extends ConsumerWidget {
                     leading: Icon(Icons.view_agenda),
                     title: Text("Lista 2"),
                     onTap: () {
-                      viewModel.updateLayout(LayoutProduct.listBigCard);
+                      updateLayout(LayoutProduct.listBigCard);
                       context.pop();
                     }
                   ),
@@ -69,7 +78,7 @@ class DraggableLayoutProduct extends ConsumerWidget {
                     leading: Icon(Icons.grid_view_rounded),
                     title: Text("Grade 1"),
                     onTap: () {
-                      viewModel.updateLayout(LayoutProduct.gridColumn2);
+                      updateLayout(LayoutProduct.gridColumn2);
                       context.pop();
                     }
                   ),
@@ -80,7 +89,7 @@ class DraggableLayoutProduct extends ConsumerWidget {
                     leading: Icon(Icons.apps_rounded),
                     title: Text("Grade 2"),
                     onTap: () {
-                      viewModel.updateLayout(LayoutProduct.gridColumn3);
+                      updateLayout(LayoutProduct.gridColumn3);
                       context.pop();
                     }
                   ),

@@ -26,6 +26,7 @@ class GridViewColumn2 extends ConsumerWidget {
       children: List.generate(products.length, (index) {
         final product = products[index];
         final image = product.images.firstOrNull;
+        final imageUrl = image?.url;
 
         return Container(
           decoration: BoxDecoration(
@@ -58,12 +59,16 @@ class GridViewColumn2 extends ConsumerWidget {
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10)
                           ),
-                          child: Image.asset(
-                            image?.url ?? 'assets/images/not_found.png',
-                            width: double.infinity,
-                            height: 200,
-                            fit: BoxFit.cover,
-                          ),
+                          child:
+                           imageUrl == null
+                            ? Image.asset(
+                                'assets/images/not_found.png',
+                                width: double.infinity,
+                                height: 200,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.network(imageUrl)
+                          ,
                         ),
                       ),
                     ),
