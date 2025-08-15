@@ -6,8 +6,9 @@ import 'package:sales_app/src/core/my_device.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
 import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/navigator/navigator_bar.dart';
-import 'package:sales_app/src/features/product/presentation/router/product_router.dart';
 import 'package:sales_app/src/features/product/presentation/widgets/draggable/draggable_layout_product.dart';
+import 'package:sales_app/src/features/product/presentation/widgets/layouts/grid_view_column.dart';
+import 'package:sales_app/src/features/product/presentation/widgets/layouts/grid_view_column_2.dart';
 import 'package:sales_app/src/features/product/presentation/widgets/skeleton/grid_view_column_2_skeleton.dart';
 import 'package:sales_app/src/features/product/providers.dart';
 
@@ -71,8 +72,6 @@ class ProductPageState extends ConsumerState<ProductPage>{
     }
 
     final isSearchOpen = ref.watch(isSearchOpenProvider);
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
 
     return controller.when(
       error: (error, stack) => ErrorPage(
@@ -144,14 +143,9 @@ class ProductPageState extends ConsumerState<ProductPage>{
 
 
         return Scaffold(
+          //extendBody: true,
           appBar: AppBar(
             title: Text("Produtos"),
-            leading: IconButton(
-              onPressed: () {
-                context.goNamed(HomeRouter.home.name);
-              },
-              icon: Icon(Icons.arrow_back_ios_new, size: 22)
-            ),
             actions: [
               IconButton(
                 onPressed: () {
@@ -171,8 +165,6 @@ class ProductPageState extends ConsumerState<ProductPage>{
                 icon: Icon(isSearchOpen ? Icons.close : Icons.search),
               ),
             ],
-            backgroundColor: Color(0xFF0081F5),
-            foregroundColor: Colors.white,
           ),
           body: RefreshIndicator(
             onRefresh: () async {
@@ -208,112 +200,7 @@ class ProductPageState extends ConsumerState<ProductPage>{
                   ) : SizedBox.shrink(),
                 ),
                 Flexible(
-                  child: GridView.count(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 4,
-                    crossAxisSpacing: 4,
-                    childAspectRatio: 0.8,
-                    padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                    children: List.generate(products.length, (index) {
-                      final product = products[index];
-                      final image = product.images.firstOrNull;
-                      final imageUrl = image?.url;
-
-                      return GestureDetector(
-                        onTap: () {
-                          context.pushNamed(ProductRouter.productDetails.name, extra: product);
-                        },
-                        child: Container(
-                          child: Text("${product.name}",
-                          overflow: TextOverflow.ellipsis,
-                            maxLines: 3,
-                          ),
-                        ),
-                      );
-
-                      return Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
-                            border: Border.all(color: colorScheme.tertiary, width: 2)
-                        ),
-                        child: InkWell(
-                          onTap: () {
-                            // context.pushNamed(ProductRouter.productDetails.name, extra: product);
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(0),
-                                child: Expanded(
-                                  child: Center(
-                                    child: Container(
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                            topRight: Radius.circular(10),
-                                            topLeft: Radius.circular(10)
-                                        ),
-                                        color: Colors.grey.shade300,
-                                      ),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(10),
-                                            topRight: Radius.circular(10)
-                                        ),
-                                        child:
-                                        imageUrl == null
-                                            ? Image.asset(
-                                          'assets/images/not_found.png',
-                                          width: double.infinity,
-                                          height: 200,
-                                          fit: BoxFit.cover,
-                                        )
-                                            : Image.network(imageUrl)
-                                        ,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                height: 56,
-                                decoration: BoxDecoration(
-                                  color: colorScheme.surface,
-                                  borderRadius: BorderRadius.only(
-                                      bottomLeft: Radius.circular(10),
-                                      bottomRight: Radius.circular(10)
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 6),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "R\$${product.price}",
-                                        style: TextStyle(color: colorScheme.onSurface),
-                                      ),
-                                      Text(
-                                        product.name,
-                                        style: TextStyle(
-                                          color: colorScheme.onSurface,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }),
-                  ),
+                  child: GridViewColumn(products: products),
                 )
                 // Flexible(
                 //   child: switch(layoutProduct) {

@@ -1,17 +1,11 @@
 import 'dart:math';
 import 'package:dio/dio.dart';
-import 'package:faker/faker.dart';
 import 'package:sales_app/src/core/api/api_client.dart';
 import 'package:sales_app/src/core/api/endpoints/api_endpoints.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
-import 'package:sales_app/src/features/product/domain/entities/barcode.dart';
-import 'package:sales_app/src/features/product/domain/entities/image.dart';
-import 'package:sales_app/src/features/product/domain/entities/packing.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
-import 'package:sales_app/src/features/product/domain/entities/unit.dart';
 import 'package:sales_app/src/features/product/domain/repositories/product_repository.dart';
-import 'package:sales_app/src/features/product/domain/entities/category.dart' as entity;
 
 class ProductService {
   final ProductRepository repository;

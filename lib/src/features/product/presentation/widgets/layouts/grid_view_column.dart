@@ -2,24 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sales_app/src/core/my_device.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
 import 'package:sales_app/src/features/product/presentation/router/product_router.dart';
 
-class GridViewColumn2 extends ConsumerWidget {
+class GridViewColumn extends ConsumerWidget {
   final List<Product> products;
 
-  const GridViewColumn2({
+  const GridViewColumn({
     super.key,
     required this.products,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final device = MyDevice.getType(context);
 
     return MasonryGridView.builder(
       // ✅ no builder use gridDelegate
-      gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+      gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: device == DeviceType.mobile
+          ? 2
+          : 4
+        ,
       ),
       padding: const EdgeInsets.all(14),
       physics: const AlwaysScrollableScrollPhysics(),
@@ -50,19 +55,19 @@ class GridViewColumn2 extends ConsumerWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.only(topRight: Radius.circular(16), topLeft: Radius.circular(16)),
                   child: Container(
-                    foregroundDecoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      // border: Border.all(color: Color(0xFFE5E7EB), width: 2),
-                    ),
-                    child:
-                    imageUrl == null
-                      ? Image.asset(
-                          image?.url ?? 'assets/images/not_found.png',
-                          width: double.infinity,
-                          // height: 138,
-                          fit: BoxFit.cover,
-                        )
-                      : Image.network(imageUrl)
+                      foregroundDecoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        // border: Border.all(color: Color(0xFFE5E7EB), width: 2),
+                      ),
+                      child:
+                      imageUrl == null
+                          ? Image.asset(
+                        image?.url ?? 'assets/images/not_found.png',
+                        width: double.infinity,
+                        // height: 138,
+                        fit: BoxFit.cover,
+                      )
+                          : Image.network(imageUrl)
                   ),
                 ),
                 SizedBox(height: 2),
@@ -76,7 +81,7 @@ class GridViewColumn2 extends ConsumerWidget {
                         label: Text(
                           product.code,
                           style: TextStyle(
-                            fontWeight: FontWeight.bold
+                              fontWeight: FontWeight.bold
                           ),
                         ),
 
@@ -92,8 +97,8 @@ class GridViewColumn2 extends ConsumerWidget {
                       Text(
                         "R\$ ${product.price}",
                         style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold
                         ),
                       )
                     ],

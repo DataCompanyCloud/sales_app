@@ -61,15 +61,7 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF0081F5),
-        foregroundColor: Colors.white,
         title: Text("Clientes"),
-        leading: IconButton(
-          onPressed: () {
-            context.goNamed(HomeRouter.home.name);
-          },
-          icon: Icon(Icons.arrow_back_ios_new, size: 22)
-        ),
         actions: [
           IconButton(
             onPressed: _toggleSearch,

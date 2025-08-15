@@ -23,15 +23,18 @@ class CustomerPageSkeleton extends ConsumerWidget {
           Expanded(
             child: ListView.builder(
               padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-              itemCount: 10,
+              itemCount: 20,
               itemBuilder: (context, index) {
-                return Card(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
-                    child: ListTile(
-                      title: Text('Item number $index as title'),
-                      subtitle: const Text('Subtitle here'),
-                      trailing: const Icon(Icons.ac_unit),
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Card(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      child: ListTile(
+                        title: Text('Item number $index as title'),
+                        subtitle: const Text('Subtitle here'),
+                        trailing: const Icon(Icons.ac_unit),
+                      ),
                     ),
                   ),
                 );

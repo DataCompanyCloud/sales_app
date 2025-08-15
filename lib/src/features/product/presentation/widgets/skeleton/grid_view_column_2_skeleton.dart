@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
+import 'package:sales_app/src/core/my_device.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class GridViewColumn2Skeleton extends ConsumerWidget {
@@ -12,21 +11,14 @@ class GridViewColumn2Skeleton extends ConsumerWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
+    final device = MyDevice.getType(context);
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF0081F5),
-        foregroundColor: Colors.white,
         title: Text("Produtos"),
-        leading: IconButton(
-            onPressed: () {
-              context.goNamed(HomeRouter.home.name);
-            },
-            icon: Icon(Icons.arrow_back_ios_new, size: 22)
-        ),
         actions: [
           Skeletonizer(
             effect: ShimmerEffect(
-              baseColor: Color(0xFF0059A9),
               highlightColor: Colors.white,
             ),
             child: Row(
@@ -57,16 +49,18 @@ class GridViewColumn2Skeleton extends ConsumerWidget {
               child: Skeletonizer(
                 enabled: true,
                 child: GridView.count(
-                  crossAxisCount: 2,
+                  crossAxisCount: device == DeviceType.mobile
+                      ? 2
+                      : 3,
                   mainAxisSpacing: 4,
                   crossAxisSpacing: 4,
                   childAspectRatio: 0.8,
                   padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                  children: List.generate(6, (index) {
+                  children: List.generate(20, (index) {
                     return Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(12)),
-                        border: Border.all(color: colorScheme.tertiary, width: 2),
+                        // border: Border.all(color: colorScheme.tertiary, width: 2),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
