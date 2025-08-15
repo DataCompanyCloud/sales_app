@@ -1,5 +1,5 @@
-import 'package:sales_app/src/features/product/domain/entities/barcode.dart';
-import 'package:sales_app/src/features/product/domain/entities/unit.dart';
+import 'package:sales_app/src/features/product/domain/valueObjects/barcode.dart';
+import 'package:sales_app/src/features/product/domain/valueObjects/unit.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'packing.freezed.dart';

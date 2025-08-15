@@ -421,6 +421,11 @@
           "id": "4:1937155979033584262",
           "name": "packing",
           "targetId": "10:8091789353457117217"
+        },
+        {
+          "id": "5:5785665624075224573",
+          "name": "properties",
+          "targetId": "14:8687773187707142329"
         }
       ]
     },
@@ -449,11 +454,75 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "14:8687773187707142329",
+      "lastPropertyId": "3:8516690964790784805",
+      "name": "PropertyModel",
+      "properties": [
+        {
+          "id": "1:3026583996678177251",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7489435834410602544",
+          "name": "propertyId",
+          "type": 6,
+          "flags": 8,
+          "indexId": "18:5620193914293647835"
+        },
+        {
+          "id": "3:8516690964790784805",
+          "name": "name",
+          "type": 9,
+          "flags": 8,
+          "indexId": "19:4077152305186737430"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "15:6903051196714664475",
+      "lastPropertyId": "4:2364787939332313284",
+      "name": "PropertyValueModel",
+      "properties": [
+        {
+          "id": "1:8019761842140303949",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:6840289340195490303",
+          "name": "propertyValueId",
+          "type": 6,
+          "flags": 8,
+          "indexId": "20:5036552139665579267"
+        },
+        {
+          "id": "3:1851165146515644542",
+          "name": "value",
+          "type": 9,
+          "flags": 8,
+          "indexId": "21:5541687511401644271"
+        },
+        {
+          "id": "4:2364787939332313284",
+          "name": "propertyId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "22:1183105609819790673",
+          "relationTarget": "PropertyModel"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "13:2538549684620829903",
-  "lastIndexId": "17:7526680580269943140",
-  "lastRelationId": "4:1937155979033584262",
+  "lastEntityId": "15:6903051196714664475",
+  "lastIndexId": "22:1183105609819790673",
+  "lastRelationId": "5:5785665624075224573",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,

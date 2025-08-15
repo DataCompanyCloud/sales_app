@@ -7,6 +7,7 @@ import 'package:sales_app/src/features/product/data/models/category_model.dart';
 import 'package:sales_app/src/features/product/data/models/image_model.dart';
 import 'package:sales_app/src/features/product/data/models/packing_model.dart';
 import 'package:sales_app/src/features/product/data/models/product_model.dart';
+import 'package:sales_app/src/features/product/data/models/property_model.dart';
 import 'package:sales_app/src/features/product/data/models/unit_model.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
 import 'package:sales_app/src/features/product/domain/repositories/product_repository.dart';
@@ -77,10 +78,11 @@ class ProductRepositoryImpl extends ProductRepository {
     final imageBox = store.box<ImageModel>();
     final categoryBox = store.box<CategoryModel>();
     final packingBox = store.box<PackingModel>();
+    final propertyBox = store.box<PropertyModel>();
 
     store.runInTransaction(TxMode.write, () {
       for (final product in products) {
-        final oldModel = productBox.get(product.productId);
+        final existing = productBox.get(product.productId);
 
         final newModel = product.maybeMap(
           raw: (r) => r.toModel(),
@@ -91,21 +93,26 @@ class ProductRepositoryImpl extends ProductRepository {
           ),
         );
 
-        if (oldModel != null) {
-          if (oldModel.barcode.target != null) barcodeBox.remove(oldModel.barcode.targetId);
-          if (oldModel.unit.target != null) unitBox.remove(oldModel.unit.targetId);
+        if (existing != null) {
+          if (existing.barcode.target != null) barcodeBox.remove(existing.barcode.targetId);
+          if (existing.unit.target != null) unitBox.remove(existing.unit.targetId);
 
-          for (final packing in oldModel.packing) {
+          for (final packing in existing.packing) {
             packingBox.remove(packing.id);
           }
-          for (final category in oldModel.category) {
+          for (final category in existing.category) {
             categoryBox.remove(category.id);
           }
-          for (final image in oldModel.image) {
+          for (final image in existing.image) {
             imageBox.remove(image.id);
           }
+          for(final property in existing.properties) {
+            propertyBox.remove(property.id);
+          }
 
-          newModel.id = oldModel.id;
+          newModel.id = existing.id;
+        } else {
+          newModel.id = 0;
         }
 
         productBox.put(newModel);
@@ -121,6 +128,7 @@ class ProductRepositoryImpl extends ProductRepository {
     final imageBox = store.box<ImageModel>();
     final categoryBox = store.box<CategoryModel>();
     final packingBox = store.box<PackingModel>();
+    final propertyBox = store.box<PropertyModel>();
 
     final id = store.runInTransaction(TxMode.write, () {
       final existing = productBox.get(product.productId);
@@ -156,6 +164,11 @@ class ProductRepositoryImpl extends ProductRepository {
         for (final img in existing.image) {
           if (img.id != 0) imageBox.remove(img.id);
         }
+
+        for(final property in existing.properties) {
+          propertyBox.remove(property.id);
+        }
+
       } else {
         newModel.id = 0;
       }

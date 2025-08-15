@@ -1,5 +1,5 @@
 import 'package:objectbox/objectbox.dart';
-import 'package:sales_app/src/features/product/domain/entities/unit.dart';
+import 'package:sales_app/src/features/product/domain/valueObjects/unit.dart';
 
 @Entity()
 class UnitModel {

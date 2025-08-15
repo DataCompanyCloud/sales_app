@@ -1,7 +1,7 @@
 import 'package:objectbox/objectbox.dart';
 
 // Resolver esse import futuramente
-import 'package:sales_app/src/features/product/domain/entities/category.dart' as entity;
+import 'package:sales_app/src/features/product/domain/valueObjects/category.dart' as entity;
 
 @Entity()
 class CategoryModel {

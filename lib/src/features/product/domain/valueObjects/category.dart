@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:sales_app/src/features/product/domain/valueObjects/property.dart';
 
 part 'category.freezed.dart';
 part 'category.g.dart';

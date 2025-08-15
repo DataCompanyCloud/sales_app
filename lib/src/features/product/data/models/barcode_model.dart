@@ -1,5 +1,5 @@
 import 'package:objectbox/objectbox.dart';
-import 'package:sales_app/src/features/product/domain/entities/barcode.dart';
+import 'package:sales_app/src/features/product/domain/valueObjects/barcode.dart';
 
 @Entity()
 class BarcodeModel {

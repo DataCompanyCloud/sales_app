@@ -59,6 +59,7 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
     //   },
     // );
     return Scaffold(
+      extendBody: true,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -200,7 +201,7 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
                             child: Divider(),
                           ),
                           ReadMoreText(
-                            "Descrição, Descrição, Descrição, Descrição, Descrição, Descrição, Descrição, Descrição, Descrição, Descrição, Descrição, Descrição, Descrição, Descrição, Descrição, Descrição, Descrição, Descrição, Descrição, Descrição. ",
+                            product.description ?? "--",
                             style: TextStyle(color: colorScheme.onSurface),
                             trimLines: 2,
                             trimMode: TrimMode.Line,
@@ -221,13 +222,7 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
                       // Preço + Stepper de quantidade
                       Row(
                         children: [
-
-                          const SizedBox(height: 200),
                           const Spacer(),
-                          _QtyStepper(
-                            value: qty,
-                            onChanged: (v) => setState(() => qty = v),
-                          ),
                         ],
                       ),
                     ],
@@ -239,96 +234,64 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
         ],
       ),
       bottomNavigationBar: SafeArea(
-        child: SizedBox(
-          height: 120,
-          child: Stack(
-            children: [
-              CustomPaint(
-                size: Size(double.infinity, 120),
-                painter: CurvedBarPainter(),
-              ),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _QtyStepper(
-                    value: qty,
-                    onChanged: (v) => setState(() => qty = v),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text('Preço', style: Theme.of(context).textTheme.labelMedium),
-                          const SizedBox(height: 2),
-                          Text(
-                              'R\$21.99',
-                              style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800)
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-                        child: SizedBox(
+        child: Stack(
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _QtyStepper(
+                  value: qty,
+                  onChanged: (v) => setState(() => qty = v),
+                ),
+                Container(
+                  color: colorScheme.surfaceContainerHighest,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Preço',
+                              textAlign: TextAlign.start,
+                              style: Theme.of(context).textTheme.labelMedium
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                                'R\$21.99',
+                                style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800)
+                            ),
+                          ],
+                        ),
+                        SizedBox(
                           height: 52,
                           child: FilledButton.icon(
                             onPressed: () {},
                             icon: Icon(Icons.shopping_cart, size: 22),
                             label: const Text(
-                              'Adicionar no Carrinho',
+                              'Adicionar',
                               style: TextStyle(
-                                  fontSize: 16
+                                fontSize: 16
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ],
-              ),
-            ],
-          )
+                ),
+              ],
+            ),
+
+          ],
         ),
       ),
     );
   }
 }
 
-class _QtyStepper extends StatelessWidget {
-  const _QtyStepper({required this.value, required this.onChanged});
-  final int value;
-  final ValueChanged<int> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    return Container(
-      decoration: BoxDecoration(
-        color: scheme.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: scheme.outline),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconButton(
-            constraints: const BoxConstraints.tightFor(width: 36, height: 36),
-            onPressed: value > 1 ? () => onChanged(value - 1) : null,
-            icon: const Icon(Icons.remove),
-          ),
-          Text('$value', style: Theme.of(context).textTheme.titleMedium),
-          IconButton(
-            constraints: const BoxConstraints.tightFor(width: 36, height: 36),
-            onPressed: () => onChanged(value + 1),
-            icon: const Icon(Icons.add),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class CurvedBarPainter extends CustomPainter {
   @override
@@ -354,4 +317,236 @@ class CurvedBarPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+class CurvedActionBar extends StatelessWidget {
+  const CurvedActionBar({
+    super.key,
+    required this.qty,
+    required this.onQtyChanged,
+    required this.priceText,
+    required this.onAddToCart,
+    this.addLabel = 'Adicionar no Carrinho',
+    this.height = 120,
+    this.bumpWidth = 160,
+    this.bumpHeight = 22,
+  });
+
+  final int qty;
+  final ValueChanged<int> onQtyChanged;
+  final String priceText;
+  final VoidCallback onAddToCart;
+  final String addLabel;
+
+  /// Altura total da barra
+  final double height;
+
+  /// Largura e altura do “galo” (a elevação central)
+  final double bumpWidth;
+  final double bumpHeight;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final base = Theme.of(context).bottomAppBarTheme.color ?? scheme.surfaceContainerHigh;
+    final tint = Theme.of(context).bottomAppBarTheme.surfaceTintColor ?? scheme.surfaceTint;
+    final bg = ElevationOverlay.applySurfaceTint(base, tint, 3);
+
+    return Material(
+      color: Colors.transparent,
+      child: SafeArea(
+        top: false,
+        child: SizedBox(
+          height: height,
+          child: Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              // Fundo curvo
+              Positioned.fill(
+                child: CustomPaint(
+                  painter: _CurvedBumpPainter(
+                    color: bg,
+                    cornerRadius: 16,
+                    bumpWidth: bumpWidth,
+                    bumpHeight: bumpHeight,
+                    shadowOpacity: 0.25,
+                  ),
+                ),
+              ),
+              // Stepper “encaixado” no galo
+              _QtyStepper(
+                value: qty,
+                onChanged: onQtyChanged,
+              ),
+              // Conteúdo principal
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Preço
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Preço', style: Theme.of(context).textTheme.labelMedium),
+                          const SizedBox(height: 2),
+                          Text(
+                            priceText,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(fontWeight: FontWeight.w800),
+                          ),
+                        ],
+                      ),
+                      // Botão
+                      SizedBox(
+                        height: 52,
+                        child: FilledButton.icon(
+                          onPressed: onAddToCart,
+                          icon: const Icon(Icons.shopping_cart, size: 22),
+                          label: Text(addLabel, style: const TextStyle(fontSize: 16)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _CurvedBumpPainter extends CustomPainter {
+  _CurvedBumpPainter({
+    required this.color,
+    required this.cornerRadius,
+    required this.bumpWidth,
+    required this.bumpHeight,
+    this.shadowOpacity = 0.2,
+  });
+
+  final Color color;
+  final double cornerRadius;
+  final double bumpWidth;   // largura do “galo”
+  final double bumpHeight;  // altura (quanto sobe)
+  final double shadowOpacity;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final r = cornerRadius;
+    final startX = (size.width - bumpWidth) / 2;
+    final endX = startX + bumpWidth;
+
+    final path = Path()
+    // canto sup. esquerdo
+      ..moveTo(0, r)
+      ..quadraticBezierTo(0, 0, r, 0)
+    // topo reto até antes do “galo”
+      ..lineTo(startX, 0)
+    // sobe no “galo” (duas curvas suaves até o ápice e desce)
+      ..quadraticBezierTo(startX + bumpWidth * 0.25, 0, size.width / 2, -bumpHeight)
+      ..quadraticBezierTo(endX - bumpWidth * 0.25, 0, endX, 0)
+    // topo reto até o canto sup. direito
+      ..lineTo(size.width - r, 0)
+      ..quadraticBezierTo(size.width, 0, size.width, r)
+    // lados e base com cantos arredondados
+      ..lineTo(size.width, size.height - r)
+      ..quadraticBezierTo(size.width, size.height, size.width - r, size.height)
+      ..lineTo(r, size.height)
+      ..quadraticBezierTo(0, size.height, 0, size.height - r)
+      ..close();
+
+    // sombra sutil
+    canvas.drawShadow(path, Colors.black.withOpacity(shadowOpacity), 8, true);
+
+    // preenchimento
+    final fill = Paint()
+      ..isAntiAlias = true
+      ..style = PaintingStyle.fill
+      ..color = color;
+    canvas.drawPath(path, fill);
+  }
+
+  @override
+  bool shouldRepaint(covariant _CurvedBumpPainter old) {
+    return color != old.color ||
+        cornerRadius != old.cornerRadius ||
+        bumpWidth != old.bumpWidth ||
+        bumpHeight != old.bumpHeight ||
+        shadowOpacity != old.shadowOpacity;
+  }
+}
+
+class _QtyStepper extends StatelessWidget {
+  const _QtyStepper({required this.value, required this.onChanged});
+
+  final int value;
+  final ValueChanged<int> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final bg = Theme.of(context).colorScheme.surfaceContainerHighest;
+    final textStyle = Theme.of(context).textTheme.titleMedium;
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16),),
+        // boxShadow: [BoxShadow(color: Colors.black, blurRadius: 10)],
+      ),
+      child: IntrinsicHeight(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _StepBtn(
+              icon: Icons.remove,
+              onTap: () => onChanged((value - 1).clamp(1, 9999)),
+              foreground: scheme.onSurfaceVariant,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              child: Text('$value', style: textStyle),
+            ),
+            _StepBtn(
+              icon: Icons.add,
+              onTap: () => onChanged((value + 1).clamp(1, 9999)),
+              foreground: scheme.onSurfaceVariant,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _StepBtn extends StatelessWidget {
+  const _StepBtn({
+    required this.icon,
+    required this.onTap,
+    required this.foreground,
+  });
+
+  final IconData icon;
+  final VoidCallback onTap;
+  final Color foreground;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Icon(icon, size: 18, color: foreground),
+      ),
+    );
+  }
 }

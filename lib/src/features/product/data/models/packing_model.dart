@@ -1,7 +1,7 @@
 import 'package:objectbox/objectbox.dart';
 import 'package:sales_app/src/features/product/data/models/barcode_model.dart';
 import 'package:sales_app/src/features/product/data/models/unit_model.dart';
-import 'package:sales_app/src/features/product/domain/entities/packing.dart';
+import 'package:sales_app/src/features/product/domain/valueObjects/packing.dart';
 
 @Entity()
 class PackingModel {

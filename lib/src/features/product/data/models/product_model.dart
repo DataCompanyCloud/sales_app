@@ -3,6 +3,7 @@ import 'package:sales_app/src/features/product/data/models/barcode_model.dart';
 import 'package:sales_app/src/features/product/data/models/category_model.dart';
 import 'package:sales_app/src/features/product/data/models/image_model.dart';
 import 'package:sales_app/src/features/product/data/models/packing_model.dart';
+import 'package:sales_app/src/features/product/data/models/property_model.dart';
 import 'package:sales_app/src/features/product/data/models/unit_model.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
 
@@ -23,6 +24,7 @@ class ProductModel {
   final image = ToMany<ImageModel>();
   final packing = ToMany<PackingModel>();
   final unit = ToOne<UnitModel>();
+  final properties = ToMany<PropertyModel>();
 
   ProductModel ({
     this.id = 0,
@@ -41,6 +43,7 @@ extension ProductModelMapper on ProductModel {
     final packingList = packing.map((p) => p.toEntity()).toList();
     final categoryList = category.map((p) => p.toEntity()).toList();
     final imageList = image.map((p) => p.toEntity()).toList();
+    final propertiesList = properties.map((p) => p.toEntity()).toList();
 
     return Product.raw(
       productId: productId,
@@ -51,7 +54,9 @@ extension ProductModelMapper on ProductModel {
       unit: modelUnit!.toEntity(),
       images: imageList,
       categories: categoryList,
-      packings: packingList
+      packings: packingList,
+      properties: propertiesList,
+      description: description
     );
   }
 }
@@ -63,6 +68,7 @@ extension ProductMapper on Product {
       code: code,
       name: name,
       price: price,
+      description: description
     );
 
     if (barcode != null) {
@@ -78,6 +84,10 @@ extension ProductMapper on Product {
     if (packings.isNotEmpty) {
       entity.packing.addAll(packings.map((p) => p.toModel()));
     }
+    if (properties.isNotEmpty) {
+      entity.properties.addAll(properties.map((p) => p.toModel()));
+    }
+
 
     return entity;
   }

@@ -1,5 +1,5 @@
 import 'package:objectbox/objectbox.dart';
-import 'package:sales_app/src/features/product/domain/entities/image.dart';
+import 'package:sales_app/src/features/product/domain/valueObjects/image.dart';
 
 @Entity()
 class ImageModel {
