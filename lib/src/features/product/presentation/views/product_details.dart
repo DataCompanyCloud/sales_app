@@ -3,11 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:readmore/readmore.dart';
-import 'package:sales_app/src/core/exceptions/app_exception.dart';
-import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
-import 'package:sales_app/src/features/product/presentation/widgets/skeleton/product_details_skeleton.dart';
-import 'package:sales_app/src/features/product/providers.dart';
 
 class ProductDetails extends ConsumerStatefulWidget {
   final Product product;
@@ -151,7 +147,7 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
                     color: colorScheme.surface,
                     borderRadius: const BorderRadius.vertical(top: Radius.circular(0)),
                   ),
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -235,61 +231,136 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
       ),
       bottomNavigationBar: SafeArea(
         child: Stack(
+          clipBehavior: Clip.none,
           children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _QtyStepper(
+            Padding(
+              padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: colorScheme.surfaceContainerHighest,
+                  border: Border.all(color: Color(0xFF222426), width: 4),
+                  borderRadius: BorderRadius.circular(12)
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Preço Total',
+                            style: Theme.of(context).textTheme.labelMedium,
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            product.price.toString(),
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 52,
+                        child: FilledButton.icon(
+                          onPressed: () {},
+                          style: FilledButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(12))
+                            )
+                          ),
+                          icon: const Icon(Icons.shopping_cart, size: 22),
+                          label: const Text('Adicionar'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: -20,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: _QtyStepper(
                   value: qty,
                   onChanged: (v) => setState(() => qty = v),
                 ),
-                Container(
-                  color: colorScheme.surfaceContainerHighest,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              'Preço',
-                              textAlign: TextAlign.start,
-                              style: Theme.of(context).textTheme.labelMedium
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                                'R\$21.99',
-                                style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800)
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 52,
-                          child: FilledButton.icon(
-                            onPressed: () {},
-                            icon: Icon(Icons.shopping_cart, size: 22),
-                            label: const Text(
-                              'Adicionar',
-                              style: TextStyle(
-                                fontSize: 16
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
-
           ],
         ),
       ),
     );
   }
+}
+
+class UShapeClipper extends CustomClipper<Path> {
+  final double stepperWidth;
+  final double stepperHeight;
+  final double radius;
+
+  UShapeClipper({
+    required this.stepperWidth,
+    required this.stepperHeight,
+    this.radius = 0
+  });
+
+  @override
+  Path getClip(Size size) {
+    double cutWidth = stepperWidth + 20;
+    double cutHeight = stepperHeight / 2 + 10;
+    double radius = 30; // mesmo valor do BorderRadius
+
+    Path path = Path();
+
+    // canto superior esquerdo
+    path.moveTo(0, radius);
+    path.quadraticBezierTo(0, 0, radius, 0);
+
+    // até antes do recorte
+    path.lineTo((size.width - cutWidth) / 2, 0);
+
+    // recorte em U
+    
+    path.quadraticBezierTo(
+      size.width / 2 - cutWidth / 2, cutHeight,
+      size.width / 2, cutHeight - 2,
+    );
+    path.quadraticBezierTo(
+      size.width / 2 + cutWidth / 2, cutHeight,
+      (size.width + cutWidth) / 2, 0,
+    );
+
+    // linha até canto superior direito (menos o raio)
+    path.lineTo(size.width - radius, 0);
+
+    // canto superior direito
+    path.quadraticBezierTo(size.width, 0, size.width, radius);
+
+    // lado direito
+    path.lineTo(size.width, size.height - radius);
+
+    // canto inferior direito
+    path.quadraticBezierTo(size.width, size.height, size.width - radius, size.height);
+
+    // lado inferior
+    path.lineTo(radius, size.height);
+
+    // canto inferior esquerdo
+    path.quadraticBezierTo(0, size.height, 0, size.height - radius);
+
+    // fecha caminho
+    path.close();
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => true;
 }
 
 
@@ -362,7 +433,7 @@ class CurvedActionBar extends StatelessWidget {
             alignment: Alignment.topCenter,
             children: [
               // Fundo curvo
-              Positioned.fill(
+              Positioned(
                 child: CustomPaint(
                   painter: _CurvedBumpPainter(
                     color: bg,
@@ -373,7 +444,6 @@ class CurvedActionBar extends StatelessWidget {
                   ),
                 ),
               ),
-              // Stepper “encaixado” no galo
               _QtyStepper(
                 value: qty,
                 onChanged: onQtyChanged,
@@ -396,9 +466,9 @@ class CurvedActionBar extends StatelessWidget {
                           Text(
                             priceText,
                             style: Theme.of(context)
-                                .textTheme
-                                .titleLarge
-                                ?.copyWith(fontWeight: FontWeight.w800),
+                              .textTheme
+                              .titleLarge
+                              ?.copyWith(fontWeight: FontWeight.w800),
                           ),
                         ],
                       ),
@@ -463,9 +533,6 @@ class _CurvedBumpPainter extends CustomPainter {
       ..quadraticBezierTo(0, size.height, 0, size.height - r)
       ..close();
 
-    // sombra sutil
-    canvas.drawShadow(path, Colors.black.withOpacity(shadowOpacity), 8, true);
-
     // preenchimento
     final fill = Paint()
       ..isAntiAlias = true
@@ -477,10 +544,10 @@ class _CurvedBumpPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant _CurvedBumpPainter old) {
     return color != old.color ||
-        cornerRadius != old.cornerRadius ||
-        bumpWidth != old.bumpWidth ||
-        bumpHeight != old.bumpHeight ||
-        shadowOpacity != old.shadowOpacity;
+      cornerRadius != old.cornerRadius ||
+      bumpWidth != old.bumpWidth ||
+      bumpHeight != old.bumpHeight ||
+      shadowOpacity != old.shadowOpacity;
   }
 }
 
@@ -499,8 +566,13 @@ class _QtyStepper extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16),),
-        // boxShadow: [BoxShadow(color: Colors.black, blurRadius: 10)],
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12),
+          topRight: Radius.circular(12),
+          bottomLeft: Radius.circular(12),
+          bottomRight: Radius.circular(12)
+        ),
+        border: Border.all(color: Color(0xFF222426), width: 4)
       ),
       child: IntrinsicHeight(
         child: Row(
@@ -550,3 +622,122 @@ class _StepBtn extends StatelessWidget {
     );
   }
 }
+
+//
+// class DebugClipPainter extends CustomPainter {
+//   final double stepperWidth;
+//   final double stepperHeight;
+//   final double radius;
+//
+//   DebugClipPainter({
+//     required this.stepperWidth,
+//     required this.stepperHeight,
+//     this.radius = 30,
+//   });
+//
+//   @override
+//   void paint(Canvas canvas, Size size) {
+//     double cutWidth = stepperWidth + 20;
+//     double cutHeight = stepperHeight / 2 + 10;
+//
+//     Path path = Path();
+//
+//     // canto superior esquerdo
+//     final double x1 = 0;
+//     final double y1 = radius;
+//     path.moveTo(x1, y1);
+//     final double x2 = 0;
+//     final double y2 = 0;
+//     path.quadraticBezierTo(x2, y2, 30, y2);
+//
+//     // linha até antes do recorte
+//     final double x3 = size.width / 2 - 50;
+//     final double y3 = 0;
+//     path.lineTo(x3, y3);
+//
+//     // recorte U
+//     final double x4 = size.width / 2 - 50;
+//     final double y4 = cutHeight - 0;
+//     final double x5 = size.width / 2;
+//     final double y5 = cutHeight + 10;
+//     path.quadraticBezierTo(x4, y4, x5, y5);
+//
+//     final double x6 = size.width / 2 + 50;
+//     final double y6 = cutHeight;
+//     final double x7 = size.width / 2 + 50;
+//     final double y7 = 0;
+//     path.quadraticBezierTo(x6, y6, x7, y7);
+//
+//     // linha até canto superior direito (menos o raio)
+//     final double x8 = size.width - radius;
+//     final double y8 = 0;
+//     path.lineTo(x8, y8);
+//
+//     // canto superior direito
+//     final double x9 = size.width;
+//     final double y9 = 0;
+//     final double x10 = size.width;
+//     final double y10 = radius;
+//     path.quadraticBezierTo(x9, y9, x10, y10);
+//
+//     // lado direito
+//     final double x11 = size.width;
+//     final double y11 = size.height - radius;
+//     path.lineTo(x11, y11);
+//
+//     // canto inferior direito
+//     final double x12 = size.width;
+//     final double y12 = size.height;
+//     final double x13 = size.width - radius;
+//     final double y13 = size.height;
+//     path.quadraticBezierTo(x12, y12, x13, y13);
+//
+//     // lado inferior
+//     final double x14 = radius;
+//     final double y14 = size.height;
+//     path.lineTo(x14, y14);
+//
+//     // canto inferior esquerdo
+//     final double x15 = 0;
+//     final double y15 = size.height;
+//     final double x16 = 0;
+//     final double y16 = size.height - radius;
+//     path.quadraticBezierTo(x15, y15, x16, y16);
+//
+//     path.close();
+//
+//     // --- desenha o path normal ---
+//     Paint borderPaint = Paint()
+//       ..color = Colors.red
+//       ..style = PaintingStyle.stroke
+//       ..strokeWidth = 2;
+//     canvas.drawPath(path, borderPaint);
+//
+//     // --- desenha pontos de controle ---
+//     Paint pointPaint = Paint()
+//       ..color = Colors.blue
+//       ..style = PaintingStyle.fill;
+//
+//     void drawPoint(Offset p) {
+//       canvas.drawCircle(p, 4, pointPaint);
+//     }
+//
+//     // agora marca os pontos importantes
+//     drawPoint(Offset(x1, y1)); // início canto sup. esq.
+//     drawPoint(Offset(y1, x1));
+//     drawPoint(Offset(x3, y3));
+//     drawPoint(Offset(x4, y4));
+//     drawPoint(Offset(x5, y5));
+//     drawPoint(Offset(x6, y6));
+//     drawPoint(Offset(x7, y7));
+//     drawPoint(Offset(x8, y8));
+//     drawPoint(Offset(x10, y10));
+//     drawPoint(Offset(x11, y11));
+//     drawPoint(Offset(x13, y13));
+//     drawPoint(Offset(x14, y14));
+//     drawPoint(Offset(x16, y16));
+//   }
+//
+//   @override
+//   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+// }
