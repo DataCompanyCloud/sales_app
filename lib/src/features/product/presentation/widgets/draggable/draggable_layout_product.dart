@@ -38,8 +38,8 @@ class DraggableLayoutProductState extends ConsumerState<DraggableLayoutProduct>{
                     height: 4,
                     margin: EdgeInsets.only(bottom: 12),
                     decoration: BoxDecoration(
-                      color: Colors.grey[300],
                       borderRadius: BorderRadius.circular(2),
+                      color: Colors.grey[300],
                     ),
                   ),
                 ),

@@ -55,7 +55,6 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
     //   },
     // );
     return Scaffold(
-      extendBody: true,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -83,7 +82,6 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
       ),
       body: Stack(
         children: [
-          // Conteúdo rolável
           SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -140,7 +138,6 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
                     ],
                   ),
                 ),
-
                 // CONTEÚDO com cantos arredondados no topo
                 Container(
                   decoration: BoxDecoration(
@@ -165,7 +162,7 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
-                                  'Bakuchiol & Tamanu oil • 100ml',
+                                  'Subtítulo • Subtítulo',
                                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant,),
                                 ),
                               ],
@@ -181,20 +178,56 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
                           ),
                         ],
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 18),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          SizedBox(
+                            height: 48,
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: List.generate(
+                                10,
+                                (index) => Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(color: colorScheme.primary, width: 1),
+                                    color: colorScheme.onSecondary,
+                                  ),
+                                  width: 100,
+                                  margin: EdgeInsets.all(8),
+                                  child: Center(
+                                    child: Text("Categoria $index"),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 8),
-                            child: Text(
-                              'Descrição:',
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w700),
+                            padding: const EdgeInsets.only(top: 12, left: 8),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Preço: ",
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w700),
+                                ),
+                                Text(
+                                  "R\$${product.price}",
+                                  style: Theme.of(context).textTheme.titleMedium,
+                                ),
+                              ],
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 12, bottom: 12),
                             child: Divider(),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8, bottom: 8),
+                            child: Text(
+                              'Descrição:',
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w700),
+                            ),
                           ),
                           ReadMoreText(
                             product.description ?? "--",
@@ -255,7 +288,7 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
                           ),
                           const SizedBox(height: 2),
                           Text(
-                            product.price.toString(),
+                            (product.price * qty).toStringAsFixed(2),
                             style: Theme.of(context).textTheme.titleLarge?.copyWith(
                               fontWeight: FontWeight.w800,
                             ),
@@ -271,7 +304,7 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
                               borderRadius: BorderRadius.all(Radius.circular(12))
                             )
                           ),
-                          icon: const Icon(Icons.shopping_cart, size: 22),
+                          icon: const Icon(Icons.add, size: 20),
                           label: const Text('Adicionar'),
                         ),
                       ),
@@ -280,6 +313,7 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
                 ),
               ),
             ),
+            /// TODO: Ajustar o QtyStepper para ser exibido junto do teclado
             Positioned(
               top: -20,
               left: 0,
@@ -465,10 +499,7 @@ class CurvedActionBar extends StatelessWidget {
                           const SizedBox(height: 2),
                           Text(
                             priceText,
-                            style: Theme.of(context)
-                              .textTheme
-                              .titleLarge
-                              ?.copyWith(fontWeight: FontWeight.w800),
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
                           ),
                         ],
                       ),
@@ -583,9 +614,26 @@ class _QtyStepper extends StatelessWidget {
               onTap: () => onChanged((value - 1).clamp(1, 9999)),
               foreground: scheme.onSurfaceVariant,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-              child: Text('$value', style: textStyle),
+            SizedBox(
+              width: 40,
+              child: TextField(
+                controller: TextEditingController(text: value.toString()),
+                keyboardType: TextInputType.number,
+                textAlign: TextAlign.center,
+                style: textStyle,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                  filled: false,
+                ),
+                onSubmitted: (text) {
+                  FocusScope.of(context).unfocus();
+                  final intValue = int.tryParse(text) ?? value;
+                  onChanged(intValue.clamp(1, 9999));
+                },
+              ),
             ),
             _StepBtn(
               icon: Icons.add,
@@ -622,122 +670,3 @@ class _StepBtn extends StatelessWidget {
     );
   }
 }
-
-//
-// class DebugClipPainter extends CustomPainter {
-//   final double stepperWidth;
-//   final double stepperHeight;
-//   final double radius;
-//
-//   DebugClipPainter({
-//     required this.stepperWidth,
-//     required this.stepperHeight,
-//     this.radius = 30,
-//   });
-//
-//   @override
-//   void paint(Canvas canvas, Size size) {
-//     double cutWidth = stepperWidth + 20;
-//     double cutHeight = stepperHeight / 2 + 10;
-//
-//     Path path = Path();
-//
-//     // canto superior esquerdo
-//     final double x1 = 0;
-//     final double y1 = radius;
-//     path.moveTo(x1, y1);
-//     final double x2 = 0;
-//     final double y2 = 0;
-//     path.quadraticBezierTo(x2, y2, 30, y2);
-//
-//     // linha até antes do recorte
-//     final double x3 = size.width / 2 - 50;
-//     final double y3 = 0;
-//     path.lineTo(x3, y3);
-//
-//     // recorte U
-//     final double x4 = size.width / 2 - 50;
-//     final double y4 = cutHeight - 0;
-//     final double x5 = size.width / 2;
-//     final double y5 = cutHeight + 10;
-//     path.quadraticBezierTo(x4, y4, x5, y5);
-//
-//     final double x6 = size.width / 2 + 50;
-//     final double y6 = cutHeight;
-//     final double x7 = size.width / 2 + 50;
-//     final double y7 = 0;
-//     path.quadraticBezierTo(x6, y6, x7, y7);
-//
-//     // linha até canto superior direito (menos o raio)
-//     final double x8 = size.width - radius;
-//     final double y8 = 0;
-//     path.lineTo(x8, y8);
-//
-//     // canto superior direito
-//     final double x9 = size.width;
-//     final double y9 = 0;
-//     final double x10 = size.width;
-//     final double y10 = radius;
-//     path.quadraticBezierTo(x9, y9, x10, y10);
-//
-//     // lado direito
-//     final double x11 = size.width;
-//     final double y11 = size.height - radius;
-//     path.lineTo(x11, y11);
-//
-//     // canto inferior direito
-//     final double x12 = size.width;
-//     final double y12 = size.height;
-//     final double x13 = size.width - radius;
-//     final double y13 = size.height;
-//     path.quadraticBezierTo(x12, y12, x13, y13);
-//
-//     // lado inferior
-//     final double x14 = radius;
-//     final double y14 = size.height;
-//     path.lineTo(x14, y14);
-//
-//     // canto inferior esquerdo
-//     final double x15 = 0;
-//     final double y15 = size.height;
-//     final double x16 = 0;
-//     final double y16 = size.height - radius;
-//     path.quadraticBezierTo(x15, y15, x16, y16);
-//
-//     path.close();
-//
-//     // --- desenha o path normal ---
-//     Paint borderPaint = Paint()
-//       ..color = Colors.red
-//       ..style = PaintingStyle.stroke
-//       ..strokeWidth = 2;
-//     canvas.drawPath(path, borderPaint);
-//
-//     // --- desenha pontos de controle ---
-//     Paint pointPaint = Paint()
-//       ..color = Colors.blue
-//       ..style = PaintingStyle.fill;
-//
-//     void drawPoint(Offset p) {
-//       canvas.drawCircle(p, 4, pointPaint);
-//     }
-//
-//     // agora marca os pontos importantes
-//     drawPoint(Offset(x1, y1)); // início canto sup. esq.
-//     drawPoint(Offset(y1, x1));
-//     drawPoint(Offset(x3, y3));
-//     drawPoint(Offset(x4, y4));
-//     drawPoint(Offset(x5, y5));
-//     drawPoint(Offset(x6, y6));
-//     drawPoint(Offset(x7, y7));
-//     drawPoint(Offset(x8, y8));
-//     drawPoint(Offset(x10, y10));
-//     drawPoint(Offset(x11, y11));
-//     drawPoint(Offset(x13, y13));
-//     drawPoint(Offset(x14, y14));
-//     drawPoint(Offset(x16, y16));
-//   }
-//
-//   @override
-//   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
-// }

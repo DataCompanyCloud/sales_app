@@ -6,9 +6,9 @@ import 'package:sales_app/src/core/my_device.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
 import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/navigator/navigator_bar.dart';
+import 'package:sales_app/src/features/product/presentation/widgets/draggable/draggable_filter_product.dart';
 import 'package:sales_app/src/features/product/presentation/widgets/draggable/draggable_layout_product.dart';
 import 'package:sales_app/src/features/product/presentation/widgets/layouts/grid_view_column.dart';
-import 'package:sales_app/src/features/product/presentation/widgets/layouts/grid_view_column_2.dart';
 import 'package:sales_app/src/features/product/presentation/widgets/skeleton/grid_view_column_2_skeleton.dart';
 import 'package:sales_app/src/features/product/providers.dart';
 
@@ -124,7 +124,7 @@ class ProductPageState extends ConsumerState<ProductPage>{
                       size: 96,
                     ),
                     Padding(padding: EdgeInsets.only(top: 12)),
-                    Text("Nenhum cliente para ser mostrado"),
+                    Text("Nenhum produto para ser mostrado"),
                     Padding(padding: EdgeInsets.only(top: 16)),
                     InkWell(
                       onTap: () => ref.refresh(productControllerProvider.future),
@@ -140,8 +140,6 @@ class ProductPageState extends ConsumerState<ProductPage>{
             bottomNavigationBar: CustomBottomNavigationBar(currentIndex: currentIndex),
           );
         }
-
-
         return Scaffold(
           //extendBody: true,
           appBar: AppBar(
@@ -157,7 +155,12 @@ class ProductPageState extends ConsumerState<ProductPage>{
                 icon: Icon(Icons.remove_red_eye)
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) => DraggableFilterProduct()
+                  );
+                },
                 icon: Icon(Icons.filter_alt)
               ),
               IconButton(
@@ -201,7 +204,7 @@ class ProductPageState extends ConsumerState<ProductPage>{
                 ),
                 Flexible(
                   child: GridViewColumn(products: products),
-                )
+                ),
                 // Flexible(
                 //   child: switch(layoutProduct) {
                 //     LayoutProduct.listSmallCard => ListViewColumnSmall(products: products),
