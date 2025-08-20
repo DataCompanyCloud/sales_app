@@ -55,19 +55,19 @@ class GridViewColumn extends ConsumerWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.only(topRight: Radius.circular(16), topLeft: Radius.circular(16)),
                   child: Container(
-                      foregroundDecoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        // border: Border.all(color: Color(0xFFE5E7EB), width: 2),
-                      ),
-                      child:
-                      imageUrl == null
-                          ? Image.asset(
-                        image?.url ?? 'assets/images/not_found.png',
-                        width: double.infinity,
-                        // height: 138,
-                        fit: BoxFit.cover,
-                      )
-                          : Image.network(imageUrl)
+                    foregroundDecoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      // border: Border.all(color: Color(0xFFE5E7EB), width: 2),
+                    ),
+                    child:
+                    imageUrl == null
+                        ? Image.asset(
+                      image?.url ?? 'assets/images/not_found.png',
+                      width: double.infinity,
+                      // height: 138,
+                      fit: BoxFit.cover,
+                    )
+                        : Image.network(imageUrl)
                   ),
                 ),
                 SizedBox(height: 2),
@@ -84,7 +84,6 @@ class GridViewColumn extends ConsumerWidget {
                               fontWeight: FontWeight.bold
                           ),
                         ),
-
                         labelPadding: EdgeInsets.only(left: 8, right: 8),
                         padding: EdgeInsets.all(0),
                       ),
@@ -95,7 +94,7 @@ class GridViewColumn extends ConsumerWidget {
                       ),
                       SizedBox(height: 2),
                       Text(
-                        "R\$ ${product.price}",
+                        "R\$ ${product.price.toStringAsFixed(2)}",
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold

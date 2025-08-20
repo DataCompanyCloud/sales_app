@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/core/my_device.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class GridViewColumn2Skeleton extends ConsumerWidget {
-  const GridViewColumn2Skeleton({super.key});
+class GridViewColumnSkeleton extends ConsumerWidget {
+  const GridViewColumnSkeleton({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -9,7 +9,7 @@ import 'package:sales_app/src/features/home/presentation/widgets/navigator/navig
 import 'package:sales_app/src/features/product/presentation/widgets/draggable/draggable_filter_product.dart';
 import 'package:sales_app/src/features/product/presentation/widgets/draggable/draggable_layout_product.dart';
 import 'package:sales_app/src/features/product/presentation/widgets/layouts/grid_view_column.dart';
-import 'package:sales_app/src/features/product/presentation/widgets/skeleton/grid_view_column_2_skeleton.dart';
+import 'package:sales_app/src/features/product/presentation/widgets/skeleton/grid_view_column_skeleton.dart';
 import 'package:sales_app/src/features/product/providers.dart';
 
 class ProductPage extends ConsumerStatefulWidget {
@@ -79,7 +79,7 @@ class ProductPageState extends ConsumerState<ProductPage>{
           ? error
           : AppException.errorUnexpected(error.toString()),
       ),
-      loading: () => GridViewColumn2Skeleton(),
+      loading: () => GridViewColumnSkeleton(),
       data: (products) {
         if(products.isEmpty) {
           return Scaffold(

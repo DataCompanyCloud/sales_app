@@ -55,6 +55,7 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
     //   },
     // );
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -212,7 +213,7 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
                                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w700),
                                 ),
                                 Text(
-                                  "R\$${product.price}",
+                                  "R\$${product.price.toStringAsFixed(2)}",
                                   style: Theme.of(context).textTheme.titleMedium,
                                 ),
                               ],
@@ -262,16 +263,16 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
           ),
         ],
       ),
-      bottomNavigationBar: SafeArea(
+      bottomSheet: SafeArea(
         child: Stack(
           clipBehavior: Clip.none,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
+              padding: const EdgeInsets.only(left: 8, right: 8, bottom: 56),
               child: Container(
                 decoration: BoxDecoration(
                   color: colorScheme.surfaceContainerHighest,
-                  border: Border.all(color: Color(0xFF222426), width: 4),
+                  border: Border.all(color: Color(0xFF222426), width: 2),
                   borderRadius: BorderRadius.circular(12)
                 ),
                 child: Padding(
@@ -313,7 +314,6 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
                 ),
               ),
             ),
-            /// TODO: Ajustar o QtyStepper para ser exibido junto do teclado
             Positioned(
               top: -20,
               left: 0,
@@ -603,7 +603,7 @@ class _QtyStepper extends StatelessWidget {
           bottomLeft: Radius.circular(12),
           bottomRight: Radius.circular(12)
         ),
-        border: Border.all(color: Color(0xFF222426), width: 4)
+        border: Border.all(color: Color(0xFF222426), width: 2)
       ),
       child: IntrinsicHeight(
         child: Row(
@@ -629,9 +629,9 @@ class _QtyStepper extends StatelessWidget {
                   filled: false,
                 ),
                 onSubmitted: (text) {
-                  FocusScope.of(context).unfocus();
                   final intValue = int.tryParse(text) ?? value;
                   onChanged(intValue.clamp(1, 9999));
+                  FocusScope.of(context).unfocus();
                 },
               ),
             ),
