@@ -36,7 +36,10 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
     final product = widget.product;
     final image = product.images.firstOrNull;
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final scheme = theme.colorScheme;
+
+    double screenHeight = MediaQuery.of(context).size.height;
+    double fortyPercent = screenHeight * 0.4;
 
     final imageUrl = image?.url;
     /// TODO: Finalizar a página de product_details
@@ -55,7 +58,7 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
     //   },
     // );
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      extendBody: true,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -63,522 +66,299 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
         elevation: 0,
         systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.dark, // ícones escuros
+          statusBarIconBrightness: Brightness.dark,
           statusBarBrightness: Brightness.light,
         ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8),
             child: IconButton.filled(
-              style: IconButton.styleFrom(
-                backgroundColor: colorScheme.primary,
-              ),
               onPressed: () {
                 context.pop();
               },
-              icon: const Icon(Icons.close, color: Colors.white),
+              style: IconButton.styleFrom(
+                backgroundColor: scheme.primary
+              ),
+              icon: Icon(Icons.close, color: Colors.black),
             ),
           ),
         ],
       ),
-      body: Stack(
+      body: Column(
         children: [
-          SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // HEADER com imagem
-                AspectRatio(
-                  aspectRatio: 1.0,
-                  child: Stack(
-                    children: [
-                      Positioned.fill(
-                        child: PageView.builder(
-                          controller: pageController,
-                          itemCount: 4,
-                          onPageChanged: (index) {
-                            currentPage.value = index;
-                          },
-                          itemBuilder: (context, index) {
-                            return imageUrl == null
-                              ? Image.asset(
-                                'assets/images/not_found.png',
-                                fit: BoxFit.cover,
-                            )
-                              : Image.network(imageUrl);
-                          },
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // HEADER com imagem
+                  SizedBox(
+                    height: fortyPercent,
+                    child: Stack(
+                      children: [
+                        Positioned.fill(
+                          child: PageView.builder(
+                            controller: pageController,
+                            itemCount: 4,
+                            onPageChanged: (index) {
+                              currentPage.value = index;
+                            },
+                            itemBuilder: (context, index) {
+                              return imageUrl == null
+                                ? Image.asset(
+                                  'assets/images/not_found.png',
+                                  fit: BoxFit.cover,
+                              )
+                                : Image.network(imageUrl);
+                            },
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 8, left: 8),
-                        child: ValueListenableBuilder<int>(
-                          valueListenable: currentPage,
-                          builder: (_, page, _) => Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: List.generate(
-                              4, (index) => AnimatedContainer(
-                                curve: Curves.easeInOut,
-                                duration: Duration(milliseconds: 300),
-                                margin: EdgeInsets.symmetric(horizontal: 2, vertical: 2),
-                                width: 10,
-                                height: 10,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: page == index
-                                    ? colorScheme.primary
-                                    : Colors.transparent,
-                                  border: Border.all(
-                                    color: colorScheme.primary
-                                  )
+                        Padding(
+                          padding: EdgeInsets.only(top: 8, left: 8),
+                          child: ValueListenableBuilder<int>(
+                            valueListenable: currentPage,
+                            builder: (_, page, _) => Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: List.generate(
+                                4, (index) => AnimatedContainer(
+                                  curve: Curves.easeInOut,
+                                  duration: Duration(milliseconds: 300),
+                                  margin: EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+                                  width: 10,
+                                  height: 10,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: page == index
+                                      ? scheme.primary
+                                      : Colors.transparent,
+                                    border: Border.all(
+                                      color: scheme.primary
+                                    )
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                // CONTEÚDO com cantos arredondados no topo
-                Container(
-                  decoration: BoxDecoration(
-                    color: colorScheme.surface,
-                    borderRadius: const BorderRadius.vertical(top: Radius.circular(0)),
-                  ),
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Título + rating
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Column(
+                  // CONTEÚDO com cantos arredondados no topo
+                  Container(
+                    decoration: BoxDecoration(
+                      color: scheme.surface,
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(0)),
+                    ),
+                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                Text(
+                                  product.code,
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant,),
+                                ),
+                                const SizedBox(height: 4),
                                 Text(
                                   product.name,
                                   style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
                                 ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  'Subtítulo • Subtítulo',
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant,),
-                                ),
                               ],
                             ),
-                          ),
-                          const SizedBox(width: 8),
-                          Row(
-                            children: const [
-                              Icon(Icons.star, color: Colors.amber, size: 18),
-                              SizedBox(width: 4),
-                              Text('4.5'),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 18),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 48,
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              children: List.generate(
-                                10,
-                                (index) => Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(color: colorScheme.primary, width: 1),
-                                    color: colorScheme.onSecondary,
-                                  ),
-                                  width: 100,
-                                  margin: EdgeInsets.all(8),
-                                  child: Center(
-                                    child: Text("Categoria $index"),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            product.categories.isEmpty
+                              ? SizedBox()
+                              : SizedBox(
+                              height: 48,
+                              child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                children: List.generate(
+                                  product.categories.length,
+                                      (index) => Container(
+                                    padding: EdgeInsets.only(left: 8, right: 8),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(color: scheme.primary, width: 1),
+                                      color: scheme.onSecondary,
+                                    ),
+                                    margin: EdgeInsets.only(right: 8, top: 8, bottom: 8),
+                                    child: Center(
+                                      child: Text(product.categories[index].name),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 12, left: 8),
-                            child: Row(
+                            Padding(
+                              padding: const EdgeInsets.only(top: 12, bottom: 12),
+                              child: Divider(),
+                            ),
+                            Row(
                               children: [
                                 Text(
-                                  "Preço: ",
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w700),
-                                ),
-                                Text(
-                                  "R\$${product.price.toStringAsFixed(2)}",
-                                  style: Theme.of(context).textTheme.titleMedium,
+                                  "R\$ ${product.price.toStringAsFixed(2)}",
+                                  style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
                                 ),
                               ],
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 12, bottom: 12),
-                            child: Divider(),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8, bottom: 8),
-                            child: Text(
-                              'Descrição:',
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w700),
+                            product.properties.isEmpty
+                            ? SizedBox()
+                            : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: product.properties.map((property) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(top: 12),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                          property.name
+                                      ),
+                                      SizedBox(
+                                        height: 32,
+                                        child: ListView(
+                                          scrollDirection: Axis.horizontal,
+                                          shrinkWrap: true,
+                                          children: List.generate(
+                                            property.values.length,
+                                                (index) => Container(
+                                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(8),
+                                                border: Border.all(color: scheme.primary, width: 1),
+                                                color: scheme.onSecondary,
+                                              ),
+                                              margin: const EdgeInsets.only(right: 8),
+                                              child: Center(
+                                                child: Text(property.values[index].value),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }).toList(),
                             ),
-                          ),
-                          ReadMoreText(
-                            product.description ?? "--",
-                            style: TextStyle(color: colorScheme.onSurface),
-                            trimLines: 2,
-                            trimMode: TrimMode.Line,
-                            trimCollapsedText: "Leia mais",
-                            trimExpandedText: "Mostrar menos",
-                            moreStyle: TextStyle(
-                              color: colorScheme.primary,
-                              fontWeight: FontWeight.bold,
+                            Padding(
+                              padding: const EdgeInsets.only(top: 12, bottom: 12),
+                              child: Divider(),
                             ),
-                            lessStyle: TextStyle(
-                              color: colorScheme.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+                            product.description == null
+                              ? SizedBox()
+                              : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 8),
+                                    child: Text(
+                                      'Descrição',
+                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w700),
+                                    ),
+                                  ),
+                                  ReadMoreText(
+                                    product.description ?? "Sem descrição",
+                                    style: TextStyle(color: scheme.onSurface),
+                                    trimLines: 2,
+                                    trimMode: TrimMode.Line,
+                                    trimCollapsedText: "Leia mais",
+                                    trimExpandedText: "Mostrar menos",
+                                    moreStyle: TextStyle(
+                                      color: scheme.primary,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    lessStyle: TextStyle(
+                                      color: scheme.primary,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SafeArea(
+            top: false,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Preço Total',
+                        style: Theme.of(context).textTheme.labelMedium,
                       ),
-                      const SizedBox(height: 16),
-                      // Preço + Stepper de quantidade
-                      Row(
-                        children: [
-                          const Spacer(),
-                        ],
+                      const SizedBox(height: 2),
+                      Text(
+                        (product.price * qty).toStringAsFixed(2),
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
                       ),
                     ],
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 46,
+                    child: _QtyStepper(
+                      value: qty,
+                      onChanged: (v) => setState(() => qty = v),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
       ),
-      bottomSheet: SafeArea(
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 8, right: 8, bottom: 56),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: colorScheme.surfaceContainerHighest,
-                  border: Border.all(color: Color(0xFF222426), width: 2),
-                  borderRadius: BorderRadius.circular(12)
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'Preço Total',
-                            style: Theme.of(context).textTheme.labelMedium,
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            (product.price * qty).toStringAsFixed(2),
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 52,
-                        child: FilledButton.icon(
-                          onPressed: () {},
-                          style: FilledButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(12))
-                            )
-                          ),
-                          icon: const Icon(Icons.add, size: 20),
-                          label: const Text('Adicionar'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              top: -20,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: _QtyStepper(
-                  value: qty,
-                  onChanged: (v) => setState(() => qty = v),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class UShapeClipper extends CustomClipper<Path> {
-  final double stepperWidth;
-  final double stepperHeight;
-  final double radius;
-
-  UShapeClipper({
-    required this.stepperWidth,
-    required this.stepperHeight,
-    this.radius = 0
-  });
-
-  @override
-  Path getClip(Size size) {
-    double cutWidth = stepperWidth + 20;
-    double cutHeight = stepperHeight / 2 + 10;
-    double radius = 30; // mesmo valor do BorderRadius
-
-    Path path = Path();
-
-    // canto superior esquerdo
-    path.moveTo(0, radius);
-    path.quadraticBezierTo(0, 0, radius, 0);
-
-    // até antes do recorte
-    path.lineTo((size.width - cutWidth) / 2, 0);
-
-    // recorte em U
-    
-    path.quadraticBezierTo(
-      size.width / 2 - cutWidth / 2, cutHeight,
-      size.width / 2, cutHeight - 2,
-    );
-    path.quadraticBezierTo(
-      size.width / 2 + cutWidth / 2, cutHeight,
-      (size.width + cutWidth) / 2, 0,
-    );
-
-    // linha até canto superior direito (menos o raio)
-    path.lineTo(size.width - radius, 0);
-
-    // canto superior direito
-    path.quadraticBezierTo(size.width, 0, size.width, radius);
-
-    // lado direito
-    path.lineTo(size.width, size.height - radius);
-
-    // canto inferior direito
-    path.quadraticBezierTo(size.width, size.height, size.width - radius, size.height);
-
-    // lado inferior
-    path.lineTo(radius, size.height);
-
-    // canto inferior esquerdo
-    path.quadraticBezierTo(0, size.height, 0, size.height - radius);
-
-    // fecha caminho
-    path.close();
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => true;
-}
-
-
-class CurvedBarPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.white // cor do fundo
-      ..style = PaintingStyle.fill;
-
-    final path = Path()
-      ..moveTo(0, size.height * 0.3)
-      ..lineTo(size.width * 0.35, size.height * 0.3)
-      ..quadraticBezierTo(
-        size.width * 0.5, 0, // ponto mais alto da curva
-        size.width * 0.65, size.height * 0.3,
-      )
-      ..lineTo(size.width, size.height * 0.3)
-      ..lineTo(size.width, size.height)
-      ..lineTo(0, size.height)
-      ..close();
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
-class CurvedActionBar extends StatelessWidget {
-  const CurvedActionBar({
-    super.key,
-    required this.qty,
-    required this.onQtyChanged,
-    required this.priceText,
-    required this.onAddToCart,
-    this.addLabel = 'Adicionar no Carrinho',
-    this.height = 120,
-    this.bumpWidth = 160,
-    this.bumpHeight = 22,
-  });
-
-  final int qty;
-  final ValueChanged<int> onQtyChanged;
-  final String priceText;
-  final VoidCallback onAddToCart;
-  final String addLabel;
-
-  /// Altura total da barra
-  final double height;
-
-  /// Largura e altura do “galo” (a elevação central)
-  final double bumpWidth;
-  final double bumpHeight;
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    final base = Theme.of(context).bottomAppBarTheme.color ?? scheme.surfaceContainerHigh;
-    final tint = Theme.of(context).bottomAppBarTheme.surfaceTintColor ?? scheme.surfaceTint;
-    final bg = ElevationOverlay.applySurfaceTint(base, tint, 3);
-
-    return Material(
-      color: Colors.transparent,
-      child: SafeArea(
-        top: false,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 76),
         child: SizedBox(
-          height: height,
-          child: Stack(
-            alignment: Alignment.topCenter,
-            children: [
-              // Fundo curvo
-              Positioned(
-                child: CustomPaint(
-                  painter: _CurvedBumpPainter(
-                    color: bg,
-                    cornerRadius: 16,
-                    bumpWidth: bumpWidth,
-                    bumpHeight: bumpHeight,
-                    shadowOpacity: 0.25,
-                  ),
+          width: 120,
+          child: FloatingActionButton(
+            onPressed: () {},
+            backgroundColor: scheme.primary,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 4),
+                  child: Icon(Icons.shopping_cart, color: scheme.onTertiary),
                 ),
-              ),
-              _QtyStepper(
-                value: qty,
-                onChanged: onQtyChanged,
-              ),
-              // Conteúdo principal
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // Preço
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Preço', style: Theme.of(context).textTheme.labelMedium),
-                          const SizedBox(height: 2),
-                          Text(
-                            priceText,
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
-                          ),
-                        ],
-                      ),
-                      // Botão
-                      SizedBox(
-                        height: 52,
-                        child: FilledButton.icon(
-                          onPressed: onAddToCart,
-                          icon: const Icon(Icons.shopping_cart, size: 22),
-                          label: Text(addLabel, style: const TextStyle(fontSize: 16)),
-                        ),
-                      ),
-                    ],
+                Text(
+                  "Adicionar",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: scheme.onTertiary
                   ),
-                ),
-              ),
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),
     );
-  }
-}
-
-class _CurvedBumpPainter extends CustomPainter {
-  _CurvedBumpPainter({
-    required this.color,
-    required this.cornerRadius,
-    required this.bumpWidth,
-    required this.bumpHeight,
-    this.shadowOpacity = 0.2,
-  });
-
-  final Color color;
-  final double cornerRadius;
-  final double bumpWidth;   // largura do “galo”
-  final double bumpHeight;  // altura (quanto sobe)
-  final double shadowOpacity;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final r = cornerRadius;
-    final startX = (size.width - bumpWidth) / 2;
-    final endX = startX + bumpWidth;
-
-    final path = Path()
-    // canto sup. esquerdo
-      ..moveTo(0, r)
-      ..quadraticBezierTo(0, 0, r, 0)
-    // topo reto até antes do “galo”
-      ..lineTo(startX, 0)
-    // sobe no “galo” (duas curvas suaves até o ápice e desce)
-      ..quadraticBezierTo(startX + bumpWidth * 0.25, 0, size.width / 2, -bumpHeight)
-      ..quadraticBezierTo(endX - bumpWidth * 0.25, 0, endX, 0)
-    // topo reto até o canto sup. direito
-      ..lineTo(size.width - r, 0)
-      ..quadraticBezierTo(size.width, 0, size.width, r)
-    // lados e base com cantos arredondados
-      ..lineTo(size.width, size.height - r)
-      ..quadraticBezierTo(size.width, size.height, size.width - r, size.height)
-      ..lineTo(r, size.height)
-      ..quadraticBezierTo(0, size.height, 0, size.height - r)
-      ..close();
-
-    // preenchimento
-    final fill = Paint()
-      ..isAntiAlias = true
-      ..style = PaintingStyle.fill
-      ..color = color;
-    canvas.drawPath(path, fill);
-  }
-
-  @override
-  bool shouldRepaint(covariant _CurvedBumpPainter old) {
-    return color != old.color ||
-      cornerRadius != old.cornerRadius ||
-      bumpWidth != old.bumpWidth ||
-      bumpHeight != old.bumpHeight ||
-      shadowOpacity != old.shadowOpacity;
   }
 }
 
@@ -609,63 +389,56 @@ class _QtyStepper extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _StepBtn(
-              icon: Icons.remove,
-              onTap: () => onChanged((value - 1).clamp(1, 9999)),
-              foreground: scheme.onSurfaceVariant,
+            IconButton(
+              onPressed: () =>
+                value <= 1
+                  ? null
+                  : onChanged((value - 1).clamp(1, 9999))
+                ,
+              icon: Icon(
+                Icons.remove,
+                color: value <= 1
+                  ? Colors.grey.shade600
+                  : scheme.onSurface
+                ,
+              )
             ),
             SizedBox(
               width: 40,
-              child: TextField(
+              child: TextFormField(
                 controller: TextEditingController(text: value.toString()),
                 keyboardType: TextInputType.number,
                 textAlign: TextAlign.center,
                 style: textStyle,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
-                  enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
-                  disabledBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
                   filled: false,
                 ),
-                onSubmitted: (text) {
-                  final intValue = int.tryParse(text) ?? value;
-                  onChanged(intValue.clamp(1, 9999));
+                onFieldSubmitted: (text) {
+                  final intValue = int.tryParse(text.isEmpty ? '1' : text) ?? value;
+                  final newValue = intValue.clamp(1, 9999);
+                  onChanged(newValue);
                   FocusScope.of(context).unfocus();
+                },
+                validator: (text) {
+                  if (text == null || text.isEmpty || text == '0') {
+                    return 'Valor mínimo é 1';
+                  }
+                  return null;
                 },
               ),
             ),
-            _StepBtn(
-              icon: Icons.add,
-              onTap: () => onChanged((value + 1).clamp(1, 9999)),
-              foreground: scheme.onSurfaceVariant,
-            ),
+            IconButton(
+              onPressed: () => onChanged((value + 1).clamp(1, 9999)),
+              icon: Icon(
+                Icons.add,
+                color: scheme.onSurface,
+              )
+            )
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _StepBtn extends StatelessWidget {
-  const _StepBtn({
-    required this.icon,
-    required this.onTap,
-    required this.foreground,
-  });
-
-  final IconData icon;
-  final VoidCallback onTap;
-  final Color foreground;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(16),
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Icon(icon, size: 18, color: foreground),
       ),
     );
   }

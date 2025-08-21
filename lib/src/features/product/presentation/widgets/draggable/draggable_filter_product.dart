@@ -30,7 +30,8 @@ class DraggableFilterProductState extends ConsumerState<DraggableFilterProduct>{
   @override
   Widget build(BuildContext context) {
     final toggleFilter = ref.watch(toggleFilterOptionProvider);
-
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
     /// TODO: Finalizar filtro da página de produtos
 
     return DraggableScrollableSheet(
@@ -89,7 +90,7 @@ class DraggableFilterProductState extends ConsumerState<DraggableFilterProduct>{
                                 ? Icons.circle
                                 : Icons.circle_outlined
                             ),
-                            label: Text("Roupas"),
+                            label: Text("Roupas", style: TextStyle(fontSize: 15)),
                           ),
                           TextButton.icon(
                             onPressed: () {
@@ -100,7 +101,7 @@ class DraggableFilterProductState extends ConsumerState<DraggableFilterProduct>{
                                 ? Icons.circle
                                 : Icons.circle_outlined
                             ),
-                            label: Text("Eletrônicos"),
+                            label: Text("Eletrônicos", style: TextStyle(fontSize: 15)),
                           ),
                           TextButton.icon(
                             onPressed: () {
@@ -111,7 +112,7 @@ class DraggableFilterProductState extends ConsumerState<DraggableFilterProduct>{
                                 ? Icons.circle
                                 : Icons.circle_outlined
                             ),
-                            label: Text("Bijuteria"),
+                            label: Text("Bijuterias", style: TextStyle(fontSize: 15)),
                           ),
                         ],
                       ),
@@ -133,17 +134,17 @@ class DraggableFilterProductState extends ConsumerState<DraggableFilterProduct>{
                           TextButton.icon(
                             onPressed: () {},
                             icon: Icon(Icons.circle_outlined),
-                            label: Text("20%"),
+                            label: Text("20%", style: TextStyle(fontSize: 16)),
                           ),
                           TextButton.icon(
                             onPressed: () {},
                             icon: Icon(Icons.circle_outlined),
-                            label: Text("40%"),
+                            label: Text("40%", style: TextStyle(fontSize: 16)),
                           ),
                           TextButton.icon(
                             onPressed: () {},
                             icon: Icon(Icons.circle_outlined),
-                            label: Text("50%"),
+                            label: Text("50%", style: TextStyle(fontSize: 16)),
                           ),
                         ],
                       ),
@@ -194,18 +195,29 @@ class DraggableFilterProductState extends ConsumerState<DraggableFilterProduct>{
                   padding: const EdgeInsets.only(top: 12),
                   child: SizedBox(
                     width: double.infinity,
+                    height: 50,
                     child: FilledButton(
                       style: FilledButton.styleFrom(
+                        backgroundColor: Colors.transparent,
                         shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                            color: scheme.secondary,
+                            width: 2
+                          ),
                           borderRadius: BorderRadius.all(
                             Radius.circular(8)
                           )
-                        )
+                        ),
                       ),
                       onPressed: () {
                         clearAll();
                       },
-                      child: Text("Limpar tudo")
+                      child: Text(
+                        "Limpar tudo",
+                        style: TextStyle(
+                          color: scheme.onSurface
+                        ),
+                      )
                     ),
                   ),
                 ),
@@ -213,13 +225,15 @@ class DraggableFilterProductState extends ConsumerState<DraggableFilterProduct>{
                   padding: const EdgeInsets.only(top: 4),
                   child: SizedBox(
                     width: double.infinity,
+                    height: 50,
                     child: FilledButton(
                       style: FilledButton.styleFrom(
+                        backgroundColor: scheme.primary,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(8)
-                          )
-                        )
+                          ),
+                        ),
                       ),
                       onPressed: () {
                         context.pop();
