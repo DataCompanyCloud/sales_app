@@ -66,8 +66,9 @@ class CustomerStatusButtons extends ConsumerWidget {
                 ref.read(customerStatusFilterProvider.notifier).state = opt.status;
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor:
-                selected ? colorScheme.onTertiary : colorScheme.tertiary,
+                backgroundColor: selected
+                    ? colorScheme.primaryContainer
+                    : colorScheme.surface,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.horizontal(
                     left: isFirst ? Radius.circular(10) : Radius.zero,
@@ -81,21 +82,27 @@ class CustomerStatusButtons extends ConsumerWidget {
                   Text(
                     opt.label,
                     style: TextStyle(
-                      color: selected ? colorScheme.onSurface : Colors.grey,
+                      color: selected
+                          ? colorScheme.onPrimaryContainer
+                          : colorScheme.onSurfaceVariant,
                     ),
                   ),
                   Padding(padding: EdgeInsets.only(left: 12)),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                     decoration: BoxDecoration(
-                      color: selected ? colorScheme.onTertiary : colorScheme.tertiary,            // cor de fundo da caixa
+                      color: selected
+                          ? colorScheme.secondaryContainer
+                          : colorScheme.surfaceContainerHighest,
                       border: Border.all(color: Colors.black), // cor e espessura da borda
                       borderRadius: BorderRadius.circular(4),  // cantos arredondados
                     ),
                     child: Text(
                       opt.quantity.toString(),
                       style: TextStyle(
-                        color: selected ? colorScheme.onSurface : Colors.grey,
+                        color: selected
+                            ? colorScheme.onSecondaryContainer
+                            : colorScheme.onSurface,
                       ),
                     ),
                   ),

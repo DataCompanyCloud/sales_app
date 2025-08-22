@@ -7,6 +7,7 @@ import 'package:sales_app/src/features/auth/providers.dart';
 import 'package:sales_app/src/features/customer/providers.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
 import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
+import 'package:sales_app/src/features/schedule/presentation/router/schedule_router.dart';
 
 // 1) Cria um FutureProvider que retorna quantos clientes existem no local
 final localCustomerCountProvider = FutureProvider.autoDispose<int>((ref) async {
@@ -44,7 +45,7 @@ class AuthGate extends ConsumerWidget {
         WidgetsBinding.instance.addPostFrameCallback(
           (_) => context.goNamed(
             user != null
-              ? HomeRouter.home.name
+              ? ScheduleRouter.schedule.name
               : AppRoutes.login.name
           ),
         );

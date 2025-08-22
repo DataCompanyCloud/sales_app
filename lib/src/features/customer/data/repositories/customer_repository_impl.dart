@@ -4,10 +4,14 @@ import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/customer/data/models/address_model.dart';
 import 'package:sales_app/src/features/customer/data/models/cep_model.dart';
 import 'package:sales_app/src/features/customer/data/models/cnpj_model.dart';
+import 'package:sales_app/src/features/customer/data/models/contact_info_model.dart';
 import 'package:sales_app/src/features/customer/data/models/cpf_model.dart';
+import 'package:sales_app/src/features/customer/data/models/credit_limit_model.dart';
 import 'package:sales_app/src/features/customer/data/models/customer_model.dart';
 import 'package:sales_app/src/features/customer/data/models/email_model.dart';
+import 'package:sales_app/src/features/customer/data/models/money_model.dart';
 import 'package:sales_app/src/features/customer/data/models/phone_model.dart';
+import 'package:sales_app/src/features/customer/data/models/state_registration_model.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/features/customer/domain/repositories/customer_repository.dart';
 
@@ -96,12 +100,14 @@ class CustomerRepositoryImpl extends CustomerRepository{
   @override
   Future<void> saveAll(List<Customer> customers) async {
     final customerBox = store.box<CustomerModel>();
-    final phoneBox = store.box<PhoneModel>();
     final addressBox = store.box<AddressModel>();
     final cepBox = store.box<CEPModel>();
-    final emailBox = store.box<EmailModel>();
     final cpfBox = store.box<CPFModel>();
     final cnpjBox = store.box<CNPJModel>();
+    final contactBox = store.box<ContactInfoModel>();
+    final creditLimit = store.box<CreditLimitModel>();
+    final moneyBox = store.box<MoneyModel>();
+    final stateRegBox = store.box<StateRegistrationModel>();
 
     store.runInTransaction(TxMode.write, () {
       for (final customer in customers) {
@@ -118,13 +124,33 @@ class CustomerRepositoryImpl extends CustomerRepository{
         );
 
         if (existing != null) {
-          // 🔹 Remove relacionamentos antigos
-          if (existing.email.target != null) emailBox.remove(existing.email.targetId);
-          if (existing.cpf.target != null) cpfBox.remove(existing.cpf.targetId);
-          if (existing.cnpj.target != null) cnpjBox.remove(existing.cnpj.targetId);
+          // Remove relacionamentos antigos
+          if (existing.cpf.target != null) {
+            cpfBox.remove(existing.cpf.targetId);
+          }
 
-          for (final phone in existing.phones) {
-            phoneBox.remove(phone.id);
+          if (existing.cnpj.target != null) {
+            cnpjBox.remove(existing.cnpj.targetId);
+          }
+
+          if (existing.stateRegistration.target != null) {
+            stateRegBox.remove(existing.stateRegistration.targetId);
+          }
+
+          final oldCreditLimit = existing.creditLimit.target;
+          if (oldCreditLimit != null) {
+            if (oldCreditLimit.maximum.target != null) {
+              moneyBox.remove(oldCreditLimit.maximum.targetId);
+            }
+            if (oldCreditLimit.available.target != null) {
+              moneyBox.remove(oldCreditLimit.available.targetId);
+            }
+
+            creditLimit.remove(existing.creditLimit.targetId);
+          }
+
+          for (final contact in existing.contacts) {
+            contactBox.remove(contact.id);
           }
 
           final oldAddress = existing.address.target;
@@ -135,7 +161,7 @@ class CustomerRepositoryImpl extends CustomerRepository{
             addressBox.remove(oldAddress.id);
           }
 
-          // 🔹 Mantém o mesmo ID do registro antigo
+          // Mantém o mesmo ID do registro antigo
           newModel.id = existing.id;
         } else {
           newModel.id = 0;
@@ -146,20 +172,24 @@ class CustomerRepositoryImpl extends CustomerRepository{
     });
   }
 
+
   @override
   Future<Customer> save(Customer customer) async {
     final customerBox = store.box<CustomerModel>();
-    final phoneBox = store.box<PhoneModel>();
     final addressBox = store.box<AddressModel>();
     final cepBox = store.box<CEPModel>();
-    final emailBox = store.box<EmailModel>();
     final cpfBox = store.box<CPFModel>();
     final cnpjBox = store.box<CNPJModel>();
+    final contactBox = store.box<ContactInfoModel>();
+    final creditLimit = store.box<CreditLimitModel>();
+    final moneyBox = store.box<MoneyModel>();
+    final stateRegBox = store.box<StateRegistrationModel>();
+    final emailBox   = store.box<EmailModel>();
+    final phoneBox   = store.box<PhoneModel>();
 
     final id = store.runInTransaction(TxMode.write, () {
       final existing = customerBox.get(customer.customerId);
 
-      // Cria o modelo novo a partir da entity
       final newModel = customer.maybeMap(
         person: (p) => p.toModel(),
         company: (c) => c.toModel(),
@@ -171,35 +201,60 @@ class CustomerRepositoryImpl extends CustomerRepository{
       );
 
       if (existing != null) {
+        // Remove relacionamentos antigos
+        if (existing.cpf.target != null) {
+          cpfBox.remove(existing.cpf.targetId);
+        }
+
+        if (existing.cnpj.target != null) {
+          cnpjBox.remove(existing.cnpj.targetId);
+        }
+
+        if (existing.stateRegistration.target != null) {
+          stateRegBox.remove(existing.stateRegistration.targetId);
+        }
+
+        if (existing.creditLimit.target != null) {
+          moneyBox.remove(existing.creditLimit.targetId);
+        }
+
+        final oldCreditLimit = existing.creditLimit.target;
+        if (oldCreditLimit != null) {
+          if (oldCreditLimit.maximum.target != null) {
+            moneyBox.remove(oldCreditLimit.maximum.targetId);
+          }
+          if (oldCreditLimit.available.target != null) {
+            moneyBox.remove(oldCreditLimit.available.targetId);
+          }
+
+          creditLimit.remove(existing.creditLimit.targetId);
+        }
+
+        for (final contact in existing.contacts) {
+          final email = contact.email.target;
+          if (email != null) emailBox.remove(email.id);
+
+          final phone = contact.phone.target;
+          if (phone != null) phoneBox.remove(phone.id);
+
+          contactBox.remove(contact.id);
+        }
+
+        final oldAddress = existing.address.target;
+        if (oldAddress != null) {
+          if (oldAddress.cep.target != null) {
+            cepBox.remove(oldAddress.cep.targetId);
+          }
+          addressBox.remove(oldAddress.id);
+        }
+
+        // Mantém o mesmo ID do registro antigo
         newModel.id = existing.id;
-
-        // Limpa relacionamentos antigos com checagem de ID > 0
-        final emailId = existing.email.targetId;
-        if (emailId != 0) emailBox.remove(emailId);
-
-        final cpfId = existing.cpf.targetId;
-        if (cpfId != 0) cpfBox.remove(cpfId);
-
-        final cnpjId = existing.cnpj.targetId;
-        if (cnpjId != 0) cnpjBox.remove(cnpjId);
-
-        for (final ph in existing.phones) {
-          if (ph.id != 0) phoneBox.remove(ph.id);
-        }
-
-        final oldAddr = existing.address.target;
-        if (oldAddr != null) {
-          final cepId = oldAddr.cep.targetId;
-          if (cepId != 0) cepBox.remove(cepId);
-          if (oldAddr.id != 0) addressBox.remove(oldAddr.id);
-        }
-
       } else {
         newModel.id = 0;
       }
 
-      // Importante: put() cuidará de persistir ToOne/ToMany que você setou em newModel
-      return customerBox.put(newModel);
+      customerBox.put(newModel);
     });
 
     final saved = await customerBox.getAsync(id);
@@ -222,6 +277,9 @@ class CustomerRepositoryImpl extends CustomerRepository{
     final phoneBox = store.box<PhoneModel>();
     final cpfBox = store.box<CPFModel>();
     final cnpjBox = store.box<CNPJModel>();
+    final contactBox = store.box<ContactInfoModel>();
+    final creditLimit = store.box<CreditLimitModel>();
+    final moneyBox = store.box<MoneyModel>();
 
     store.runInTransaction(TxMode.write, () async {
       final model = await customerBox.getAsync(customer.customerId);
@@ -230,18 +288,33 @@ class CustomerRepositoryImpl extends CustomerRepository{
         throw AppException(AppExceptionCode.CODE_001_CUSTOMER_LOCAL_NOT_FOUND, "Cliente não encontrado");
       }
 
-      final email = model.email.target;
-      if (email != null) await emailBox.removeAsync(email.id);
-
-      for (final phone in model.phones) {
-        await phoneBox.removeAsync(phone.id);
-      }
-
       final cpf = model.cpf.target;
       if (cpf != null) await cpfBox.removeAsync(cpf.id);
 
       final cnpj = model.cnpj.target;
       if (cnpj != null) await cnpjBox.removeAsync(cnpj.id);
+
+      final oldCreditLimit = model.creditLimit.target;
+      if (oldCreditLimit != null) {
+        if (oldCreditLimit.maximum.target != null) {
+          moneyBox.remove(oldCreditLimit.maximum.targetId);
+        }
+        if (oldCreditLimit.available.target != null) {
+          moneyBox.remove(oldCreditLimit.available.targetId);
+        }
+
+        creditLimit.remove(model.creditLimit.targetId);
+      }
+
+      for (final contact in model.contacts) {
+        final email = contact.email.target;
+        if (email != null) emailBox.remove(email.id);
+
+        final phone = contact.phone.target;
+        if (phone != null) phoneBox.remove(phone.id);
+
+        contactBox.remove(contact.id);
+      }
 
       final address = model.address.target;
       if (address != null) {
@@ -259,27 +332,59 @@ class CustomerRepositoryImpl extends CustomerRepository{
     final customerBox = store.box<CustomerModel>();
     final addressBox = store.box<AddressModel>();
     final cepBox = store.box<CEPModel>();
-    final emailBox = store.box<EmailModel>();
-    final phoneBox = store.box<PhoneModel>();
     final cpfBox = store.box<CPFModel>();
     final cnpjBox = store.box<CNPJModel>();
+    final emailBox = store.box<EmailModel>();
+    final phoneBox = store.box<PhoneModel>();
+    final contactBox = store.box<ContactInfoModel>();
+    final creditLimit = store.box<CreditLimitModel>();
+    final moneyBox = store.box<MoneyModel>();
+    final stateRegBox = store.box<StateRegistrationModel>();
 
     store.runInTransaction(TxMode.write, () {
       final allCustomers = customerBox.getAll();
+
       for (final model in allCustomers) {
-        final email = model.email.target;
-        if (email != null) emailBox.remove(email.id);
-
-        for (final phone in model.phones) {
-          phoneBox.remove(phone.id);
-        }
-
+        // ToOne: CPF
         final cpf = model.cpf.target;
         if (cpf != null) cpfBox.remove(cpf.id);
 
+        // ToOne: CNPJ
         final cnpj = model.cnpj.target;
         if (cnpj != null) cnpjBox.remove(cnpj.id);
 
+        // ToOne: State Registration
+        final stateReg = model.stateRegistration.target;
+        if (stateReg != null) stateRegBox.remove(stateReg.id);
+
+        // ToOne: Credit Limit (MoneyModel)
+        final credit = model.creditLimit.target;
+        if (credit != null) moneyBox.remove(credit.id);
+
+        final oldCreditLimit = model.creditLimit.target;
+        if (oldCreditLimit != null) {
+          if (oldCreditLimit.maximum.target != null) {
+            moneyBox.remove(oldCreditLimit.maximum.targetId);
+          }
+          if (oldCreditLimit.available.target != null) {
+            moneyBox.remove(oldCreditLimit.available.targetId);
+          }
+
+          creditLimit.remove(model.creditLimit.targetId);
+        }
+
+        // ToMany: Contacts
+        for (final contact in model.contacts) {
+          final email = contact.email.target;
+          if (email != null) emailBox.remove(email.id);
+
+          final phone = contact.phone.target;
+          if (phone != null) phoneBox.remove(phone.id);
+
+          contactBox.remove(contact.id);
+        }
+
+        // ToOne: Address (com CEP)
         final address = model.address.target;
         if (address != null) {
           final cep = address.cep.target;
@@ -287,9 +392,12 @@ class CustomerRepositoryImpl extends CustomerRepository{
           addressBox.remove(address.id);
         }
       }
+
+      // Por fim, remove todos os Customers
       customerBox.removeAll();
     });
   }
+
 
   @override
   Future<int> count() {

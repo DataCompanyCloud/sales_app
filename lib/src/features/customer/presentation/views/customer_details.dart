@@ -28,18 +28,7 @@ class CustomerDetails extends ConsumerWidget {
           ? error
           : AppException.errorUnexpected(error.toString()),
       ),
-      loading: () => Scaffold(
-        appBar: AppBar(
-          title: Text("Carregando"),
-          leading: IconButton(
-            onPressed: () {
-              context.pop();
-            },
-            icon: Icon(Icons.arrow_back_ios_new, size: 22)
-          ),
-        ),
-        body: CustomerDetailsSkeleton()
-      ),
+      loading: () => CustomerDetailsSkeleton(),
       data: (customer) {
         return customer.maybeMap(
           person: (person) => PersonCustomerDetails(customer: person),

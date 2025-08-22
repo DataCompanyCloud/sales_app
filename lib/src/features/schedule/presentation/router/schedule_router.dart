@@ -1,15 +1,15 @@
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/schedule/presentation/views/agenda_page.dart';
 
-enum AgendaRouter {
-  agenda
+enum ScheduleRouter {
+  schedule
 }
 
 final agendaRoutes = GoRoute(
   path: '/schedule',
-  name: AgendaRouter.agenda.name,
+  name: ScheduleRouter.schedule.name,
   builder: (context, state) {
-    return AgendaPage(title: "Agenda");
+    return SchedulePage();
   }
   /*
   pageBuilder: (context, state) {

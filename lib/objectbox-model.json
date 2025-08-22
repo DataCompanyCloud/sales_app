@@ -157,7 +157,7 @@
     },
     {
       "id": "7:4804418097251592186",
-      "lastPropertyId": "12:8350971471853942904",
+      "lastPropertyId": "19:6539882895415375168",
       "name": "CustomerModel",
       "properties": [
         {
@@ -210,14 +210,6 @@
           "relationTarget": "AddressModel"
         },
         {
-          "id": "10:3028564120408892828",
-          "name": "emailId",
-          "type": 11,
-          "flags": 520,
-          "indexId": "8:8914100834178456229",
-          "relationTarget": "EmailModel"
-        },
-        {
           "id": "11:8096318987058703642",
           "name": "cpfId",
           "type": 11,
@@ -232,13 +224,54 @@
           "flags": 520,
           "indexId": "10:7873545933020370523",
           "relationTarget": "CNPJModel"
+        },
+        {
+          "id": "13:3669453695545071109",
+          "name": "notes",
+          "type": 9
+        },
+        {
+          "id": "14:4311752812645954968",
+          "name": "taxRegime",
+          "type": 6
+        },
+        {
+          "id": "15:8874152435843171572",
+          "name": "paymentMethod",
+          "type": 27
+        },
+        {
+          "id": "16:7132077165926366620",
+          "name": "businessGroupId",
+          "type": 6
+        },
+        {
+          "id": "17:8261632339426281997",
+          "name": "businessSector",
+          "type": 9
+        },
+        {
+          "id": "18:2308286988934764764",
+          "name": "creditLimitId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "25:1693645843509599143",
+          "relationTarget": "CreditLimitModel"
+        },
+        {
+          "id": "19:6539882895415375168",
+          "name": "stateRegistrationId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "26:857115817479836325",
+          "relationTarget": "StateRegistrationModel"
         }
       ],
       "relations": [
         {
-          "id": "1:3987681615077512194",
-          "name": "phones",
-          "targetId": "11:871562638448293730"
+          "id": "7:5180395879880292530",
+          "name": "contacts",
+          "targetId": "16:955009917183802776"
         }
       ]
     },
@@ -336,7 +369,7 @@
     },
     {
       "id": "11:871562638448293730",
-      "lastPropertyId": "2:1017836986979265352",
+      "lastPropertyId": "3:6680109790111549735",
       "name": "PhoneModel",
       "properties": [
         {
@@ -349,6 +382,11 @@
           "id": "2:1017836986979265352",
           "name": "value",
           "type": 9
+        },
+        {
+          "id": "3:6680109790111549735",
+          "name": "type",
+          "type": 6
         }
       ],
       "relations": []
@@ -518,17 +556,152 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "16:955009917183802776",
+      "lastPropertyId": "5:4657241283296910199",
+      "name": "ContactInfoModel",
+      "properties": [
+        {
+          "id": "1:1634641210118431309",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3637028563980227667",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:9061749886183661037",
+          "name": "isPrimary",
+          "type": 1
+        },
+        {
+          "id": "4:2228544942742988885",
+          "name": "emailId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "23:7918144321279023589",
+          "relationTarget": "EmailModel"
+        },
+        {
+          "id": "5:4657241283296910199",
+          "name": "phoneId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "24:1027998153207507134",
+          "relationTarget": "PhoneModel"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "17:524509557355376320",
+      "lastPropertyId": "4:6161852757868082401",
+      "name": "MoneyModel",
+      "properties": [
+        {
+          "id": "1:2645354871727162782",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:399867333788293343",
+          "name": "amount",
+          "type": 6
+        },
+        {
+          "id": "3:8367622564035165564",
+          "name": "currency",
+          "type": 9
+        },
+        {
+          "id": "4:6161852757868082401",
+          "name": "scale",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "18:7799722206026741917",
+      "lastPropertyId": "4:3879795078070127286",
+      "name": "StateRegistrationModel",
+      "properties": [
+        {
+          "id": "1:5411665912307005301",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4916363274244516481",
+          "name": "uf",
+          "type": 6
+        },
+        {
+          "id": "3:7726464037775222968",
+          "name": "number",
+          "type": 9
+        },
+        {
+          "id": "4:3879795078070127286",
+          "name": "isExempt",
+          "type": 1
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "19:3837062965963575053",
+      "lastPropertyId": "3:3100924209672933974",
+      "name": "CreditLimitModel",
+      "properties": [
+        {
+          "id": "1:9031977269963775072",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:936257682589549982",
+          "name": "maximumId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "27:361602148838622479",
+          "relationTarget": "MoneyModel"
+        },
+        {
+          "id": "3:3100924209672933974",
+          "name": "availableId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "28:7327139915709548040",
+          "relationTarget": "MoneyModel"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "15:6903051196714664475",
-  "lastIndexId": "22:1183105609819790673",
-  "lastRelationId": "5:5785665624075224573",
+  "lastEntityId": "19:3837062965963575053",
+  "lastIndexId": "28:7327139915709548040",
+  "lastRelationId": "7:5180395879880292530",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
-  "retiredIndexUids": [],
-  "retiredPropertyUids": [],
-  "retiredRelationUids": [],
+  "retiredIndexUids": [
+    8914100834178456229
+  ],
+  "retiredPropertyUids": [
+    3028564120408892828
+  ],
+  "retiredRelationUids": [
+    3987681615077512194,
+    716170314032536508
+  ],
   "version": 1
 }

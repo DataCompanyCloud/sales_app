@@ -19,7 +19,7 @@ class LoginPage extends ConsumerStatefulWidget {
 
 class LoginPageState extends ConsumerState<LoginPage> {
   final toggleRememberProvider = StateProvider<bool>((_) => false);
-  final toggleVisibilityProvider = StateProvider<bool>((_) => false);
+  final toggleVisibilityProvider = StateProvider<bool>((_) => true);
   late final TextEditingController _loginController;
   late final TextEditingController _passwordController;
 
@@ -207,47 +207,47 @@ class LoginPageState extends ConsumerState<LoginPage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 32),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          color: Colors.grey,
-                          thickness: 1,
-                          indent: 32,
-                          endIndent: 12,
-                        )
-                      ),
-                      Text(
-                        "Ou",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey
-                        ),
-                      ),
-                      Expanded(
-                        child: Divider(
-                          color: Colors.grey,
-                          thickness: 1,
-                          indent: 12,
-                          endIndent: 32,
-                        )
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 24),
-                  ElevatedButton.icon(
-                      onPressed: () { /* … */ },
-                      icon: Image.asset(
-                        'assets/images/google_icon.png',
-                        width: 24,
-                        height: 24,
-                      ),
-                      label: const Text('Entrar com Google', style: TextStyle(color: Colors.white),),
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                      ),
-                    ),
+                  // SizedBox(height: 32),
+                  // Row(
+                  //   children: [
+                  //     Expanded(
+                  //       child: Divider(
+                  //         color: Colors.grey,
+                  //         thickness: 1,
+                  //         indent: 32,
+                  //         endIndent: 12,
+                  //       )
+                  //     ),
+                  //     Text(
+                  //       "Ou",
+                  //       style: TextStyle(
+                  //         fontWeight: FontWeight.bold,
+                  //         color: Colors.grey
+                  //       ),
+                  //     ),
+                  //     Expanded(
+                  //       child: Divider(
+                  //         color: Colors.grey,
+                  //         thickness: 1,
+                  //         indent: 12,
+                  //         endIndent: 32,
+                  //       )
+                  //     ),
+                  //   ],
+                  // ),
+                  // SizedBox(height: 24),
+                  // ElevatedButton.icon(
+                  //     onPressed: () { /* … */ },
+                  //     icon: Image.asset(
+                  //       'assets/images/google_icon.png',
+                  //       width: 24,
+                  //       height: 24,
+                  //     ),
+                  //     label: const Text('Entrar com Google', style: TextStyle(color: Colors.white),),
+                  //     style: ElevatedButton.styleFrom(
+                  //       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  //     ),
+                  //   ),
                   SizedBox(height: 24),
                   TextButton(
                     onPressed: () {

@@ -6,6 +6,7 @@ import 'package:sales_app/src/features/customer/providers.dart';
 class CustomerDetailsController extends AutoDisposeFamilyAsyncNotifier<Customer, int>{
   @override
   FutureOr<Customer> build(int id) async {
+    state = AsyncLoading();
     final service = await ref.watch(customerServiceProvider.future);
     final repository = await ref.watch(customerRepositoryProvider.future);
 

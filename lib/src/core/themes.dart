@@ -6,20 +6,51 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 final ThemeData salesAppLightTheme = (() {
   // Paleta base
-  const seed     = Color(0xFF0081F5);  // sua cor primária (brand)
-  const bg       = Color(0xFFF8FAFC);  // fundo (clean)
-  const surface  = Color(0xFFFFFFFF);  // card/surface
-  const surfVar  = Color(0xFFF1F5F9);  // surfaceVariant (inputs, chips)
-  const outline  = Color(0xFFE5E7EB);  // borda sutil
+  const seed    = Color(0xFF0081F5); // primária
+  const bg      = Color(0xFFF8FAFC); // slate-50
+  const surf    = Color(0xFFFFFFFF); // surface clara
+  const surfVar = Color(0xFFF1F5F9); // slate-100
+  const outline = Color(0xFFD0D5DD); // borda sutil (slate-300)
 
   final scheme = ColorScheme.fromSeed(
     seedColor: seed,
     brightness: Brightness.light,
   ).copyWith(
-    background: bg,
-    surface: surface,
-    surfaceVariant: surfVar,
+    // Neutros / superfícies
+    surface: surf,
+    onSurface: const Color(0xFF0F172A),
+    surfaceContainerHighest: surfVar,
+    onSurfaceVariant: const Color(0xFF475569), // slate-600
     outline: outline,
+    outlineVariant: const Color(0xFF94A3B8),   // slate-400
+    shadow: Colors.black,
+    scrim: Colors.black,
+    inverseSurface: const Color(0xFF1E293B),  // dark surface
+
+    // Primários (azul)
+    primary: const Color(0xFF006AD5),
+    onPrimary: Colors.white,
+    primaryContainer: const Color(0xFFD6E3FF),
+    onPrimaryContainer: const Color(0xFF001B3D),
+    inversePrimary: const Color(0xFF66B2FF),
+
+    // Secundários (acinzentado azulado)
+    secondary: const Color(0xFF64748B),       // slate-500
+    onSecondary: Colors.white,
+    secondaryContainer: const Color(0xFFE2E8F0),
+    onSecondaryContainer: const Color(0xFF1E293B),
+
+    // Terciários (teal suave para realces)
+    tertiary: const Color(0xFF0D9488),
+    onTertiary: Colors.white,
+    tertiaryContainer: const Color(0xFF99F6E4),
+    onTertiaryContainer: const Color(0xFF04201C),
+
+    // Erros (M3 light)
+    error: const Color(0xFFBA1A1A),
+    onError: Colors.white,
+    errorContainer: const Color(0xFFFFDAD6),
+    onErrorContainer: const Color(0xFF410002),
   );
 
   final radius = BorderRadius.circular(16);
@@ -133,20 +164,51 @@ final ThemeData salesAppLightTheme = (() {
 // Tema escuro
 final ThemeData salesAppDarkTheme = (() {
   // Paleta base
-  const seed = Color(0xFF0081F5);       // sua cor primária
-  const bg   = Color(0xFF0F172A);       // fundo (slate-900)
-  const surf = Color(0xFF1E293B);       // card/surface (slate-800)
-  const surfVar = Color(0xFF273449);    // surfaceVariant (um tom acima)
-  const outline = Color(0xFF334155);    // borda sutil (slate-700)
+  const seed    = Color(0xFF0081F5); // primária
+  const bg      = Color(0xFF0F172A); // slate-900
+  const surf    = Color(0xFF1E293B); // slate-800
+  const surfVar = Color(0xFF273449); // ~slate-750
+  const outline = Color(0xFF334155); // slate-700
 
   final scheme = ColorScheme.fromSeed(
     seedColor: seed,
     brightness: Brightness.dark,
   ).copyWith(
-    background: bg,
+    // Neutros / superfícies
     surface: surf,
-    surfaceVariant: surfVar,
+    onSurface: const Color(0xFFE2E8F0),
+    surfaceContainerHighest: surfVar,
+    onSurfaceVariant: const Color(0xFF94A3B8), // slate-400
     outline: outline,
+    outlineVariant: const Color(0xFF475569),   // slate-600
+    shadow: Colors.black,
+    scrim: Colors.black,
+    inverseSurface: const Color(0xFFE2E8F0),
+
+    // Primários (azul)
+    primary: const Color(0xFF66B2FF),          // azul claro p/ dark
+    onPrimary: const Color(0xFF001A2E),
+    primaryContainer: const Color(0xFF0E3A66), // navy container
+    onPrimaryContainer: const Color(0xFFCAE6FF),
+    inversePrimary: const Color(0xFF2A8BF2),
+
+    // Secundários (acinzentado azulado)
+    secondary: const Color(0xFF94A3B8),        // slate-400
+    onSecondary: const Color(0xFF0B1220),
+    secondaryContainer: const Color(0xFF2A364B),
+    onSecondaryContainer: const Color(0xFFDDE4F0),
+
+    // Terciários (teal suave p/ realces)
+    tertiary: const Color(0xFF2DD4BF),
+    onTertiary: const Color(0xFF06201C),
+    tertiaryContainer: const Color(0xFF134E4A),
+    onTertiaryContainer: const Color(0xFFB8FFF3),
+
+    // Erros (M3 dark)
+    error: const Color(0xFFFFB4AB),
+    onError: const Color(0xFF690005),
+    errorContainer: const Color(0xFF93000A),
+    onErrorContainer: const Color(0xFFFFDAD6),
   );
 
   final radius = BorderRadius.circular(16);

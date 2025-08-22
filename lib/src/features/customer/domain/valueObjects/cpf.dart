@@ -28,4 +28,9 @@ abstract class CPF with _$CPF {
   }
 
   factory CPF.fromJson(Map<String, dynamic> json) => _$CPFFromJson(json);
+
+  String get formatted {
+    final digits = value.padLeft(11, '0');
+    return '${digits.substring(0, 3)}.${digits.substring(3, 6)}.${digits.substring(6, 9)}-${digits.substring(9, 11)}';
+  }
 }
