@@ -56,7 +56,7 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
     final isSearchOpen  = ref.watch(isSearchOpenProvider);
 
     // final theme = Theme.of(context);
-    // final colorScheme = theme.colorScheme;
+    // final scheme = theme.colorScheme;
 
     return Scaffold(
       appBar: AppBar(
@@ -191,30 +191,30 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
                       ),
 
                       Expanded(
-                          child: ListView.builder(
-                              padding: EdgeInsets.symmetric(horizontal: 4),
-                              itemCount: customerFiltered.length,
-                              itemBuilder: (context, index) {
-                                final customer = customerFiltered[index];
-                                return customer.maybeMap(
-                                    person: (person) => Padding(
-                                      padding: const EdgeInsets.only(bottom: 4),
-                                      child: InkWell(
-                                          onTap: () => context.pushNamed(CustomerRouter.customerDetails.name, extra: customer.customerId),
-                                          child: PersonCustomerCard(customer: person)
-                                      ),
-                                    ),
-                                    company: (company) => Padding(
-                                      padding: const EdgeInsets.only(bottom: 4),
-                                      child: InkWell(
-                                          onTap: () => context.pushNamed(CustomerRouter.customerDetails.name, extra: customer.customerId),
-                                          child: CompanyCustomerCard(customer: company)
-                                      ),
-                                    ),
-                                    orElse: () => SizedBox()
-                                );
-                              }
-                          )
+                        child: ListView.builder(
+                          padding: EdgeInsets.symmetric(horizontal: 4),
+                          itemCount: customerFiltered.length,
+                          itemBuilder: (context, index) {
+                            final customer = customerFiltered[index];
+                            return customer.maybeMap(
+                              person: (person) => Padding(
+                                padding: const EdgeInsets.only(bottom: 4),
+                                child: InkWell(
+                                    onTap: () => context.pushNamed(CustomerRouter.customerDetails.name, extra: customer.customerId),
+                                    child: PersonCustomerCard(customer: person)
+                                ),
+                              ),
+                              company: (company) => Padding(
+                                padding: const EdgeInsets.only(bottom: 4),
+                                child: InkWell(
+                                    onTap: () => context.pushNamed(CustomerRouter.customerDetails.name, extra: customer.customerId),
+                                    child: CompanyCustomerCard(customer: company)
+                                ),
+                              ),
+                              orElse: () => SizedBox()
+                            );
+                          }
+                        )
                       )
                     ],
                   );

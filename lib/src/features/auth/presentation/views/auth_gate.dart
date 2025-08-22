@@ -45,7 +45,7 @@ class AuthGate extends ConsumerWidget {
         WidgetsBinding.instance.addPostFrameCallback(
           (_) => context.goNamed(
             user != null
-              ? ScheduleRouter.schedule.name
+              ? AppRoutes.home.name
               : AppRoutes.login.name
           ),
         );

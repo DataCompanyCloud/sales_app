@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/my_device.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
-import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/navigator/navigator_bar.dart';
 import 'package:sales_app/src/features/product/presentation/widgets/draggable/draggable_filter_product.dart';
 import 'package:sales_app/src/features/product/presentation/widgets/draggable/draggable_layout_product.dart';
@@ -85,25 +83,19 @@ class ProductPageState extends ConsumerState<ProductPage>{
           return Scaffold(
             appBar: AppBar(
               title: Text("Produtos"),
-              leading: IconButton(
-                  onPressed: () {
-                    context.goNamed(HomeRouter.home.name);
-                  },
-                  icon: Icon(Icons.arrow_back_ios_new, size: 22)
-              ),
               actions: [
                 IconButton(
-                    onPressed: () {
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (context) => DraggableLayoutProduct()
-                      );
-                    },
-                    icon: Icon(Icons.remove_red_eye)
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) => DraggableLayoutProduct()
+                    );
+                  },
+                  icon: Icon(Icons.remove_red_eye)
                 ),
                 IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.filter_alt)
+                  onPressed: () {},
+                  icon: Icon(Icons.filter_alt)
                 ),
                 IconButton(
                   onPressed: _toggleSearch,

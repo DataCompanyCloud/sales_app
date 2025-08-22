@@ -9,7 +9,7 @@ class GridViewColumnSkeleton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final scheme = theme.colorScheme;
 
     final device = MyDevice.getType(context);
 
@@ -95,7 +95,7 @@ class GridViewColumnSkeleton extends ConsumerWidget {
                             width: double.infinity,
                             height: 56,
                             decoration: BoxDecoration(
-                              color: colorScheme.surface,
+                              color: scheme.surface,
                               borderRadius: BorderRadius.only(
                                 bottomRight: Radius.circular(10),
                                 bottomLeft: Radius.circular(10),
@@ -120,7 +120,7 @@ class GridViewColumnSkeleton extends ConsumerWidget {
               )
             )
           ],
-        )
+        ),
       ),
     );
   }

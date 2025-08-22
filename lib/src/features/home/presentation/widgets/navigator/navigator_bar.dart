@@ -62,8 +62,8 @@ class CustomBottomNavigationBar extends ConsumerWidget {
                   case 3:
                     context.goNamed(CustomerRouter.customer.name);
                     break;
-                  case 4:
-                    context.goNamed(ScheduleRouter.schedule.name);
+                //   case 4:
+                //     context.goNamed(ScheduleRouter.schedule.name);
                 }
               },
               items: [

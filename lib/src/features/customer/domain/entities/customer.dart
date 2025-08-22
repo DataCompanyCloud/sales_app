@@ -5,7 +5,6 @@ import 'package:sales_app/src/features/customer/domain/valueObjects/cnpj.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/contact_info.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/cpf.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/credit_limit.dart';
-import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/payment_method.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/state_registration.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/tax_regime.dart';

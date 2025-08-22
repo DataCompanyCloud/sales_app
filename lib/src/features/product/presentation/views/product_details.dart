@@ -58,6 +58,7 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
     //   },
     // );
     return Scaffold(
+      backgroundColor: scheme.surface,
       extendBody: true,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -224,8 +225,12 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Text(
-                                          property.name
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: 4),
+                                        child: Text(
+                                          property.name,
+                                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w700),
+                                        ),
                                       ),
                                       SizedBox(
                                         height: 32,
@@ -300,63 +305,61 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
           ),
           SafeArea(
             top: false,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Preço Total',
-                        style: Theme.of(context).textTheme.labelMedium,
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        (product.price * qty).toStringAsFixed(2),
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 46,
-                    child: _QtyStepper(
-                      value: qty,
-                      onChanged: (v) => setState(() => qty = v),
+            child: Container(
+              color: scheme.onSecondary,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Preço Total',
+                              style: Theme.of(context).textTheme.labelMedium,
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              (product.price * qty).toStringAsFixed(2),
+                              style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 46,
+                          child: _QtyStepper(
+                            value: qty,
+                            onChanged: (v) => setState(() => qty = v),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 48,
+                        child: FilledButton.icon(
+                          onPressed: () {},
+                          style: FilledButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)
+                            )
+                          ),
+                          icon: Icon(Icons.shopping_cart, size: 22,),
+                          label: Text("Adicionar", style: TextStyle(fontSize: 16),)
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ],
-      ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 76),
-        child: SizedBox(
-          width: 120,
-          child: FloatingActionButton(
-            onPressed: () {},
-            backgroundColor: scheme.primary,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 4),
-                  child: Icon(Icons.shopping_cart, color: scheme.onTertiary),
-                ),
-                Text(
-                  "Adicionar",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: scheme.onTertiary
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }

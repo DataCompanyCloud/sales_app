@@ -119,12 +119,6 @@ class SchedulePage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('${_ptMonths[anchor.month - 1]} de ${anchor.year}'.toUpperCase()),
-        leading: IconButton(
-          onPressed: () {
-            context.goNamed(HomeRouter.home.name);
-          },
-          icon: Icon(Icons.arrow_back_ios_new, size: 22),
-        ),
         actions: [
           TextButton(onPressed: () => _goToday(ref), child: const Text('Hoje')),
           IconButton(

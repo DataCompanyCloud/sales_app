@@ -163,7 +163,7 @@ class DraggableFilterProductState extends ConsumerState<DraggableFilterProduct>{
                       Padding(
                         padding: const EdgeInsets.only(top: 12),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             SizedBox(
                               width: 180,

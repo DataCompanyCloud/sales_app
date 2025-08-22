@@ -18,13 +18,12 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = ref.watch(homeIndexProvider);
-    // final viewModelProvider = ref.watch(homeViewModelProvider);
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF0081F5),
+        backgroundColor: Colors.transparent,
         foregroundColor: Colors.white,
         title: Text(title),
         centerTitle: true,
