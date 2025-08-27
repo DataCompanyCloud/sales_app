@@ -5,6 +5,7 @@ import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/features/auth/providers.dart';
 import 'package:sales_app/src/features/error/presentation/router/error_router.dart';
 import 'package:sales_app/src/features/home/presentation/controllers/home_providers.dart';
+import 'package:sales_app/src/features/home/presentation/widgets/dialogs/change_company_dialog.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/navigator/navigator_bar.dart';
 
 class HomePage extends ConsumerWidget {
@@ -19,7 +20,7 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = ref.watch(homeIndexProvider);
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final scheme = theme.colorScheme;
 
     return Scaffold(
       appBar: AppBar(
@@ -29,16 +30,15 @@ class HomePage extends ConsumerWidget {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {
-            },
-            icon: Icon(Icons.crisis_alert_outlined)
+            onPressed: () {},
+            icon: Icon(Icons.crisis_alert)
           ),
         ],
       ),
       drawer: Container(
         width: 322,
         height: double.infinity,
-        color: Color(0xFF17203A),
+        color: scheme.surface,
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,9 +112,7 @@ class HomePage extends ConsumerWidget {
                   "FAQ",
                   style: TextStyle(color: Colors.white),
                 ),
-                onTap: () {
-
-                },
+                onTap: () {},
               ),
               Column(
                 children: [
@@ -140,9 +138,7 @@ class HomePage extends ConsumerWidget {
                   "Configurações",
                   style: TextStyle(color: Colors.white),
                 ),
-                onTap: () {
-
-                },
+                onTap: () {},
               ),
               SizedBox(height: 12),
               Padding(
@@ -178,9 +174,7 @@ class HomePage extends ConsumerWidget {
                   "Alterar conta",
                   style: TextStyle(color: Colors.white),
                 ),
-                onTap: () {
-
-                },
+                onTap: () {},
               ),
               Column(
                 children: [
@@ -204,13 +198,11 @@ class HomePage extends ConsumerWidget {
                 ),
                 onTap: () {
                   ref.read(authControllerProvider.notifier).logout();
-                  // context.goNamed(AppRoutes.login.name);
                 },
                 title: Text(
                   "Sair",
                   style: TextStyle(color: Colors.white),
                 ),
-
               ),
             ]
           )
@@ -218,11 +210,40 @@ class HomePage extends ConsumerWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(12.0),
+          padding: EdgeInsets.all(12),
           child: Column(
             children: [
+              /// TODO: Melhorar isso
               Card(
-                color: colorScheme.surface,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  side: BorderSide(
+                    color: scheme.secondary,
+                    width: 1
+                  )
+                ),
+                color: scheme.surface,
+                margin: EdgeInsets.all(2),
+                child: ListTile(
+                  visualDensity: VisualDensity(vertical: 3),
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.grey.shade100,
+                    child: Icon(Icons.factory, color: Colors.black87),
+                  ),
+                  title: Text("Empregador: Empresa A"),
+                  subtitle: Text("CNPJ: 12.345.678/0000-01"),
+                  trailing: Icon(Icons.chevron_right),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) => ChangeCompanyDialog()
+                    );
+                  },
+                ),
+              ),
+              Padding(padding: EdgeInsets.only(top: 16)),
+              Card(
+                color: scheme.surface,
                 elevation: 3,
                 margin: EdgeInsets.all(2),
                 child: Column(
@@ -232,9 +253,9 @@ class HomePage extends ConsumerWidget {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 16.0),
+                        padding: EdgeInsets.only(left: 16),
                         child: Text(
-                          "Meu Aplicativo",
+                          "Informações de Pedido",
                           style: TextStyle(
                             fontSize: 20,
                           ),
@@ -297,7 +318,7 @@ class HomePage extends ConsumerWidget {
               ),
               Padding(padding: EdgeInsets.only(top: 12)),
               Card(
-                color: colorScheme.surface,
+                color: scheme.surface,
                 elevation: 3,
                 margin: EdgeInsets.all(2),
                 child: Column(
@@ -309,7 +330,7 @@ class HomePage extends ConsumerWidget {
                       child: Padding(
                         padding: EdgeInsets.only(left: 16.0),
                         child: Text(
-                          "Informações",
+                          "Informações dos Clientes",
                           style: TextStyle(
                             fontSize: 20,
                           ),
@@ -321,9 +342,9 @@ class HomePage extends ConsumerWidget {
                       visualDensity: VisualDensity(vertical: 3),
                       leading: CircleAvatar(
                         backgroundColor: Colors.grey.shade100,
-                        child: Icon(Icons.search, color: Colors.black87),
+                        child: Icon(Icons.group_outlined, color: Colors.black87),
                       ),
-                      title: Text("Pesquisa"),
+                      title: Text("Qtd. Clientes"),
                       trailing: Icon(Icons.chevron_right),
                       onTap: () {},
                     ),
@@ -331,9 +352,9 @@ class HomePage extends ConsumerWidget {
                       visualDensity: VisualDensity(vertical: 3),
                       leading: CircleAvatar(
                         backgroundColor: Colors.grey.shade100,
-                        child: Icon(Icons.star_border_outlined, color: Colors.black87),
+                        child: Icon(Icons.star_outline, color: Colors.black87),
                       ),
-                      title: Text("Favoritos"),
+                      title: Text("Clientes Favoritos"),
                       trailing: Icon(Icons.chevron_right),
                       onTap: () {},
                     ),
@@ -341,9 +362,9 @@ class HomePage extends ConsumerWidget {
                       visualDensity: VisualDensity(vertical: 3),
                       leading: CircleAvatar(
                         backgroundColor: Colors.grey.shade100,
-                        child: Icon(Icons.cookie_outlined, color: Colors.black87),
+                        child: Icon(Icons.data_saver_on_outlined, color: Colors.black87),
                       ),
-                      title: Text("Cookies"),
+                      title: Text("Clientes DataCompany"),
                       trailing: Icon(Icons.chevron_right),
                       onTap: () {},
                       shape: RoundedRectangleBorder(

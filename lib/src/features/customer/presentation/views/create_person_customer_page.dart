@@ -3,23 +3,49 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/dialogs/quit_dialog.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/indicator/step_indicator.dart';
 
-class CreatePersonCustomer extends ConsumerWidget {
-  final String title;
-
-  const CreatePersonCustomer ({
+class CreatePersonCustomerPage extends ConsumerStatefulWidget {
+  const CreatePersonCustomerPage({
     super.key,
-    required this.title
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // final viewModelProvider = ref.watch(customerViewModelProvider);
+  ConsumerState<ConsumerStatefulWidget> createState() => CreatePersonCustomerState();
+}
+
+class CreatePersonCustomerState extends ConsumerState<CreatePersonCustomerPage>{
+  final List<String> steps = ['Dados', 'Endereço', 'Contato'];
+  final currentStepProvider = StateProvider((ref) => 0);
+
+  void onStepTapped(int step) {
+    ref.read(currentStepProvider.notifier).state = step;
+  }
+
+  void nextStep() {
+    final currentStep = ref.read(currentStepProvider);
+    if (currentStep < steps.length - 1) {
+      ref.read(currentStepProvider.notifier).state++;
+    }
+  }
+
+  void previousStep() {
+    final currentStep = ref.read(currentStepProvider);
+    if (currentStep > 0) {
+      ref.read(currentStepProvider.notifier).state--;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final currentStep = ref.watch(currentStepProvider);
+
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF0081F5),
-        foregroundColor: Colors.white,
-        title: Text(title),
+        backgroundColor: Colors.transparent,
+        foregroundColor: scheme.onSurface,
+        title: Text("Novo Cliente - Pessoa"),
         leading: IconButton(
           onPressed: () {
             showDialog(
@@ -41,8 +67,10 @@ class CreatePersonCustomer extends ConsumerWidget {
                   padding: EdgeInsets.symmetric(vertical: 16),
                   child: StepIndicator(
                     steps: ['Dados', 'Endereço', 'Contato'],
-                    currentStep: 1,//viewModelProvider.currentStep,
-                    onStepTapped: (a) {}// viewModelProvider.onStepTapped,
+                    currentStep: currentStep,
+                    onStepTapped: (step) {
+                      onStepTapped(step);
+                    },
                   ),
                 ),
               ),

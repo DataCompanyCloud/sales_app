@@ -77,7 +77,10 @@ class ProductPageState extends ConsumerState<ProductPage>{
           ? error
           : AppException.errorUnexpected(error.toString()),
       ),
-      loading: () => GridViewColumnSkeleton(),
+      loading: () => Scaffold(
+        body: GridViewColumnSkeleton(),
+        bottomNavigationBar: CustomBottomNavigationBar(currentIndex: currentIndex),
+      ),
       data: (products) {
         if(products.isEmpty) {
           return Scaffold(
@@ -85,12 +88,7 @@ class ProductPageState extends ConsumerState<ProductPage>{
               title: Text("Produtos"),
               actions: [
                 IconButton(
-                  onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (context) => DraggableLayoutProduct()
-                    );
-                  },
+                  onPressed: () {},
                   icon: Icon(Icons.remove_red_eye)
                 ),
                 IconButton(
@@ -98,11 +96,10 @@ class ProductPageState extends ConsumerState<ProductPage>{
                   icon: Icon(Icons.filter_alt)
                 ),
                 IconButton(
-                  onPressed: _toggleSearch,
-                  icon: Icon(isSearchOpen ? Icons.close : Icons.search),
+                  onPressed: () {},
+                  icon: Icon(Icons.search),
                 ),
               ],
-              backgroundColor: Color(0xFF0081F5),
               foregroundColor: Colors.white,
             ),
             body: Center(
@@ -121,7 +118,7 @@ class ProductPageState extends ConsumerState<ProductPage>{
                     InkWell(
                       onTap: () => ref.refresh(productControllerProvider.future),
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8),
                         child: Text("Tentar novamente", style: TextStyle(color: Colors.blue),),
                       )
                     ),
@@ -133,7 +130,6 @@ class ProductPageState extends ConsumerState<ProductPage>{
           );
         }
         return Scaffold(
-          //extendBody: true,
           appBar: AppBar(
             title: Text("Produtos"),
             actions: [

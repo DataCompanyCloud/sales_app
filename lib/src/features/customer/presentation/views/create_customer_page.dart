@@ -14,12 +14,12 @@ class CreateCustomer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final scheme = theme.colorScheme;
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF0081F5),
-        foregroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
+        foregroundColor: scheme.onSurface,
         title: Text(title),
         leading: IconButton(
           onPressed: () {
@@ -103,7 +103,7 @@ class CreateCustomer extends ConsumerWidget {
                           TextSpan(
                             text: "ou ",
                             style: TextStyle(
-                              color: colorScheme.onSurface
+                              color: scheme.onSurface
                             )
                           ),
                           TextSpan(

@@ -20,6 +20,7 @@ class GridViewColumnSkeleton extends ConsumerWidget {
           Skeletonizer(
             effect: ShimmerEffect(
               highlightColor: Colors.white,
+              baseColor: scheme.surface
             ),
             child: Row(
               children: [
@@ -50,8 +51,8 @@ class GridViewColumnSkeleton extends ConsumerWidget {
                 enabled: true,
                 child: GridView.count(
                   crossAxisCount: device == DeviceType.mobile
-                      ? 2
-                      : 3,
+                    ? 2
+                    : 3,
                   mainAxisSpacing: 4,
                   crossAxisSpacing: 4,
                   childAspectRatio: 0.8,

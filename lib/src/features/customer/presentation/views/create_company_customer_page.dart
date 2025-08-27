@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -8,15 +5,6 @@ import 'package:sales_app/src/features/customer/presentation/router/customer_rou
 import 'package:sales_app/src/features/customer/presentation/widgets/dialogs/quit_dialog.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/indicator/step_indicator.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/textFields/textfield_create_customer.dart';
-import 'package:sales_app/src/features/customer/providers.dart';
-import 'package:uuid/uuid.dart';
-import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
-import 'package:sales_app/src/features/customer/domain/valueObjects/email.dart';
-import 'package:sales_app/src/features/customer/domain/valueObjects/phone.dart';
-import 'package:sales_app/src/features/customer/domain/valueObjects/cep.dart';
-import 'package:sales_app/src/features/customer/domain/valueObjects/cnpj.dart';
-import 'package:sales_app/src/features/customer/domain/valueObjects/cpf.dart';
-import 'package:sales_app/src/features/customer/domain/valueObjects/address.dart' as entity;
 
 
 class CreateCompanyCustomerPage extends ConsumerStatefulWidget {
@@ -104,10 +92,13 @@ class CreateCompanyCustomerState extends ConsumerState<CreateCompanyCustomerPage
   Widget build(BuildContext context) {
     final currentStep = ref.watch(currentStepProvider);
 
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
+        foregroundColor: scheme.onSurface,
         title: Text("Novo Cliente - Empresa"),
         leading: IconButton(
           onPressed: () {

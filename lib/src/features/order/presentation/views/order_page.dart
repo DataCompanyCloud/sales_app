@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/navigator/navigator_bar.dart';
-import 'package:sales_app/src/features/order/presentation/controllers/order_providers.dart';
 import 'package:sales_app/src/features/order/presentation/widgets/indicator/order_step_indicator.dart';
 
 class OrderPage extends ConsumerStatefulWidget {
@@ -16,6 +13,7 @@ class OrderPage extends ConsumerStatefulWidget {
 }
 
 class OrderPageState extends ConsumerState<OrderPage>{
+  final orderIndexProvider = StateProvider<int>((ref) => 1);
   final List<String> steps = ['addCliente', 'addProduto', 'financeiro', 'compraFinalizada'];
   final currentStepProvider = StateProvider((ref) => 0);
 
@@ -44,15 +42,9 @@ class OrderPageState extends ConsumerState<OrderPage>{
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF0081F5),
+        backgroundColor: Colors.transparent,
         foregroundColor: Colors.white,
         title: Text("Pedidos"),
-        leading: IconButton(
-            onPressed: () {
-              context.goNamed(HomeRouter.home.name);
-            },
-            icon: Icon(Icons.arrow_back_ios_new, size: 22)
-        ),
         actions: [
           IconButton(
               onPressed: () {

@@ -14,33 +14,53 @@ class QuitDialog extends ConsumerWidget {
 
     return AlertDialog(
       title: Text("Deseja sair?"),
-      content: Text("Ao sair todo o progresso será perdido."),
+      content: Text("Ao sair todo o processo de cadastro será perdido."),
       actions: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            TextButton(
-              onPressed: () {
-                context.pop();
-              },
-              child: Text(
-                "Não",
-                style: TextStyle(
-                  fontSize: 14
+            SizedBox(
+              width: 120,
+              child: FilledButton(
+                onPressed: () {
+                  context.pop();
+                },
+                style: FilledButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12)
+                    )
+                  ),
+                  backgroundColor: Colors.grey
+                ),
+                child: Text(
+                  "Não",
+                  style: TextStyle(
+                    fontSize: 14
+                  ),
                 ),
               ),
             ),
-            TextButton(
-              onPressed: () {
-                context.goNamed(AppRoutes.createCustomer.name);
-                // ref.read(customerViewModelProvider.notifier).resetSteps();
-              },
-              child: Text(
-                "Sim",
-                style: TextStyle(
-                  fontSize: 14
+            SizedBox(
+              width: 120,
+              child: FilledButton(
+                onPressed: () {
+                  context.goNamed(AppRoutes.createCustomer.name);
+                },
+                style: FilledButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12)
+                    )
+                  )
                 ),
-              )
+                child: Text(
+                  "Sim",
+                  style: TextStyle(
+                    fontSize: 14
+                  ),
+                )
+              ),
             )
           ],
         )
