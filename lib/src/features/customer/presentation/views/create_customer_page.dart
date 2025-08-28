@@ -4,11 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/customer/presentation/router/customer_router.dart';
 
 class CreateCustomer extends ConsumerWidget {
-  final String title;
 
   const CreateCustomer ({
-    super.key,
-    required this.title
+    super.key
   });
 
   @override
@@ -20,7 +18,7 @@ class CreateCustomer extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         foregroundColor: scheme.onSurface,
-        title: Text(title),
+        title: Text("Novo cliente"),
         leading: IconButton(
           onPressed: () {
             context.pop();
@@ -36,65 +34,73 @@ class CreateCustomer extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 180,
-                    height: 180,
-                    child: ElevatedButton(
+              ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: 300,
+                  maxHeight: 300,
+                ),
+                child: GridView.count(
+                  shrinkWrap: true,
+                  crossAxisCount: 2, // duas colunas
+                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 12,
+                  childAspectRatio: 1, // formato dos botões (largura x altura)
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        context.goNamed(CustomerRouter.insertCustomerCnpj.name);
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.apartment_rounded, size: 72),
+                          Text(
+                            "PJ",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    ElevatedButton(
                       onPressed: () {
                         context.goNamed(CustomerRouter.createPersonCustomer.name);
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF0081F5),
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15)
-                        )
-                      ),
-                      child: Icon(Icons.person_rounded, size: 72)
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 18),
-                    child: SizedBox(
-                      width: 180,
-                      height: 180,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          context.goNamed(CustomerRouter.insertCustomerCnpj.name);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF0081F5),
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.person_rounded, size: 72),
+                          Text(
+                            "PF",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold
+                            ),
                           )
-                        ),
-                        child: Icon(Icons.apartment_rounded, size: 72)
-                      ),
+                        ],
+                      )
                     ),
-                  )
-                ],
+                  ],
+                ),
               ),
               Padding(
                 padding: EdgeInsets.only(top: 18, bottom: 18),
                 child: Column(
                   children: [
-                    Text(
-                      "Selecione o tipo de cliente que deseja cadastrar:",
-                      style: TextStyle(fontSize: 18),
-                    ),
                     RichText(
+                      textAlign: TextAlign.center,
                       text: TextSpan(
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.black
                         ),
                         children: [
                           TextSpan(
-                            text: "Pessoa ",
+                            text: "Selecione o tipo de cliente que deseja cadastrar "
+                          ),
+                          TextSpan(
+                            text: "Pessoa Juridíca ",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Color(0xFF0081F5)
@@ -107,7 +113,7 @@ class CreateCustomer extends ConsumerWidget {
                             )
                           ),
                           TextSpan(
-                            text: "Empresa",
+                            text: "Pessoa Física",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Color(0xFF0081F5)

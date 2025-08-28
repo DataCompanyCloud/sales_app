@@ -62,7 +62,7 @@ final customerRoutes = GoRoute(
       path: 'create_customer',
       name: CustomerRouter.createCustomer.name,
       builder: (context, state) {
-        return CreateCustomer(title: "Adicionar Cliente");
+        return CreateCustomer();
       },
       routes: [
         GoRoute(
@@ -76,7 +76,7 @@ final customerRoutes = GoRoute(
           path: 'insert_customer_cnpj',
           name: CustomerRouter.insertCustomerCnpj.name,
           builder: (context, state) {
-            return InsertCustomerCnpj(title: "Adicionar Cliente - Empresa");
+            return InsertCustomerCnpj();
           },
           routes: [
             GoRoute(
