@@ -144,10 +144,10 @@ class CreateCompanyCustomerState extends ConsumerState<CreateCompanyCustomerPage
                       ),
                     )
                   ),
-                  TextFieldCreateCustomer(controller: _legalNameController, hintText: "Razao social", icon: Icons.apartment_rounded),
-                  SizedBox(height: 12,),
+                  TextFieldCreateCustomer(controller: _legalNameController, hintText: "Razão Social", icon: Icons.apartment_rounded),
+                  SizedBox(height: 12),
                   TextFieldCreateCustomer(controller: _tradeNameController, hintText: "Nome Fantasia", icon: Icons.apartment_rounded),
-                  SizedBox(height: 12,),
+                  SizedBox(height: 12),
                   TextFieldCreateCustomer(controller: _cnpjController, hintText: "CNPJ", icon: Icons.apartment_rounded),
                 ],
               )

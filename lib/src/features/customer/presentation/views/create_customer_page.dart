@@ -18,7 +18,7 @@ class CreateCustomer extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         foregroundColor: scheme.onSurface,
-        title: Text("Novo cliente"),
+        title: Text("Novo Cliente"),
         leading: IconButton(
           onPressed: () {
             context.pop();

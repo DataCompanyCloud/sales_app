@@ -63,7 +63,10 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
           ? error
           : AppException.errorUnexpected(error.toString()),
       ),
-      loading: () =>  CustomerPageSkeleton(),
+      loading: () => Scaffold(
+        body: CustomerPageSkeleton(),
+        bottomNavigationBar: CustomBottomNavigationBar(currentIndex: currentIndex),
+      ),
       data: (customers) {
         if(customers.isEmpty) {
           return Scaffold(
