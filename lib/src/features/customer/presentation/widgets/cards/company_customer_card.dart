@@ -108,10 +108,10 @@ class CompanyCustomerCard extends ConsumerWidget {
                     Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(top: 5, right: 5),
+                          padding: EdgeInsets.only(top: 6, right: 6),
                           child: Container(
-                            width: 9,
-                            height: 9,
+                            width: 8,
+                            height: 8,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
                               color: customer.serverId != null
@@ -125,8 +125,8 @@ class CompanyCustomerCard extends ConsumerWidget {
                   ],
                 ),
               ),
-            )
-          )
+            ),
+          ),
         ],
       ),
     );

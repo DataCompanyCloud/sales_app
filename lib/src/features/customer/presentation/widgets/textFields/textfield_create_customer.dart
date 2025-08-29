@@ -4,12 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TextFieldCreateCustomer extends ConsumerWidget{
   final TextEditingController controller;
+  final TextInputType? keyboardNumber;
   final IconData? icon;
   final String? hintText;
 
   const TextFieldCreateCustomer({
     super.key,
     required this.controller,
+    this.keyboardNumber,
     this.hintText,
     this.icon
   });
@@ -18,6 +20,7 @@ class TextFieldCreateCustomer extends ConsumerWidget{
   Widget build(BuildContext context, WidgetRef ref) {
     return TextField(
       controller: controller,
+      keyboardType: keyboardNumber,
       onTapOutside: (event) {
         FocusManager.instance.primaryFocus?.unfocus();
       },

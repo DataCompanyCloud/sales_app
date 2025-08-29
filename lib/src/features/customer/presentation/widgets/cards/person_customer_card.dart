@@ -13,12 +13,12 @@ class PersonCustomerCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final scheme = theme.colorScheme;
 
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: colorScheme.onTertiary, width: 2)
+        border: Border.all(color: scheme.onTertiary, width: 2)
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -75,7 +75,7 @@ class PersonCustomerCard extends ConsumerWidget {
             child: Container(
               height: 75,
               decoration: BoxDecoration(
-                color: colorScheme.surface,
+                color: scheme.surface,
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(10),
                   bottomRight: Radius.circular(10)
@@ -107,10 +107,10 @@ class PersonCustomerCard extends ConsumerWidget {
                     Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(top: 5, right: 5),
+                          padding: EdgeInsets.only(top: 6, right: 6),
                           child: Container(
-                            width: 9,
-                            height: 9,
+                            width: 8,
+                            height: 8,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
                               color: customer.serverId != null

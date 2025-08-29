@@ -14,6 +14,11 @@ class DraggableCompanySelector extends ConsumerStatefulWidget {
 
 class DraggableCompanySelectorState extends ConsumerState<DraggableCompanySelector>{
 
+  int? selectedIndex;
+  void tapOption(int index) {
+    selectedIndex = index;
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller = ref.watch(authControllerProvider);
@@ -55,10 +60,13 @@ class DraggableCompanySelectorState extends ConsumerState<DraggableCompanySelect
                         color: Colors.grey[300]
                     ),
                   ),
-                  Text(
-                    "Alterar de Empresa",
-                    style: TextStyle(
-                      fontSize: 22,
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: Text(
+                      "Alterar de Empresa",
+                      style: TextStyle(
+                        fontSize: 22,
+                      ),
                     ),
                   ),
                   Expanded(
@@ -66,7 +74,7 @@ class DraggableCompanySelectorState extends ConsumerState<DraggableCompanySelect
                       controller: scrollController,
                       itemCount: user.company.length,
                       itemBuilder: (context, index) {
-                        final icon = (index == 0) ? Icons.check_circle : Icons.circle_outlined;
+                        final isSelected = selectedIndex == index;
                         return ListTile(
                           visualDensity: VisualDensity(vertical: 3),
                           leading: CircleAvatar(
@@ -75,8 +83,11 @@ class DraggableCompanySelectorState extends ConsumerState<DraggableCompanySelect
                           ),
                           title: Text("Empregador: ${user.company[index].tradeName}"),
                           subtitle: Text("CNPJ: ${user.company[index].cnpj.formatted}"),
-                          trailing: Icon(icon),
+                          trailing: Icon(
+                            isSelected ? Icons.check_circle : Icons.circle_outlined
+                          ),
                           onTap: () {
+                            tapOption(index);
                             context.pop();
                           },
                         );

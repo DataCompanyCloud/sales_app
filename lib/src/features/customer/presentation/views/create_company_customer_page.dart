@@ -148,7 +148,7 @@ class CreateCompanyCustomerState extends ConsumerState<CreateCompanyCustomerPage
                   SizedBox(height: 12),
                   TextFieldCreateCustomer(controller: _tradeNameController, hintText: "Nome Fantasia", icon: Icons.apartment_rounded),
                   SizedBox(height: 12),
-                  TextFieldCreateCustomer(controller: _cnpjController, hintText: "CNPJ", icon: Icons.apartment_rounded),
+                  TextFieldCreateCustomer(controller: _cnpjController, hintText: "CNPJ", keyboardNumber: TextInputType.numberWithOptions(), icon: Icons.apartment_rounded),
                 ],
               )
             ),
@@ -169,7 +169,7 @@ class CreateCompanyCustomerState extends ConsumerState<CreateCompanyCustomerPage
                         ),
                       )
                     ),
-                    TextFieldCreateCustomer(controller: _cepController, hintText: "CEP", icon: Icons.location_on),
+                    TextFieldCreateCustomer(controller: _cepController, hintText: "CEP", keyboardNumber: TextInputType.numberWithOptions(), icon: Icons.location_on),
                     SizedBox(height: 12,),
                     TextFieldCreateCustomer(controller: _stateController, hintText: "Estado"),
                     SizedBox(height: 12,),
@@ -196,18 +196,18 @@ class CreateCompanyCustomerState extends ConsumerState<CreateCompanyCustomerPage
                         ),
                       )
                     ),
-                    TextFieldCreateCustomer(controller: _emailController, hintText: "E-mail", icon: Icons.location_on),
+                    TextFieldCreateCustomer(controller: _emailController, hintText: "E-mail", icon: Icons.email),
                     SizedBox(height: 12,),
                     Row(
                       children: [
                         Expanded(
                           flex: 1,
-                          child: TextFieldCreateCustomer(controller: _phoneCountryController, hintText: "+99", icon: Icons.phone,),
+                          child: TextFieldCreateCustomer(controller: _phoneCountryController, hintText: "+99", keyboardNumber: TextInputType.numberWithOptions(), icon: Icons.phone,),
                         ),
                         SizedBox(width: 6),
                         Expanded(
                           flex: 3,
-                          child: TextFieldCreateCustomer(controller: _phoneNumberController, hintText: "Número de Telefone"),
+                          child: TextFieldCreateCustomer(controller: _phoneNumberController, hintText: "Número de Telefone", keyboardNumber: TextInputType.numberWithOptions()),
                         ),
                       ],
                     ),
