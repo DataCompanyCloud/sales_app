@@ -33,8 +33,8 @@ class PersonCustomerCard extends ConsumerWidget {
                     height: 20,
                     decoration: BoxDecoration(
                       color: customer.isActive
-                          ? Colors.green.shade900
-                          : Colors.red.shade900,
+                        ? Colors.green.shade900
+                        : Colors.red.shade900,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
                       )
