@@ -3,13 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/features/auth/providers.dart';
-import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
-import 'package:sales_app/src/features/home/orderList/presentation/router/order_list_router.dart';
 import 'package:sales_app/src/features/home/presentation/controllers/home_providers.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/draggable/draggable_company_selector.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/drawers/home_drawer.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/navigator/navigator_bar.dart';
+import 'package:sales_app/src/features/orderList/presentation/router/order_list_router.dart';
 
 class HomePage extends ConsumerWidget {
   final String title;
@@ -107,7 +106,7 @@ class HomePage extends ConsumerWidget {
                           child: Padding(
                             padding: EdgeInsets.only(left: 16),
                             child: Text(
-                              "Informações de Pedido",
+                              "Pedido",
                               style: TextStyle(
                                 fontSize: 20,
                               ),
@@ -133,7 +132,7 @@ class HomePage extends ConsumerWidget {
                             backgroundColor: Colors.grey.shade100,
                             child: Icon(Icons.history, color: Colors.black87),
                           ),
-                          title: Text("Histórico de Pedido"),
+                          title: Text("Histórico de Cliente"),
                           trailing: Icon(Icons.chevron_right),
                           onTap: () {},
                         ),
@@ -167,50 +166,27 @@ class HomePage extends ConsumerWidget {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
-                            padding: EdgeInsets.only(left: 16.0),
+                            padding: EdgeInsets.only(left: 16),
                             child: Text(
-                              "Informações dos Clientes",
+                              "Estoque",
                               style: TextStyle(
                                 fontSize: 20,
                               ),
                             ),
-                          )
+                          ),
                         ),
                         Padding(padding: EdgeInsets.only(top: 12)),
                         ListTile(
                           visualDensity: VisualDensity(vertical: 3),
                           leading: CircleAvatar(
                             backgroundColor: Colors.grey.shade100,
-                            child: Icon(Icons.group_outlined, color: Colors.black87),
+                            child: Icon(Icons.format_list_bulleted, color: Colors.black87),
                           ),
-                          title: Text("Qtd. Clientes"),
+                          title: Text("Estoque de Produtos"),
                           trailing: Icon(Icons.chevron_right),
-                          onTap: () {},
-                        ),
-                        ListTile(
-                          visualDensity: VisualDensity(vertical: 3),
-                          leading: CircleAvatar(
-                            backgroundColor: Colors.grey.shade100,
-                            child: Icon(Icons.star_outline, color: Colors.black87),
-                          ),
-                          title: Text("Clientes Favoritos"),
-                          trailing: Icon(Icons.chevron_right),
-                          onTap: () {},
-                        ),
-                        ListTile(
-                          visualDensity: VisualDensity(vertical: 3),
-                          leading: CircleAvatar(
-                            backgroundColor: Colors.grey.shade100,
-                            child: Icon(Icons.data_saver_on_outlined, color: Colors.black87),
-                          ),
-                          title: Text("Clientes DataCompany"),
-                          trailing: Icon(Icons.chevron_right),
-                          onTap: () {},
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(12), bottomRight: Radius.circular(12)
-                            ),
-                          ),
+                          onTap: () {
+                            context.goNamed(OrderListRouter.order_list.name);
+                          },
                         ),
                       ],
                     ),

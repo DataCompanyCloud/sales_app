@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:sales_app/src/features/home/orderList/presentation/views/order_list_page.dart';
+import 'package:sales_app/src/features/orderList/presentation/views/order_list_page.dart';
 
 enum OrderListRouter {
   order_list
