@@ -16,7 +16,7 @@ class PersonCustomerDetails extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final scheme = theme.colorScheme;
 
     return Scaffold(
       appBar: AppBar(
@@ -85,7 +85,7 @@ class PersonCustomerDetails extends ConsumerWidget {
                     child: Column(
                       children: [
                         Card(
-                          color: colorScheme.surface,
+                          color: scheme.surface,
                           elevation: 1,
                           margin: EdgeInsets.all(2),
                           child: Column(
@@ -172,7 +172,7 @@ class PersonCustomerDetails extends ConsumerWidget {
                         ),
                         SizedBox(height: 8),
                         Card(
-                          color: colorScheme.surface,
+                          color: scheme.surface,
                           elevation: 1,
                           margin: EdgeInsets.all(2),
                           child: Column(
@@ -252,13 +252,13 @@ class PersonCustomerDetails extends ConsumerWidget {
                                                         child: Container(
                                                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                                           decoration: BoxDecoration(
-                                                            color: colorScheme.surface,
-                                                            border: Border.all(color: colorScheme.onSurface, width: 1),
+                                                            color: scheme.surface,
+                                                            border: Border.all(color: scheme.onSurface, width: 1),
                                                             borderRadius: BorderRadius.circular(8),
                                                           ),
                                                           child: Text(
                                                             p.label,
-                                                            style: Theme.of(context).textTheme.bodySmall?.copyWith(color: colorScheme.onSurface, fontWeight: FontWeight.bold),
+                                                            style: Theme.of(context).textTheme.bodySmall?.copyWith(color: scheme.onSurface, fontWeight: FontWeight.bold),
                                                           ),
                                                         ),
                                                       ),
@@ -291,7 +291,7 @@ class PersonCustomerDetails extends ConsumerWidget {
                                             Container(
                                               height: 8,
                                               decoration: BoxDecoration(
-                                                color: colorScheme.onPrimary,
+                                                color: scheme.onPrimary,
                                                 borderRadius: BorderRadius.circular(42),
                                               ),
                                               clipBehavior: Clip.hardEdge, // garante que o filho respeite o raio
@@ -302,7 +302,7 @@ class PersonCustomerDetails extends ConsumerWidget {
                                                   child: Container(
                                                     height: double.infinity,
                                                     decoration: BoxDecoration(
-                                                      color: colorScheme.primary,
+                                                      color: scheme.primary,
                                                       borderRadius: BorderRadius.circular(42),
                                                       // geralmente NÃO precisa de borda interna aqui
                                                     ),
@@ -323,7 +323,7 @@ class PersonCustomerDetails extends ConsumerWidget {
                                                       "R\$ ${customer.creditLimit?.available.decimalValue.toString() ?? "--"}" ,
                                                       style: TextStyle(
                                                           fontSize: 15,
-                                                          color: colorScheme.primary,
+                                                          color: scheme.primary,
                                                           fontWeight: FontWeight.bold
                                                       ),
                                                     ),
@@ -367,7 +367,7 @@ class PersonCustomerDetails extends ConsumerWidget {
                         ),
                         SizedBox(height: 8),
                         Card(
-                          color: colorScheme.surface,
+                          color: scheme.surface,
                           elevation: 1,
                           margin: EdgeInsets.all(2),
                           child: Column(
@@ -505,7 +505,7 @@ class PersonCustomerDetails extends ConsumerWidget {
                             ? Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Card(
-                            color: colorScheme.surface,
+                            color: scheme.surface,
                             elevation: 1,
                             margin: EdgeInsets.all(2),
                             child: Column(
@@ -608,7 +608,7 @@ class PersonCustomerDetails extends ConsumerWidget {
                             ? Padding(
                           padding: const EdgeInsets.only(top: 8),
                           child: Card(
-                            color: colorScheme.surface,
+                            color: scheme.surface,
                             elevation: 1,
                             margin: EdgeInsets.all(2),
                             child: Column(
