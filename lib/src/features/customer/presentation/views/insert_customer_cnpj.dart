@@ -28,12 +28,12 @@ class InsertCustomerCnpj extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: colorScheme.onSurface
-                  ),
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                style: TextStyle(
+                  fontSize: 18,
+                  color: colorScheme.onSurface
+                ),
                 children: [
                   TextSpan(text: "Digite o "),
                   TextSpan(
