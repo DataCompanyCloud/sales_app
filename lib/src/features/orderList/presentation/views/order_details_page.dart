@@ -16,12 +16,6 @@ class OrderDetailsPage extends ConsumerWidget {
       "4",
       "5",
       "6",
-      "7",
-      "8",
-      "9",
-      "10",
-      "11",
-      "12",
     ];
 
     return DefaultTabController(
@@ -41,7 +35,7 @@ class OrderDetailsPage extends ConsumerWidget {
             unselectedLabelColor: Colors.grey,
             tabs: [
               Tab(text: "Detalhes"),
-              Tab(text: "Produtos (${produtos.length})"),
+              Tab(child: _buildTabWithBadge("Produtos", produtos.length)),
             ],
           ),
         ),
@@ -87,4 +81,40 @@ class OrderDetailsPage extends ConsumerWidget {
       ),
     );
   }
+}
+
+Widget _buildTabWithBadge(String title, int count) {
+  bool selected = true;
+  return Stack(
+    clipBehavior: Clip.none,
+    children: [
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Text(title),
+      ),
+      if (count > 0)
+        Positioned(
+          right: -16,
+          top: -2,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+            decoration: BoxDecoration(
+              color: selected
+                ? const Color(0xFF2A364B)
+                : const Color(0xFF273449),
+              border: Border.all(color: Colors.black),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Text(
+              count.toString(),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.bold
+              ),
+            ),
+          )
+        ),
+    ],
+  );
 }

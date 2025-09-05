@@ -67,8 +67,8 @@ class CustomerStatusButtons extends ConsumerWidget {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: selected
-                    ? scheme.primaryContainer
-                    : scheme.surface,
+                  ? scheme.primaryContainer
+                  : scheme.surface,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.horizontal(
                     left: isFirst ? Radius.circular(10) : Radius.zero,
@@ -83,8 +83,8 @@ class CustomerStatusButtons extends ConsumerWidget {
                     opt.label,
                     style: TextStyle(
                       color: selected
-                          ? scheme.onPrimaryContainer
-                          : scheme.onSurfaceVariant,
+                        ? scheme.onPrimaryContainer
+                        : scheme.onSurfaceVariant,
                     ),
                   ),
                   Padding(padding: EdgeInsets.only(left: 12)),
@@ -92,8 +92,8 @@ class CustomerStatusButtons extends ConsumerWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                     decoration: BoxDecoration(
                       color: selected
-                          ? scheme.secondaryContainer
-                          : scheme.surfaceContainerHighest,
+                        ? scheme.secondaryContainer
+                        : scheme.surfaceContainerHighest,
                       border: Border.all(color: Colors.black), // cor e espessura da borda
                       borderRadius: BorderRadius.circular(4),  // cantos arredondados
                     ),
@@ -101,8 +101,8 @@ class CustomerStatusButtons extends ConsumerWidget {
                       opt.quantity.toString(),
                       style: TextStyle(
                         color: selected
-                            ? scheme.onSecondaryContainer
-                            : scheme.onSurface,
+                          ? scheme.onSecondaryContainer
+                          : scheme.onSurface,
                       ),
                     ),
                   ),

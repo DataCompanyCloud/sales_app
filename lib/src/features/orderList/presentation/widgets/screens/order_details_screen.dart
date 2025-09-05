@@ -62,14 +62,40 @@ class OrderDetailsScreen extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Informações do Cliente",
+                              "INFORMAÇÕES DO CLIENTE",
                               style: TextStyle(
-                                fontSize: 20
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey
                               ),
                             ),
-                            Text("NomeDoCliente"),
-                            Text("Email"),
-                            Text("Telefone")
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 4),
+                              child: Divider(
+                                thickness: 1.5,
+                                color: Colors.grey.shade500,
+                              ),
+                            ),
+                            Text(
+                              "NomeDoCliente",
+                              style: TextStyle(
+                                fontSize: 15
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              "Email",
+                              style: TextStyle(
+                                fontSize: 15
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              "Telefone",
+                              style: TextStyle(
+                                fontSize: 15
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -89,14 +115,40 @@ class OrderDetailsScreen extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Informações do Pedido",
+                              "INFORMAÇÕES DO PEDIDO",
                               style: TextStyle(
-                                  fontSize: 20
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey
                               ),
                             ),
-                            Text("Forma de Pagamento:"),
-                            Text("Vendendor:"),
-                            Text("Observações:")
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 4),
+                              child: Divider(
+                                thickness: 1.5,
+                                color: Colors.grey.shade500,
+                              ),
+                            ),
+                            Text(
+                              "Forma de Pagamento",
+                              style: TextStyle(
+                                fontSize: 15
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              "Vendendor",
+                              style: TextStyle(
+                                fontSize: 15
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              "Observações",
+                              style: TextStyle(
+                                fontSize: 15
+                              ),
+                            )
                           ],
                         ),
                       ),
