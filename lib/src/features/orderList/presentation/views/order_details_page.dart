@@ -84,7 +84,6 @@ class OrderDetailsPage extends ConsumerWidget {
 }
 
 Widget _buildTabWithBadge(String title, int count) {
-  bool selected = true;
   return Stack(
     clipBehavior: Clip.none,
     children: [
@@ -99,10 +98,11 @@ Widget _buildTabWithBadge(String title, int count) {
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
             decoration: BoxDecoration(
-              color: selected
-                ? const Color(0xFF2A364B)
-                : const Color(0xFF273449),
-              border: Border.all(color: Colors.black),
+              color: const Color(0xFF2A364B),
+              border: Border.all(
+                color: Colors.black,
+                width: 1,
+              ),
               borderRadius: BorderRadius.circular(4),
             ),
             child: Text(

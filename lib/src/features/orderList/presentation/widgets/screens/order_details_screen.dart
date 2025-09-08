@@ -1,3 +1,4 @@
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,6 +9,12 @@ class OrderDetailsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
+
+    final customerName = faker.person.name();
+    final email = faker.internet.email();
+    final phone = faker.phoneNumber.us();
+
+    final salesman = faker.person.name();
 
     return Scaffold(
       body: Center(
@@ -77,21 +84,21 @@ class OrderDetailsScreen extends ConsumerWidget {
                               ),
                             ),
                             Text(
-                              "NomeDoCliente",
+                              "Cliente: $customerName",
                               style: TextStyle(
                                 fontSize: 15
                               ),
                             ),
                             SizedBox(height: 4),
                             Text(
-                              "Email",
+                              "Email: $email",
                               style: TextStyle(
                                 fontSize: 15
                               ),
                             ),
                             SizedBox(height: 4),
                             Text(
-                              "Telefone",
+                              "Telefone: $phone",
                               style: TextStyle(
                                 fontSize: 15
                               ),
@@ -137,7 +144,7 @@ class OrderDetailsScreen extends ConsumerWidget {
                             ),
                             SizedBox(height: 4),
                             Text(
-                              "Vendendor",
+                              "Vendendor: $salesman",
                               style: TextStyle(
                                 fontSize: 15
                               ),
