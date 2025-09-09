@@ -1,3 +1,4 @@
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -21,6 +22,10 @@ class OrderListPageState extends ConsumerState<OrderListPage>{
     final currentIndex = ref.watch(orderIndexProvider);
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
+
+    final customerName = faker.person.name();
+    final price = faker.randomGenerator.integer(100, min: 1);
+    final quantity = faker.randomGenerator.integer(100, min: 1);
 
     return Scaffold(
       appBar: AppBar(
@@ -134,43 +139,30 @@ class OrderListPageState extends ConsumerState<OrderListPage>{
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                "Nome do Cliente"
+                                                "Cliente: $customerName"
                                               ),
                                               Text(
-                                                "Preço"
+                                                "Preço: R\$${price * quantity}"
                                               ),
                                               Text(
-                                                "QtdProduto"
+                                                "Qtd. de Produtos: $quantity"
                                               ),
                                             ],
                                           )
                                         ),
+                                        Icon(Icons.chevron_right, size: 28),
                                         Column(
-                                          crossAxisAlignment: CrossAxisAlignment.end,
                                           children: [
                                             Padding(
-                                              padding: EdgeInsets.only(top: 4, right: 4),
-                                              child: Row(
-                                                children: [
-                                                  Text("Não-Sincronizado"),
-                                                  SizedBox(width: 4),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(right: 6),
-                                                    child: Container(
-                                                      width: 8,
-                                                      height: 8,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.circular(15),
-                                                        color: Colors.red
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
+                                              padding: EdgeInsets.only(top: 6, right: 6),
+                                              child: Container(
+                                                width: 8,
+                                                height: 8,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(15),
+                                                  color: Colors.red
+                                                ),
                                               ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(right: 12),
-                                              child: Icon(Icons.chevron_right, size: 28),
                                             ),
                                           ],
                                         ),

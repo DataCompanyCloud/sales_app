@@ -3,11 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:readmore/readmore.dart';
-import 'package:sales_app/src/core/exceptions/app_exception.dart';
-import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
-import 'package:sales_app/src/features/product/presentation/widgets/skeleton/product_details_skeleton.dart';
-import 'package:sales_app/src/features/product/providers.dart';
 
 class ProductDetails extends ConsumerStatefulWidget {
   final Product product;

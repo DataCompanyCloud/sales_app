@@ -180,7 +180,7 @@ class HomePage extends ConsumerWidget {
                           visualDensity: VisualDensity(vertical: 3),
                           leading: CircleAvatar(
                             backgroundColor: Colors.grey.shade100,
-                            child: Icon(Icons.format_list_bulleted, color: Colors.black87),
+                            child: Icon(Icons.archive_outlined, color: Colors.black87),
                           ),
                           title: Text("Estoque de Produtos"),
                           trailing: Icon(Icons.chevron_right),

@@ -20,8 +20,6 @@ class OrderStatusButtons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // final status = ref.watch()
-    final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
 
     final rawOptions = <_FilterOption>[
       _FilterOption(label: 'Todos', quantity: countAll),

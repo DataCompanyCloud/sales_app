@@ -6,7 +6,6 @@ import 'package:sales_app/src/features/home/presentation/controllers/home_provid
 import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
 import 'package:sales_app/src/features/order/presentation/router/order_router.dart';
 import 'package:sales_app/src/features/product/presentation/router/product_router.dart';
-import 'package:sales_app/src/features/schedule/presentation/router/schedule_router.dart';
 
 class CustomBottomNavigationBar extends ConsumerWidget {
   final int currentIndex;

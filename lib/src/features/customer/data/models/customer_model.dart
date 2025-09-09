@@ -1,12 +1,9 @@
-import 'dart:ui';
-
 import 'package:objectbox/objectbox.dart';
 import 'package:sales_app/src/features/customer/data/models/address_model.dart';
 import 'package:sales_app/src/features/customer/data/models/cnpj_model.dart';
 import 'package:sales_app/src/features/customer/data/models/contact_info_model.dart';
 import 'package:sales_app/src/features/customer/data/models/cpf_model.dart';
 import 'package:sales_app/src/features/customer/data/models/credit_limit_model.dart';
-import 'package:sales_app/src/features/customer/data/models/money_model.dart';
 import 'package:sales_app/src/features/customer/data/models/state_registration_model.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/payment_method.dart';

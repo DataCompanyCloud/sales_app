@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OrderDetailsCard extends ConsumerWidget {
+
   const OrderDetailsCard({super.key});
 
   @override
@@ -14,7 +15,7 @@ class OrderDetailsCard extends ConsumerWidget {
       padding: const EdgeInsets.only(top: 8),
       child: ListView.builder(
         padding: EdgeInsets.symmetric(horizontal: 4),
-        itemCount: 6,
+        itemCount: 12,
         itemBuilder: (context, index) {
 
           final productName = "${faker.food.cuisine()}, ${faker.food.cuisine()}, ${faker.food.cuisine()}";
@@ -80,11 +81,30 @@ class OrderDetailsCard extends ConsumerWidget {
                                   productName,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                                Text(
-                                  "Categoria"
+                                SizedBox(
+                                  height: 24,
+                                  child: ListView(
+                                    scrollDirection: Axis.horizontal,
+                                    shrinkWrap: true,
+                                    children: List.generate(
+                                      6,
+                                      (index) => Container(
+                                        padding: EdgeInsets.only(left: 8, right: 8),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border.all(color: scheme.primary, width: 1),
+                                          color: scheme.onSecondary,
+                                        ),
+                                        margin: const EdgeInsets.only(right: 8),
+                                        child: Center(
+                                          child: Text("Categoria ${index + 1}"),
+                                        ),
+                                      )
+                                    ),
+                                  ),
                                 ),
                                 Text(
-                                  "Preço: R\$$price"
+                                  "Preço: R\$${price * quantity}"
                                 ),
                                 Text(
                                   "Qtd: $quantity"

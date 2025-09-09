@@ -45,7 +45,7 @@ class OrderDetailsProductScreenState extends ConsumerState<OrderDetailsProductSc
                     },
                     child: Icon(
                       onClick
-                        ? Icons.list
+                        ? Icons.view_list_sharp
                         : Icons.view_agenda
                     ),
                   ),

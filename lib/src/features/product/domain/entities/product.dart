@@ -47,10 +47,21 @@ abstract class Product with _$Product {
       throw AppException.errorUnexpected("Nome vazio");
     }
 
-    return Product.raw(productId: productId, code: code, name: name, price: price, barcode: barcode, unit: unit, images: images, categories: categories, packings: packings, properties: properties, description: description);
+    return Product.raw(
+      productId: productId,
+      code: code,
+      name: name,
+      price: price,
+      barcode: barcode,
+      unit: unit,
+      images: images,
+      categories: categories,
+      packings: packings,
+      properties: properties,
+      description: description
+    );
   }
 
   factory Product.fromJson(Map<String, dynamic> json) =>
       _$ProductFromJson(json);
 }
-

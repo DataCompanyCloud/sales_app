@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,11 +11,15 @@ class OrderDetailsScreen extends ConsumerWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 
+    final payment = ['Débito', 'Crédito', 'PIX'];
+
     final customerName = faker.person.name();
     final email = faker.internet.email();
     final phone = faker.phoneNumber.us();
-
+    bool observations = faker.randomGenerator.boolean();
+    String paymentMethod = faker.randomGenerator.element(payment);
     final salesman = faker.person.name();
+    final details = faker.food.cuisine();
 
     return Scaffold(
       body: Center(
@@ -100,7 +105,7 @@ class OrderDetailsScreen extends ConsumerWidget {
                             Text(
                               "Telefone: $phone",
                               style: TextStyle(
-                                fontSize: 15
+                                  fontSize: 15
                               ),
                             )
                           ],
@@ -137,9 +142,9 @@ class OrderDetailsScreen extends ConsumerWidget {
                               ),
                             ),
                             Text(
-                              "Forma de Pagamento",
+                              "Forma de Pagamento: $paymentMethod",
                               style: TextStyle(
-                                fontSize: 15
+                                fontSize: 15,
                               ),
                             ),
                             SizedBox(height: 4),
@@ -150,12 +155,32 @@ class OrderDetailsScreen extends ConsumerWidget {
                               ),
                             ),
                             SizedBox(height: 4),
-                            Text(
-                              "Observações",
-                              style: TextStyle(
-                                fontSize: 15
+                            if (observations == true)
+                            RichText(
+                              text: TextSpan(
+                                text: "Observações: ",
+                                style: TextStyle(fontSize: 15),
+                                children: [
+                                  TextSpan(
+                                    text: details,
+                                    style: TextStyle(fontSize: 15, color: Colors.grey)
+                                  )
+                                ]
                               ),
-                            )
+                            ),
+                            if (observations == false)
+                            RichText(
+                              text: TextSpan(
+                                text: "Observações: ",
+                                style: TextStyle(fontSize: 15),
+                                children: [
+                                  TextSpan(
+                                    text: "Nada informado",
+                                    style: TextStyle(fontSize: 15, color: Colors.grey)
+                                  )
+                                ]
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -180,70 +205,122 @@ class OrderDetailsScreen extends ConsumerWidget {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 4),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Subtotal",
-                              style: TextStyle(
-                                color: Colors.grey
+                      DottedBorder(
+                        borderType: BorderType.RRect,
+                        radius: const Radius.circular(0),
+                        dashPattern: const [4, 3],
+                        color: Colors.grey,
+                        strokeWidth: 1,
+                        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+                        customPath: (size) {
+                          return Path()
+                            ..moveTo(0, size.height)
+                            ..lineTo(size.width, size.height);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 4),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Subtotal",
+                                style: TextStyle(
+                                  color: Colors.grey
+                                ),
                               ),
-                            ),
-                            Text(
-                              "R\$100,00"
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 4),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Desconto",
-                              style: TextStyle(
-                                color: Colors.grey
-                              ),
-                            ),
-                            Text(
-                              "R\$0,00"
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 4),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Frete",
-                              style: TextStyle(
-                                color: Colors.grey
-                              ),
-                            ),
-                            Text(
-                              "R\$16,00"
-                            )
-                          ],
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Taxa",
-                            style: TextStyle(
-                              color: Colors.grey
-                            ),
+                              Text(
+                                "R\$100,00"
+                              )
+                            ],
                           ),
-                          Text(
-                            "R\$2,00"
-                          )
-                        ],
+                        ),
+                      ),
+                      DottedBorder(
+                        borderType: BorderType.RRect,
+                        radius: const Radius.circular(0),
+                        dashPattern: const [4, 3],
+                        color: Colors.grey,
+                        strokeWidth: 1,
+                        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+                        customPath: (size) {
+                          return Path()
+                            ..moveTo(0, size.height)
+                            ..lineTo(size.width, size.height);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 4),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Desconto",
+                                style: TextStyle(
+                                  color: Colors.grey
+                                ),
+                              ),
+                              Text(
+                                "R\$0,00"
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      DottedBorder(
+                        borderType: BorderType.RRect,
+                        radius: const Radius.circular(0),
+                        dashPattern: const [4, 3],
+                        color: Colors.grey,
+                        strokeWidth: 1,
+                        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+                        customPath: (size) {
+                          return Path()
+                            ..moveTo(0, size.height)
+                            ..lineTo(size.width, size.height);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 4),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Frete",
+                                style: TextStyle(
+                                  color: Colors.grey
+                                ),
+                              ),
+                              Text(
+                                "R\$16,00"
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      DottedBorder(
+                        borderType: BorderType.RRect,
+                        radius: const Radius.circular(0),
+                        dashPattern: const [4, 3],
+                        color: Colors.grey,
+                        strokeWidth: 1,
+                        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+                        customPath: (size) {
+                          return Path()
+                            ..moveTo(0, size.height)
+                            ..lineTo(size.width, size.height);
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Taxa",
+                              style: TextStyle(
+                                color: Colors.grey
+                              ),
+                            ),
+                            Text(
+                              "R\$2,00"
+                            )
+                          ],
+                        ),
                       ),
                     ],
                   ),
