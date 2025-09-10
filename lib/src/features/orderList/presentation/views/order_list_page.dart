@@ -23,10 +23,6 @@ class OrderListPageState extends ConsumerState<OrderListPage>{
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 
-    final customerName = faker.person.name();
-    final price = faker.randomGenerator.integer(100, min: 1);
-    final quantity = faker.randomGenerator.integer(100, min: 1);
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -61,8 +57,13 @@ class OrderListPageState extends ConsumerState<OrderListPage>{
                 Expanded(
                   child: ListView.builder(
                     padding: EdgeInsets.symmetric(horizontal: 4),
-                    itemCount: 24,
+                    itemCount: 12,
                     itemBuilder: (context, index) {
+
+                      final customerName = faker.person.name();
+                      final price = random.integer(100, min: 1);
+                      final quantity = random.integer(100, min: 1);
+
                       return InkWell(
                         onTap: () {
                           context.pushNamed(OrderListRouter.order_details.name);
@@ -139,7 +140,8 @@ class OrderListPageState extends ConsumerState<OrderListPage>{
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                "Cliente: $customerName"
+                                                "Cliente: $customerName",
+                                                overflow: TextOverflow.ellipsis,
                                               ),
                                               Text(
                                                 "Preço: R\$${price * quantity}"
