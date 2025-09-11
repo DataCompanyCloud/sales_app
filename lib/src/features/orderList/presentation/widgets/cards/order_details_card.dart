@@ -104,10 +104,16 @@ class OrderDetailsCard extends ConsumerWidget {
                                   ),
                                 ),
                                 Text(
-                                  "Preço: R\$${price * quantity}"
+                                  "Qtd: $quantity",
+                                  style: TextStyle(
+                                    fontSize: 15
+                                  ),
                                 ),
                                 Text(
-                                  "Qtd: $quantity"
+                                  "Preço: R\$${price * quantity}",
+                                  style: TextStyle(
+                                    fontSize: 15
+                                  ),
                                 ),
                               ],
                             )

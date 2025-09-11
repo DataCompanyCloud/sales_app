@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/orderList/presentation/widgets/screens/order_details_product_screen.dart';
 import 'package:sales_app/src/features/orderList/presentation/widgets/screens/order_details_screen.dart';
+import 'package:sales_app/src/features/orderList/presentation/widgets/skeleton/order_details_screen_skeleton.dart';
 
 class OrderDetailsPage extends ConsumerWidget {
   const OrderDetailsPage({super.key});
@@ -41,6 +42,7 @@ class OrderDetailsPage extends ConsumerWidget {
         ),
         body: TabBarView(
           children: [
+            // OrderDetailsScreenSkeleton(),
             OrderDetailsScreen(),
             OrderDetailsProductScreen(),
           ]

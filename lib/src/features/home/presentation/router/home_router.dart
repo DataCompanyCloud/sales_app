@@ -1,8 +1,10 @@
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/home/presentation/views/home_page.dart';
+import 'package:sales_app/src/features/product/presentation/views/product_stock_page.dart';
 
 enum HomeRouter {
-  home
+  home,
+  productStock,
 }
 
 final homeRoutes = GoRoute(
@@ -11,6 +13,15 @@ final homeRoutes = GoRoute(
   builder: (context, state) {
     return HomePage(title: "Início");
   },
+  routes: [
+    GoRoute(
+      path: 'product_stock_page',
+      name: HomeRouter.productStock.name,
+      builder: (context, state) {
+        return ProductStockPage();
+      }
+    )
+  ]
   /*
   pageBuilder: (context, state) {
     final ref = ProviderScope.containerOf(context);

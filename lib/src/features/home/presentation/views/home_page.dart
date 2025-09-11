@@ -5,6 +5,7 @@ import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/features/auth/providers.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
 import 'package:sales_app/src/features/home/presentation/controllers/home_providers.dart';
+import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/draggable/draggable_company_selector.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/drawers/home_drawer.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/navigator/navigator_bar.dart';
@@ -185,7 +186,7 @@ class HomePage extends ConsumerWidget {
                           title: Text("Estoque de Produtos"),
                           trailing: Icon(Icons.chevron_right),
                           onTap: () {
-                            context.goNamed(OrderListRouter.order_list.name);
+                            context.goNamed(HomeRouter.productStock.name);
                           },
                         ),
                       ],
