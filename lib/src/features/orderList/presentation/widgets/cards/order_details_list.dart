@@ -78,7 +78,10 @@ class OrderDetailsList extends ConsumerWidget {
                   SizedBox(width: 8),
                   Text(
                     "R\$${price * quantity}",
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold
+                    ),
                   ),
                 ],
               ),
@@ -89,4 +92,3 @@ class OrderDetailsList extends ConsumerWidget {
     );
   }
 }
-

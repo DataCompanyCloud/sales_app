@@ -54,11 +54,11 @@ class OrderDetailsScreenSkeleton extends ConsumerWidget {
                                   thickness: 1.5,
                                 ),
                               ),
-                              Bone.text(width: 240, fontSize: 15),
-                              SizedBox(height: 4),
-                              Bone.text(width: 200, fontSize: 15),
-                              SizedBox(height: 4),
-                              Bone.text(width: 180, fontSize: 15)
+                              Bone.text(width: 240, fontSize: 18),
+                              SizedBox(height: 8),
+                              Bone.text(width: 200, fontSize: 18),
+                              SizedBox(height: 8),
+                              Bone.text(width: 180, fontSize: 18)
                             ],
                           ),
                         ),
@@ -83,11 +83,11 @@ class OrderDetailsScreenSkeleton extends ConsumerWidget {
                                   thickness: 1.5,
                                 ),
                               ),
-                              Bone.text(width: 240, fontSize: 15),
-                              SizedBox(height: 4),
-                              Bone.text(width: 180, fontSize: 15),
-                              SizedBox(height: 4),
-                              Bone.text(width: 200, fontSize: 15)
+                              Bone.text(width: 240, fontSize: 18),
+                              SizedBox(height: 8),
+                              Bone.text(width: 180, fontSize: 18),
+                              SizedBox(height: 8),
+                              Bone.text(width: 200, fontSize: 18)
                             ],
                           ),
                         ),
@@ -104,7 +104,7 @@ class OrderDetailsScreenSkeleton extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 8),
+                          padding: const EdgeInsets.only(bottom: 12),
                           child: Text(
                             "Pagamento",
                             style: TextStyle(
@@ -117,24 +117,24 @@ class OrderDetailsScreenSkeleton extends ConsumerWidget {
                           children: [
                             Column(
                               children: [
-                                Bone.text(width: 120),
-                                SizedBox(height: 4),
-                                Bone.text(width: 120),
-                                SizedBox(height: 4),
-                                Bone.text(width: 120),
-                                SizedBox(height: 4),
-                                Bone.text(width: 120),
+                                Bone.text(width: 80, fontSize: 12),
+                                SizedBox(height: 8),
+                                Bone.text(width: 80, fontSize: 12),
+                                SizedBox(height: 8),
+                                Bone.text(width: 80, fontSize: 12),
+                                SizedBox(height: 8),
+                                Bone.text(width: 80, fontSize: 12),
                               ],
                             ),
                             Column(
                               children: [
-                                Bone.text(width: 40),
-                                SizedBox(height: 4),
-                                Bone.text(width: 40),
-                                SizedBox(height: 4),
-                                Bone.text(width: 40),
-                                SizedBox(height: 4),
-                                Bone.text(width: 40),
+                                Bone.text(width: 40, fontSize: 12),
+                                SizedBox(height: 8),
+                                Bone.text(width: 40, fontSize: 12),
+                                SizedBox(height: 8),
+                                Bone.text(width: 40, fontSize: 12),
+                                SizedBox(height: 8),
+                                Bone.text(width: 40, fontSize: 12),
                               ],
                             )
                           ],
