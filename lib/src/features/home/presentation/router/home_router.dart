@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/home/presentation/views/home_page.dart';
-import 'package:sales_app/src/features/product/presentation/views/product_stock_page.dart';
+import 'package:sales_app/src/features/home/presentation/views/product_stock_page.dart';
 
 enum HomeRouter {
   home,

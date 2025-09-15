@@ -44,15 +44,9 @@ class OrderDetailsCard extends ConsumerWidget {
                               topLeft: Radius.circular(10),
                               bottomLeft: Radius.circular(10),
                             ),
-                            color: Colors.white54
+                            color: Colors.grey
                           ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              bottomLeft: Radius.circular(10)
-                            ),
-                          ),
-                        )
+                        ),
                       ],
                     ),
                   ]

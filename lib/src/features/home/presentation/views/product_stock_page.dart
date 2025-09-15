@@ -2,11 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class ProductStockPage extends ConsumerWidget {
+class ProductStockPage extends ConsumerStatefulWidget {
   const ProductStockPage({super.key});
-  
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => ProductStockPageState();
+}
+
+class ProductStockPageState extends ConsumerState<ProductStockPage>{
+  final isSearchOpenProvider = StateProvider<bool>((_) => false);
+  final _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isSearchOpen = ref.watch(isSearchOpenProvider);
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 
@@ -21,8 +41,8 @@ class ProductStockPage extends ConsumerWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {}, 
-            icon: Icon(Icons.search)
+            onPressed: () {},
+            icon: Icon(isSearchOpen ? Icons.close : Icons.search),
           )
         ],
       ),

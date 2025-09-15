@@ -52,7 +52,7 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
     final currentIndex = ref.watch(customerIndexProvider);
     final controller = ref.watch(customerControllerProvider);
     final status = ref.watch(customerStatusFilterProvider);
-    final isSearchOpen  = ref.watch(isSearchOpenProvider);
+    final isSearchOpen = ref.watch(isSearchOpenProvider);
 
     // final theme = Theme.of(context);
     // final scheme = theme.colorScheme;

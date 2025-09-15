@@ -18,4 +18,9 @@ class ApiEndpoints {
   /// Rota para obter products
   static const String products = '/products';
   static String productById({required int productId}) => '/product/$productId';
+
+  /// /orders
+  /// Rota para obter orders
+  static const String orders = '/orders';
+  static String orderById({required int orderId}) => '/order/$orderId';
 }
