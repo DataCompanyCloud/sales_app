@@ -88,7 +88,6 @@ extension ProductMapper on Product {
       entity.properties.addAll(properties.map((p) => p.toModel()));
     }
 
-
     return entity;
   }
 }

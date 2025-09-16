@@ -9,7 +9,7 @@ import 'package:sales_app/src/features/home/presentation/router/home_router.dart
 import 'package:sales_app/src/features/home/presentation/widgets/draggable/draggable_company_selector.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/drawers/home_drawer.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/navigator/navigator_bar.dart';
-import 'package:sales_app/src/features/orderList/presentation/router/order_list_router.dart';
+import 'package:sales_app/src/features/order/presentation/router/order_router.dart';
 
 class HomePage extends ConsumerWidget {
   final String title;
@@ -124,7 +124,7 @@ class HomePage extends ConsumerWidget {
                           title: Text("Lista de Pedidos"),
                           trailing: Icon(Icons.chevron_right),
                           onTap: () {
-                            context.goNamed(OrderListRouter.order_list.name);
+                            context.goNamed(OrderRouter.order_list.name);
                           },
                         ),
                         ListTile(

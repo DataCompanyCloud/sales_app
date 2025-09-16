@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sales_app/src/features/orderList/presentation/widgets/cards/order_details_card.dart';
-import 'package:sales_app/src/features/orderList/presentation/widgets/cards/order_details_list.dart';
-import 'package:sales_app/src/features/orderList/presentation/widgets/skeleton/order_details_card_skeleton.dart';
-import 'package:sales_app/src/features/orderList/presentation/widgets/skeleton/order_details_list_skeleton.dart';
+import 'package:sales_app/src/features/order/presentation/widgets/cards/order_details_card.dart';
+import 'package:sales_app/src/features/order/presentation/widgets/cards/order_details_list.dart';
 
 class OrderDetailsProductScreen extends ConsumerStatefulWidget {
   const OrderDetailsProductScreen({super.key});

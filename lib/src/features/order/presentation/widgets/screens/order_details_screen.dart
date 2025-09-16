@@ -1,7 +1,7 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sales_app/src/features/orderList/presentation/widgets/payment/payment_row.dart';
+import 'package:sales_app/src/features/order/presentation/widgets/payment/payment_row.dart';
 
 class OrderDetailsScreen extends ConsumerWidget {
   const OrderDetailsScreen({super.key});

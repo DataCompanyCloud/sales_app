@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class OrderListPageSkeleton extends ConsumerWidget {
-  const OrderListPageSkeleton({super.key});
+class OrderPageSkeleton extends ConsumerWidget {
+  const OrderPageSkeleton({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
