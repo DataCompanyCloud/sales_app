@@ -1,4 +1,3 @@
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
 

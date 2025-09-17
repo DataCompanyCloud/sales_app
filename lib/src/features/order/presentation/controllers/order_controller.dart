@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/features/order/domain/entities/order.dart';
+import 'package:sales_app/src/features/order/providers.dart';
 
 class OrderController extends AutoDisposeAsyncNotifier<List<Order>>{
 
@@ -8,7 +9,7 @@ class OrderController extends AutoDisposeAsyncNotifier<List<Order>>{
   FutureOr<List<Order>> build() async {
     final search = ref.watch(orderSearchProvider);
     final repository = await ref.read(orderRepositoryProvider.future);
-    state.AsyncLoading();
+    state = AsyncLoading();
 
     try {
       final service = await ref.watch(orderServiceProvider.future);
