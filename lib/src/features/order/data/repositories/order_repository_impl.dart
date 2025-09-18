@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'package:sales_app/objectbox.g.dart' hide Order;
+import 'package:sales_app/objectbox.g.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/order/data/models/order_model.dart';
 import 'package:sales_app/src/features/order/domain/repositories/order_repository.dart';
-import 'package:sales_app/src/features/order/domain/entities/order.dart';
+import 'package:sales_app/src/features/order/domain/entities/order.dart' as domain;
 
 class OrderRepositoryImpl extends OrderRepository {
   final Store store;
@@ -12,7 +12,7 @@ class OrderRepositoryImpl extends OrderRepository {
   OrderRepositoryImpl(this.store);
 
   @override
-  Future<List<Order>> fetchAll({String? search}) async {
+  Future<List<domain.Order>> fetchAll({String? search}) async {
     final box = store.box<OrderModel>();
 
     final raw = (search ?? '').trim();
@@ -39,7 +39,7 @@ class OrderRepositoryImpl extends OrderRepository {
   }
 
   @override
-  Future<Order> fetchById(int orderId) async {
+  Future<domain.Order> fetchById(int orderId) async {
     try {
       final orderBox = store.box<OrderModel>();
 
@@ -58,7 +58,7 @@ class OrderRepositoryImpl extends OrderRepository {
   }
 
   @override
-  Future<void> saveAll(List<Order> orders) async {
+  Future<void> saveAll(List<domain.Order> orders) async {
     final orderBox = store.box<OrderModel>();
 
     store.runInTransaction(TxMode.write, () {
@@ -85,7 +85,7 @@ class OrderRepositoryImpl extends OrderRepository {
   }
 
   @override
-  Future<Order> save(Order order) async {
+  Future<domain.Order> save(domain.Order order) async {
     final orderBox = store.box<OrderModel>();
 
     final id = store.runInTransaction(TxMode.write, () {
@@ -121,7 +121,7 @@ class OrderRepositoryImpl extends OrderRepository {
   }
 
   @override
-  Future<void> delete(Order order) async {
+  Future<void> delete(domain.Order order) async {
     final orderBox = store.box<OrderModel>();
 
     store.runInTransaction(TxMode.write, () async {

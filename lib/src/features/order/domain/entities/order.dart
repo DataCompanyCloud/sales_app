@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:sales_app/src/core/exceptions/app_exception.dart';
+import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
 import 'package:sales_app/src/features/order/domain/entities/order_product.dart';
 import 'package:sales_app/src/features/order/domain/valueObjects/order_status.dart';
@@ -36,6 +38,7 @@ abstract class Order with _$Order {
     required String orderUuId,
     required String? orderCode,
     required DateTime createdAt,
+    required List<OrderProduct> items,
     int? serverId,
     int? customerId,
     String? customerName,
@@ -43,16 +46,22 @@ abstract class Order with _$Order {
     DateTime? confirmedAt,
     DateTime? cancelledAt,
     String? notes,
-    List<OrderProduct> items = const [], /// Itens
-    Money freight = const Money.raw(amount: 0), /// Frete
-    /// Totais armazenados (opcionalmente sincronizados via 'recalculate')
-    Money itemsSubtotal = const Money.raw(amount: 0),
-    Money discountTotal = const Money.raw(amount: 0),
-    Money taxTotal = const Money.raw(amount: 0),
-    Money grandTotal = const Money.raw(amount: 0),
+    Money? freight, /// Frete
   }) {
 
     //TODO fazer as validações
+    if (confirmedAt != null && confirmedAt.isBefore(createdAt)) {
+      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Um pedido não pode ser confirmado antes de sua criação");
+    }
+    if (cancelledAt != null && cancelledAt.isBefore(createdAt)) {
+      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Um pedido não pode ser cancelado antes de sua criação");
+    }
+    if (confirmedAt != null && cancelledAt != null && cancelledAt.isBefore(confirmedAt)) {
+      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Um pedido não pode ser cancelado antes de ser confirmado");
+    }
+    if (cancelledAt != null && confirmedAt != null && confirmedAt.isAfter(cancelledAt)) {
+      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Não é possível confirmar um pedido já cancelado");
+    }
 
     return Order.raw(
       orderId: orderId,
@@ -67,43 +76,57 @@ abstract class Order with _$Order {
       cancelledAt: cancelledAt,
       notes: notes,
       items: items,
-      freight: freight,
-      itemsSubtotal: itemsSubtotal,
-      discountTotal: discountTotal,
-      taxTotal: taxTotal,
-      grandTotal: grandTotal
+      freight: freight ?? Money.zero(),
+      //TODO Mudar isso aqui
+      itemsSubtotal: Money.zero(),
+      discountTotal: Money.zero(),
+      taxTotal: Money.zero(),
+      grandTotal: Money.zero()
     );
   }
 
 
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
 
-  // @JsonKey(includeFromJson: false)
-  // Money get calcItemsSubtotal => items.fold(
-  //   moneyZero(currency: currency, scale: scale),
-  //   (acc, it) => acc.plus(it.unitPrice.timesQty(it.quantity)),
-  // );
-  //
-  // @JsonKey(includeFromJson: false)
-  // Money get calcDiscountTotal => items.fold(
-  //   moneyZero(currency: currency, scale: scale),
-  //   (acc, it) => acc.plus(it.discountAmount),
-  // );
-  //
-  // @JsonKey(includeFromJson: false)
-  // Money get calcTaxTotal => items.fold(
-  //   moneyZero(currency: currency, scale: scale),
-  //   (acc, it) => acc.plus(it.taxAmount),
-  // );
-  //
-  // @JsonKey(includeFromJson: false)
-  // Money get calcGrandTotal =>
-  //   calcItemsSubtotal.minus(calcDiscountTotal).plus(calcTaxTotal).plus(freight);
-  //
-  // Order recalculate() => copyWith(
-  //   itemsSubtotal: calcItemsSubtotal,
-  //   discountTotal: calcDiscountTotal,
-  //   taxTotal: calcTaxTotal,
-  //   grandTotal: calcGrandTotal
-  // );
+  @JsonKey(includeFromJson: false)
+  Money get calcItemsSubtotal => items.fold(
+    Money.zero(),
+    (acc, it) => acc.plus(it.unitPrice.multiply(it.quantity)),
+  );
+
+  @JsonKey(includeFromJson: false)
+  Money get calcDiscountTotal => items.fold(
+    Money.zero(),
+    (acc, it) => acc.plus(it.discountAmount),
+  );
+
+  @JsonKey(includeFromJson: false)
+  Money get calcTaxTotal => items.fold(
+    Money.zero(),
+    (acc, it) => acc.plus(it.taxAmount),
+  );
+
+  @JsonKey(includeFromJson: false)
+  Money get calcGrandTotal =>
+    calcItemsSubtotal.minus(calcDiscountTotal).plus(calcTaxTotal).plus(freight);
+
+
+  // Funções
+
+  Order recalculate() => copyWith(
+    itemsSubtotal: calcItemsSubtotal,
+    discountTotal: calcDiscountTotal,
+    taxTotal: calcTaxTotal,
+    grandTotal: calcGrandTotal
+  );
+
+  Order confirmed() => copyWith(
+    status: OrderStatus.confirmed,
+    confirmedAt: DateTime.now()
+  );
+
+  Order cancelled() => copyWith(
+    status: OrderStatus.cancelled,
+    cancelledAt: DateTime.now()
+  );
 }

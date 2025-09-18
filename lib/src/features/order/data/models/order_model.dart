@@ -1,35 +1,34 @@
-import 'package:sales_app/objectbox.g.dart' hide Order;
-import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
-import 'package:sales_app/src/features/order/domain/entities/order_product.dart';
-import 'package:sales_app/src/features/order/domain/entities/order.dart';
+import 'package:objectbox/objectbox.dart';
+import 'package:sales_app/src/features/customer/data/models/money_model.dart';
+import 'package:sales_app/src/features/order/data/models/order_product_model.dart';
+import 'package:sales_app/src/features/order/domain/entities/order.dart' as domain;
 import 'package:sales_app/src/features/order/domain/valueObjects/order_status.dart';
 
 @Entity()
 class OrderModel {
-  @Id(assignable: true)
+  @Id()
   int id;
-
-  int orderId;
   String orderUuId;
   String? orderCode;
+
   DateTime createdAt;
   int? serverId;
   int? customerId;
   String? customerName;
-  OrderStatus status;
+  int status;
   DateTime? confirmedAt;
   DateTime? cancelledAt;
   String? notes;
-  List<OrderProduct> items = const [];
-  Money freight;
-  Money itemsSubtotal;
-  Money discountTotal;
-  Money taxTotal;
-  Money grandTotal;
+
+  final freight = ToOne<MoneyModel>();
+  final itemsSubtotal = ToOne<MoneyModel>();
+  final discountTotal = ToOne<MoneyModel>();
+  final taxTotal = ToOne<MoneyModel>();
+  final grandTotal = ToOne<MoneyModel>();
+  final items = ToMany<OrderProductModel>();
 
   OrderModel({
     this.id = 0,
-    required this.orderId,
     required this.orderUuId,
     required this.orderCode,
     required this.createdAt,
@@ -40,61 +39,57 @@ class OrderModel {
     this.confirmedAt,
     this.cancelledAt,
     this.notes,
-    this.items = const [],
-    required this.freight,
-    required this.itemsSubtotal,
-    required this.discountTotal,
-    required this.taxTotal,
-    required this.grandTotal,
   });
 }
 
 extension OrderModelMapper on OrderModel {
-  Order toEntity() {
-    return Order.raw(
-      orderId: orderId,
+  domain.Order toEntity() {
+    final itemsList = items.map((i) => i.toEntity()).toList();
+
+    return domain.Order(
+      orderId: id,
       orderUuId: orderUuId,
       orderCode: orderCode,
       createdAt: createdAt,
       serverId: serverId,
       customerId: customerId,
       customerName: customerName,
-      status: status,
+      status: OrderStatus.values[status],
       confirmedAt: confirmedAt,
       cancelledAt: cancelledAt,
       notes: notes,
-      items: items,
-      freight: freight,
-      itemsSubtotal: itemsSubtotal,
-      discountTotal: discountTotal,
-      taxTotal: taxTotal,
-      grandTotal: grandTotal
+      items: itemsList,
+      freight: freight.target?.toEntity(),
+      // itemsSubtotal: itemsSubtotal.target?.toEntity(),
+      // discountTotal: discountTotal.target?.toEntity(),
+      // taxTotal: taxTotal.target?.toEntity(),
+      // grandTotal: grandTotal.target?.toEntity()
     );
   }
 }
 
-extension OrderMapper on Order {
+extension OrderMapper on domain.Order {
   OrderModel toModel() {
     final entity = OrderModel(
-      orderId: orderId,
+      id: orderId,
       orderUuId: orderUuId,
       orderCode: orderCode,
       createdAt: createdAt,
       serverId: serverId,
       customerId: customerId,
       customerName: customerName,
-      status: status,
+      status: status.index,
       confirmedAt: confirmedAt,
       cancelledAt: cancelledAt,
       notes: notes,
-      items: items,
-      freight: freight,
-      itemsSubtotal: itemsSubtotal,
-      discountTotal: discountTotal,
-      taxTotal: taxTotal,
-      grandTotal: grandTotal,
     );
 
+    entity.freight.target = freight.toModel();
+
+    if (items.isNotEmpty) {
+      entity.items.addAll(items.map((i) => i.toModel()));
+    }
+    
     return entity;
   }
 }

@@ -47,11 +47,12 @@ abstract class CreditLimit with _$CreditLimit {
       throw AppException.errorUnexpected('Moedas devem ser iguais');
     }
 
-    final nextAvailable = available - maximum;
+    final nextAvailable = available.minus(maximum);
 
     if (nextAvailable.amount < 0) {
       throw AppException.errorUnexpected('Limite insuficiente');
     }
+
     return copyWith(available: nextAvailable);
   }
 }

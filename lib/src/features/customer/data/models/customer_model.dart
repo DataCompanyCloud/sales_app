@@ -121,6 +121,7 @@ extension CustomerModelMapper on CustomerModel {
       notes: notes
     );
   }
+
 }
 
 extension CustomerPersonMapper on PersonCustomer {
@@ -137,17 +138,12 @@ extension CustomerPersonMapper on PersonCustomer {
       notes: notes
     );
 
-    if (cpf != null) {
-      model.cpf.target = cpf!.toModel();
-    }
-    if (address != null) {
-      model.address.target = address!.toModel();
-    }
+    model.cpf.target = cpf?.toModel();
+    model.address.target = address?.toModel();
+    model.creditLimit.target = creditLimit?.toModel();
+
     if (contacts.isNotEmpty) {
       model.contacts.addAll(contacts.map((p) => p.toModel()));
-    }
-    if (creditLimit != null) {
-      model.creditLimit.target = creditLimit!.toModel();
     }
 
     return model;
@@ -171,20 +167,14 @@ extension CustomerCompanyMapper on CompanyCustomer {
       notes: notes
     );
 
-    if (cnpj != null) {
-      model.cnpj.target = cnpj!.toModel();
-    }
-    if (address != null) {
-      model.address.target = address!.toModel();
-    }
+    model.cnpj.target = cnpj?.toModel();
+    model.address.target = address?.toModel();
+    model.creditLimit.target = creditLimit?.toModel();
+    model.stateRegistration.target = stateRegistration.toModel();
+
     if (contacts.isNotEmpty) {
       model.contacts.addAll(contacts.map((p) => p.toModel()));
     }
-    if (creditLimit != null) {
-      model.creditLimit.target = creditLimit!.toModel();
-    }
-
-    model.stateRegistration.target = stateRegistration.toModel();
 
     return model;
   }
@@ -208,23 +198,16 @@ extension CustomerMapper on RawCustomer {
       notes: notes
     );
 
-    if (cpf != null) {
-      model.cpf.target = cpf!.toModel();
-    }
-    if (cnpj != null) {
-      model.cnpj.target = cnpj!.toModel();
-    }
-    if (address != null) {
-      model.address.target = address!.toModel();
-    }
+    model.cpf.target = cpf?.toModel();
+    model.cnpj.target = cnpj?.toModel();
+    model.creditLimit.target = creditLimit?.toModel();
+    model.address.target = address?.toModel();
+    model.stateRegistration.target = stateRegistration.toModel();
+
     if (contacts.isNotEmpty) {
       model.contacts.addAll(contacts.map((p) => p.toModel()));
     }
-    if (creditLimit != null) {
-      model.creditLimit.target = creditLimit!.toModel();
-    }
 
-    model.stateRegistration.target = stateRegistration.toModel();
 
     return model;
   }

@@ -425,16 +425,17 @@ class CompanyCustomerDetails extends ConsumerWidget {
                                                   crossAxisAlignment: CrossAxisAlignment.end,
                                                   children: [
                                                     Text(
-                                                      "R\$ ${( customer.creditLimit!.maximum - customer.creditLimit!.available).decimalValue.toString()}" ,
+                                                      //TODO melhorar isso aqui: retirar o !
+                                                      "R\$ ${( customer.creditLimit!.maximum.minus(customer.creditLimit!.available)).decimalValue.toString()}" ,
                                                       style: TextStyle(
-                                                          fontSize: 15,
-                                                          fontWeight: FontWeight.bold
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight.bold
                                                       ),
                                                     ),
                                                     Text(
                                                       "Utilizado" ,
                                                       style: TextStyle(
-                                                          fontSize: 15
+                                                        fontSize: 15
                                                       ),
                                                     ),
                                                   ],

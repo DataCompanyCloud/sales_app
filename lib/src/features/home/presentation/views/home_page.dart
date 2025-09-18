@@ -65,7 +65,6 @@ class HomePage extends ConsumerWidget {
               padding: EdgeInsets.all(12),
               child: Column(
                 children: [
-                  /// TODO: Melhorar isso
                   Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(12)),

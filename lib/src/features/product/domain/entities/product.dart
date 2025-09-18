@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
+import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/barcode.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/image.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/packing.dart';
@@ -29,7 +30,7 @@ abstract class Product with _$Product {
     required List<Property> properties
   }) = _Product;
 
-  /// TODO Precisa fazer as validações somente quando as infromações forem diferentes de null!
+  /// TODO Precisa fazer as validações somente quando as informações forem diferentes de null!
   factory Product ({
     required int productId,
     required String code,
@@ -43,8 +44,15 @@ abstract class Product with _$Product {
     required List<Packing> packings,
     required List<Property> properties
   }) {
+
     if (name.trim().isEmpty) {
-      throw AppException.errorUnexpected("Nome vazio");
+      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "'Name' não pode ser vazio");
+    }
+    if (description != null) {
+      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "'Description' não pode ser nula");
+    }
+    if (barcode != null) {
+      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "'Barcode' não pode ser nulo");
     }
 
     return Product.raw(

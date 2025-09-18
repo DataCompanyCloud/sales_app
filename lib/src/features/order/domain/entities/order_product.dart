@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:sales_app/src/core/exceptions/app_exception.dart';
+import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
 
 part 'order_product.freezed.dart';
@@ -28,11 +30,26 @@ abstract class OrderProduct with _$OrderProduct {
     required double quantity,
     required Money unitPrice,
     int? orderId,
-    Money discountAmount = const Money.raw(amount: 0),
-    Money taxAmount = const Money.raw(amount: 0),
+    Money? discountAmount,
+    Money? taxAmount,
   }) {
 
     //TODO fazer as validações
+    if (name.trim().isEmpty) {
+      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "'Name' não pode ser vazio");
+    }
+    if (quantity.isNegative) {
+      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "'Quantity' não pode ser um valor negativo");
+    }
+    if (orderId != null) {
+      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "'OrderId' nunca pode ser nulo");
+    }
+    if (discountAmount != null) {
+      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "'DiscountAmount' não pode ser nulo");
+    }
+    if (taxAmount != null) {
+      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "'TaxAmount' não pode ser nulo");
+    }
 
     return OrderProduct.raw(
       productUuId: productUuId,
@@ -41,8 +58,8 @@ abstract class OrderProduct with _$OrderProduct {
       quantity: quantity,
       unitPrice: unitPrice,
       orderId: orderId,
-      discountAmount: discountAmount,
-      taxAmount: taxAmount,
+      discountAmount: discountAmount ?? const Money.raw(amount: 0),
+      taxAmount: taxAmount ?? const Money.raw(amount: 0),
     );
   }
 

@@ -32,11 +32,8 @@ abstract class Money with _$Money {
 
     // 0 é válido (ex.: JPY), e limite superior opcional (ex.: 8 para crypto)
     if (scale < 0 || scale > 8) {
-      throw AppException.errorUnexpected(
-        'Scale deve estar entre 0 e 8. Valor: $scale',
-      );
+      throw AppException.errorUnexpected('Scale deve estar entre 0 e 8. Valor: $scale');
     }
-
 
     return Money.raw(amount: amount, currency: currency, scale: scale);
   }
@@ -47,61 +44,74 @@ abstract class Money with _$Money {
 
   String format({String? locale}) => decimalValue.toString();
 
-  Money operator +(Money other) {
-    _assertSameCurrency(other);
-    final (a1, a2, s) = _alignScales(this, other);
-    return Money(amount: a1 + a2, currency: currency, scale: s);
+  /// Gera uma entidade Money(amount: 0), scale e currency pode ser adaptados;
+  static Money zero({String currency = 'BRL', int scale = 2}) => Money(amount: 0, currency: currency, scale: scale);
+
+  // --- operações ---
+  Money plus(Money other) {
+    if (currency != other.currency) {
+      throw AppException.errorUnexpected('Dinheiro incompatível: $currency vs ${other.currency}');
+    }
+
+    if (this.scale == other.scale) {
+      return Money(amount: amount + other.amount, currency: currency, scale: this.scale);
+    }
+
+    final (amount1, amount2, scale) = _alignScales(this, other);
+    return Money.raw(amount: amount1 + amount2, currency: currency, scale: scale);
   }
 
-  Money operator -(Money other) {
-    _assertSameCurrency(other);
-    final (a1, a2, s) = _alignScales(this, other);
-    return Money(amount: a1 - a2, currency: currency, scale: s);
+  Money minus(Money other) {
+    if (currency != other.currency) {
+      throw AppException.errorUnexpected('Dinheiro incompatível: $currency vs ${other.currency}');
+    }
+
+    if (this.scale == other.scale) {
+      return Money(amount: amount + other.amount, currency: currency, scale: this.scale);
+    }
+
+    final (amount1, amount2, scale) = _alignScales(this, other);
+    return Money.raw(amount: amount1 - amount2, currency: currency, scale: scale);
   }
 
-  Money operator / (Money other) {
-    _assertSameCurrency(other);
-    final (a1, a2, s) = _alignScales(this, other);
-    return Money(amount: a1 - a2, currency: currency, scale: s);
+  Money multiply(num qty) {
+    final result = (amount * qty).round();
+    return Money.raw(amount: result, currency: currency, scale: scale);
   }
 
-  Money multiply(num factor) =>
-      Money(amount: (amount * factor).round(), currency: currency, scale: scale);
+  Money divide(Money other) {
+    throw UnimplementedError();
+  }
+
+  double toDouble() => amount / _pow10(scale);
+
+  int _pow10(int n) {
+    var p = 1;
+    for (var i = 0; i < n; i++) {
+      p *= 10;
+    }
+    return p;
+  }
+
+  /// Alinha escalas para somar/subtrair com segurança.
+  /// Usa a maior escala entre os dois valores.
+  (int amount1, int amount2, int scale) _alignScales(Money m1, Money m2) {
+    final s = max(m1.scale, m2.scale);
+    final f1 = pow(10, s - m1.scale).toInt();
+    final f2 = pow(10, s - m2.scale).toInt();
+    return (m1.amount * f1, m2.amount * f2, s);
+  }
 
   double ratioTo(Money other) {
     if (currency != other.currency) {
-      throw ArgumentError("Moedas diferentes: $currency vs ${other.currency}");
+      throw AppException.errorUnexpected('Dinheiro incompatível: $currency vs ${other.currency}');
     }
 
     final s = scale > other.scale ? scale : other.scale;
     final a1 = amount * pow(10, s - scale);
     final a2 = other.amount * pow(10, s - other.scale);
-
     if (a2 == 0) return 0;
     return a1 / a2;
-  }
-
-  Money divide(num divisor) {
-    if (divisor == 0) {
-      throw ArgumentError("Divisor não pode ser zero");
-    }
-    final newAmount = (amount / divisor).round();
-    return Money(amount: newAmount, currency: currency, scale: scale);
-  }
-
-  void _assertSameCurrency(Money other) {
-    if (currency != other.currency) {
-      throw ArgumentError('Currencies must match ($currency != ${other.currency})');
-    }
-  }
-
-  /// Alinha escalas para somar/subtrair com segurança.
-  /// Usa a maior escala entre os dois valores.
-  static (int a1, int a2, int s) _alignScales(Money m1, Money m2) {
-    final s = max(m1.scale, m2.scale);
-    final f1 = pow(10, s - m1.scale).toInt();
-    final f2 = pow(10, s - m2.scale).toInt();
-    return (m1.amount * f1, m2.amount * f2, s);
   }
 
 }

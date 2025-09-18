@@ -339,8 +339,9 @@ class PersonCustomerDetails extends ConsumerWidget {
                                                   mainAxisAlignment: MainAxisAlignment.end,
                                                   crossAxisAlignment: CrossAxisAlignment.end,
                                                   children: [
+                                                    //TODO melhorar isso aqui: retirar o !
                                                     Text(
-                                                      "R\$ ${( customer.creditLimit!.maximum - customer.creditLimit!.available).decimalValue.toString()}" ,
+                                                      "R\$ ${( customer.creditLimit!.maximum.minus(customer.creditLimit!.available)).decimalValue.toString()}" ,
                                                       style: TextStyle(
                                                           fontSize: 15,
                                                           fontWeight: FontWeight.bold
