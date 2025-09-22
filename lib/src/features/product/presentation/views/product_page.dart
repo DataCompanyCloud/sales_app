@@ -11,9 +11,7 @@ import 'package:sales_app/src/features/product/presentation/widgets/skeleton/gri
 import 'package:sales_app/src/features/product/providers.dart';
 
 class ProductPage extends ConsumerStatefulWidget {
-  const ProductPage({
-    super.key
-  });
+  const ProductPage({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => ProductPageState();
@@ -113,7 +111,7 @@ class ProductPageState extends ConsumerState<ProductPage>{
                       size: 96,
                     ),
                     Padding(padding: EdgeInsets.only(top: 12)),
-                    Text("Nenhum produto para ser mostrado"),
+                    Text("Nenhum produto para ser mostrado."),
                     Padding(padding: EdgeInsets.only(top: 16)),
                     InkWell(
                       onTap: () => ref.refresh(productControllerProvider.future),
