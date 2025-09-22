@@ -81,7 +81,7 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
                       size: 96,
                     ),
                     Padding(padding: EdgeInsets.only(top: 12)),
-                    Text("Nenhum cliente para ser mostrado."),
+                    Text("Nenhum cliente para ser mostrado"),
                     Padding(padding: EdgeInsets.only(top: 16)),
                     InkWell(
                       onTap: () => ref.refresh(customerControllerProvider.future),

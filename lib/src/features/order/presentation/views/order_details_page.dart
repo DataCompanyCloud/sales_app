@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/order/presentation/widgets/screens/order_details_product_screen.dart';
 import 'package:sales_app/src/features/order/presentation/widgets/screens/order_details_screen.dart';
 
-class OrderDetails extends ConsumerWidget {
-  const OrderDetails({super.key});
+class OrderDetailsPage extends ConsumerWidget {
+  const OrderDetailsPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
