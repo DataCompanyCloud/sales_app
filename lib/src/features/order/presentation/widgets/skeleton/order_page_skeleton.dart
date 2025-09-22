@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class OrderPageSkeleton extends ConsumerWidget {
@@ -10,10 +12,12 @@ class OrderPageSkeleton extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Lista de Pedidos"),
-        leading: IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.arrow_back_ios_new, size: 22)
-        ),
+          leading: IconButton(
+            onPressed: () {
+              context.goNamed(HomeRouter.home.name);
+            },
+            icon: Icon(Icons.arrow_back_ios_new, size: 22),
+          )
       ),
       body: Skeletonizer(
         enabled: true,
