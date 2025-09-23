@@ -19,7 +19,7 @@ class OrderController extends AutoDisposeAsyncNotifier<List<Order>>{
         await repository.saveAll(newOrders);
       }
     } catch (e) {
-      print(e);
+      rethrow;
     }
 
     return await repository.fetchAll(search: search);

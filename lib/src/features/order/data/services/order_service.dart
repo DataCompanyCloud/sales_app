@@ -14,11 +14,17 @@ class OrderService {
 
   OrderService(this.apiClient, this.repository);
 
-  Future<List<Order>> getAll({int start = 0, int limit = 30, String? search}) async {
+  Future<List<Order>> getAll({
+    int start = 0,
+    int limit = 30,
+    String? search,
+    bool withProducts = false
+  }) async {
     final json = await apiClient.get<Map<String, dynamic>>(ApiEndpoints.orders, queryParameters: {
       'search': search,
       'start': start,
       'limit': limit,
+      'withProducts': bool
     });
 
     final data = json['data'] as List<dynamic>;

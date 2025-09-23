@@ -1,10 +1,16 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sales_app/src/features/order/domain/entities/order.dart';
 import 'package:sales_app/src/features/order/presentation/widgets/payment/payment_row.dart';
 
 class OrderDetailsScreen extends ConsumerWidget {
-  const OrderDetailsScreen({super.key});
+  final Order order;
+
+  const OrderDetailsScreen({
+    super.key,
+    required this.order
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -34,7 +40,7 @@ class OrderDetailsScreen extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "#$orderNumber",
+                      "#${orderNumber}",
                       style: TextStyle(
                         fontSize: 24,
                       ),
@@ -90,14 +96,14 @@ class OrderDetailsScreen extends ConsumerWidget {
                               ),
                             ),
                             Text(
-                              "Cliente: $customerName",
+                              "Cliente: ${customerName}",
                               style: TextStyle(
                                 fontSize: 15
                               ),
                             ),
                             SizedBox(height: 4),
                             Text(
-                              "Email: $email",
+                              "Email: ${email}",
                               style: TextStyle(
                                 fontSize: 15
                               ),
@@ -176,7 +182,7 @@ class OrderDetailsScreen extends ConsumerWidget {
                                 style: TextStyle(fontSize: 15),
                                 children: [
                                   TextSpan(
-                                    text: "Nada informado",
+                                    text: "Nada informado.",
                                     style: TextStyle(fontSize: 15, color: Colors.grey)
                                   )
                                 ]

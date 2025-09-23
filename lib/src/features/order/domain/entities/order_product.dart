@@ -41,15 +41,6 @@ abstract class OrderProduct with _$OrderProduct {
     if (quantity.isNegative) {
       throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "'Quantity' não pode ser um valor negativo");
     }
-    if (orderId != null) {
-      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "'OrderId' nunca pode ser nulo");
-    }
-    if (discountAmount != null) {
-      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "'DiscountAmount' não pode ser nulo");
-    }
-    if (taxAmount != null) {
-      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "'TaxAmount' não pode ser nulo");
-    }
 
     return OrderProduct.raw(
       productUuId: productUuId,

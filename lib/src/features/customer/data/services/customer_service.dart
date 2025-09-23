@@ -13,7 +13,11 @@ class CustomerService {
 
   CustomerService(this.apiClient, this.repository);
 
-  Future<List<Customer>> getAll({int start = 0, int limit = 30, String? search}) async {
+  Future<List<Customer>> getAll({
+    int start = 0,
+    int limit = 30,
+    String? search,
+  }) async {
     final json = await apiClient.get<Map<String, dynamic>>(ApiEndpoints.customers, queryParameters: {
       'search': search,
       'start': start,

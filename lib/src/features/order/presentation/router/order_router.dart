@@ -27,7 +27,8 @@ final orderRoutes = GoRoute(
       path: 'order_details',
       name: OrderRouter.order_details.name,
       builder: (context, state) {
-        return OrderDetails();
+        final orderId = state.extra as int;
+        return OrderDetails(orderId: orderId);
       }
     )
   ]

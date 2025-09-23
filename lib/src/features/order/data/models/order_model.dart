@@ -59,11 +59,7 @@ extension OrderModelMapper on OrderModel {
       cancelledAt: cancelledAt,
       notes: notes,
       items: itemsList,
-      freight: freight.target?.toEntity(),
-      // itemsSubtotal: itemsSubtotal.target?.toEntity(),
-      // discountTotal: discountTotal.target?.toEntity(),
-      // taxTotal: taxTotal.target?.toEntity(),
-      // grandTotal: grandTotal.target?.toEntity()
+      freight: freight.target?.toEntity()
     );
   }
 }
@@ -81,7 +77,7 @@ extension OrderMapper on domain.Order {
       status: status.index,
       confirmedAt: confirmedAt,
       cancelledAt: cancelledAt,
-      notes: notes,
+      notes: notes
     );
 
     entity.freight.target = freight.toModel();

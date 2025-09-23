@@ -6,6 +6,7 @@ import 'package:sales_app/src/features/order/providers.dart';
 class OrderDetailsController extends AutoDisposeFamilyAsyncNotifier<Order, int>{
   @override
   FutureOr<Order> build(int orderId) async {
+    state = AsyncLoading();
     final service = await ref.watch(orderServiceProvider.future);
     final repository = await ref.watch(orderRepositoryProvider.future);
 

@@ -30,5 +30,3 @@ final productServiceProvider = FutureProvider.autoDispose<ProductService>((ref) 
   final repository = await ref.watch(productRepositoryProvider.future);
   return ProductService(apiClient, repository);
 });
-
-
