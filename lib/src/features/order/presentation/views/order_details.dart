@@ -52,16 +52,16 @@ class OrderDetails extends ConsumerWidget {
                 labelColor: Colors.white,
                 unselectedLabelColor: Colors.grey,
                 tabs: [
-                  Tab(child: _buildTabWithBadge("Produtos", produtos.length)),
+                  Tab(child: _buildTabWithBadge("Produtos", order.items.length)),
                   Tab(text: "Detalhes"),
                 ],
               ),
             ),
             body: TabBarView(
-                children: [
-                  OrderDetailsProductScreen(),
-                  OrderDetailsScreen(order: order),
-                ]
+              children: [
+                OrderDetailsProductScreen(),
+                OrderDetailsScreen(order: order),
+              ]
             ),
             bottomNavigationBar: Column(
               mainAxisSize: MainAxisSize.min,
@@ -112,29 +112,29 @@ Widget _buildTabWithBadge(String title, int count) {
         child: Text(title),
       ),
       if (count > 0)
-        Positioned(
-          right: -16,
-          top: -2,
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-            decoration: BoxDecoration(
-              color: const Color(0xFF2A364B),
-              border: Border.all(
-                color: Colors.black,
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(4),
+      Positioned(
+        right: -16,
+        top: -2,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+          decoration: BoxDecoration(
+            color: const Color(0xFF2A364B),
+            border: Border.all(
+              color: Colors.black,
+              width: 1,
             ),
-            child: Text(
-              count.toString(),
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                fontWeight: FontWeight.bold
-              ),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Text(
+            count.toString(),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+              fontWeight: FontWeight.bold
             ),
-          )
-        ),
+          ),
+        )
+      ),
     ],
   );
 }

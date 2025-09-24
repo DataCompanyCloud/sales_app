@@ -55,9 +55,7 @@ class OrderDetailsProductScreenState extends ConsumerState<OrderDetailsProductSc
             Expanded(
               child: onClick
                 ? OrderDetailsCard()
-                // ? OrderDetailsCardSkeleton()
                 : OrderDetailsList()
-                // : OrderDetailsListSkeleton()
             ),
           ],
         )

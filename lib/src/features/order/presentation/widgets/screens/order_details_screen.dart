@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/features/order/domain/entities/order.dart';
 import 'package:sales_app/src/features/order/presentation/widgets/payment/payment_row.dart';
+import 'package:sales_app/src/features/order/providers.dart';
 
 class OrderDetailsScreen extends ConsumerWidget {
   final Order order;
@@ -14,6 +15,8 @@ class OrderDetailsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final controller = ref.watch(orderControllerProvider);
+
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 

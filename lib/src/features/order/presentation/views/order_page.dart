@@ -17,7 +17,7 @@ class OrderPage extends ConsumerStatefulWidget {
 
   const OrderPage({
     super.key,
-    required this.orders,
+    required this.orders
   });
 
   @override
@@ -157,8 +157,8 @@ class OrderListPageState extends ConsumerState<OrderPage>{
                                               color: order.status == OrderStatus.draft
                                                 ? Colors.orangeAccent
                                                 :  order.status == OrderStatus.confirmed
-                                                ? Colors.green
-                                                : Colors.red
+                                                  ? Colors.green
+                                                  : Colors.red
                                           ),
                                           child: ClipRRect(
                                             borderRadius: BorderRadius.only(

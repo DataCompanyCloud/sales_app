@@ -29,7 +29,7 @@ final orderRoutes = GoRoute(
       builder: (context, state) {
         final orderId = state.extra as int;
         return OrderDetails(orderId: orderId);
-      }
-    )
+      },
+    ),
   ]
 );
