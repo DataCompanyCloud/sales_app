@@ -12,29 +12,22 @@ class OrderDetails extends ConsumerWidget {
 
   const OrderDetails({
     super.key,
-    required this.orderId
+    required this.orderId,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.watch(orderDetailsControllerProvider(orderId));
-    final List<String> produtos = [
-      "1",
-      "2",
-      "3",
-      "4",
-      "5",
-      "6",
-    ];
 
-    /// TODO: Resolver esse problema de 'type Null is not a subtype of 'int' in type cast'
     return controller.when(
       error: (error, stack) => ErrorPage(
         exception: error is AppException
           ? error
           : AppException.errorUnexpected(error.toString()),
       ),
-      loading: () => CircularProgressIndicator(),
+      loading: () => Scaffold(
+        body: CircularProgressIndicator(),
+      ),
       data: (order) {
         return DefaultTabController(
           length: 2,
@@ -42,24 +35,54 @@ class OrderDetails extends ConsumerWidget {
             appBar: AppBar(
               title: Text("Detalhes do Pedido"),
               leading: IconButton(
-                  onPressed: () {
-                    context.pop();
-                  },
-                  icon: Icon(Icons.arrow_back_ios_new, size: 22)
+                onPressed: () {
+                  context.pop();
+                },
+                icon: Icon(Icons.arrow_back_ios_new, size: 22)
               ),
               bottom: TabBar(
                 indicatorColor: Colors.blue,
+                indicatorSize: TabBarIndicatorSize.tab,
                 labelColor: Colors.white,
                 unselectedLabelColor: Colors.grey,
                 tabs: [
-                  Tab(child: _buildTabWithBadge("Produtos", order.items.length)),
+                  Tab(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Produtos"
+                        ),
+                        SizedBox(width: 4),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF2A364B),
+                            border: Border.all(
+                              color: Colors.black,
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            order.items.length.toString(),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                   Tab(text: "Detalhes"),
                 ],
               ),
             ),
             body: TabBarView(
               children: [
-                OrderDetailsProductScreen(),
+                OrderDetailsProductScreen(order: order),
                 OrderDetailsScreen(order: order),
               ]
             ),
@@ -79,17 +102,17 @@ class OrderDetails extends ConsumerWidget {
                         Text(
                           "Total",
                           style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold
                           ),
                         ),
                         Text(
-                          "R\$500,00",
+                          "R\$${order.calcGrandTotal.decimalValue}",
                           style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -101,40 +124,4 @@ class OrderDetails extends ConsumerWidget {
       }
     );
   }
-}
-
-Widget _buildTabWithBadge(String title, int count) {
-  return Stack(
-    clipBehavior: Clip.none,
-    children: [
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Text(title),
-      ),
-      if (count > 0)
-      Positioned(
-        right: -16,
-        top: -2,
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-          decoration: BoxDecoration(
-            color: const Color(0xFF2A364B),
-            border: Border.all(
-              color: Colors.black,
-              width: 1,
-            ),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Text(
-            count.toString(),
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-              fontWeight: FontWeight.bold
-            ),
-          ),
-        )
-      ),
-    ],
-  );
 }

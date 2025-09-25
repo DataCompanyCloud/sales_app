@@ -46,7 +46,7 @@ class OrderListPageState extends ConsumerState<OrderPage>{
         bottomNavigationBar: CustomBottomNavigationBar(currentIndex: currentIndex),
       ),
       data: (orders) {
-        if(orders.isEmpty) {
+        if (orders.isEmpty) {
           return Scaffold(
             appBar: AppBar(
               title: Text("Lista de Pedidos"),
@@ -114,7 +114,7 @@ class OrderListPageState extends ConsumerState<OrderPage>{
 
                         return InkWell(
                           onTap: () {
-                            context.pushNamed(OrderRouter.order_details.name);
+                            context.pushNamed(OrderRouter.order_details.name, extra: order.orderId);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -205,7 +205,7 @@ class OrderListPageState extends ConsumerState<OrderPage>{
                                                   ),
                                                 ),
                                                 Text(
-                                                  "${order.items.length.toString().padLeft(2, "0")} produtos",
+                                                  "${order.itemsCount.toString().padLeft(2, "0")} produtos",
                                                   style: TextStyle(
                                                       fontSize: 15
                                                   ),

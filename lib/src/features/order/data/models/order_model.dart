@@ -12,6 +12,7 @@ class OrderModel {
   String? orderCode;
 
   DateTime createdAt;
+  int itemsCount;
   int? serverId;
   int? customerId;
   String? customerName;
@@ -32,6 +33,7 @@ class OrderModel {
     required this.orderUuId,
     required this.orderCode,
     required this.createdAt,
+    required this.itemsCount,
     required this.status,
     this.serverId,
     this.customerId,
@@ -58,6 +60,7 @@ extension OrderModelMapper on OrderModel {
       confirmedAt: confirmedAt,
       cancelledAt: cancelledAt,
       notes: notes,
+      itemsCount: itemsCount,
       items: itemsList,
       freight: freight.target?.toEntity()
     );
@@ -71,6 +74,7 @@ extension OrderMapper on domain.Order {
       orderUuId: orderUuId,
       orderCode: orderCode,
       createdAt: createdAt,
+      itemsCount: itemsCount,
       serverId: serverId,
       customerId: customerId,
       customerName: customerName,

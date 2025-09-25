@@ -42,7 +42,7 @@ abstract class Money with _$Money {
 
   double get decimalValue => amount / pow(10, scale);
 
-  String format({String? locale}) => decimalValue.toString();
+  String format({String? locale}) => decimalValue.toStringAsFixed(scale);
 
   /// Gera uma entidade Money(amount: 0), scale e currency pode ser adaptados;
   static Money zero({String currency = 'BRL', int scale = 2}) => Money(amount: 0, currency: currency, scale: scale);

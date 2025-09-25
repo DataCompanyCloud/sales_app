@@ -21,7 +21,7 @@ final orderControllerProvider = AutoDisposeAsyncNotifierProvider<OrderController
   return OrderController();
 });
 
-final orderDetailsControllerProvider = AsyncNotifierProvider.autoDispose.family<OrderDetailsController,Order,int>(
+final orderDetailsControllerProvider = AsyncNotifierProvider.autoDispose.family<OrderDetailsController, Order, int>(
   OrderDetailsController.new,
 );
 

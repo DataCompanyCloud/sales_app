@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/features/order/domain/entities/order.dart';
 import 'package:sales_app/src/features/order/presentation/widgets/payment/payment_row.dart';
-import 'package:sales_app/src/features/order/providers.dart';
 
 class OrderDetailsScreen extends ConsumerWidget {
   final Order order;
@@ -15,20 +14,16 @@ class OrderDetailsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = ref.watch(orderControllerProvider);
 
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 
     final payment = ['Débito', 'Crédito', 'PIX'];
 
-    final orderNumber = faker.randomGenerator.integer(90000, min: 10000);
-    final customerName = faker.person.name();
     final email = faker.internet.email();
     final phone = faker.phoneNumber.us();
     bool observations = faker.randomGenerator.boolean();
     String paymentMethod = faker.randomGenerator.element(payment);
-    final salesman = faker.person.name();
     final details = faker.food.cuisine();
 
     return Scaffold(
@@ -43,7 +38,7 @@ class OrderDetailsScreen extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "#${orderNumber}",
+                      "#${order.orderCode}",
                       style: TextStyle(
                         fontSize: 24,
                       ),
@@ -99,7 +94,7 @@ class OrderDetailsScreen extends ConsumerWidget {
                               ),
                             ),
                             Text(
-                              "Cliente: ${customerName}",
+                              "Cliente: ${order.customerName}",
                               style: TextStyle(
                                 fontSize: 15
                               ),
@@ -158,13 +153,6 @@ class OrderDetailsScreen extends ConsumerWidget {
                               ),
                             ),
                             SizedBox(height: 4),
-                            Text(
-                              "Vendendor: $salesman",
-                              style: TextStyle(
-                                fontSize: 15
-                              ),
-                            ),
-                            SizedBox(height: 4),
                             if (observations == true)
                             RichText(
                               text: TextSpan(
@@ -179,18 +167,7 @@ class OrderDetailsScreen extends ConsumerWidget {
                               ),
                             ),
                             if (observations == false)
-                            RichText(
-                              text: TextSpan(
-                                text: "Observações: ",
-                                style: TextStyle(fontSize: 15),
-                                children: [
-                                  TextSpan(
-                                    text: "Nada informado.",
-                                    style: TextStyle(fontSize: 15, color: Colors.grey)
-                                  )
-                                ]
-                              ),
-                            ),
+                            SizedBox(),
                           ],
                         ),
                       ),
@@ -215,10 +192,10 @@ class OrderDetailsScreen extends ConsumerWidget {
                           ),
                         ),
                       ),
-                      const PaymentRow(label: "Subtotal", value: "R\$100,00"),
-                      const PaymentRow(label: "Desconto", value: "R\$0,00"),
-                      const PaymentRow(label: "Frete", value: "R\$16,00"),
-                      const PaymentRow(label: "Taxa", value: "R\$8,00"),
+                      PaymentRow(label: "Subtotal", value: "R\$${order.calcItemsSubtotal.decimalValue}"),
+                      PaymentRow(label: "Desconto", value: "R\$${order.calcDiscountTotal.decimalValue}"),
+                      PaymentRow(label: "Frete", value: "R\$${order.freight.decimalValue}"),
+                      PaymentRow(label: "Taxa", value: "R\$${order.calcTaxTotal.decimalValue}"),
                     ],
                   ),
                 ),

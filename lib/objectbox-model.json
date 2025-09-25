@@ -752,7 +752,7 @@
     },
     {
       "id": "21:6524704315837830385",
-      "lastPropertyId": "17:2076463048906735887",
+      "lastPropertyId": "18:7832189966340558447",
       "name": "OrderModel",
       "properties": [
         {
@@ -850,6 +850,11 @@
           "flags": 520,
           "indexId": "34:1994011319420720410",
           "relationTarget": "MoneyModel"
+        },
+        {
+          "id": "18:7832189966340558447",
+          "name": "itemsCount",
+          "type": 6
         }
       ],
       "relations": [

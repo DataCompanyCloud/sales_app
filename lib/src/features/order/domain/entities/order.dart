@@ -17,6 +17,7 @@ abstract class Order with _$Order {
     required String orderUuId,
     required String? orderCode,
     required DateTime createdAt,
+    required itemsCount,
     int? serverId,
     int? customerId,
     String? customerName,
@@ -38,6 +39,7 @@ abstract class Order with _$Order {
     required String orderUuId,
     required String? orderCode,
     required DateTime createdAt,
+    required int itemsCount,
     required List<OrderProduct> items,
     int? serverId,
     int? customerId,
@@ -75,6 +77,7 @@ abstract class Order with _$Order {
       confirmedAt: confirmedAt,
       cancelledAt: cancelledAt,
       notes: notes,
+      itemsCount: itemsCount,
       items: items,
       freight: freight ?? Money.zero(),
       //TODO Mudar isso aqui
@@ -107,8 +110,7 @@ abstract class Order with _$Order {
   );
 
   @JsonKey(includeFromJson: false)
-  Money get calcGrandTotal =>
-    calcItemsSubtotal.minus(calcDiscountTotal).plus(calcTaxTotal).plus(freight);
+  Money get calcGrandTotal => calcItemsSubtotal.minus(calcDiscountTotal).plus(calcTaxTotal).plus(freight);
 
 
   // Funções

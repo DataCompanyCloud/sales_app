@@ -61,4 +61,6 @@ abstract class OrderProduct with _$OrderProduct {
 /// Total da linha: qty*unit - discount + tax
 // @JsonKey(ignore: true)
 // Money get lineTotal => unitPrice;
+
+  Money get totalValue => unitPrice.multiply(quantity);
 }
