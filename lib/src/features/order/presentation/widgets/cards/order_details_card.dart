@@ -74,15 +74,15 @@ class OrderDetailsCard extends ConsumerWidget {
                               scrollDirection: Axis.horizontal,
                               shrinkWrap: true,
                               children: List.generate(
-                                  6,
-                                  (index) => Container(
-                                  padding: EdgeInsets.only(left: 8, right: 8),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(color: scheme.primary, width: 1),
-                                    color: scheme.onSecondary,
-                                  ),
-                                  margin: const EdgeInsets.only(right: 8),
+                                6,
+                                (index) => Container(
+                                padding: EdgeInsets.only(left: 8, right: 8),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(color: scheme.primary, width: 1),
+                                  color: scheme.onSecondary,
+                                ),
+                                margin: const EdgeInsets.only(right: 8),
                                   child: Center(
                                     child: Text("Categoria ${index + 1}"),
                                   ),
@@ -91,13 +91,13 @@ class OrderDetailsCard extends ConsumerWidget {
                             ),
                           ),
                           Text(
-                            "Qtd: ${orderProduct.quantity}",
+                            "Qtd: ${orderProduct.quantity.toStringAsFixed(0)}",
                             style: TextStyle(
                                 fontSize: 15
                             ),
                           ),
                           Text(
-                            "Preço: R\$${orderProduct.unitPrice.decimalValue * orderProduct.quantity}",
+                            "Preço: R\$${orderProduct.totalValue.format()}",
                             style: TextStyle(
                               fontSize: 15
                             ),
@@ -116,6 +116,6 @@ class OrderDetailsCard extends ConsumerWidget {
           ),
         ],
       ),
-    );;
+    );
   }
 }

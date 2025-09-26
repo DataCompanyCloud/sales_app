@@ -26,11 +26,36 @@ class OrderPage extends ConsumerStatefulWidget {
 
 class OrderListPageState extends ConsumerState<OrderPage>{
   final orderIndexProvider = StateProvider<int>((ref) => 1);
+  final isSearchOpenProvider = StateProvider<bool>((_) => false);
+  final _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _toggleSearch() {
+    final isOpen = ref.read(isSearchOpenProvider.notifier);
+    isOpen.state = !isOpen.state;
+
+    if (!isOpen.state) {
+      ref.read(orderSearchProvider.notifier).state = null;
+      _searchController.clear();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final currentIndex = ref.watch(orderIndexProvider);
     final controller = ref.watch(orderControllerProvider);
+    final status = ref.watch(orderStatusFilterProvider);
+    final isSearchOpen = ref.watch(isSearchOpenProvider);
 
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;

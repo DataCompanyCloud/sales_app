@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/core/providers/api_client_provider.dart';
 import 'package:sales_app/src/core/providers/datasource_provider.dart';
@@ -12,6 +13,16 @@ final orderRepositoryProvider = FutureProvider.autoDispose<OrderRepository>((ref
   final store = await ref.watch(datasourceProvider.future);
   return OrderRepositoryImpl(store);
 });
+
+enum OrderStatusFilter {
+  all,
+  finished,
+  cancelled,
+  synced,
+  notSynced,
+}
+
+final orderStatusFilterProvider = StateProvider<OrderStatusFilter>((ref) => OrderStatusFilter.all);
 
 final orderSearchProvider = StateProvider.autoDispose<String?>((ref) {
   return null;

@@ -81,7 +81,12 @@ class OrderDetailsProductScreenState extends ConsumerState<OrderDetailsProductSc
                       onTap: () => ref.refresh(orderControllerProvider.future),
                       child: Padding(
                         padding: const EdgeInsets.all(8),
-                        child: Text("Tentar novamente", style: TextStyle(color: Colors.blue),),
+                        child: Text(
+                          "Tentar novamente",
+                          style: TextStyle(
+                            color: Colors.blue
+                          ),
+                        ),
                       ),
                     )
                   ],
@@ -94,25 +99,37 @@ class OrderDetailsProductScreenState extends ConsumerState<OrderDetailsProductSc
           body: SafeArea(
             child: Column(
               children: [
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 12, right: 12),
-                    child: SizedBox(
-                      width: 52,
-                      height: 52,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          ref.read(onClickProvider.notifier).state = !onClick;
-                        },
-                        child: Icon(
-                            onClick
-                                ? Icons.view_list_sharp
-                                : Icons.view_agenda
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12, left: 8),
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.visibility_outlined,
+                          size: 28,
                         ),
                       ),
                     ),
-                  ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 12, right: 12),
+                      child: SizedBox(
+                        width: 52,
+                        height: 52,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            ref.read(onClickProvider.notifier).state = !onClick;
+                          },
+                          child: Icon(
+                            onClick
+                              ? Icons.view_list_sharp
+                              : Icons.view_agenda
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 8),
                 Expanded(

@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:sales_app/src/features/order/presentation/views/order_details.dart';
+import 'package:sales_app/src/features/order/presentation/views/order_details_page.dart';
 import 'package:sales_app/src/features/order/presentation/views/order_page.dart';
 import 'package:sales_app/src/features/order/presentation/views/create_order_page.dart';
 
@@ -28,7 +28,7 @@ final orderRoutes = GoRoute(
       name: OrderRouter.order_details.name,
       builder: (context, state) {
         final orderId = state.extra as int;
-        return OrderDetails(orderId: orderId);
+        return OrderDetailsPage(orderId: orderId);
       },
     ),
   ]

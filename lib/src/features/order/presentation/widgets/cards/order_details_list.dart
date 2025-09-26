@@ -22,7 +22,7 @@ class OrderDetailsList extends ConsumerWidget {
       dashPattern: const [4, 3],
       color: Colors.grey,
       strokeWidth: 1,
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+      padding: EdgeInsets.symmetric(vertical: 8),
       customPath: (size) {
         return Path()
           ..moveTo(0, size.height)
@@ -75,6 +75,30 @@ class OrderDetailsList extends ConsumerWidget {
                         fontWeight: FontWeight.bold
                       ),
                     ),
+                    SizedBox(width: 16),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: Colors.red,
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.discount,
+                            color: Colors.white,
+                            size: 16,
+                          ),
+                          Text(
+                            " R\$${orderProduct.discountAmount.format()}",
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
                 Text(
@@ -89,6 +113,6 @@ class OrderDetailsList extends ConsumerWidget {
           ],
         ),
       ),
-    );;
+    );
   }
 }

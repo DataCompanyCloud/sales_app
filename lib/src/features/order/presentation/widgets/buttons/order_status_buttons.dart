@@ -1,14 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sales_app/src/features/order/providers.dart';
 
 class OrderStatusButtons extends ConsumerWidget {
-  const OrderStatusButtons({super.key});
+  final int countAll;
+  final int countFinished;
+  final int countCancelled;
+  final int countSynced;
+  final int countNotSynced;
+
+  const OrderStatusButtons({
+    super.key,
+    this.countAll = 0,
+    this.countFinished = 0,
+    this.countCancelled = 0,
+    this.countSynced = 0,
+    this.countNotSynced = 0
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final status = ref.watch(orderStatusFilterProvider);
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 
+    final rawOptions = <_FilterOption>[
+      _FilterOption(label: 'Todos', status: OrderStatusFilter.all, quantity: countAll),
+      _FilterOption(label: 'Finalizados', status: OrderStatusFilter.finished, quantity: countFinished),
+      _FilterOption(label: 'Cancelados', status: OrderStatusFilter.cancelled, quantity: countCancelled),
+      _FilterOption(label: 'Sincronizados', status: OrderStatusFilter.synced, quantity: countSynced),
+      _FilterOption(label: 'Não Sincronizados', status: OrderStatusFilter.notSynced, quantity: countNotSynced),
+    ];
+
+    final options = rawOptions.where((opt) {
+      if (opt.quantity <= 0) return false;
+
+      if (opt.status != OrderStatusFilter.all && opt.quantity == countAll) {
+        return false;
+      }
+
+      return false;
+    }).toList();
     return Padding(
       padding: const EdgeInsets.only(bottom: 12, top: 12),
       child: SizedBox(
@@ -16,17 +48,26 @@ class OrderStatusButtons extends ConsumerWidget {
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.symmetric(horizontal: 4),
-          itemCount: 3,
+          itemCount: options.length,
           separatorBuilder: (_, _) => const SizedBox(width: 1),
           itemBuilder: (context, index) {
+            final opt = options[index];
+            final selected = status == opt.status;
+            final isFirst = index == 0;
+            final isLast = index == options.length - 1;
+
             return FilledButton(
-              onPressed: () {},
+              onPressed: () {
+
+              },
               style: ElevatedButton.styleFrom(
-                backgroundColor: scheme.primaryContainer,
+                backgroundColor: selected
+                  ? scheme.primaryContainer
+                  : scheme.surface,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.horizontal(
-                    left: Radius.circular(10),
-                    right: Radius.circular(10),
+                    left: isFirst ? Radius.circular(10) : Radius.zero,
+                    right: isLast ? Radius.circular(10) : Radius.zero,
                   ),
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -34,23 +75,29 @@ class OrderStatusButtons extends ConsumerWidget {
               child: Row(
                 children: [
                   Text(
-                    "Opção",
+                    opt.label,
                     style: TextStyle(
-                      color: scheme.onPrimaryContainer
+                      color: selected
+                        ? scheme.onPrimaryContainer
+                        : scheme.onSurfaceVariant,
                     ),
                   ),
                   Padding(padding: EdgeInsets.only(left: 12)),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                     decoration: BoxDecoration(
-                      color: scheme.secondaryContainer,
+                      color: selected
+                        ? scheme.secondaryContainer
+                        : scheme.surfaceContainerHighest,
                       border: Border.all(color: Colors.black),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(
-                      "12",
+                      opt.quantity.toString(),
                       style: TextStyle(
-                        color: scheme.onSecondaryContainer
+                        color: selected
+                          ? scheme.onSecondaryContainer
+                          : scheme.onSurface,
                       ),
                     ),
                   ),
@@ -62,4 +109,11 @@ class OrderStatusButtons extends ConsumerWidget {
       ),
     );
   }
+}
+
+class _FilterOption {
+  final String label;
+  final OrderStatusFilter status;
+  final int quantity;
+  const _FilterOption({required this.label, required this.status, required this.quantity});
 }
