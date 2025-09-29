@@ -90,10 +90,10 @@ class OrderDetailsList extends ConsumerWidget {
                             size: 16,
                           ),
                           Text(
-                            " R\$${orderProduct.discountAmount.format()}",
+                            " R\$ -${orderProduct.discountAmount.format()}",
                             style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white
+                              fontSize: 16,
+                              color: Colors.white
                             ),
                           ),
                         ],

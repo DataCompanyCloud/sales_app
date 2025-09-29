@@ -9,6 +9,7 @@ import 'package:sales_app/src/features/order/domain/entities/order.dart';
 import 'package:sales_app/src/features/order/domain/valueObjects/order_status.dart';
 import 'package:sales_app/src/features/order/presentation/router/order_router.dart';
 import 'package:sales_app/src/features/order/presentation/widgets/buttons/order_status_buttons.dart';
+import 'package:sales_app/src/features/order/presentation/widgets/cards/order_card.dart';
 import 'package:sales_app/src/features/order/presentation/widgets/skeleton/order_page_skeleton.dart';
 import 'package:sales_app/src/features/order/providers.dart';
 
@@ -120,163 +121,131 @@ class OrderListPageState extends ConsumerState<OrderPage>{
               },
               icon: Icon(Icons.arrow_back_ios_new, size: 22),
             ),
+            actions: [
+              IconButton(
+                onPressed: _toggleSearch,
+                icon: Icon(isSearchOpen ? Icons.close : Icons.search),
+              ),
+            ],
           ),
           body: RefreshIndicator(
             onRefresh: () async {
               if (controller.isLoading) return;
               final _ = ref.refresh(orderControllerProvider);
             },
-            child: SafeArea(
-              child: Column(
-                children: [
-                  OrderStatusButtons(),
-                  Expanded(
-                    child: ListView.builder(
-                      padding: EdgeInsets.symmetric(horizontal: 4),
-                      itemCount: orders.length,
-                      itemBuilder: (context, index) {
-                        final order = orders[index];
+            child: Column(
+              children: [
+                AnimatedSize(
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  child: isSearchOpen
+                    ? Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      child: TextField(
+                        controller: _searchController,
+                        autofocus: true,
+                        decoration: InputDecoration(
+                          hintText: 'Pesquisar...',
+                          prefixIcon: Icon(Icons.search),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      onSubmitted: (search) {
+                        if (search.isEmpty) return;
 
-                        return InkWell(
-                          onTap: () {
-                            context.pushNamed(OrderRouter.order_details.name, extra: order.orderId);
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: scheme.onTertiary, width: 2)
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Stack(
-                                  alignment: Alignment.topCenter,
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Container(
-                                          width: 75,
-                                          height: 20,
-                                          decoration: BoxDecoration(
-                                            color: order.status == OrderStatus.draft
-                                              ? Colors.yellow.shade900
-                                              :  order.status == OrderStatus.confirmed
-                                                ? Colors.green.shade900
-                                                : Colors.red.shade900
-                                              ,
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(10),
-                                            )
-                                          ),
-                                          alignment: Alignment.center,
-                                          child: Text("${order.orderCode}"),
-                                        ),
-                                        Container(
-                                          padding: EdgeInsets.only(bottom: 8),
-                                          width: 75,
-                                          height: 55,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(10)
-                                            ),
-                                              color: order.status == OrderStatus.draft
-                                                ? Colors.orangeAccent
-                                                :  order.status == OrderStatus.confirmed
-                                                  ? Colors.green
-                                                  : Colors.red
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(10),
-                                              bottomLeft: Radius.circular(10)
-                                            ),
-                                            child: Icon(
-                                              Icons.unarchive_sharp,
-                                              color: Colors.white,
-                                              size: 38
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ]
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    height: 75,
-                                    decoration: BoxDecoration(
-                                      color: scheme.surface,
-                                      borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(10),
-                                        bottomRight: Radius.circular(10)
-                                      ),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.only(left: 8),
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  "${order.customerName}",
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16
-                                                  ),
-                                                ),
-                                                Text(
-                                                  "${order.itemsCount.toString().padLeft(2, "0")} produtos",
-                                                  style: TextStyle(
-                                                      fontSize: 15
-                                                  ),
-                                                ),
-                                                Text(
-                                                  "R\$ ${order.calcGrandTotal.decimalValue}",
-                                                  style: TextStyle(
-                                                      fontSize: 15
-                                                  ),
-                                                ),
-                                              ],
-                                            )
-                                          ),
-                                          Icon(Icons.chevron_right, size: 28),
-                                          Column(
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.only(top: 6, right: 6),
-                                                child: Container(
-                                                  width: 8,
-                                                  height: 8,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(15),
-                                                    color: order.serverId == null
-                                                      ? Colors.red
-                                                      : Colors.cyan
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                        ref.read(orderSearchProvider.notifier).state = search;
+                      },
+                    ),
+                  ) : SizedBox.shrink(),
+                ),
+                Expanded(
+                  child: Builder(
+                    builder: (context) {
+                      int countAll = 0;
+                      int countFinished = 0;
+                      int countNotFinished = 0;
+                      int countCancelled = 0;
+                      int countSynced = 0;
+                      int countNotSynced = 0;
+
+                      final orderFiltered = orders.where((order) {
+                        countAll++;
+
+                        if (order.serverId != null) {
+                          countSynced++;
+                        } else {
+                          countNotSynced++;
+                        }
+
+                        if (order.status == OrderStatus.confirmed) {
+                          countFinished++;
+                        } else if (order.status == OrderStatus.cancelled) {
+                          countCancelled++;
+                        } else if (order.status == OrderStatus.draft) {
+                          countNotFinished++;
+                        }
+
+                        if (status == OrderStatusFilter.finished) {
+                          return order.status == OrderStatus.confirmed;
+                        }
+
+                        if (status == OrderStatusFilter.notFinished) {
+                          return order.status == OrderStatus.draft;
+                        }
+
+                        if (status == OrderStatusFilter.cancelled) {
+                          return order.status == OrderStatus.cancelled;
+                        }
+
+                        if (status == OrderStatusFilter.synced) {
+                          return order.serverId != null;
+                        }
+
+                        if (status == OrderStatusFilter.notSynced) {
+                          return order.serverId ==  null;
+                        }
+
+                        return true;
+                      }).toList();
+
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          OrderStatusButtons(
+                            countAll: countAll,
+                            countFinished: countFinished,
+                            countNotFinished: countNotFinished,
+                            countCancelled: countCancelled,
+                            countSynced: countSynced,
+                            countNotSynced: countNotSynced,
+                          ),
+                          Expanded(
+                            child: ListView.builder(
+                              padding: EdgeInsets.symmetric(horizontal: 4),
+                              itemCount: orderFiltered.length,
+                              itemBuilder: (context, index) {
+                                final order = orderFiltered[index];
+
+                                return InkWell(
+                                  onTap: () {
+                                    context.pushNamed(OrderRouter.order_details.name, extra: order.orderId);
+                                  },
+                                  child: OrderCard(order: order),
+                                );
+                              }
                             ),
                           ),
-                        );
-                      }
-                    ),
-                  ),
-                ],
-              )
-            ),
+                        ],
+                      );
+                    }
+                  )
+                )
+              ],
+            )
           ),
           bottomNavigationBar: CustomBottomNavigationBar(currentIndex: currentIndex),
         );

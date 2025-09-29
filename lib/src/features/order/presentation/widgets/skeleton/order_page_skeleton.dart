@@ -28,12 +28,13 @@ class OrderPageSkeleton extends ConsumerWidget {
               padding: EdgeInsets.only(top: 10, left: 6),
               child: Bone.button(
                 width: 250,
+                height: 40,
                 borderRadius: BorderRadius.circular(10),
               )
             ),
             Expanded(
               child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                padding: EdgeInsets.symmetric(horizontal: 4, vertical: 12),
                 itemCount: 10,
                 itemBuilder: (context, index) {
                   return Padding(

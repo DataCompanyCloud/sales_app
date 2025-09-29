@@ -99,37 +99,25 @@ class OrderDetailsProductScreenState extends ConsumerState<OrderDetailsProductSc
           body: SafeArea(
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 12, left: 8),
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.visibility_outlined,
-                          size: 28,
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 12, right: 12),
+                    child: SizedBox(
+                      width: 52,
+                      height: 52,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          ref.read(onClickProvider.notifier).state = !onClick;
+                        },
+                        child: Icon(
+                          onClick
+                            ? Icons.view_list_sharp
+                            : Icons.view_agenda
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 12, right: 12),
-                      child: SizedBox(
-                        width: 52,
-                        height: 52,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            ref.read(onClickProvider.notifier).state = !onClick;
-                          },
-                          child: Icon(
-                            onClick
-                              ? Icons.view_list_sharp
-                              : Icons.view_agenda
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
                 SizedBox(height: 8),
                 Expanded(

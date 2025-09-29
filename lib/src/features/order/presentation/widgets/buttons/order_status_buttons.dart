@@ -5,6 +5,7 @@ import 'package:sales_app/src/features/order/providers.dart';
 class OrderStatusButtons extends ConsumerWidget {
   final int countAll;
   final int countFinished;
+  final int countNotFinished;
   final int countCancelled;
   final int countSynced;
   final int countNotSynced;
@@ -13,6 +14,7 @@ class OrderStatusButtons extends ConsumerWidget {
     super.key,
     this.countAll = 0,
     this.countFinished = 0,
+    this.countNotFinished = 0,
     this.countCancelled = 0,
     this.countSynced = 0,
     this.countNotSynced = 0
@@ -26,11 +28,13 @@ class OrderStatusButtons extends ConsumerWidget {
 
     final rawOptions = <_FilterOption>[
       _FilterOption(label: 'Todos', status: OrderStatusFilter.all, quantity: countAll),
+      _FilterOption(label: 'Não-Finalizados', status: OrderStatusFilter.notFinished, quantity: countNotFinished),
       _FilterOption(label: 'Finalizados', status: OrderStatusFilter.finished, quantity: countFinished),
       _FilterOption(label: 'Cancelados', status: OrderStatusFilter.cancelled, quantity: countCancelled),
       _FilterOption(label: 'Sincronizados', status: OrderStatusFilter.synced, quantity: countSynced),
       _FilterOption(label: 'Não Sincronizados', status: OrderStatusFilter.notSynced, quantity: countNotSynced),
     ];
+
 
     final options = rawOptions.where((opt) {
       if (opt.quantity <= 0) return false;
@@ -39,8 +43,9 @@ class OrderStatusButtons extends ConsumerWidget {
         return false;
       }
 
-      return false;
+      return true;
     }).toList();
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 12, top: 12),
       child: SizedBox(
@@ -56,9 +61,10 @@ class OrderStatusButtons extends ConsumerWidget {
             final isFirst = index == 0;
             final isLast = index == options.length - 1;
 
+
             return FilledButton(
               onPressed: () {
-
+                ref.read(orderStatusFilterProvider.notifier).state = opt.status;
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: selected
