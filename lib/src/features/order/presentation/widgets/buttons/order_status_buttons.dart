@@ -28,8 +28,8 @@ class OrderStatusButtons extends ConsumerWidget {
 
     final rawOptions = <_FilterOption>[
       _FilterOption(label: 'Todos', status: OrderStatusFilter.all, quantity: countAll),
-      _FilterOption(label: 'Não-Finalizados', status: OrderStatusFilter.notFinished, quantity: countNotFinished),
-      _FilterOption(label: 'Finalizados', status: OrderStatusFilter.finished, quantity: countFinished),
+      _FilterOption(label: 'Em Aberto', status: OrderStatusFilter.notFinished, quantity: countNotFinished),
+      _FilterOption(label: 'Concluídos', status: OrderStatusFilter.finished, quantity: countFinished),
       _FilterOption(label: 'Cancelados', status: OrderStatusFilter.cancelled, quantity: countCancelled),
       _FilterOption(label: 'Sincronizados', status: OrderStatusFilter.synced, quantity: countSynced),
       _FilterOption(label: 'Não Sincronizados', status: OrderStatusFilter.notSynced, quantity: countNotSynced),

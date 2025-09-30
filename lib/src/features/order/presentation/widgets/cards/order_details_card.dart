@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/features/order/domain/entities/order_product.dart';
 
-class OrderDetailsCard extends ConsumerWidget {
+class OrderDetailsCard extends ConsumerStatefulWidget {
   final OrderProduct orderProduct;
 
   const OrderDetailsCard({
@@ -11,15 +11,25 @@ class OrderDetailsCard extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<OrderDetailsCard> createState() => _OrderDetailsCardState();
+}
+
+class _OrderDetailsCardState extends ConsumerState<OrderDetailsCard> {
+  bool _isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 
+    final categories = List.generate(6, (index) => "Categ. ${index + 1}");
+    final visibleCategories = _isExpanded ? categories : categories.take(3).toList();
+
     return Container(
-      height: 180,
+      height: _isExpanded ? null : 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: scheme.onTertiary, width: 2)
+        border: Border.all(color: scheme.onTertiary, width: 2),
       ),
       child: Stack(
         children: [
@@ -29,17 +39,13 @@ class OrderDetailsCard extends ConsumerWidget {
               borderRadius: BorderRadius.circular(12),
             ),
           ),
-          Positioned(
-            top: 0,
-            left: 0,
-            child: Container(
-              width: 90,
-              height: 90,
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                ),
+          Container(
+            width: 90,
+            height: 90,
+            decoration: BoxDecoration(
+              color: Colors.grey,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10),
               ),
             ),
           ),
@@ -53,10 +59,10 @@ class OrderDetailsCard extends ConsumerWidget {
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          orderProduct.name,
+                          widget.orderProduct.name,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 3,
                         ),
@@ -68,46 +74,51 @@ class OrderDetailsCard extends ConsumerWidget {
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
                             childAspectRatio: 3,
-                            children: List.generate(
-                              6,
-                              (index) => Container(
+                            children: visibleCategories.map((c) {
+                              return Container(
                                 margin: EdgeInsets.only(right: 8),
-                                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 4),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(color: scheme.primary, width: 1),
+                                  border: Border.all(
+                                      color: scheme.primary, width: 1),
                                   color: scheme.onSecondary,
                                 ),
-                                child: Center(
-                                  child: Text("Categ. ${index + 1}"),
-                                ),
-                              )
+                                child: Center(child: Text(c)),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _isExpanded = !_isExpanded;
+                            });
+                          },
+                          child: Text(
+                            _isExpanded ? "Ver menos" : "Ver mais...",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue,
                             ),
                           ),
                         ),
                         Text(
-                          "Qtd: ${orderProduct.quantity.toStringAsFixed(0)}",
-                          style: TextStyle(
-                            fontSize: 15
-                          ),
+                          "Qtd: ${widget.orderProduct.quantity.toStringAsFixed(0)}",
+                          style: TextStyle(fontSize: 15),
                         ),
                         Text(
-                          "Desconto: ${orderProduct.discountAmount.decimalValue}",
-                          style: TextStyle(
-                            fontSize: 15
-                          ),
+                          "Desconto: ${widget.orderProduct.discountAmount.decimalValue}",
+                          style: TextStyle(fontSize: 15),
                         ),
                         Text(
-                          "Preço Unit.: ${orderProduct.unitPrice.decimalValue}",
-                          style: TextStyle(
-                            fontSize: 15
-                          ),
+                          "Preço Unit.: ${widget.orderProduct.unitPrice.decimalValue}",
+                          style: TextStyle(fontSize: 15),
                         ),
                         Text(
-                          "Total: R\$${orderProduct.totalValue.format()}",
-                          style: TextStyle(
-                            fontSize: 15
-                          ),
+                          "Total: R\$${widget.orderProduct.totalValue.format()}",
+                          style: TextStyle(fontSize: 15),
                         ),
                       ],
                     ),
@@ -118,7 +129,7 @@ class OrderDetailsCard extends ConsumerWidget {
                   ),
                 ],
               ),
-            )
+            ),
           ),
         ],
       ),

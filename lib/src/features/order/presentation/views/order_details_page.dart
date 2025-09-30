@@ -5,13 +5,14 @@ import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
 import 'package:sales_app/src/features/order/presentation/widgets/screens/order_details_product_screen.dart';
 import 'package:sales_app/src/features/order/presentation/widgets/screens/order_details_screen.dart';
-import 'package:sales_app/src/features/order/presentation/widgets/skeleton/order_details_list_skeleton.dart';
+import 'package:sales_app/src/features/order/presentation/widgets/skeleton/order_details_screen_skeleton.dart';
 import 'package:sales_app/src/features/order/providers.dart';
 
 class OrderDetailsPage extends ConsumerWidget {
   final int orderId;
+  final _tabBarIndexProvider = StateProvider((ref) => 0);
 
-  const OrderDetailsPage({
+  OrderDetailsPage({
     super.key,
     required this.orderId,
   });
@@ -19,6 +20,8 @@ class OrderDetailsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.watch(orderDetailsControllerProvider(orderId));
+    final tabBarIndex = ref.watch(_tabBarIndexProvider);
+
 
     return controller.when(
       error: (error, stack) => ErrorPage(
@@ -26,43 +29,11 @@ class OrderDetailsPage extends ConsumerWidget {
           ? error
           : AppException.errorUnexpected(error.toString()),
       ),
-      loading: () => DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text("Detalhes do Pedido"),
-            leading: IconButton(
-              onPressed: () {
-                context.pop();
-              },
-              icon: Icon(Icons.arrow_back_ios_new, size: 22),
-            ),
-            bottom: TabBar(
-              indicatorColor: Colors.blue,
-              indicatorSize: TabBarIndicatorSize.tab,
-              labelColor: Colors.white,
-              unselectedLabelColor: Colors.grey,
-              tabs: [
-                Tab(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Produtos"
-                      ),
-                    ],
-                  ),
-                ),
-                Tab(text: "Detalhes"),
-              ],
-            ),
-          ),
-          body: OrderDetailsListSkeleton(),
-        ),
-      ),
+      loading: () => OrderDetailsScreenSkeleton(),
       data: (order) {
         return DefaultTabController(
           length: 2,
+          initialIndex: tabBarIndex,
           child: Scaffold(
             appBar: AppBar(
               title: Text("Detalhes do Pedido"),
@@ -72,11 +43,21 @@ class OrderDetailsPage extends ConsumerWidget {
                 },
                 icon: Icon(Icons.arrow_back_ios_new, size: 22)
               ),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    if (controller.isLoading) return;
+                    final _ = ref.refresh(orderDetailsControllerProvider(order.orderId));  
+                  }, 
+                  icon: Icon(Icons.refresh, size: 22,)
+                )
+              ],
               bottom: TabBar(
                 indicatorColor: Colors.blue,
                 indicatorSize: TabBarIndicatorSize.tab,
                 labelColor: Colors.white,
                 unselectedLabelColor: Colors.grey,
+                onTap: (index) => ref.watch(_tabBarIndexProvider.notifier).state = index,
                 tabs: [
                   Tab(
                     child: Row(

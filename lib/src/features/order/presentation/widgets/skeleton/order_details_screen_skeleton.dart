@@ -8,146 +8,113 @@ class OrderDetailsScreenSkeleton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      body: Skeletonizer(
-        enabled: true,
-        child: Center(
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 18, left: 18, right: 18),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Bone.text(
-                        width: 90,
-                        fontSize: 28
-                      ),
-                      Bone.button(
-                        width: 90,
-                        height: 32,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 4),
-                  Bone.text(
-                    width: 120,
-                    fontSize: 18,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: Card(
-                      elevation: 1,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("INFORMAÇÕES DO CLIENTE"),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 4),
-                                child: Divider(
-                                  thickness: 1.5,
-                                ),
-                              ),
-                              Bone.text(width: 240, fontSize: 18),
-                              SizedBox(height: 8),
-                              Bone.text(width: 200, fontSize: 18),
-                              SizedBox(height: 8),
-                              Bone.text(width: 180, fontSize: 18)
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 12, bottom: 12),
-                    child: Card(
-                      elevation: 1,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("INFORMAÇÕES DO PEDIDO"),
-                              Padding(
-                                padding: EdgeInsets.only(bottom: 4),
-                                child: Divider(
-                                  thickness: 1.5,
-                                ),
-                              ),
-                              Bone.text(width: 240, fontSize: 18),
-                              SizedBox(height: 8),
-                              Bone.text(width: 180, fontSize: 18),
-                              SizedBox(height: 8),
-                              Bone.text(width: 200, fontSize: 18)
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Divider(
-                    thickness: 1,
-                    height: 1,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 6, left: 16, right: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 12),
-                          child: Text(
-                            "Pagamento",
-                            style: TextStyle(
-                              fontSize: 18
-                            ),
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              children: [
-                                Bone.text(width: 80, fontSize: 12),
-                                SizedBox(height: 8),
-                                Bone.text(width: 80, fontSize: 12),
-                                SizedBox(height: 8),
-                                Bone.text(width: 80, fontSize: 12),
-                                SizedBox(height: 8),
-                                Bone.text(width: 80, fontSize: 12),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Bone.text(width: 40, fontSize: 12),
-                                SizedBox(height: 8),
-                                Bone.text(width: 40, fontSize: 12),
-                                SizedBox(height: 8),
-                                Bone.text(width: 40, fontSize: 12),
-                                SizedBox(height: 8),
-                                Bone.text(width: 40, fontSize: 12),
-                              ],
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+      appBar: AppBar(
+        title: Text("Detalhes do Pedido"),
+        leading: IconButton(
+          onPressed: () {
+            // context.pop();
+          },
+          icon: Icon(Icons.arrow_back_ios_new, size: 22),
+        ),
+        bottom: PreferredSize(
+          preferredSize: Size(double.infinity, 40),
+          child: Skeletonizer(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Bone.text(
+                  fontSize: 16,
+                  width: 86,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                Bone.text(
+                  fontSize: 16,
+                  width: 86,
+                  textAlign: TextAlign.center,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ],
             ),
           ),
         )
       ),
+      body: Skeletonizer(
+        enabled: true,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 12),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 12, bottom: 16),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Bone.button(
+                    width: 52,
+                    height: 52,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: 12,
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  itemBuilder: (context, index) {
+                    return Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Bone.text(
+                            fontSize: 48,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Bone.text(
+                                      width: 38,
+                                      fontSize: 28,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    SizedBox(width: 8),
+                                    Container(
+                                      padding: EdgeInsets.only(left: 4, right: 4),
+                                      child: Bone.text(
+                                          width: 38,
+                                          fontSize: 28,
+                                          borderRadius: BorderRadius.circular(8)
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  padding: EdgeInsets.only(left: 4, right: 4),
+                                  child: Bone.text(
+                                      width: 52,
+                                      fontSize: 28,
+                                      borderRadius: BorderRadius.circular(8)
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
+
   }
 }
