@@ -2,6 +2,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/payment_method.dart';
+import 'package:sales_app/src/features/order/domain/entities/order_customer.dart';
 import 'package:sales_app/src/features/order/domain/entities/order_product.dart';
 import 'package:sales_app/src/features/order/domain/valueObjects/order_status.dart';
 
@@ -18,20 +20,20 @@ abstract class Order with _$Order {
     required String? orderCode,
     required DateTime createdAt,
     required itemsCount,
+    OrderCustomer? customer,
     int? serverId,
-    int? customerId,
-    String? customerName,
     @Default(OrderStatus.draft) OrderStatus status,
     DateTime? confirmedAt,
     DateTime? cancelledAt,
     String? notes,
+    @Default([]) List<PaymentMethod> paymentMethods,
     @Default(Money.raw(amount: 0)) Money freight, /// Frete
     @Default(<OrderProduct>[]) List<OrderProduct> items, /// Itens
     /// Totais armazenados (opcionalmente sincronizados via 'recalculate')
     @Default(Money.raw(amount: 0)) Money itemsSubtotal,
     @Default(Money.raw(amount: 0)) Money discountTotal,
     @Default(Money.raw(amount: 0)) Money taxTotal,
-    @Default(Money.raw(amount: 0)) Money grandTotal,
+    @Default(Money.raw(amount: 0)) Money grandTotal
   }) = _Order;
 
   factory Order({
@@ -41,9 +43,9 @@ abstract class Order with _$Order {
     required DateTime createdAt,
     required int itemsCount,
     required List<OrderProduct> items,
+    // required List<PaymentMethod> paymentMethod,
+    OrderCustomer? customer,
     int? serverId,
-    int? customerId,
-    String? customerName,
     OrderStatus status = OrderStatus.draft,
     DateTime? confirmedAt,
     DateTime? cancelledAt,
@@ -71,20 +73,20 @@ abstract class Order with _$Order {
       orderCode: orderCode,
       createdAt: createdAt,
       serverId: serverId,
-      customerId: customerId,
-      customerName: customerName,
       status: status,
       confirmedAt: confirmedAt,
       cancelledAt: cancelledAt,
       notes: notes,
       itemsCount: itemsCount,
+      customer: customer,
       items: items,
+      // paymentMethods: paymentMethod,
       freight: freight ?? Money.zero(),
       //TODO Mudar isso aqui
       itemsSubtotal: Money.zero(),
       discountTotal: Money.zero(),
       taxTotal: Money.zero(),
-      grandTotal: Money.zero()
+      grandTotal: Money.zero(),
     );
   }
 
@@ -114,7 +116,6 @@ abstract class Order with _$Order {
 
 
   // Funções
-
   Order recalculate() => copyWith(
     itemsSubtotal: calcItemsSubtotal,
     discountTotal: calcDiscountTotal,

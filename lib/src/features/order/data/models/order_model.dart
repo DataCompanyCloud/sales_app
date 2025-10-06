@@ -1,5 +1,6 @@
 import 'package:objectbox/objectbox.dart';
 import 'package:sales_app/src/features/customer/data/models/money_model.dart';
+import 'package:sales_app/src/features/order/data/models/order_customer_model.dart';
 import 'package:sales_app/src/features/order/data/models/order_product_model.dart';
 import 'package:sales_app/src/features/order/domain/entities/order.dart' as domain;
 import 'package:sales_app/src/features/order/domain/valueObjects/order_status.dart';
@@ -26,7 +27,9 @@ class OrderModel {
   final discountTotal = ToOne<MoneyModel>();
   final taxTotal = ToOne<MoneyModel>();
   final grandTotal = ToOne<MoneyModel>();
+  final customer = ToOne<OrderCustomerModel>();
   final items = ToMany<OrderProductModel>();
+  // final paymentMethods = ToMany<PaymentMethodModel>();
 
   OrderModel({
     this.id = 0,
@@ -47,6 +50,10 @@ class OrderModel {
 extension OrderModelMapper on OrderModel {
   domain.Order toEntity() {
     final itemsList = items.map((i) => i.toEntity()).toList();
+    // final payments = paymentMethods.map((p) => p.toEntity()).toList();
+    final customers = customer.target?.toEntity();
+
+
 
     return domain.Order(
       orderId: id,
@@ -54,14 +61,14 @@ extension OrderModelMapper on OrderModel {
       orderCode: orderCode,
       createdAt: createdAt,
       serverId: serverId,
-      customerId: customerId,
-      customerName: customerName,
       status: OrderStatus.values[status],
       confirmedAt: confirmedAt,
       cancelledAt: cancelledAt,
       notes: notes,
       itemsCount: itemsCount,
       items: itemsList,
+      // paymentMethod: payments,
+      customer: customers,
       freight: freight.target?.toEntity()
     );
   }
@@ -76,8 +83,6 @@ extension OrderMapper on domain.Order {
       createdAt: createdAt,
       itemsCount: itemsCount,
       serverId: serverId,
-      customerId: customerId,
-      customerName: customerName,
       status: status.index,
       confirmedAt: confirmedAt,
       cancelledAt: cancelledAt,
@@ -89,6 +94,9 @@ extension OrderMapper on domain.Order {
     if (items.isNotEmpty) {
       entity.items.addAll(items.map((i) => i.toModel()));
     }
+    // if (paymentMethods.isNotEmpty) {
+    //   entity.paymentMethods.addAll(paymentMethods.map((p) => p.toModel()));
+    // }
     
     return entity;
   }

@@ -1,8 +1,7 @@
 import 'package:objectbox/objectbox.dart';
 import 'package:sales_app/src/features/customer/data/models/cnpj_model.dart';
+import 'package:sales_app/src/features/customer/data/models/contact_info_model.dart';
 import 'package:sales_app/src/features/customer/data/models/cpf_model.dart';
-import 'package:sales_app/src/features/customer/domain/valueObjects/email.dart';
-import 'package:sales_app/src/features/customer/domain/valueObjects/phone.dart';
 import 'package:sales_app/src/features/order/domain/entities/order_customer.dart';
 
 @Entity()
@@ -15,9 +14,9 @@ class OrderCustomerModel {
   String customerCode;
   String customerUuId;
   String customerName;
-  Email email;
-  Phone phone;
+  int? orderId;
 
+  final contactInfo = ToMany<ContactInfoModel>();
   final cpf = ToOne<CPFModel>();
   final cnpj = ToOne<CNPJModel>();
 
@@ -27,29 +26,49 @@ class OrderCustomerModel {
     required this.customerCode,
     required this.customerUuId,
     required this.customerName,
-    required this.email,
-    required this.phone
+    this.orderId
   });
 }
 
-// extension OrderCustomerModeMapper on OrderCustomerModel {
-//   /// De OrderCustomerModel → OrderCustomer
-//   OrderCustomer toEntity() {
-//     return OrderCustomer(
-//       customerId: customerId,
-//       customerCode: customerCode,
-//       customerUuId: customerUuId,
-//       customerName: customerName,
-//       email: email,
-//       phone: phone,
-//       cpf: cpf.target?.toEntity(),
-//       cnpj: cnpj.target?.toEntity()
-//     );
-//   }
-// }
+extension OrderCustomerModeMapper on OrderCustomerModel {
+  /// De OrderCustomerModel → OrderCustomer
+  OrderCustomer toEntity() {
+    final contactInfoList = contactInfo.map((c) => c.toEntity()).toList();
 
-// extension OrderCustomerMapper on OrderCustomer {
-//   OrderCustomerModel toModel(){
-//
-//   }
-// }
+    return OrderCustomer(
+      customerId: customerId,
+      customerCode: customerCode,
+      customerUuId: customerUuId,
+      customerName: customerName,
+      contactInfo: contactInfoList,
+      cpf: cpf.target?.toEntity(),
+      cnpj: cnpj.target?.toEntity(),
+      orderId: orderId
+    );
+  }
+}
+
+extension OrderCustomerMapper on OrderCustomer {
+  /// De OrderCustomer → OrderCustomerModel
+  OrderCustomerModel toModel() {
+
+    final model = OrderCustomerModel(
+      customerId: customerId,
+      customerCode: customerCode,
+      customerUuId: customerUuId,
+      customerName: customerName
+    );
+
+    model.orderId = orderId;
+    model.cpf.target = cpf?.toModel();
+    model.cnpj.target = cnpj?.toModel();
+
+    if (contactInfo.isNotEmpty) {
+      model.contactInfo.addAll(contactInfo.map((p) => p.toModel()));
+    }
+
+
+    return model;
+  }
+}
+

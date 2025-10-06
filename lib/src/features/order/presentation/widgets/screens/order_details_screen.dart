@@ -21,12 +21,10 @@ class OrderDetailsScreen extends ConsumerWidget {
 
     final payment = ['Débito', 'Crédito', 'PIX'];
 
-    final email = faker.internet.email();
-    final phone = faker.phoneNumber.us();
-    bool observations = faker.randomGenerator.boolean();
     String paymentMethod = faker.randomGenerator.element(payment);
-    final details = faker.food.cuisine();
 
+    final customer = order.customer;
+    final contactInfo = customer?.contactInfo;
     return Center(
       child: SafeArea(
         child: Padding(
@@ -95,13 +93,23 @@ class OrderDetailsScreen extends ConsumerWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "INFORMAÇÕES DO CLIENTE",
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.person,
+                                size: 18,
                                 color: Colors.grey
-                            ),
+                              ),
+                              SizedBox(width: 4),
+                              Text(
+                                "INFORMAÇÕES DO CLIENTE",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey
+                                ),
+                              ),
+                            ],
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 4),
@@ -111,31 +119,102 @@ class OrderDetailsScreen extends ConsumerWidget {
                             ),
                           ),
                           Text(
-                            "Cliente: ${order.customerName}",
+                            "Código: ${customer?.customerCode ?? "--"}",
                             style: TextStyle(
-                                fontSize: 15
+                              fontSize: 15
                             ),
                           ),
                           SizedBox(height: 4),
                           Text(
-                            "Email: $email",
+                            "Nome: ${customer?.customerName ?? "--"}",
                             style: TextStyle(
-                                fontSize: 15
+                              fontSize: 15
                             ),
                           ),
-                          SizedBox(height: 4),
-                          Text(
-                            "Telefone: $phone",
-                            style: TextStyle(
-                                fontSize: 15
-                            ),
-                          )
                         ],
                       ),
                     ),
                   )
                 ),
               ),
+              contactInfo != null && contactInfo.isNotEmpty
+                ? Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Card(
+                    color: scheme.surface,
+                    elevation: 3,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.phone,
+                                  size: 18,
+                                  color: Colors.grey
+                                ),
+                                SizedBox(width: 4),
+                                Text(
+                                  "INFORMAÇÕES DE CONTATO",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 4),
+                              child: Divider(
+                                thickness: 1.5,
+                                color: Colors.grey.shade500,
+                              ),
+                            ),
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: contactInfo.length,
+                              itemBuilder: (context, index) {
+                                final contact = contactInfo[index];
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Nome: ${contact.name}",
+                                      style: TextStyle(
+                                        fontSize: 15
+                                      ),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
+                                      "Email: ${contact.email?.value ?? "--"}",
+                                      style: TextStyle(
+                                        fontSize: 15
+                                      ),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
+                                      "Telefone: ${contact.phone?.value ?? "--"}",
+                                      style: TextStyle(
+                                        fontSize: 15
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              })
+                          ],
+                        ),
+                      ),
+                    )
+                  ),
+                )
+                : SizedBox()
+              ,
               Padding(
                 padding: const EdgeInsets.only(top: 12, bottom: 12),
                 child: Card(
@@ -148,13 +227,23 @@ class OrderDetailsScreen extends ConsumerWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "INFORMAÇÕES DO PEDIDO",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey
-                            ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.newspaper,
+                                size: 18,
+                                color: Colors.grey,
+                              ),
+                              SizedBox(width: 4),
+                              Text(
+                                "INFORMAÇÕES DO PEDIDO",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey
+                                ),
+                              ),
+                            ],
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 4),
@@ -170,21 +259,20 @@ class OrderDetailsScreen extends ConsumerWidget {
                             ),
                           ),
                           SizedBox(height: 4),
-                          if (observations == true)
-                            RichText(
-                              text: TextSpan(
-                                text: "Observações: ",
-                                style: TextStyle(fontSize: 15),
-                                children: [
-                                  TextSpan(
-                                    text: details,
-                                    style: TextStyle(fontSize: 15, color: Colors.grey)
-                                  )
-                                ]
-                              ),
+                          order.notes != null
+                          ? RichText(
+                            text: TextSpan(
+                              text: "Observações: ",
+                              style: TextStyle(fontSize: 15),
+                              children: [
+                                TextSpan(
+                                  text: order.notes,
+                                  style: TextStyle(fontSize: 15, color: Colors.grey)
+                                )
+                              ]
                             ),
-                          if (observations == false)
-                            SizedBox(),
+                            )
+                          : SizedBox()
                         ],
                       ),
                     ),

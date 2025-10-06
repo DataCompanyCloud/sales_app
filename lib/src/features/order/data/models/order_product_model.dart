@@ -49,14 +49,14 @@ extension OrderProductModeMapper on OrderProductModel {
 
 extension OrderProductMapper on OrderProduct {
   /// De OrderProduct → OrderProductModel
-  OrderProductModel toModel(){
+  OrderProductModel toModel() {
 
     final model = OrderProductModel(
-        productId: productId,
-        productUuId: productUuId,
-        name: name,
-        quantity: quantity,
-        orderId: orderId
+      productId: productId,
+      productUuId: productUuId,
+      name: name,
+      quantity: quantity,
+      orderId: orderId
     );
 
 

@@ -24,7 +24,7 @@ class _OrderDetailsCardState extends ConsumerState<OrderDetailsCard>{
 
     final isExpanded = ref.watch(isExpandedProvider);
 
-    final categories = List.generate(6, (index) => "Categ. ${index + 1}");
+    final categories = List.generate(9, (index) => "Categ. ${index + 1}");
     final visibleCategories = isExpanded ? categories : categories.take(3).toList();
 
     return Container(
@@ -55,6 +55,10 @@ class _OrderDetailsCardState extends ConsumerState<OrderDetailsCard>{
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      Text(
+                        ///TODO: Adicionar productCode
+                        "0000"
+                      ),
                       Text(
                         widget.orderProduct.name,
                         overflow: TextOverflow.ellipsis,
