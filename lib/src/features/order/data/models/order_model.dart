@@ -1,5 +1,6 @@
 import 'package:objectbox/objectbox.dart';
 import 'package:sales_app/src/features/customer/data/models/money_model.dart';
+import 'package:sales_app/src/features/customer/data/models/payment_method_model.dart';
 import 'package:sales_app/src/features/order/data/models/order_customer_model.dart';
 import 'package:sales_app/src/features/order/data/models/order_product_model.dart';
 import 'package:sales_app/src/features/order/domain/entities/order.dart' as domain;
@@ -23,13 +24,9 @@ class OrderModel {
   String? notes;
 
   final freight = ToOne<MoneyModel>();
-  final itemsSubtotal = ToOne<MoneyModel>();
-  final discountTotal = ToOne<MoneyModel>();
-  final taxTotal = ToOne<MoneyModel>();
-  final grandTotal = ToOne<MoneyModel>();
   final customer = ToOne<OrderCustomerModel>();
   final items = ToMany<OrderProductModel>();
-  // final paymentMethods = ToMany<PaymentMethodModel>();
+  final paymentMethods = ToMany<PaymentMethodModel>();
 
   OrderModel({
     this.id = 0,
@@ -50,10 +47,8 @@ class OrderModel {
 extension OrderModelMapper on OrderModel {
   domain.Order toEntity() {
     final itemsList = items.map((i) => i.toEntity()).toList();
-    // final payments = paymentMethods.map((p) => p.toEntity()).toList();
+    final payments = paymentMethods.map((p) => p.toEntity()).toList();
     final customers = customer.target?.toEntity();
-
-
 
     return domain.Order(
       orderId: id,
@@ -67,7 +62,7 @@ extension OrderModelMapper on OrderModel {
       notes: notes,
       itemsCount: itemsCount,
       items: itemsList,
-      // paymentMethod: payments,
+      paymentMethod: payments,
       customer: customers,
       freight: freight.target?.toEntity()
     );
@@ -90,14 +85,14 @@ extension OrderMapper on domain.Order {
     );
 
     entity.freight.target = freight.toModel();
+    entity.customer.target = customer?.toModel();
 
     if (items.isNotEmpty) {
       entity.items.addAll(items.map((i) => i.toModel()));
     }
-    // if (paymentMethods.isNotEmpty) {
-    //   entity.paymentMethods.addAll(paymentMethods.map((p) => p.toModel()));
-    // }
-    
+
+
+
     return entity;
   }
 }

@@ -28,7 +28,7 @@ class _OrderDetailsCardState extends ConsumerState<OrderDetailsCard>{
     final visibleCategories = isExpanded ? categories : categories.take(3).toList();
 
     return Container(
-      height: isExpanded ? null : 180,
+      height: isExpanded ? null : 200,
       decoration: BoxDecoration(
         color: scheme.surface,
         borderRadius: BorderRadius.circular(12),
@@ -56,8 +56,10 @@ class _OrderDetailsCardState extends ConsumerState<OrderDetailsCard>{
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        ///TODO: Adicionar productCode
-                        "0000"
+                        widget.orderProduct.productCode,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold
+                        ),
                       ),
                       Text(
                         widget.orderProduct.name,

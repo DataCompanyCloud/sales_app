@@ -85,11 +85,11 @@ class OrderDetailsPage extends ConsumerWidget {
                               fontWeight: FontWeight.bold
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
-                  Tab(text: "Detalhes"),
+                  Tab(text: "Informações"),
                 ],
               ),
             ),

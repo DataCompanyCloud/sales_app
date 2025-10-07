@@ -2,7 +2,13 @@ import 'dart:async';
 import 'package:sales_app/objectbox.g.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
+import 'package:sales_app/src/features/customer/data/models/cnpj_model.dart';
+import 'package:sales_app/src/features/customer/data/models/contact_info_model.dart';
+import 'package:sales_app/src/features/customer/data/models/cpf_model.dart';
+import 'package:sales_app/src/features/customer/data/models/money_model.dart';
+import 'package:sales_app/src/features/order/data/models/order_customer_model.dart';
 import 'package:sales_app/src/features/order/data/models/order_model.dart';
+import 'package:sales_app/src/features/order/data/models/order_product_model.dart';
 import 'package:sales_app/src/features/order/domain/repositories/order_repository.dart';
 import 'package:sales_app/src/features/order/domain/entities/order.dart' as domain;
 
@@ -60,6 +66,13 @@ class OrderRepositoryImpl extends OrderRepository {
   @override
   Future<void> saveAll(List<domain.Order> orders) async {
     final orderBox = store.box<OrderModel>();
+    final orderCustomerBox = store.box<OrderCustomerModel>();
+    final orderProductBox = store.box<OrderProductModel>();
+    final contactInfoBox = store.box<ContactInfoModel>();
+    final cnpjBox = store.box<CNPJModel>();
+    final cpfBox = store.box<CPFModel>();
+    final moneyBox = store.box<MoneyModel>();
+
 
     store.runInTransaction(TxMode.write, () {
       for (final order in orders) {
@@ -74,6 +87,51 @@ class OrderRepositoryImpl extends OrderRepository {
           ),
         );
         if (existing != null) {
+          final freight = existing.freight.target;
+          if (freight != null) {
+            moneyBox.remove(freight.id);
+          }
+
+          final customer = existing.customer.target;
+          if (customer != null){
+
+            for (final items in customer.contactInfo) {
+              contactInfoBox.remove(items.id);
+            }
+
+            final cnpj = customer.cnpj.target;
+            if (cnpj != null) {
+              cnpjBox.remove(cnpj.id);
+            }
+
+            final cpf = customer.cpf.target;
+            if (cpf != null) {
+              cpfBox.remove(cpf.id);
+            }
+
+            orderCustomerBox.remove(existing.customer.targetId);
+          }
+
+          for (final items in existing.items) {
+
+            final unitPrice = items.unitPrice.target;
+            if (unitPrice != null) {
+              moneyBox.remove(unitPrice.id);
+            }
+
+            final discountAmount = items.discountAmount.target;
+            if (discountAmount != null) {
+              moneyBox.remove(discountAmount.id);
+            }
+
+            final taxAmount = items.taxAmount.target;
+            if (taxAmount != null) {
+              moneyBox.remove(taxAmount.id);
+            }
+
+            orderProductBox.remove(items.id);
+          }
+
           newModel.id = existing.id;
         } else {
           newModel.id = 0;
@@ -87,6 +145,12 @@ class OrderRepositoryImpl extends OrderRepository {
   @override
   Future<domain.Order> save(domain.Order order) async {
     final orderBox = store.box<OrderModel>();
+    final orderCustomerBox = store.box<OrderCustomerModel>();
+    final orderProductBox = store.box<OrderProductModel>();
+    final contactInfoBox = store.box<ContactInfoModel>();
+    final cnpjBox = store.box<CNPJModel>();
+    final cpfBox = store.box<CPFModel>();
+    final moneyBox = store.box<MoneyModel>();
 
     final id = store.runInTransaction(TxMode.write, () {
       final existing = orderBox.get(order.orderId);
@@ -102,6 +166,52 @@ class OrderRepositoryImpl extends OrderRepository {
 
       if (existing != null) {
         newModel.id = existing.id;
+
+        final freight = existing.freight.target;
+        if (freight != null) {
+          moneyBox.remove(freight.id);
+        }
+
+        final customer = existing.customer.target;
+        if (customer != null) {
+
+          for (final items in customer.contactInfo) {
+            contactInfoBox.remove(items.id);
+          }
+
+          final cnpj = customer.cnpj.target;
+          if (cnpj != null) {
+            cnpjBox.remove(cnpj.id);
+          }
+
+          final cpf = customer.cpf.target;
+          if (cpf != null) {
+            cpfBox.remove(cpf.id);
+          }
+
+          orderCustomerBox.remove(existing.customer.targetId);
+        }
+
+        for (final items in existing.items) {
+
+          final unitPrice = items.unitPrice.target;
+          if (unitPrice != null) {
+            moneyBox.remove(unitPrice.id);
+          }
+
+          final discountAmount = items.discountAmount.target;
+          if (discountAmount != null) {
+            moneyBox.remove(discountAmount.id);
+          }
+
+          final taxAmount = items.taxAmount.target;
+          if (taxAmount != null) {
+            moneyBox.remove(taxAmount.id);
+          }
+
+          orderProductBox.remove(items.id);
+        }
+
       } else {
         newModel.id = 0;
       }
@@ -123,12 +233,63 @@ class OrderRepositoryImpl extends OrderRepository {
   @override
   Future<void> delete(domain.Order order) async {
     final orderBox = store.box<OrderModel>();
+    final orderCustomerBox = store.box<OrderCustomerModel>();
+    final orderProductBox = store.box<OrderProductModel>();
+    final contactInfoBox = store.box<ContactInfoModel>();
+    final cnpjBox = store.box<CNPJModel>();
+    final cpfBox = store.box<CPFModel>();
+    final moneyBox = store.box<MoneyModel>();
 
     store.runInTransaction(TxMode.write, () async {
       final model = await orderBox.getAsync(order.orderId);
 
       if (model == null) {
         throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Pedido não encontrado");
+      }
+
+      final freight = model.freight.target;
+      if (freight != null) {
+        moneyBox.remove(freight.id);
+      }
+
+      final customer = model.customer.target;
+      if (customer != null) {
+
+        for (final items in customer.contactInfo) {
+          contactInfoBox.remove(items.id);
+        }
+
+        final cnpj = customer.cnpj.target;
+        if (cnpj != null) {
+          cnpjBox.remove(cnpj.id);
+        }
+
+        final cpf = customer.cpf.target;
+        if (cpf != null) {
+          cpfBox.remove(cpf.id);
+        }
+
+        orderCustomerBox.remove(model.customer.targetId);
+      }
+
+      for (final items in model.items) {
+
+        final unitPrice = items.unitPrice.target;
+        if (unitPrice != null) {
+          moneyBox.remove(unitPrice.id);
+        }
+
+        final discountAmount = items.discountAmount.target;
+        if (discountAmount != null) {
+          moneyBox.remove(discountAmount.id);
+        }
+
+        final taxAmount = items.taxAmount.target;
+        if (taxAmount != null) {
+          moneyBox.remove(taxAmount.id);
+        }
+
+        orderProductBox.remove(items.id);
       }
 
       await orderBox.removeAsync(model.id);
@@ -138,8 +299,61 @@ class OrderRepositoryImpl extends OrderRepository {
   @override
   Future<void> deleteAll() async {
     final orderBox = store.box<OrderModel>();
+    final orderCustomerBox = store.box<OrderCustomerModel>();
+    final orderProductBox = store.box<OrderProductModel>();
+    final contactInfoBox = store.box<ContactInfoModel>();
+    final cnpjBox = store.box<CNPJModel>();
+    final cpfBox = store.box<CPFModel>();
+    final moneyBox = store.box<MoneyModel>();
 
     store.runInTransaction(TxMode.write, () {
+      final allOrders = orderBox.getAll();
+      for (final model in allOrders) {
+        final freight = model.freight.target;
+        if (freight != null) {
+          moneyBox.remove(freight.id);
+        }
+
+        final customer = model.customer.target;
+        if (customer != null) {
+
+          for (final items in customer.contactInfo) {
+            contactInfoBox.remove(items.id);
+          }
+
+          final cnpj = customer.cnpj.target;
+          if (cnpj != null) {
+            cnpjBox.remove(cnpj.id);
+          }
+
+          final cpf = customer.cpf.target;
+          if (cpf != null) {
+            cpfBox.remove(cpf.id);
+          }
+
+          orderCustomerBox.remove(model.customer.targetId);
+        }
+
+        for (final items in model.items) {
+
+          final unitPrice = items.unitPrice.target;
+          if (unitPrice != null) {
+            moneyBox.remove(unitPrice.id);
+          }
+
+          final discountAmount = items.discountAmount.target;
+          if (discountAmount != null) {
+            moneyBox.remove(discountAmount.id);
+          }
+
+          final taxAmount = items.taxAmount.target;
+          if (taxAmount != null) {
+            moneyBox.remove(taxAmount.id);
+          }
+
+          orderProductBox.remove(items.id);
+        }
+      }
       orderBox.removeAll();
     });
   }

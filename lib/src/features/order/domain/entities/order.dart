@@ -43,7 +43,7 @@ abstract class Order with _$Order {
     required DateTime createdAt,
     required int itemsCount,
     required List<OrderProduct> items,
-    // required List<PaymentMethod> paymentMethod,
+    required List<PaymentMethod> paymentMethod,
     OrderCustomer? customer,
     int? serverId,
     OrderStatus status = OrderStatus.draft,
@@ -80,7 +80,7 @@ abstract class Order with _$Order {
       itemsCount: itemsCount,
       customer: customer,
       items: items,
-      // paymentMethods: paymentMethod,
+      paymentMethods: paymentMethod,
       freight: freight ?? Money.zero(),
       //TODO Mudar isso aqui
       itemsSubtotal: Money.zero(),

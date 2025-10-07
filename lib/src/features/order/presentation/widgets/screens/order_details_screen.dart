@@ -1,4 +1,3 @@
-import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/features/order/domain/entities/order.dart';
@@ -19,12 +18,9 @@ class OrderDetailsScreen extends ConsumerWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 
-    final payment = ['Débito', 'Crédito', 'PIX'];
-
-    String paymentMethod = faker.randomGenerator.element(payment);
-
     final customer = order.customer;
     final contactInfo = customer?.contactInfo;
+    final paymentMethod = order.paymentMethods;
     return Center(
       child: SafeArea(
         child: Padding(
@@ -81,140 +77,284 @@ class OrderDetailsScreen extends ConsumerWidget {
                   color: Colors.grey
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Card(
-                  color: scheme.surface,
-                  elevation: 3,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.person,
-                                size: 18,
-                                color: Colors.grey
-                              ),
-                              SizedBox(width: 4),
-                              Text(
-                                "INFORMAÇÕES DO CLIENTE",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey
-                                ),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 4),
-                            child: Divider(
-                              thickness: 1.5,
-                              color: Colors.grey.shade500,
-                            ),
-                          ),
-                          Text(
-                            "Código: ${customer?.customerCode ?? "--"}",
-                            style: TextStyle(
-                              fontSize: 15
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            "Nome: ${customer?.customerName ?? "--"}",
-                            style: TextStyle(
-                              fontSize: 15
-                            ),
-                          ),
-                        ],
-                      ),
+              customer != null
+              ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  padding: EdgeInsets.only(top: 12, bottom: 12),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 2, color: Colors.grey),
+                    borderRadius: BorderRadius.circular(12)
+                  ),
+                  child: Text(
+                    "Nenhum cliente informado",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 24
                     ),
-                  )
+                  ),
                 ),
-              ),
-              contactInfo != null && contactInfo.isNotEmpty
-                ? Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child: Card(
-                    color: scheme.surface,
-                    elevation: 3,
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
+              )
+              : Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: Card(
+                        color: scheme.surface,
+                        elevation: 3,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Icon(
-                                  Icons.phone,
-                                  size: 18,
-                                  color: Colors.grey
-                                ),
-                                SizedBox(width: 4),
-                                Text(
-                                  "INFORMAÇÕES DE CONTATO",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 4),
-                              child: Divider(
-                                thickness: 1.5,
-                                color: Colors.grey.shade500,
-                              ),
-                            ),
-                            ListView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: contactInfo.length,
-                              itemBuilder: (context, index) {
-                                final contact = contactInfo[index];
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                Row(
                                   children: [
-                                    Text(
-                                      "Nome: ${contact.name}",
-                                      style: TextStyle(
-                                        fontSize: 15
-                                      ),
+                                    Icon(
+                                        Icons.person,
+                                        size: 18,
+                                        color: Colors.grey
                                     ),
-                                    SizedBox(height: 4),
+                                    SizedBox(width: 4),
                                     Text(
-                                      "Email: ${contact.email?.value ?? "--"}",
+                                      "CLIENTE",
                                       style: TextStyle(
-                                        fontSize: 15
-                                      ),
-                                    ),
-                                    SizedBox(height: 4),
-                                    Text(
-                                      "Telefone: ${contact.phone?.value ?? "--"}",
-                                      style: TextStyle(
-                                        fontSize: 15
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.grey
                                       ),
                                     ),
                                   ],
-                                );
-                              })
-                          ],
-                        ),
-                      ),
-                    )
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 4),
+                                  child: Divider(
+                                    thickness: 1.5,
+                                    color: Colors.grey.shade500,
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF2A364B),
+                                        border: Border.all(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      child: Text(
+                                        "CÓDIGO",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      customer?.customerCode ?? "--",
+                                      style: TextStyle(
+                                          fontSize: 15
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 4),
+                                Row(
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF2A364B),
+                                        border: Border.all(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      child: Text(
+                                        "NOME",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      customer?.customerName ?? "--",
+                                      style: TextStyle(
+                                          fontSize: 15
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                    ),
                   ),
-                )
-                : SizedBox()
-              ,
+                  contactInfo != null && contactInfo.isNotEmpty
+                      ? Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: Card(
+                        color: scheme.surface,
+                        elevation: 3,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(
+                                        Icons.phone,
+                                        size: 18,
+                                        color: Colors.grey
+                                    ),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      "CONTATO",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.grey
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 4),
+                                  child: Divider(
+                                    thickness: 1.5,
+                                    color: Colors.grey.shade500,
+                                  ),
+                                ),
+                                ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: contactInfo.length,
+                                    itemBuilder: (context, index) {
+                                      final contact = contactInfo[index];
+                                      return Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Container(
+                                                padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                                                decoration: BoxDecoration(
+                                                  color: const Color(0xFF2A364B),
+                                                  border: Border.all(
+                                                    color: Colors.black,
+                                                    width: 1,
+                                                  ),
+                                                  borderRadius: BorderRadius.circular(4),
+                                                ),
+                                                child: Text(
+                                                  "NOME",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.bold
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(width: 4),
+                                              Text(
+                                                contact.name,
+                                                style: TextStyle(
+                                                    fontSize: 15
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(height: 4),
+                                          Row(
+                                            children: [
+                                              Container(
+                                                padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                                                decoration: BoxDecoration(
+                                                  color: const Color(0xFF2A364B),
+                                                  border: Border.all(
+                                                    color: Colors.black,
+                                                    width: 1,
+                                                  ),
+                                                  borderRadius: BorderRadius.circular(4),
+                                                ),
+                                                child: Text(
+                                                  "EMAIL",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.bold
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(width: 4),
+                                              Text(
+                                                contact.email?.value ?? "--",
+                                                style: TextStyle(
+                                                    fontSize: 15
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(height: 4),
+                                          Row(
+                                            children: [
+                                              Container(
+                                                padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                                                decoration: BoxDecoration(
+                                                  color: const Color(0xFF2A364B),
+                                                  border: Border.all(
+                                                    color: Colors.black,
+                                                    width: 1,
+                                                  ),
+                                                  borderRadius: BorderRadius.circular(4),
+                                                ),
+                                                child: Text(
+                                                  "TELEFONE",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.bold
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(width: 4),
+                                              Text(
+                                                contact.phone?.value ?? "--",
+                                                style: TextStyle(
+                                                    fontSize: 15
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                    })
+                              ],
+                            ),
+                          ),
+                        )
+                    ),
+                  )
+                      : SizedBox()
+                  ,
+                ],
+              ),
+
               Padding(
                 padding: const EdgeInsets.only(top: 12, bottom: 12),
                 child: Card(
@@ -236,7 +376,7 @@ class OrderDetailsScreen extends ConsumerWidget {
                               ),
                               SizedBox(width: 4),
                               Text(
-                                "INFORMAÇÕES DO PEDIDO",
+                                "PEDIDO",
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
@@ -252,27 +392,75 @@ class OrderDetailsScreen extends ConsumerWidget {
                               color: Colors.grey.shade500,
                             ),
                           ),
-                          Text(
-                            "Forma de Pagamento: $paymentMethod",
-                            style: TextStyle(
-                              fontSize: 15,
-                            ),
+                          Column(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF2A364B),
+                                  border: Border.all(
+                                    color: Colors.black,
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Text(
+                                  "MÉTODO DE PAGAMENTO",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 4),
+                              Text(
+                                paymentMethod.isNotEmpty
+                                  ? paymentMethod.map((m) => m.label).join(', ')
+                                  : "--"
+                                ,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ],
                           ),
                           SizedBox(height: 4),
-                          order.notes != null
-                          ? RichText(
-                            text: TextSpan(
-                              text: "Observações: ",
-                              style: TextStyle(fontSize: 15),
-                              children: [
-                                TextSpan(
-                                  text: order.notes,
-                                  style: TextStyle(fontSize: 15, color: Colors.grey)
-                                )
-                              ]
-                            ),
-                            )
-                          : SizedBox()
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF2A364B),
+                                  border: Border.all(
+                                    color: Colors.black,
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Text(
+                                  "OBSERVAÇÕES",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 4),
+                              if (order.notes != null)
+                                Text(
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 3,
+                                  order.notes.toString(),
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                            ],
+                          ),
                         ],
                       ),
                     ),

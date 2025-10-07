@@ -99,7 +99,6 @@ class OrderDetailsProductScreenState extends ConsumerState<OrderDetailsProductSc
                 itemCount: order.items.length,
                 itemBuilder: (context, index) {
                   final orderProduct = order.items[index];
-                  final orderCustomer = order.customer;
                   return Padding(
                     padding: EdgeInsets.only(bottom: 8),
                     child: onClick

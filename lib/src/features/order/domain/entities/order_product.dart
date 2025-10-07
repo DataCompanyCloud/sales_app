@@ -13,6 +13,7 @@ abstract class OrderProduct with _$OrderProduct {
   const factory OrderProduct.raw({
     required String productUuId,
     required int productId,
+    required String productCode,
     required String name,
     required double quantity,
     required Money unitPrice,
@@ -26,6 +27,7 @@ abstract class OrderProduct with _$OrderProduct {
   factory OrderProduct({
     required String productUuId,
     required int productId,
+    required String productCode,
     required String name,
     required double quantity,
     required Money unitPrice,
@@ -45,6 +47,7 @@ abstract class OrderProduct with _$OrderProduct {
     return OrderProduct.raw(
       productUuId: productUuId,
       productId: productId,
+      productCode: productCode,
       name: name,
       quantity: quantity,
       unitPrice: unitPrice,

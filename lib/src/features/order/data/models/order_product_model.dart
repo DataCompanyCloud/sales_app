@@ -11,6 +11,7 @@ class OrderProductModel {
   @Index()
   String productUuId;
   int productId;
+  String productCode;
   String name;
   double quantity;
   int? orderId;
@@ -23,6 +24,7 @@ class OrderProductModel {
     this.id = 0,
     required this.productUuId,
     required this.productId,
+    required this.productCode,
     required this.name,
     required this.quantity,
     this.orderId
@@ -37,6 +39,7 @@ extension OrderProductModeMapper on OrderProductModel {
     return OrderProduct(
       productUuId: productUuId,
       productId: productId,
+      productCode: productCode,
       name: name,
       quantity: quantity,
       unitPrice: price ?? const Money.raw(amount: 0),
@@ -52,8 +55,9 @@ extension OrderProductMapper on OrderProduct {
   OrderProductModel toModel() {
 
     final model = OrderProductModel(
-      productId: productId,
       productUuId: productUuId,
+      productId: productId,
+      productCode: productCode,
       name: name,
       quantity: quantity,
       orderId: orderId
