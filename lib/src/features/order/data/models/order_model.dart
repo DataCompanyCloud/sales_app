@@ -27,6 +27,7 @@ class OrderModel {
   final customer = ToOne<OrderCustomerModel>();
   final items = ToMany<OrderProductModel>();
   final paymentMethods = ToMany<PaymentMethodModel>();
+  // final orderPayment = ToMany<OrderPaymentModel>();
 
   OrderModel({
     this.id = 0,
@@ -49,6 +50,7 @@ extension OrderModelMapper on OrderModel {
     final itemsList = items.map((i) => i.toEntity()).toList();
     final payments = paymentMethods.map((p) => p.toEntity()).toList();
     final customers = customer.target?.toEntity();
+    // final orderPaymentList = orderPayment.map((o) => o.toEntity()).toList();
 
     return domain.Order(
       orderId: id,
@@ -62,6 +64,7 @@ extension OrderModelMapper on OrderModel {
       notes: notes,
       itemsCount: itemsCount,
       items: itemsList,
+      // orderPayment: orderPaymentList,
       paymentMethod: payments,
       customer: customers,
       freight: freight.target?.toEntity()
@@ -90,7 +93,9 @@ extension OrderMapper on domain.Order {
     if (items.isNotEmpty) {
       entity.items.addAll(items.map((i) => i.toModel()));
     }
-
+    if (paymentMethods.isNotEmpty) {
+      entity.paymentMethods.addAll(paymentMethods.map((p) => p.toModel()));
+    }
 
 
     return entity;

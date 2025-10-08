@@ -4,6 +4,7 @@ import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/payment_method.dart';
 import 'package:sales_app/src/features/order/domain/entities/order_customer.dart';
+import 'package:sales_app/src/features/order/domain/entities/order_payment.dart';
 import 'package:sales_app/src/features/order/domain/entities/order_product.dart';
 import 'package:sales_app/src/features/order/domain/valueObjects/order_status.dart';
 
@@ -26,6 +27,7 @@ abstract class Order with _$Order {
     DateTime? confirmedAt,
     DateTime? cancelledAt,
     String? notes,
+    // @Default([]) List<OrderPayment> orderPayment,
     @Default([]) List<PaymentMethod> paymentMethods,
     @Default(Money.raw(amount: 0)) Money freight, /// Frete
     @Default(<OrderProduct>[]) List<OrderProduct> items, /// Itens
@@ -43,6 +45,7 @@ abstract class Order with _$Order {
     required DateTime createdAt,
     required int itemsCount,
     required List<OrderProduct> items,
+    // required List<OrderPayment> orderPayment,
     required List<PaymentMethod> paymentMethod,
     OrderCustomer? customer,
     int? serverId,
@@ -78,6 +81,7 @@ abstract class Order with _$Order {
       cancelledAt: cancelledAt,
       notes: notes,
       itemsCount: itemsCount,
+      // orderPayment: orderPayment,
       customer: customer,
       items: items,
       paymentMethods: paymentMethod,

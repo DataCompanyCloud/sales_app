@@ -44,12 +44,12 @@ class OrderPageSkeleton extends ConsumerWidget {
                         padding: EdgeInsets.symmetric(vertical: 8),
                         child: ListTile(
                           leading: const Icon(Icons.person, size: 38),
-                          title: Bone.text(width: 200),
+                          title: Bone.text(width: 250),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(height: 4),
-                              Bone.text(width: 80, fontSize: 15),
+                              Bone.text(width: 250, fontSize: 15),
                               SizedBox(height: 4),
                               Bone.text(width: 100, fontSize: 15),
                             ],

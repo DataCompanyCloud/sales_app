@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/features/order/domain/entities/order.dart';
@@ -80,18 +81,24 @@ class OrderDetailsScreen extends ConsumerWidget {
               customer != null
               ? Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  padding: EdgeInsets.only(top: 12, bottom: 12),
+                child: SizedBox(
                   width: double.infinity,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 2, color: Colors.grey),
-                    borderRadius: BorderRadius.circular(12)
-                  ),
-                  child: Text(
-                    "Nenhum cliente informado",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 24
+                  child: DottedBorder(
+                    padding: EdgeInsets.only(top: 12, bottom: 12),
+                    borderType: BorderType.RRect,
+                    strokeWidth: 1,
+                    dashPattern: [6, 3],
+                    color: Colors.grey,
+                    radius: Radius.circular(8),
+                    child: Center(
+                      child: Text(
+                        "Nenhum cliente informado",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.grey
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -354,7 +361,6 @@ class OrderDetailsScreen extends ConsumerWidget {
                   ,
                 ],
               ),
-
               Padding(
                 padding: const EdgeInsets.only(top: 12, bottom: 12),
                 child: Card(
