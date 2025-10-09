@@ -27,7 +27,7 @@ abstract class Order with _$Order {
     DateTime? confirmedAt,
     DateTime? cancelledAt,
     String? notes,
-    // @Default([]) List<OrderPayment> orderPayment,
+    @Default([]) List<OrderPayment> orderPayment,
     @Default([]) List<PaymentMethod> paymentMethods,
     @Default(Money.raw(amount: 0)) Money freight, /// Frete
     @Default(<OrderProduct>[]) List<OrderProduct> items, /// Itens
@@ -45,8 +45,8 @@ abstract class Order with _$Order {
     required DateTime createdAt,
     required int itemsCount,
     required List<OrderProduct> items,
-    // required List<OrderPayment> orderPayment,
-    required List<PaymentMethod> paymentMethod,
+    required List<OrderPayment> orderPayment,
+    List<PaymentMethod> paymentMethods = const [],
     OrderCustomer? customer,
     int? serverId,
     OrderStatus status = OrderStatus.draft,
@@ -81,10 +81,10 @@ abstract class Order with _$Order {
       cancelledAt: cancelledAt,
       notes: notes,
       itemsCount: itemsCount,
-      // orderPayment: orderPayment,
+      orderPayment: orderPayment,
       customer: customer,
       items: items,
-      paymentMethods: paymentMethod,
+      paymentMethods: paymentMethods,
       freight: freight ?? Money.zero(),
       //TODO Mudar isso aqui
       itemsSubtotal: Money.zero(),
@@ -117,7 +117,6 @@ abstract class Order with _$Order {
 
   @JsonKey(includeFromJson: false)
   Money get calcGrandTotal => calcItemsSubtotal.minus(calcDiscountTotal).plus(calcTaxTotal).plus(freight);
-
 
   // Funções
   Order recalculate() => copyWith(

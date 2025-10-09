@@ -2,6 +2,7 @@ import 'package:objectbox/objectbox.dart';
 import 'package:sales_app/src/features/customer/data/models/money_model.dart';
 import 'package:sales_app/src/features/customer/data/models/payment_method_model.dart';
 import 'package:sales_app/src/features/order/data/models/order_customer_model.dart';
+import 'package:sales_app/src/features/order/data/models/order_payment_model.dart';
 import 'package:sales_app/src/features/order/data/models/order_product_model.dart';
 import 'package:sales_app/src/features/order/domain/entities/order.dart' as domain;
 import 'package:sales_app/src/features/order/domain/valueObjects/order_status.dart';
@@ -27,7 +28,7 @@ class OrderModel {
   final customer = ToOne<OrderCustomerModel>();
   final items = ToMany<OrderProductModel>();
   final paymentMethods = ToMany<PaymentMethodModel>();
-  // final orderPayment = ToMany<OrderPaymentModel>();
+  final orderPayment = ToMany<OrderPaymentModel>();
 
   OrderModel({
     this.id = 0,
@@ -50,7 +51,7 @@ extension OrderModelMapper on OrderModel {
     final itemsList = items.map((i) => i.toEntity()).toList();
     final payments = paymentMethods.map((p) => p.toEntity()).toList();
     final customers = customer.target?.toEntity();
-    // final orderPaymentList = orderPayment.map((o) => o.toEntity()).toList();
+    final orderPaymentList = orderPayment.map((o) => o.toEntity()).toList();
 
     return domain.Order(
       orderId: id,
@@ -64,8 +65,8 @@ extension OrderModelMapper on OrderModel {
       notes: notes,
       itemsCount: itemsCount,
       items: itemsList,
-      // orderPayment: orderPaymentList,
-      paymentMethod: payments,
+      orderPayment: orderPaymentList,
+      paymentMethods: payments,
       customer: customers,
       freight: freight.target?.toEntity()
     );
@@ -92,9 +93,6 @@ extension OrderMapper on domain.Order {
 
     if (items.isNotEmpty) {
       entity.items.addAll(items.map((i) => i.toModel()));
-    }
-    if (paymentMethods.isNotEmpty) {
-      entity.paymentMethods.addAll(paymentMethods.map((p) => p.toModel()));
     }
 
 

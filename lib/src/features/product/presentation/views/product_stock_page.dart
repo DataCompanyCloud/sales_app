@@ -64,7 +64,7 @@ class ProductStockPageState extends ConsumerState<ProductStockPage>{
                       ),
                       margin: const EdgeInsets.only(right: 8),
                       child: Center(
-                        child: Text("Foto ${index + 1}"),
+                        child: Text("Produto ${index + 1}"),
                       ),
                     ),
                   )

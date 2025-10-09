@@ -791,7 +791,7 @@
           "name": "customerId",
           "type": 11,
           "flags": 520,
-          "indexId": "72:5022760302150717568",
+          "indexId": "82:8836805969644144835",
           "relationTarget": "OrderCustomerModel"
         },
         {
@@ -843,6 +843,11 @@
           "id": "14:6482872866581236947",
           "name": "paymentMethods",
           "targetId": "24:3854166553220095525"
+        },
+        {
+          "id": "15:1720032374935966684",
+          "name": "orderPayment",
+          "targetId": "25:6649260090131191768"
         }
       ]
     },
@@ -927,11 +932,41 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "25:6649260090131191768",
+      "lastPropertyId": "3:5061355271581688270",
+      "name": "OrderPaymentModel",
+      "properties": [
+        {
+          "id": "1:3845242890456000596",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1500859078884943778",
+          "name": "paymentMethodId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "74:8150722055610236498",
+          "relationTarget": "PaymentMethodModel"
+        },
+        {
+          "id": "3:5061355271581688270",
+          "name": "moneyId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "75:5016385195176379411",
+          "relationTarget": "MoneyModel"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "24:3854166553220095525",
-  "lastIndexId": "72:5022760302150717568",
-  "lastRelationId": "14:6482872866581236947",
+  "lastEntityId": "25:6649260090131191768",
+  "lastIndexId": "82:8836805969644144835",
+  "lastRelationId": "15:1720032374935966684",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
@@ -971,7 +1006,15 @@
     1570933695232021570,
     5780920904883504598,
     4471272178037877434,
-    830822124066362472
+    830822124066362472,
+    5022760302150717568,
+    3493997498888643005,
+    794319139484395708,
+    9131978516251032596,
+    4208042534593106435,
+    5224978345697997389,
+    6728129287193242816,
+    2948837909534708102
   ],
   "retiredPropertyUids": [
     3028564120408892828,
