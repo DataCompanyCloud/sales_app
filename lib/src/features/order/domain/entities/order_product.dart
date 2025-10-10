@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
+import 'package:sales_app/src/features/product/domain/valueObjects/image.dart';
 
 part 'order_product.freezed.dart';
 part 'order_product.g.dart';
@@ -17,6 +18,7 @@ abstract class OrderProduct with _$OrderProduct {
     required String name,
     required double quantity,
     required Money unitPrice,
+    List<ImageEntity>? images,
     int? orderId,
     // @Default('UN') String unitOfMeasure, // Type
     @Default(Money.raw(amount: 0)) Money discountAmount,
@@ -31,6 +33,7 @@ abstract class OrderProduct with _$OrderProduct {
     required String name,
     required double quantity,
     required Money unitPrice,
+    List<ImageEntity>? images,
     int? orderId,
     Money? discountAmount,
     Money? taxAmount,
@@ -51,6 +54,7 @@ abstract class OrderProduct with _$OrderProduct {
       name: name,
       quantity: quantity,
       unitPrice: unitPrice,
+      images: images,
       orderId: orderId,
       discountAmount: discountAmount ?? const Money.raw(amount: 0),
       taxAmount: taxAmount ?? const Money.raw(amount: 0),

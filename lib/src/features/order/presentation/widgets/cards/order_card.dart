@@ -11,7 +11,6 @@ class OrderCard extends ConsumerWidget {
     required this.order
   });
 
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
@@ -113,7 +112,7 @@ class OrderCard extends ConsumerWidget {
                             ),
                           ),
                           Text(
-                            "R\$ ${order.calcGrandTotal.decimalValue}",
+                            "R\$ ${order.total.decimalValue}",
                             style: TextStyle(
                               fontSize: 15
                             ),

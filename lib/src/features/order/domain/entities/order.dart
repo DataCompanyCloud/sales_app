@@ -21,6 +21,7 @@ abstract class Order with _$Order {
     required String? orderCode,
     required DateTime createdAt,
     required itemsCount,
+    required Money total,
     OrderCustomer? customer,
     int? serverId,
     @Default(OrderStatus.draft) OrderStatus status,
@@ -44,6 +45,7 @@ abstract class Order with _$Order {
     required String? orderCode,
     required DateTime createdAt,
     required int itemsCount,
+    required Money total,
     required List<OrderProduct> items,
     required List<OrderPayment> orderPayment,
     List<PaymentMethod> paymentMethods = const [],
@@ -81,6 +83,7 @@ abstract class Order with _$Order {
       cancelledAt: cancelledAt,
       notes: notes,
       itemsCount: itemsCount,
+      total: total,
       orderPayment: orderPayment,
       customer: customer,
       items: items,
@@ -97,11 +100,17 @@ abstract class Order with _$Order {
 
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
 
-  @JsonKey(includeFromJson: false)
-  Money get calcItemsSubtotal => items.fold(
+
+  Money get _calcItemsSubtotal => items.fold(
     Money.zero(),
     (acc, it) => acc.plus(it.unitPrice.multiply(it.quantity)),
   );
+
+  @JsonKey(includeFromJson: false)
+  Money get calcItemsSubtotal => _calcItemsSubtotal == Money.zero()
+    ? total
+    : _calcItemsSubtotal
+  ;
 
   @JsonKey(includeFromJson: false)
   Money get calcDiscountTotal => items.fold(

@@ -47,7 +47,7 @@ class OrderDetailsPage extends ConsumerWidget {
                 IconButton(
                   onPressed: () {
                     if (controller.isLoading) return;
-                    final _ = ref.refresh(orderDetailsControllerProvider(order.orderId));  
+                    final _ = ref.refresh(orderDetailsControllerProvider(order.orderId));
                   }, 
                   icon: Icon(Icons.refresh, size: 22,)
                 )
@@ -113,9 +113,9 @@ class OrderDetailsPage extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Total",
+                          "Total do pedido",
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold
                           ),
                         ),

@@ -1,6 +1,7 @@
 import 'package:objectbox/objectbox.dart';
 import 'package:sales_app/src/features/customer/data/models/money_model.dart';
 import 'package:sales_app/src/features/customer/data/models/payment_method_model.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
 import 'package:sales_app/src/features/order/data/models/order_customer_model.dart';
 import 'package:sales_app/src/features/order/data/models/order_payment_model.dart';
 import 'package:sales_app/src/features/order/data/models/order_product_model.dart';
@@ -24,6 +25,7 @@ class OrderModel {
   DateTime? cancelledAt;
   String? notes;
 
+  final total = ToOne<MoneyModel>();
   final freight = ToOne<MoneyModel>();
   final customer = ToOne<OrderCustomerModel>();
   final items = ToMany<OrderProductModel>();
@@ -64,6 +66,7 @@ extension OrderModelMapper on OrderModel {
       cancelledAt: cancelledAt,
       notes: notes,
       itemsCount: itemsCount,
+      total: total.target?.toEntity() ?? Money.zero(),
       items: itemsList,
       orderPayment: orderPaymentList,
       paymentMethods: payments,
@@ -90,6 +93,7 @@ extension OrderMapper on domain.Order {
 
     entity.freight.target = freight.toModel();
     entity.customer.target = customer?.toModel();
+    entity.total.target = total.toModel();
 
     if (items.isNotEmpty) {
       entity.items.addAll(items.map((i) => i.toModel()));

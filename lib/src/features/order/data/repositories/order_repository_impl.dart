@@ -87,7 +87,12 @@ class OrderRepositoryImpl extends OrderRepository {
           ),
         );
         if (existing != null) {
-          final freight = existing.freight.target;
+          final total = existing.total.target;
+          if (total != null) {
+            moneyBox.remove(total.id);
+          }
+
+            final freight = existing.freight.target;
           if (freight != null) {
             moneyBox.remove(freight.id);
           }
@@ -166,6 +171,11 @@ class OrderRepositoryImpl extends OrderRepository {
 
       if (existing != null) {
         newModel.id = existing.id;
+
+        final total = existing.total.target;
+        if (total != null) {
+          moneyBox.remove(total.id);
+        }
 
         final freight = existing.freight.target;
         if (freight != null) {
@@ -247,6 +257,12 @@ class OrderRepositoryImpl extends OrderRepository {
         throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Pedido não encontrado");
       }
 
+
+      final total = model.total.target;
+      if (total != null) {
+        moneyBox.remove(total.id);
+      }
+
       final freight = model.freight.target;
       if (freight != null) {
         moneyBox.remove(freight.id);
@@ -309,6 +325,12 @@ class OrderRepositoryImpl extends OrderRepository {
     store.runInTransaction(TxMode.write, () {
       final allOrders = orderBox.getAll();
       for (final model in allOrders) {
+
+        final total = model.total.target;
+        if (total != null) {
+          moneyBox.remove(total.id);
+        }
+
         final freight = model.freight.target;
         if (freight != null) {
           moneyBox.remove(freight.id);
