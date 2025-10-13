@@ -84,7 +84,6 @@ class _OrderDetailsCardState extends ConsumerState<OrderDetailsCard>{
                                 ? Image.asset(
                               image?.url ?? 'assets/images/not_found.png',
                               width: double.infinity,
-                              // height: 138,
                               fit: BoxFit.cover,
                             )
                                 : Image.network(imageUrl)
@@ -211,7 +210,7 @@ class _OrderDetailsCardState extends ConsumerState<OrderDetailsCard>{
                                   child: Icon(Icons.attach_money, size: 20),
                                 ),
                                 Text(
-                                  "Total: ",
+                                  "Subtotal: ",
                                   style: TextStyle(
                                     fontSize: 15
                                   ),

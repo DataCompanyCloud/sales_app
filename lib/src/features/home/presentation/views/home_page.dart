@@ -182,7 +182,7 @@ class HomePage extends ConsumerWidget {
                             backgroundColor: Colors.grey.shade100,
                             child: Icon(Icons.archive_outlined, color: Colors.black87),
                           ),
-                          title: Text("Estoque de Produtos"),
+                          title: Text("Produtos"),
                           trailing: Icon(Icons.chevron_right),
                           onTap: () {
                             context.goNamed(HomeRouter.productStock.name);
