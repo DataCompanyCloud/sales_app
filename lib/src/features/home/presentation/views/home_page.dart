@@ -147,7 +147,7 @@ class HomePage extends ConsumerWidget {
                           onTap: () {},
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(12), bottomRight: Radius.circular(12)
+                              bottomLeft: Radius.circular(12), bottomRight: Radius.circular(12)
                             ),
                           ),
                         ),

@@ -4,14 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/product/presentation/widgets/buttons/product_status_buttons.dart';
 
-class ProductStockPage extends ConsumerStatefulWidget {
-  const ProductStockPage({super.key});
+class ProductStoragePage extends ConsumerStatefulWidget {
+  const ProductStoragePage({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => ProductStockPageState();
 }
 
-class ProductStockPageState extends ConsumerState<ProductStockPage>{
+class ProductStockPageState extends ConsumerState<ProductStoragePage>{
 
   @override
   void initState() {

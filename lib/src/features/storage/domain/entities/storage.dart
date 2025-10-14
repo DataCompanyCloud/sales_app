@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:sales_app/src/features/product/domain/entities/stock_movement.dart';
+import 'package:sales_app/src/features/storage/domain/entities/stock_movement.dart';
 
 part 'storage.freezed.dart';
 part 'storage.g.dart';

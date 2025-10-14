@@ -1,17 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:sales_app/src/features/product/domain/entities/movement_item.dart';
+import 'package:sales_app/src/features/storage/domain/entities/movement_item.dart';
+import 'package:sales_app/src/features/storage/domain/valueObjects/movement_type.dart';
 
 part 'stock_movement.freezed.dart';
 part 'stock_movement.g.dart';
-
-enum MovementType {
-  /// Entrada de estoque
-  stockIn,
-  /// Saída de estoque
-  stockOut,
-  /// Transferência entre estoques
-  stockTransfer
-}
 
 @freezed
 abstract class StockMovement with _$StockMovement {

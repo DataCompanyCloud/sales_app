@@ -40,10 +40,10 @@ class ProductService {
       final status = e.response?.statusCode;
 
       if (status == 404) {
-        throw AppException(AppExceptionCode.CODE_002_CUSTOMER_SERVER_NOT_FOUND, "Produto não existe");
+        throw AppException(AppExceptionCode.CODE_005_PRODUCT_SERVER_NOT_FOUND, "Produto não existe");
       }
 
-      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Falha em obter usuário");
+      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Falha em obter produto");
     } catch (p) {
       throw AppException.errorUnexpected(e.toString());
     }

@@ -8,8 +8,8 @@ abstract class MovementItem with _$MovementItem {
   const MovementItem._();
 
   const factory MovementItem.raw({
-    required int itemId,    // id local
-    required String movementItemUuid, // Sinc com o servidor
+    required int itemId,              // id local
+    required String movementItemUuId, // Sinc com o servidor
     int? serverId,
     int? movementId,
     required int productId,
@@ -20,7 +20,7 @@ abstract class MovementItem with _$MovementItem {
 
   factory MovementItem ({
     required int itemId,
-    required String movementItemUuid,
+    required String movementItemUuId,
     int? serverId,
     int? movementId,
     required int productId,
@@ -32,7 +32,7 @@ abstract class MovementItem with _$MovementItem {
 
     return MovementItem.raw(
       itemId: itemId,
-      movementItemUuid: movementItemUuid,
+      movementItemUuId: movementItemUuId,
       productId: productId,
       productCode: productCode,
       productName: productName,
