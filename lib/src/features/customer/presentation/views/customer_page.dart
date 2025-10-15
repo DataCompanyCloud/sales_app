@@ -203,14 +203,14 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
                                 return customer.maybeMap(
                                   person: (person) => Padding(
                                     padding: const EdgeInsets.only(bottom: 4),
-                                    child: InkWell(
+                                    child: GestureDetector(
                                       onTap: () => context.pushNamed(CustomerRouter.customerDetails.name, extra: customer.customerId),
                                       child: PersonCustomerCard(customer: person)
                                     ),
                                   ),
                                   company: (company) => Padding(
                                     padding: const EdgeInsets.only(bottom: 4),
-                                    child: InkWell(
+                                    child: GestureDetector(
                                       onTap: () => context.pushNamed(CustomerRouter.customerDetails.name, extra: customer.customerId),
                                       child: CompanyCustomerCard(customer: company)
                                     ),

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/auth/domain/entities/user.dart';
 import 'package:sales_app/src/features/auth/presentation/views/auth_gate.dart';
 import 'package:sales_app/src/features/auth/presentation/views/login_page.dart';
+import 'package:sales_app/src/features/storage/presentation/router/storage_router.dart';
 import 'package:sales_app/src/features/sync/presentation/views/sync_page.dart';
 import 'package:sales_app/src/features/auth/providers.dart';
 import 'package:sales_app/src/features/customer/presentation/router/customer_router.dart';
@@ -28,7 +29,9 @@ enum AppRoutes {
   product,
   productDetails,
   schedule,
-  error
+  error,
+  storage,
+  storageDetails
 }
 
 
@@ -95,7 +98,8 @@ final goRouterProvider = Provider((ref) {
       orderRoutes,
       productRoutes,
       agendaRoutes,
-      errorRoutes
+      errorRoutes,
+      storageRoutes
     ],
   );
 });

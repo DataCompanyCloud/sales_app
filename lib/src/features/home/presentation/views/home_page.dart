@@ -185,7 +185,7 @@ class HomePage extends ConsumerWidget {
                           title: Text("Produtos"),
                           trailing: Icon(Icons.chevron_right),
                           onTap: () {
-                            context.goNamed(HomeRouter.productStock.name);
+                            context.goNamed(HomeRouter.storagePage.name);
                           },
                         ),
                       ],

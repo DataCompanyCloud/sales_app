@@ -230,7 +230,7 @@ class OrderListPageState extends ConsumerState<OrderPage>{
                               itemBuilder: (context, index) {
                                 final order = orderFiltered[index];
 
-                                return InkWell(
+                                return GestureDetector(
                                   onTap: () {
                                     context.pushNamed(OrderRouter.order_details.name, extra: order.orderId);
                                   },

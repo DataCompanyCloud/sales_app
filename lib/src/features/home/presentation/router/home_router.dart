@@ -1,10 +1,10 @@
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/home/presentation/views/home_page.dart';
-import 'package:sales_app/src/features/storage/presentation/views/product_storage_page.dart';
+import 'package:sales_app/src/features/storage/presentation/views/storage_page.dart';
 
 enum HomeRouter {
   home,
-  productStock,
+  storagePage,
 }
 
 final homeRoutes = GoRoute(
@@ -16,9 +16,9 @@ final homeRoutes = GoRoute(
   routes: [
     GoRoute(
       path: 'product_stock_page',
-      name: HomeRouter.productStock.name,
+      name: HomeRouter.storagePage.name,
       builder: (context, state) {
-        return ProductStoragePage();
+        return StoragePage();
       }
     )
   ]
