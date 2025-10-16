@@ -61,13 +61,12 @@ class UserStorageCard extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "MeuEstoque",
+                                "Meu Estoque",
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold
                                 ),
                               ),
-                              Text("Endereço")
                             ],
                           ),
                         ),

@@ -10,7 +10,7 @@ class CustomerStorageCard extends ConsumerWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 
-    final randomName = faker.person.firstName();
+    final randomName = faker.person.name();
 
     return Container(
       decoration: BoxDecoration(
@@ -69,7 +69,6 @@ class CustomerStorageCard extends ConsumerWidget {
                                   fontSize: 16
                                 ),
                               ),
-                              Text("Endereço")
                             ],
                           ),
                         ),

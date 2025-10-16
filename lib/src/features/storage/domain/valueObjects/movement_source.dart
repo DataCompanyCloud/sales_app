@@ -1,0 +1,6 @@
+enum MovementSource {
+
+  purchase,
+
+  sales
+}

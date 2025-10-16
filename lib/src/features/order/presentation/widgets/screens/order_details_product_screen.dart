@@ -69,47 +69,47 @@ class OrderDetailsProductScreenState extends ConsumerState<OrderDetailsProductSc
       ),
     ),
   )
-      : SafeArea(
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: EdgeInsets.only(top: 12, right: 12),
-                child: SizedBox(
-                  width: 52,
-                  height: 52,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      ref.read(onClickProvider.notifier).state = !onClick;
-                    },
-                    child: Icon(
-                      onClick
-                        ? Icons.view_list_sharp
-                        : Icons.view_agenda
-                    ),
+    : SafeArea(
+      child: Column(
+        children: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: EdgeInsets.only(top: 12, right: 12),
+              child: SizedBox(
+                width: 52,
+                height: 52,
+                child: ElevatedButton(
+                  onPressed: () {
+                    ref.read(onClickProvider.notifier).state = !onClick;
+                  },
+                  child: Icon(
+                    onClick
+                      ? Icons.view_list_sharp
+                      : Icons.view_agenda
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 8),
-            Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 4),
-                itemCount: order.items.length,
-                itemBuilder: (context, index) {
-                  final orderProduct = order.items[index];
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: 8),
-                    child: onClick
-                      ? OrderDetailsCard(orderProduct: orderProduct)
-                      : OrderDetailsList(orderProduct: orderProduct)
-                  );
-                }
-              )
-            ),
-          ],
-        )
-      );
+          ),
+          SizedBox(height: 8),
+          Expanded(
+            child: ListView.builder(
+              padding: EdgeInsets.symmetric(horizontal: 4),
+              itemCount: order.items.length,
+              itemBuilder: (context, index) {
+                final orderProduct = order.items[index];
+                return Padding(
+                  padding: EdgeInsets.only(bottom: 8),
+                  child: onClick
+                    ? OrderDetailsCard(orderProduct: orderProduct)
+                    : OrderDetailsList(orderProduct: orderProduct)
+                );
+              }
+            )
+          ),
+        ],
+      )
+    );
   }
 }

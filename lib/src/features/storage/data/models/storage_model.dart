@@ -36,7 +36,6 @@ extension StorageModelMapper on StorageModel {
       description: description,
       isActive: isActive,
       updatedAt: updatedAt,
-      movements: movements
     );
   }
 }
@@ -51,10 +50,6 @@ extension StorageMapper on Storage {
       isActive: isActive,
       updatedAt: updatedAt,
     );
-
-    if (movements.isNotEmpty) {
-      model.movements.addAll(movements.map((m) => m.toModel()));
-    }
 
     return model;
   }

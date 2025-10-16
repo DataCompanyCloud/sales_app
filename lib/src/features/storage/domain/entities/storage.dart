@@ -14,7 +14,6 @@ abstract class Storage with _$Storage {
     String? description,             // Descrição opcional
     required bool isActive,          // Indica se o storage está ativo
     required DateTime updatedAt,     // Última atualização
-    required List<StockMovement> movements
   }) = _Storage;
 
   factory Storage ({
@@ -23,7 +22,6 @@ abstract class Storage with _$Storage {
     String? description,
     required bool isActive,
     required DateTime updatedAt,
-    required List<StockMovement> movements
   }) {
     /// TODO: Fazer as validações
 
@@ -33,7 +31,6 @@ abstract class Storage with _$Storage {
       description: description,
       isActive: isActive,
       updatedAt: updatedAt,
-      movements: movements
     );
   }
 

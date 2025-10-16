@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sales_app/src/features/storage/domain/entities/movement_item.dart';
+import 'package:sales_app/src/features/storage/domain/valueObjects/movement_source.dart';
 import 'package:sales_app/src/features/storage/domain/valueObjects/movement_type.dart';
 
 part 'stock_movement.freezed.dart';
@@ -18,6 +19,7 @@ abstract class StockMovement with _$StockMovement {
     int? orderId,              // Link com um pedido
     required DateTime createAt,
     required MovementType type,
+    required MovementSource source,
     int? fromStorageId,
     int? toStorageId,
     required List<MovementItem> items,
@@ -32,6 +34,7 @@ abstract class StockMovement with _$StockMovement {
     int? orderId,
     required DateTime createAt,
     required MovementType type,
+    required MovementSource source,
     int? fromStorageId,
     int? toStorageId,
     required List<MovementItem> items
@@ -47,6 +50,7 @@ abstract class StockMovement with _$StockMovement {
       orderId: orderId,
       createAt: createAt,
       type: type,
+      source: source,
       fromStorageId: fromStorageId,
       toStorageId: toStorageId,
       items: items

@@ -5,11 +5,11 @@ import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/features/auth/providers.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
 import 'package:sales_app/src/features/home/presentation/controllers/home_providers.dart';
-import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/draggable/draggable_company_selector.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/drawers/home_drawer.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/navigator/navigator_bar.dart';
 import 'package:sales_app/src/features/order/presentation/router/order_router.dart';
+import 'package:sales_app/src/features/storage/presentation/router/storage_router.dart';
 
 class HomePage extends ConsumerWidget {
   final String title;
@@ -180,12 +180,24 @@ class HomePage extends ConsumerWidget {
                           visualDensity: VisualDensity(vertical: 3),
                           leading: CircleAvatar(
                             backgroundColor: Colors.grey.shade100,
-                            child: Icon(Icons.archive_outlined, color: Colors.black87),
+                            child: Icon(Icons.warehouse, color: Colors.black87),
                           ),
-                          title: Text("Produtos"),
+                          title: Text("Lista de Estoques"),
                           trailing: Icon(Icons.chevron_right),
                           onTap: () {
-                            context.goNamed(HomeRouter.storagePage.name);
+                            context.goNamed(StorageRouter.storage.name);
+                          },
+                        ),
+                        ListTile(
+                          visualDensity: VisualDensity(vertical: 3),
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.grey.shade100,
+                            child: Icon(Icons.star_rounded, color: Colors.black87),
+                          ),
+                          title: Text("Meu Estoque"),
+                          trailing: Icon(Icons.chevron_right),
+                          onTap: () {
+                            context.goNamed(StorageRouter.storage_details.name);
                           },
                         ),
                       ],

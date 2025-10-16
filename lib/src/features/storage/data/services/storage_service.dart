@@ -13,17 +13,21 @@ class StorageService {
   
   StorageService(this.apiClient, this.repository);
   
-  Future<List<Storage>> getAll({int start = 0, int limit = 10, String? search}) async {
+  Future<List<Storage>> getAll({
+    int start = 0,
+    int limit = 10,
+    String? search,
+    bool withProducts = false
+  }) async {
     final json = await apiClient.get<Map<String, dynamic>>(ApiEndpoints.storages, queryParameters: {
       'search': search,
       'start': start,
-      'limit': start
+      'limit': limit
     });
 
     final data = json['data'] as List<dynamic>;
 
-    final storages = data
-        .map((s) {
+    final storages = data.map((s) {
       return Storage.fromJson(s);
     }).toList();
 

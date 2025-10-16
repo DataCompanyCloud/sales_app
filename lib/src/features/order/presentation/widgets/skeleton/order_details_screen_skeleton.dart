@@ -11,9 +11,7 @@ class OrderDetailsScreenSkeleton extends ConsumerWidget {
       appBar: AppBar(
         title: Text("Detalhes do Pedido"),
         leading: IconButton(
-          onPressed: () {
-            // context.pop();
-          },
+          onPressed: () {},
           icon: Icon(Icons.arrow_back_ios_new, size: 22),
         ),
         bottom: PreferredSize(
@@ -36,7 +34,7 @@ class OrderDetailsScreenSkeleton extends ConsumerWidget {
               ],
             ),
           ),
-        )
+        ),
       ),
       body: Skeletonizer(
         enabled: true,
@@ -96,9 +94,9 @@ class OrderDetailsScreenSkeleton extends ConsumerWidget {
                                 Container(
                                   padding: EdgeInsets.only(left: 4, right: 4),
                                   child: Bone.text(
-                                      width: 52,
-                                      fontSize: 28,
-                                      borderRadius: BorderRadius.circular(8)
+                                    width: 52,
+                                    fontSize: 28,
+                                    borderRadius: BorderRadius.circular(8)
                                   ),
                                 ),
                               ],
