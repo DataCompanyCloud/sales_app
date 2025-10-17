@@ -74,11 +74,28 @@ class StorageProductDetailsScreen extends ConsumerWidget {
                                         productName,
                                         maxLines: 3,
                                         style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: 15,
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                     ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 12),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      border: Border.all(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Text(
+                                      "10",
+                                      style: TextStyle(
+                                        color: scheme.onSecondaryContainer
+                                      ),
+                                    ),
                                   ),
                                 ),
                                 Icon(Icons.chevron_right, size: 28),

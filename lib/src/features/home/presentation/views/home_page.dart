@@ -132,7 +132,7 @@ class HomePage extends ConsumerWidget {
                             backgroundColor: Colors.grey.shade100,
                             child: Icon(Icons.history, color: Colors.black87),
                           ),
-                          title: Text("Histórico de Cliente"),
+                          title: Text("Histórico de Pedido"),
                           trailing: Icon(Icons.chevron_right),
                           onTap: () {},
                         ),

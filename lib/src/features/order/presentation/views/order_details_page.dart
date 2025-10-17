@@ -55,7 +55,6 @@ class OrderDetailsPage extends ConsumerWidget {
               bottom: TabBar(
                 indicatorColor: Colors.blue,
                 indicatorSize: TabBarIndicatorSize.tab,
-                labelColor: Colors.white,
                 unselectedLabelColor: Colors.grey,
                 onTap: (index) => ref.watch(_tabBarIndexProvider.notifier).state = index,
                 tabs: [

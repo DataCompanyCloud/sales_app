@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sales_app/src/features/storage/providers.dart';
 
 class StorageSearchScreen extends ConsumerStatefulWidget {
   const StorageSearchScreen ({
@@ -27,31 +28,29 @@ class StorageSearchScreenState extends ConsumerState<StorageSearchScreen>{
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: AnimatedSize(
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 8,
-          ),
-          child: TextField(
-            controller: _searchController,
-            autofocus: true,
-            decoration: InputDecoration(
-              hintText: 'Pesquisar...',
-              prefixIcon: Icon(Icons.search),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
+    return AnimatedSize(
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 8,
+        ),
+        child: TextField(
+          controller: _searchController,
+          autofocus: true,
+          decoration: InputDecoration(
+            hintText: 'Pesquisar...',
+            prefixIcon: Icon(Icons.search),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
             ),
-            onSubmitted: (search) {
-              if (search.isEmpty) return;
-
-              // ref.read(storageSearchProvider.notifier).state = search;
-            },
           ),
+          onSubmitted: (search) {
+            if (search.isEmpty) return;
+
+            ref.read(storageSearchProvider.notifier).state = search;
+          },
         ),
       ),
     );

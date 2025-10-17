@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/storage/presentation/widgets/screens/storage_movement_details_screen.dart';
 import 'package:sales_app/src/features/storage/presentation/widgets/screens/storage_product_details_screen.dart';
-import 'package:sales_app/src/features/storage/presentation/widgets/skeleton/storage_product_details_skeleton.dart';
 
 class StorageDetailsPage extends ConsumerWidget {
   final _tabBarIndexProvider = StateProvider((ref) => 0);
@@ -31,7 +30,6 @@ class StorageDetailsPage extends ConsumerWidget {
           bottom: TabBar(
             indicatorColor: Colors.blue,
             indicatorSize: TabBarIndicatorSize.tab,
-            labelColor: Colors.white,
             unselectedLabelColor: Colors.grey,
             onTap: (index) => ref.watch(_tabBarIndexProvider.notifier).state = index,
             tabs: [
