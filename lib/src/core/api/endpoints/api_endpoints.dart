@@ -1,8 +1,12 @@
 
 class ApiEndpoints {
+  static const api = "api";
   static const version = "v1";
 
-  static const String login = '/login';
+  // auth
+  static const String login = '/$api/$version/auth/login';
+
+  // products
   static const String product = '/product';
 
   /// /customers
