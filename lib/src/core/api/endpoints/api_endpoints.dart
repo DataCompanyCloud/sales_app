@@ -1,4 +1,3 @@
-
 class ApiEndpoints {
   static const api = "api";
   static const version = "v1";

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/auth/domain/entities/user.dart';
 import 'package:sales_app/src/features/auth/presentation/views/auth_gate.dart';
+import 'package:sales_app/src/features/auth/presentation/views/digital_authenticator_page.dart';
 import 'package:sales_app/src/features/auth/presentation/views/login_page.dart';
 import 'package:sales_app/src/features/storage/presentation/router/storage_router.dart';
 import 'package:sales_app/src/features/sync/presentation/views/sync_page.dart';
@@ -31,9 +32,9 @@ enum AppRoutes {
   schedule,
   error,
   storage,
-  storageDetails
+  storageDetails,
+  digitalAuth
 }
-
 
 class _AuthStateChange extends ChangeNotifier {
   _AuthStateChange(Ref ref) {
@@ -48,6 +49,7 @@ final goRouterProvider = Provider((ref) {
   final authAsync = ref.watch(authControllerProvider);
   final authListener = _AuthStateChange(ref);
 
+
   return GoRouter(
     refreshListenable: authListener,        // aqui ele “ouve” o AuthController
     initialLocation: '/',                   // rota inicial
@@ -55,12 +57,21 @@ final goRouterProvider = Provider((ref) {
       final user = authAsync.value;
       final fullPath = state.fullPath ?? "";
       final goingToLogin = fullPath == '/login' || fullPath.startsWith('/login/');
+      final goingToBiometric = fullPath == '/digitalAuth' || fullPath.startsWith('/digitalAuth/');
+      final biometricValidated = ref.watch(biometricAuthProvider);
 
+      // Usuário não logado → envia para login
       if (user == null && !goingToLogin) {
         return '/login';
       }
 
-      if (user != null && goingToLogin) {
+      // Usuário logado mas sem autenticação biométrica → envia para digitalAuth
+      if (user != null && !goingToBiometric && !biometricValidated) {
+        return '/digitalAuth';
+      }
+
+      // Usuário logado e biometria já validada → envia para home
+      if (user != null && biometricValidated && (goingToLogin || goingToBiometric)) {
         return '/home';
       }
 
@@ -75,6 +86,11 @@ final goRouterProvider = Provider((ref) {
         path: '/sync',
         builder: (context, state) => SyncPage(title: "Bem-vindo ao SalesApp"),
         name: AppRoutes.sync.name,
+      ),
+      GoRoute(
+        path: '/digitalAuth',
+        builder: (context, state) => DigitalAuthenticatorPage(),
+        name: AppRoutes.digitalAuth.name,
       ),
       GoRoute(
         path: '/login',
@@ -103,7 +119,3 @@ final goRouterProvider = Provider((ref) {
     ],
   );
 });
-
-
-
-
