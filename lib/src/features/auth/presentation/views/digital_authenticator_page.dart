@@ -12,6 +12,7 @@ class DigitalAuthenticatorPage extends ConsumerStatefulWidget {
 }
 
 class _DigitalAuthenticatorPageState extends ConsumerState<DigitalAuthenticatorPage>{
+
   Future<void> _authenticate() async {
     final auth = LocalAuthentication();
     final canCheck = await auth.canCheckBiometrics;
@@ -30,7 +31,7 @@ class _DigitalAuthenticatorPageState extends ConsumerState<DigitalAuthenticatorP
         localizedReason: 'Desbloqueie seu celular',
         options: const AuthenticationOptions(
           biometricOnly: true,
-          stickyAuth: false, // recomendo false para evitar problemas de overlay
+          stickyAuth: false,
         ),
       );
 
@@ -55,6 +56,7 @@ class _DigitalAuthenticatorPageState extends ConsumerState<DigitalAuthenticatorP
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(),
       backgroundColor: Colors.blue,
@@ -62,7 +64,7 @@ class _DigitalAuthenticatorPageState extends ConsumerState<DigitalAuthenticatorP
         child: Container(
           padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50),
+            borderRadius: BorderRadius.circular(30),
             color: Colors.blue[700]
           ),
           child: Icon(
@@ -111,10 +113,8 @@ class _DigitalAuthenticatorPageState extends ConsumerState<DigitalAuthenticatorP
                   showModalBottomSheet(
                     context: context,
                     isScrollControlled: true,
-                    builder: (context) => FractionallySizedBox(
-                      heightFactor: 1,
-                      child: PasswordAuthenticatorScreen(),
-                    ),
+                    enableDrag: false,
+                    builder: (context) => PasswordAuthenticatorScreen(),
                   );
                 },
                 child: Row(

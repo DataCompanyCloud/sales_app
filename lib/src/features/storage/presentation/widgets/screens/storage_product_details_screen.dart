@@ -86,7 +86,7 @@ class StorageProductDetailsScreen extends ConsumerWidget {
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                                     decoration: BoxDecoration(
-                                      color: Colors.blue,
+                                      color: scheme.surfaceContainerHighest,
                                       border: Border.all(color: Colors.black),
                                       borderRadius: BorderRadius.circular(4),
                                     ),
