@@ -58,7 +58,7 @@ final goRouterProvider = Provider((ref) {
       final fullPath = state.fullPath ?? "";
       final goingToLogin = fullPath == '/login' || fullPath.startsWith('/login/');
       final goingToBiometric = fullPath == '/digitalAuth' || fullPath.startsWith('/digitalAuth/');
-      final biometricValidated = ref.watch(biometricAuthProvider);
+      final biometricValidated = user?.isValidated ?? false;
 
       // Usuário não logado → envia para login
       if (user == null && !goingToLogin) {

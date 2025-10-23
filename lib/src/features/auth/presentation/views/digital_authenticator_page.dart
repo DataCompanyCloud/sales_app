@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/features/auth/presentation/widgets/screens/password_authenticator_screen.dart';
 import 'package:sales_app/src/features/auth/providers.dart';
+import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
 
 class DigitalAuthenticatorPage extends ConsumerStatefulWidget {
   const DigitalAuthenticatorPage({super.key});
@@ -38,7 +40,7 @@ class _DigitalAuthenticatorPageState extends ConsumerState<DigitalAuthenticatorP
       if (!mounted) return;
 
       if (didAuthenticate) {
-        ref.read(biometricAuthProvider.notifier).state = true;
+        ref.read(authControllerProvider.notifier).authenticateByDigital();
       }
     } catch (e) {
       if (!mounted) return;
@@ -56,23 +58,63 @@ class _DigitalAuthenticatorPageState extends ConsumerState<DigitalAuthenticatorP
 
   @override
   Widget build(BuildContext context) {
+    final controller = ref.watch(authControllerProvider);
 
     return Scaffold(
       appBar: AppBar(),
       backgroundColor: Colors.blue,
-      body: Center(
-        child: Container(
-          padding: EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: Colors.blue[700]
-          ),
-          child: Icon(
-            Icons.shopping_bag_outlined,
-            color: Colors.white,
-            size: 82
-          )
+      body: controller.when(
+        error: (error, stack) => ErrorPage(
+          exception: error is AppException
+            ? error
+            : AppException.errorUnexpected(error.toString()),
         ),
+        loading: () => CircularProgressIndicator(),
+        data: (user) {
+          if (user == null) {
+            return Scaffold(
+              appBar: AppBar(),
+              body: Center(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.cloud_rounded,
+                        size: 96,
+                      ),
+                      Padding(padding: EdgeInsets.only(top: 12)),
+                      Text("Nenhum usuário encontrado."),
+                      Padding(padding: EdgeInsets.only(top: 16)),
+                      InkWell(
+                        onTap: () => ref.refresh(authControllerProvider.future),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Text("Tentar novamente", style: TextStyle(color: Colors.blue),),
+                        )
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
+          return Center(
+            child: Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.blue[700]
+              ),
+              child: Icon(
+                  Icons.shopping_bag_outlined,
+                  color: Colors.white,
+                  size: 82
+              ),
+            ),
+          );
+        },
       ),
       bottomNavigationBar: SafeArea(
         child: Padding(
@@ -83,10 +125,10 @@ class _DigitalAuthenticatorPageState extends ConsumerState<DigitalAuthenticatorP
               ElevatedButton(
                 onPressed: () => _authenticate(),
                 style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 40),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30)
-                  )
+                    minimumSize: Size(double.infinity, 40),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)
+                    )
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -94,9 +136,9 @@ class _DigitalAuthenticatorPageState extends ConsumerState<DigitalAuthenticatorP
                     Text(
                       "Entrar com a digital",
                       style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white
                       ),
                     ),
                     SizedBox(width: 4),
@@ -123,9 +165,9 @@ class _DigitalAuthenticatorPageState extends ConsumerState<DigitalAuthenticatorP
                     Text(
                       "Entrar com a senha do aplicativo",
                       style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white
                       ),
                     ),
                     SizedBox(width: 4),

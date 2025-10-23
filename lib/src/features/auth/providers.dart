@@ -18,4 +18,4 @@ final authServicesProvider = FutureProvider<AuthService>((ref) async {
 final authControllerProvider =
 AsyncNotifierProvider<AuthController, User?>(AuthController.new);
 
-final biometricAuthProvider = StateProvider<bool>((ref) => false);
+//final biometricAuthProvider = StateProvider<bool>((ref) => false);

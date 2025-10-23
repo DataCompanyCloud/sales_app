@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/features/auth/domain/entities/user.dart';
+import 'package:sales_app/src/features/auth/domain/valueObjects/password.dart';
 import 'package:sales_app/src/features/auth/providers.dart';
 
 class AuthController extends AsyncNotifier<User?> {
@@ -16,17 +17,6 @@ class AuthController extends AsyncNotifier<User?> {
     return null;
   }
 
-  Future<void> updateAuth(User user) async {
-    try {
-      state = AsyncLoading();
-      final repo = ref.read(authRepositoryProvider);
-      await repo.save(user);
-      state = AsyncData(user);
-    } catch (e, st) {
-      state = AsyncError(e, st);
-    }
-  }
-
   Future<void> login(String login, String password, bool rememberMe) async {
     state = const AsyncLoading();
 
@@ -34,19 +24,68 @@ class AuthController extends AsyncNotifier<User?> {
       final service = await ref.read(authServicesProvider.future);
       final user = await service.login(login, password);
 
+      final userPassword = Password.fromPlain(password);
+
       final userLogged = user.copyWith(
-        rememberMe: rememberMe
+        isValidated: true,
+        userPassword: userPassword.encrypted
       );
 
-      if (rememberMe) {
-        final repo = ref.read(authRepositoryProvider);
-        await repo.save(userLogged);
-      }
+      final repo = ref.read(authRepositoryProvider);
+      await repo.save(userLogged);
 
       state = AsyncData(userLogged);
     } catch (e, st) {
       state = AsyncError(e, st);
     }
+  }
+
+  /// Autenticar pela senha do aplicativo
+  Future<void> authenticateByPassword(String password) async {
+    state = await AsyncValue.guard(() async {
+      final user = state.value;
+      if (user == null) return null;
+
+      try {
+        final userPassword = Password.fromPlain(password);
+
+        if (userPassword.encrypted == user.userPassword) {
+
+          final newUser = user.copyWith(
+            isValidated: true
+          );
+
+          return newUser;
+        }
+      } catch (e, st) {
+        print(e);
+      }
+
+      return user;
+    });
+
+
+  }
+
+  Future<void> authenticateByDigital() async {
+    state = await AsyncValue.guard(() async {
+      final user = state.value;
+      if (user == null) return null;
+
+      try {
+        final newUser = user.copyWith(
+            isValidated: true
+        );
+
+        return newUser;
+      } catch (e, st) {
+        print(e);
+      }
+
+      return user;
+    });
+
+
   }
 
   Future<void> logout() async {

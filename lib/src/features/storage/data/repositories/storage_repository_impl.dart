@@ -1,7 +1,5 @@
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
-import 'package:sales_app/src/features/storage/data/models/movement_item_model.dart';
-import 'package:sales_app/src/features/storage/data/models/stock_movement_model.dart';
 import 'package:sales_app/src/features/storage/data/models/storage_model.dart';
 import 'package:sales_app/src/features/storage/domain/entities/storage.dart';
 import 'package:sales_app/src/features/storage/domain/repositories/storage_repository.dart';

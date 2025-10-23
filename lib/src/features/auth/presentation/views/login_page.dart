@@ -83,6 +83,9 @@ class LoginPageState extends ConsumerState<LoginPage> {
                   ),
                   SizedBox(height: 48,),
                   TextField(
+                    onTapOutside: (event) {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                    },
                     controller: _loginController,
                     decoration: InputDecoration(
                       hintText: "Login",
@@ -103,6 +106,9 @@ class LoginPageState extends ConsumerState<LoginPage> {
                   ),
                   SizedBox(height: 16),
                   TextField(
+                    onTapOutside: (event) {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                    },
                     controller: _passwordController,
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: toggleVisibility,
@@ -116,7 +122,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                           ref.read(toggleVisibilityProvider.notifier).state = !toggleVisibility;
                         },
                         icon: Icon(
-                          toggleVisibility ? Icons.visibility : Icons.visibility_off
+                          toggleVisibility ? Icons.visibility_off : Icons.visibility
                         )
                       ),
                       border: OutlineInputBorder(
@@ -134,43 +140,19 @@ class LoginPageState extends ConsumerState<LoginPage> {
                       ),
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: () => ref.read(toggleRememberProvider.notifier).state = !toggleRemember,
-                        borderRadius: BorderRadius.circular(4),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                toggleRemember ? Icons.check_box : Icons.check_box_outline_blank,
-                                color: toggleRemember ? Colors.blue : Colors.grey,
-                              ),
-                              const SizedBox(width: 8),
-                              const Text(
-                                'Lembrar de mim',
-                                style: TextStyle(color: Colors.grey),
-                              ),
-                            ],
-                          ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () {
+                        context.goNamed(AppRoutes.passwordRecovery.name);
+                      },
+                      child: Text(
+                        "Esqueceu a senha?",
+                        style: TextStyle(
+                          color: Colors.blue
                         ),
                       ),
-                      TextButton(
-                        onPressed: () {
-                          context.goNamed(AppRoutes.passwordRecovery.name);
-                        },
-                        child: Text(
-                          "Esqueceu a senha?",
-                          style: TextStyle(
-                            color: Colors.blue
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                   SizedBox(height: 24),
                   SizedBox(
@@ -182,8 +164,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
           
                           if (_loginController.text.isEmpty || _passwordController.text.isEmpty) return;
           
-                          ref.read(authControllerProvider.notifier)
-                              .login(
+                          ref.read(authControllerProvider.notifier).login(
                             _loginController.text,
                             _passwordController.text,
                             toggleRemember

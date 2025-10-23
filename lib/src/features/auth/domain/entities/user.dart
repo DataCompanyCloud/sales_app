@@ -11,11 +11,11 @@ abstract class User with _$User {
     required String userCode,
     required String userName,
     required String token,
-    @Default([]) List<Company> company,
+    @JsonKey(includeFromJson: false ) @Default(false) bool isValidated,
+    @JsonKey(includeFromJson: false ) @Default(null) String? userPassword,
+    @Default([]) List<Company> company
     // List<Permission> permissons
-    @Default(false) bool rememberMe,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }
-

@@ -8,6 +8,7 @@ import 'package:sales_app/src/features/home/presentation/controllers/home_provid
 import 'package:sales_app/src/features/home/presentation/widgets/draggable/draggable_company_selector.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/drawers/home_drawer.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/navigator/navigator_bar.dart';
+import 'package:sales_app/src/features/home/presentation/widgets/skeleton/home_page_skeleton.dart';
 import 'package:sales_app/src/features/order/presentation/router/order_router.dart';
 import 'package:sales_app/src/features/storage/presentation/router/storage_router.dart';
 
@@ -33,9 +34,7 @@ class HomePage extends ConsumerWidget {
           : AppException.errorUnexpected(error.toString()),
       ),
       loading: () => Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
+        body: HomePageSkeleton(),
         bottomNavigationBar: CustomBottomNavigationBar(currentIndex: currentIndex),
       ),
       data: (user) {
@@ -71,7 +70,7 @@ class HomePage extends ConsumerWidget {
                       side: BorderSide(
                         color: scheme.secondary,
                         width: 1
-                      )
+                      ),
                     ),
                     color: scheme.surface,
                     margin: EdgeInsets.all(2),

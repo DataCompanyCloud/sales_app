@@ -12,6 +12,7 @@ class PasswordAuthenticatorScreen extends ConsumerStatefulWidget {
 }
 
 class PasswordAuthenticatorScreenState extends ConsumerState<PasswordAuthenticatorScreen>{
+  final toggleVisibilityProvider = StateProvider<bool>((_) => true);
   late final TextEditingController _passwordController;
   late FocusNode _passwordFocusNode;
 
@@ -35,24 +36,25 @@ class PasswordAuthenticatorScreenState extends ConsumerState<PasswordAuthenticat
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authControllerProvider);
+    final controller = ref.watch(authControllerProvider);
+    final password = _passwordController.text.trim();
+    final toggleVisibility = ref.watch(toggleVisibilityProvider);
 
-    final authError = authState.hasError && authState.error is AppException
-      ? authState.error as AppException
+    final authError = controller.hasError && controller.error is AppException
+      ? controller.error as AppException
       : null;
 
-    String? loginError;
     String? passwordError;
     if (authError != null) {
       switch (authError.code) {
         case AppExceptionCode.CODE_014_USER_NOT_FOUND :
-          loginError = authError.message;
+          passwordError = authError.message;
           break;
         case AppExceptionCode.CODE_007_AUTH_INVALID_CREDENTIALS :
-          loginError = authError.message;
+          passwordError = authError.message;
           break;
         default:
-          loginError = authError.message;
+          passwordError = authError.message;
           break;
       }
     }
@@ -69,14 +71,7 @@ class PasswordAuthenticatorScreenState extends ConsumerState<PasswordAuthenticat
               Icons.lock_outline,
               size: 64,
             ),
-            SizedBox(height: 24),
-            Text(
-              "SalesApp",
-              style: TextStyle(
-                fontSize: 24
-              ),
-            ),
-            SizedBox(height: 8),
+            SizedBox(height: 16),
             Text(
               "Desbloqueie seu dispositivo",
               style: TextStyle(
@@ -93,10 +88,33 @@ class PasswordAuthenticatorScreenState extends ConsumerState<PasswordAuthenticat
                 focusNode: _passwordFocusNode,
                 controller: _passwordController,
                 keyboardType: TextInputType.visiblePassword,
+                obscureText: toggleVisibility,
                 decoration: InputDecoration(
-                  hintText: "Senha",
+                  hintText: "PIN",
                   errorText: passwordError,
                   hintStyle: TextStyle(color: Colors.grey),
+                  prefixIcon: Icon(Icons.key),
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      ref.read(toggleVisibilityProvider.notifier).state = !toggleVisibility;
+                    },
+                    icon: Icon(
+                      toggleVisibility ? Icons.visibility_off : Icons.visibility
+                    )
+                  ),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2
+                    ),
+                    borderRadius: BorderRadius.circular(15)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                      width: 2
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -104,13 +122,12 @@ class PasswordAuthenticatorScreenState extends ConsumerState<PasswordAuthenticat
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: authState.isLoading
+        onPressed: controller.isLoading
           ? null
           : () {
-
-            if (_passwordController.text.isEmpty) return;
-
-            ref.read(authControllerProvider.notifier);
+            if (password.isEmpty) return;
+            
+            ref.read(authControllerProvider.notifier).authenticateByPassword(password);
           },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30)
