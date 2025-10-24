@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/auth/domain/entities/user.dart';
 import 'package:sales_app/src/features/auth/presentation/views/auth_gate.dart';
-import 'package:sales_app/src/features/auth/presentation/views/digital_authenticator_page.dart';
+import 'package:sales_app/src/features/auth/presentation/views/auth_page.dart';
+import 'package:sales_app/src/features/auth/presentation/views/auth_password_page.dart';
 import 'package:sales_app/src/features/auth/presentation/views/login_page.dart';
 import 'package:sales_app/src/features/storage/presentation/router/storage_router.dart';
 import 'package:sales_app/src/features/sync/presentation/views/sync_page.dart';
@@ -33,7 +34,7 @@ enum AppRoutes {
   error,
   storage,
   storageDetails,
-  digitalAuth
+  authPage
 }
 
 class _AuthStateChange extends ChangeNotifier {
@@ -56,8 +57,8 @@ final goRouterProvider = Provider((ref) {
     redirect: (BuildContext context, GoRouterState state) {
       final user = authAsync.value;
       final fullPath = state.fullPath ?? "";
-      final goingToLogin = fullPath == '/login' || fullPath.startsWith('/login/');
-      final goingToBiometric = fullPath == '/digitalAuth' || fullPath.startsWith('/digitalAuth/');
+      final goingToLogin = fullPath == '/login' || fullPath.startsWith('/login');
+      final goingToAuthBiometric = fullPath == '/auth' || fullPath.startsWith('/auth');
       final biometricValidated = user?.isValidated ?? false;
 
       // Usuário não logado → envia para login
@@ -66,12 +67,12 @@ final goRouterProvider = Provider((ref) {
       }
 
       // Usuário logado mas sem autenticação biométrica → envia para digitalAuth
-      if (user != null && !goingToBiometric && !biometricValidated) {
-        return '/digitalAuth';
+      if (user != null && !goingToAuthBiometric && !biometricValidated) {
+        return '/auth';
       }
 
       // Usuário logado e biometria já validada → envia para home
-      if (user != null && biometricValidated && (goingToLogin || goingToBiometric)) {
+      if (user != null && biometricValidated && (goingToLogin || goingToAuthBiometric)) {
         return '/home';
       }
 
@@ -88,9 +89,9 @@ final goRouterProvider = Provider((ref) {
         name: AppRoutes.sync.name,
       ),
       GoRoute(
-        path: '/digitalAuth',
-        builder: (context, state) => DigitalAuthenticatorPage(),
-        name: AppRoutes.digitalAuth.name,
+        path: '/auth',
+        builder: (context, state) => AuthPage(),
+        name: AppRoutes.authPage.name,
       ),
       GoRoute(
         path: '/login',
@@ -98,7 +99,7 @@ final goRouterProvider = Provider((ref) {
         name: AppRoutes.login.name,
         routes: [
           GoRoute(
-            path: 'password',
+            path: 'forgotPassword',
             builder: (context, state) => ForgotPasswordPage(title: "Esquecer senha"),
             name: AppRoutes.passwordRecovery.name,
           ),
