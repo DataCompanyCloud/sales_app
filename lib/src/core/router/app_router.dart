@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/auth/domain/entities/user.dart';
 import 'package:sales_app/src/features/auth/presentation/views/auth_gate.dart';
 import 'package:sales_app/src/features/auth/presentation/views/auth_page.dart';
-import 'package:sales_app/src/features/auth/presentation/views/auth_password_page.dart';
 import 'package:sales_app/src/features/auth/presentation/views/login_page.dart';
 import 'package:sales_app/src/features/storage/presentation/router/storage_router.dart';
 import 'package:sales_app/src/features/sync/presentation/views/sync_page.dart';
@@ -34,7 +33,7 @@ enum AppRoutes {
   error,
   storage,
   storageDetails,
-  authPage
+  auth
 }
 
 class _AuthStateChange extends ChangeNotifier {
@@ -91,7 +90,7 @@ final goRouterProvider = Provider((ref) {
       GoRoute(
         path: '/auth',
         builder: (context, state) => AuthPage(),
-        name: AppRoutes.authPage.name,
+        name: AppRoutes.auth.name,
       ),
       GoRoute(
         path: '/login',

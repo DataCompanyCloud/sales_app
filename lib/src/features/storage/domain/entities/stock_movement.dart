@@ -11,8 +11,8 @@ abstract class StockMovement with _$StockMovement {
   const StockMovement._();
 
   const factory StockMovement.raw({
-    required int stockId,      // id local
-    required String stockUuId, // Sinc com servidor
+    required int id,      // id local
+    required String code,
     int? serverId,             // id do servidor
     int? userId,
     String? description,
@@ -26,8 +26,8 @@ abstract class StockMovement with _$StockMovement {
   }) = _StockMovement;
 
   factory StockMovement ({
-    required int stockId,
-    required String stockUuId,
+    required int id,
+    required String code,
     int? serverId,
     int? userId,
     required String? description,
@@ -42,8 +42,8 @@ abstract class StockMovement with _$StockMovement {
     /// TODO: Fazer as validações
 
     return StockMovement.raw(
-      stockId: stockId,
-      stockUuId: stockUuId,
+      id: id,
+      code: code,
       serverId: serverId,
       userId: userId,
       description: description,

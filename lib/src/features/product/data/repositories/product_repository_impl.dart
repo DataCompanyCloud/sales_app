@@ -6,7 +6,7 @@ import 'package:sales_app/src/features/product/data/models/category_model.dart';
 import 'package:sales_app/src/features/product/data/models/image_model.dart';
 import 'package:sales_app/src/features/product/data/models/packing_model.dart';
 import 'package:sales_app/src/features/product/data/models/product_model.dart';
-import 'package:sales_app/src/features/product/data/models/property_model.dart';
+import 'package:sales_app/src/features/product/data/models/attribute_model.dart';
 import 'package:sales_app/src/features/product/data/models/unit_model.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
 import 'package:sales_app/src/features/product/domain/repositories/product_repository.dart';
@@ -77,7 +77,7 @@ class ProductRepositoryImpl extends ProductRepository {
     final imageBox = store.box<ImageModel>();
     final categoryBox = store.box<CategoryModel>();
     final packingBox = store.box<PackingModel>();
-    final propertyBox = store.box<PropertyModel>();
+    final attributesBox = store.box<AttributeModel>();
 
     store.runInTransaction(TxMode.write, () {
       for (final product in products) {
@@ -105,8 +105,8 @@ class ProductRepositoryImpl extends ProductRepository {
           for (final image in existing.image) {
             imageBox.remove(image.id);
           }
-          for(final property in existing.properties) {
-            propertyBox.remove(property.id);
+          for(final attribute in existing.attributes) {
+            attributesBox.remove(attribute.id);
           }
 
           newModel.id = existing.id;
@@ -127,7 +127,7 @@ class ProductRepositoryImpl extends ProductRepository {
     final imageBox = store.box<ImageModel>();
     final categoryBox = store.box<CategoryModel>();
     final packingBox = store.box<PackingModel>();
-    final propertyBox = store.box<PropertyModel>();
+    final attributesBox = store.box<AttributeModel>();
 
     final id = store.runInTransaction(TxMode.write, () {
       final existing = productBox.get(product.productId);
@@ -164,8 +164,8 @@ class ProductRepositoryImpl extends ProductRepository {
           if (img.id != 0) imageBox.remove(img.id);
         }
 
-        for(final property in existing.properties) {
-          propertyBox.remove(property.id);
+        for(final attributes in existing.attributes) {
+          attributesBox.remove(attributes.id);
         }
 
       } else {

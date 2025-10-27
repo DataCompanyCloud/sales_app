@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
-import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/auth/presentation/widgets/dialogs/biometric_error_dialog.dart';
 import 'package:sales_app/src/features/auth/providers.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
@@ -16,12 +15,27 @@ class AuthPage extends ConsumerStatefulWidget {
 
 class _AuthPageState extends ConsumerState<AuthPage>{
   final _visibleTextProvider = StateProvider<bool>((_) => true);
+  final _isLoadingProvider = StateProvider<bool>((_) => false);
   final _passwordController = TextEditingController();
   final _canCheckBiometricsProvider = FutureProvider.autoDispose((ref) async {
     final auth = LocalAuthentication();
     return await auth.canCheckBiometrics;
   });
 
+  Future<void> _authPassword() async {
+    final password = _passwordController.text.trim();
+    if (password.isEmpty) return;
+
+    ref.read(_isLoadingProvider.notifier).state = true;
+
+    try {
+      await ref.read(authControllerProvider.notifier).authenticateByPassword(password);
+    } catch (e) {
+      print(e);
+    } finally {
+      ref.read(_isLoadingProvider.notifier).state = false;
+    }
+  }
 
   Future<void> _authBiometric() async {
     final auth = LocalAuthentication();
@@ -60,31 +74,12 @@ class _AuthPageState extends ConsumerState<AuthPage>{
   @override
   Widget build(BuildContext context) {
     final controller = ref.watch(authControllerProvider);
-    final password = _passwordController.text.trim();
+    final isLoading = ref.watch(_isLoadingProvider);
     final toggleVisibility = ref.watch(_visibleTextProvider);
     final canCheckBiometrics = ref.watch(_canCheckBiometricsProvider);
 
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
-
-    // final authError = controller.hasError && controller.error is AppException
-    //     ? controller.error as AppException
-    //     : null;
-    //
-    // String? passwordError;
-    // if (authError != null) {
-    //   switch (authError.code) {
-    //     case AppExceptionCode.CODE_014_USER_NOT_FOUND :
-    //       passwordError = authError.message;
-    //       break;
-    //     case AppExceptionCode.CODE_007_AUTH_INVALID_CREDENTIALS :
-    //       passwordError = authError.message;
-    //       break;
-    //     default:
-    //       passwordError = authError.message;
-    //       break;
-    //   }
-    // }
 
     return controller.when(
       error: (error, stack) => ErrorPage(
@@ -189,63 +184,32 @@ class _AuthPageState extends ConsumerState<AuthPage>{
               Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16),
                 child: ElevatedButton(
-                  onPressed: () {
-                    
-                  },
+                  onPressed: isLoading ? null : _authPassword,
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity, 40),
+                    minimumSize: Size(double.infinity, 50),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)
-                    )
+                    ),
+                    backgroundColor: isLoading ? Colors.grey : Color(0xFF67B2FE)
                   ),
                   child: Text(
-                    "Entrar",
+                    isLoading
+                    ? "Carregando" : "Entrar",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold
                     ),
                   )
                 ),
-              )
+              ),
             ],
           ),
-
           bottomNavigationBar: SafeArea(
             child: Padding(
               padding: const EdgeInsets.only(left: 24, right: 24, bottom: 12),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // ElevatedButton.icon(
-                  //   onPressed: () async {
-                  //     if (!check) {
-                  //       showDialog(
-                  //         context: context,
-                  //         builder: (context) => BiometricErrorDialog()
-                  //       );
-                  //       return;
-                  //     }
-                  //
-                  //     await _authBiometric();
-                  //   },
-                  //   style: ElevatedButton.styleFrom(
-                  //     minimumSize: Size(double.infinity, 40),
-                  //     shape: RoundedRectangleBorder(
-                  //       borderRadius: BorderRadius.circular(30)
-                  //     )
-                  //   ),
-                  //   icon: Icon(
-                  //     Icons.fingerprint_rounded,
-                  //     size: 24,
-                  //   ),
-                  //   label: Text(
-                  //     "Entrar com a digital",
-                  //     style: TextStyle(
-                  //       fontSize: 15,
-                  //       fontWeight: FontWeight.bold,
-                  //     ),
-                  //   ),
-                  // ),
                   TextButton(
                     onPressed: () async {
                     if (!check) {
@@ -272,18 +236,6 @@ class _AuthPageState extends ConsumerState<AuthPage>{
                     ),
                   ),
                   SizedBox(height: 8),
-                  // TextButton(
-                  //   onPressed: () {
-                  //     // context.goNamed(AppRoutes.authPasswordPage.name);
-                  //   },
-                  //   child: Text(
-                  //     "Entrar com a senha do aplicativo",
-                  //     style: TextStyle(
-                  //       fontSize: 15,
-                  //       fontWeight: FontWeight.bold,
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ),
             ),

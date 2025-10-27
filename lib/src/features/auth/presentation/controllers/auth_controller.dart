@@ -17,7 +17,7 @@ class AuthController extends AsyncNotifier<User?> {
     return null;
   }
 
-  Future<void> login(String login, String password, bool rememberMe) async {
+  Future<void> login(String login, String password) async {
     state = const AsyncLoading();
 
     try {
@@ -50,13 +50,12 @@ class AuthController extends AsyncNotifier<User?> {
         final userPassword = Password.fromPlain(password);
 
         if (userPassword.encrypted == user.userPassword) {
-
           final newUser = user.copyWith(
             isValidated: true
           );
-
           return newUser;
         }
+
       } catch (e, st) {
         print(e);
       }
@@ -67,6 +66,7 @@ class AuthController extends AsyncNotifier<User?> {
 
   }
 
+  /// Autenticar pela digital
   Future<void> authenticateByDigital() async {
     state = await AsyncValue.guard(() async {
       final user = state.value;

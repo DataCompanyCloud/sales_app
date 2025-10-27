@@ -10,7 +10,7 @@ class StockMovementModel {
   int id;
 
   int stockId;
-  String stockUuId;
+  String code;
   int? serverId;
   int? userId;
   String? description;
@@ -26,7 +26,7 @@ class StockMovementModel {
   StockMovementModel ({
     this.id = 0,
     this.stockId = 0,
-    required this.stockUuId,
+    required this.code,
     this.serverId,
     this.userId,
     this.description,
@@ -45,8 +45,8 @@ extension StockMovementModelMapper on StockMovementModel {
     final items = this.items.map((m) => m.toEntity()).toList();
 
     return StockMovement(
-      stockId: stockId,
-      stockUuId: stockUuId,
+      id: stockId,
+      code: code,
       serverId: serverId,
       userId: userId,
       description: description,
@@ -65,8 +65,8 @@ extension StockMovementMapper on StockMovement {
   /// De StockMovement → StockMovementModel
   StockMovementModel toModel() {
     final model = StockMovementModel(
-      stockId: stockId,
-      stockUuId: stockUuId,
+      stockId: id,
+      code: code,
       serverId: serverId,
       userId: userId,
       description: description,

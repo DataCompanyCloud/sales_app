@@ -3,7 +3,7 @@ import 'package:sales_app/src/features/product/data/models/barcode_model.dart';
 import 'package:sales_app/src/features/product/data/models/category_model.dart';
 import 'package:sales_app/src/features/product/data/models/image_model.dart';
 import 'package:sales_app/src/features/product/data/models/packing_model.dart';
-import 'package:sales_app/src/features/product/data/models/property_model.dart';
+import 'package:sales_app/src/features/product/data/models/attribute_model.dart';
 import 'package:sales_app/src/features/product/data/models/unit_model.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
 
@@ -24,7 +24,7 @@ class ProductModel {
   final image = ToMany<ImageModel>();
   final packing = ToMany<PackingModel>();
   final unit = ToOne<UnitModel>();
-  final properties = ToMany<PropertyModel>();
+  final attributes = ToMany<AttributeModel>();
 
   ProductModel ({
     this.id = 0,
@@ -43,7 +43,7 @@ extension ProductModelMapper on ProductModel {
     final packingList = packing.map((p) => p.toEntity()).toList();
     final categoryList = category.map((p) => p.toEntity()).toList();
     final imageList = image.map((p) => p.toEntity()).toList();
-    final propertiesList = properties.map((p) => p.toEntity()).toList();
+    final attributesList = attributes.map((p) => p.toEntity()).toList();
 
     return Product.raw(
       productId: productId,
@@ -55,7 +55,7 @@ extension ProductModelMapper on ProductModel {
       images: imageList,
       categories: categoryList,
       packings: packingList,
-      properties: propertiesList,
+      attributes: attributesList,
       description: description
     );
   }
@@ -84,8 +84,8 @@ extension ProductMapper on Product {
     if (packings.isNotEmpty) {
       entity.packing.addAll(packings.map((p) => p.toModel()));
     }
-    if (properties.isNotEmpty) {
-      entity.properties.addAll(properties.map((p) => p.toModel()));
+    if (attributes.isNotEmpty) {
+      entity.attributes.addAll(attributes.map((p) => p.toModel()));
     }
 
     return entity;

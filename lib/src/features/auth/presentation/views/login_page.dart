@@ -167,7 +167,6 @@ class LoginPageState extends ConsumerState<LoginPage> {
                           ref.read(authControllerProvider.notifier).login(
                             _loginController.text,
                             _passwordController.text,
-                            toggleRemember
                           );
                         },
                       style: ElevatedButton.styleFrom(

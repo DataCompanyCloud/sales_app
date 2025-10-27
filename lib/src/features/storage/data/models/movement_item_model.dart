@@ -7,7 +7,7 @@ class MovementItemModel {
   int id;
 
   int itemId;
-  String movementItemUuId;
+  String code;
   int? serverId;
   int? movementId;
   int productId;
@@ -18,7 +18,7 @@ class MovementItemModel {
   MovementItemModel ({
     this.id = 0,
     this.itemId = 0,
-    required this.movementItemUuId,
+    required this.code,
     this.serverId,
     this.movementId,
     required this.productId,
@@ -32,8 +32,8 @@ extension MovementItemModelMapper on MovementItemModel {
   /// De MovementItemModel → MovementItem
   MovementItem toEntity(){
     return MovementItem(
-      itemId: itemId,
-      movementItemUuId: movementItemUuId,
+      id: itemId,
+      code: code,
       serverId: serverId,
       movementId: movementId,
       productId: productId,
@@ -48,8 +48,8 @@ extension MovementItemMapper on MovementItem {
   /// De MovementItem → MovementItemModel
   MovementItemModel toModel() {
     final model = MovementItemModel(
-      itemId: itemId,
-      movementItemUuId: movementItemUuId,
+      itemId: id,
+      code: code,
       serverId: serverId,
       movementId: movementId,
       productId: productId,

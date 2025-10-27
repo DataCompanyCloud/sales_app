@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 // Tema claro
-
 final ThemeData salesAppLightTheme = (() {
   // Paleta base
   const seed    = Color(0xFF0081F5); // primária

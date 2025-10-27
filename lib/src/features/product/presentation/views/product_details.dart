@@ -212,12 +212,12 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
                                 ),
                               ],
                             ),
-                            product.properties.isEmpty
+                            product.attributes.isEmpty
                             ? SizedBox()
                             : Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
-                              children: product.properties.map((property) {
+                              children: product.attributes.map((property) {
                                 return Padding(
                                   padding: const EdgeInsets.only(top: 12),
                                   child: Column(

@@ -11,8 +11,8 @@ abstract class User with _$User {
     required String userCode,
     required String userName,
     required String token,
-    @JsonKey(includeFromJson: false ) @Default(false) bool isValidated,
-    @JsonKey(includeFromJson: false ) @Default(null) String? userPassword,
+    @JsonKey(includeFromJson: false) @Default(false) bool isValidated,
+    @Default(null) String? userPassword,
     @Default([]) List<Company> company
     // List<Permission> permissons
   }) = _User;

@@ -8,8 +8,8 @@ abstract class MovementItem with _$MovementItem {
   const MovementItem._();
 
   const factory MovementItem.raw({
-    required int itemId,              // id local
-    required String movementItemUuId, // Sinc com o servidor
+    required int id,              // id local
+    required String code, // Sinc com o servidor
     int? serverId,
     int? movementId,
     required int productId,
@@ -19,8 +19,8 @@ abstract class MovementItem with _$MovementItem {
   }) = _MovementItem;
 
   factory MovementItem ({
-    required int itemId,
-    required String movementItemUuId,
+    required int id,
+    required String code,
     int? serverId,
     int? movementId,
     required int productId,
@@ -31,8 +31,8 @@ abstract class MovementItem with _$MovementItem {
     /// TODO: Fazer as validações quando as informações forem diferentes de null!
 
     return MovementItem.raw(
-      itemId: itemId,
-      movementItemUuId: movementItemUuId,
+      id: id,
+      code: code,
       productId: productId,
       productCode: productCode,
       productName: productName,

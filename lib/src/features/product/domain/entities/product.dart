@@ -4,7 +4,7 @@ import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/barcode.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/image.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/packing.dart';
-import 'package:sales_app/src/features/product/domain/valueObjects/property.dart';
+import 'package:sales_app/src/features/product/domain/valueObjects/attribute.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/unit.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/category.dart';
 
@@ -27,7 +27,7 @@ abstract class Product with _$Product {
     required List<ImageEntity> images,
     required List<Category> categories,
     required List<Packing> packings,
-    required List<Property> properties
+    required List<Attribute> attributes
   }) = _Product;
 
   /// TODO Precisa fazer as validações somente quando as informações forem diferentes de null!
@@ -42,7 +42,7 @@ abstract class Product with _$Product {
     required List<ImageEntity> images,
     required List<Category> categories,
     required List<Packing> packings,
-    required List<Property> properties
+    required List<Attribute> attributes
   }) {
 
     if (name.trim().isEmpty) {
@@ -65,11 +65,16 @@ abstract class Product with _$Product {
       images: images,
       categories: categories,
       packings: packings,
-      properties: properties,
+      attributes: attributes,
       description: description
     );
   }
 
   factory Product.fromJson(Map<String, dynamic> json) =>
       _$ProductFromJson(json);
+
+
+  @JsonKey(includeFromJson: false)
+  List<ImageEntity> get imagesAll => [...images, ...attributes.expand((a) => a.imagesAll)];
+
 }
