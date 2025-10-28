@@ -10,7 +10,7 @@ abstract class StorageRepository {
   /// Salva um estoque
   Future<Storage> save(Storage storage);
   /// Atualiza os dados de um estoque sem apagar o histórico localmente
-  Future<Storage> update();
+  // Future<Storage> update(Storage storage);
   /// Remove um estoque
   Future<void> delete(Storage storage);
   /// Remove TODOS os estoques
