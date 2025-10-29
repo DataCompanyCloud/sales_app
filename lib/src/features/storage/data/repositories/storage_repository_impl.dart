@@ -1,7 +1,6 @@
 import 'package:objectbox/objectbox.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
-import 'package:sales_app/src/features/storage/data/models/movement_item_model.dart';
 import 'package:sales_app/src/features/storage/data/models/stock_movement_model.dart';
 import 'package:sales_app/src/features/storage/data/models/storage_model.dart';
 import 'package:sales_app/src/features/storage/domain/entities/storage.dart';
@@ -127,6 +126,58 @@ class StorageRepositoryImpl extends StorageRepository {
     return saved.toEntity();
   }
 
+  // @override
+  // Future<Storage> update(Storage storage) async {
+  //   final storageBox = store.box<StorageModel>();
+  //   final stockMovementsBox = store.box<StockMovementModel>();
+  //   final movementItemBox = store.box<MovementItemModel>();
+  //
+  //   store.runInTransaction(TxMode.write, () {
+  //     final existing = storageBox.get(storage.storageId);
+  //
+  //     if (existing == null) {
+  //       throw AppException(
+  //         AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Estoque não encontrado para atualização",
+  //       );
+  //     }
+  //
+  //     // Atualiza campos simples
+  //     existing.name = storage.name;
+  //     existing.location = storage.location;
+  //     existing.updatedAt = DateTime.now();
+  //
+  //     // Atualiza movimentos sem remover os existentes
+  //     for (final movement in storage.stockMovements) {
+  //       final existingMovement = existing.stockMovements
+  //         .firstWhere((m) => m.id == movement.id, orElse: () => StockMovementModel());
+  //
+  //       existingMovement.type = movement.type;
+  //       existingMovement.date = movement.date;
+  //
+  //       // Atualiza itens do movimento
+  //       for (final item in movement.items) {
+  //         final existingItem = existingMovement.items
+  //           .firstWhere((i) => i.id == item.id, orElse: () => MovementItemModel());
+  //         existingItem.productId = item.productId;
+  //         existingItem.quantity = item.quantity;
+  //         existingItem.price = item.price;
+  //         movementItemBox.put(existingItem);
+  //       }
+  //
+  //       stockMovementsBox.put(existingMovement);
+  //       if (!existing.stockMovements.contains(existingMovement)) {
+  //         existing.stockMovements.add(existingMovement);
+  //       }
+  //     }
+  //
+  //     storageBox.put(existing);
+  //   });
+  //
+  //   // Retorna o objeto atualizado
+  //   final updated = storageBox.get(storage.storageId);
+  //   return updated!.toEntity();
+  // }
+
   @override
   Future<void> delete(Storage storage) async {
     final storageBox = store.box<StorageModel>();
@@ -170,46 +221,5 @@ class StorageRepositoryImpl extends StorageRepository {
     final storageBox = store.box<StorageModel>();
     return Future.value(storageBox.count());
   }
-
-  // @override
-  // Future<Storage> update(Storage storage) async {
-  //   final storageBox = store.box<StorageModel>();
-  //   final stockMovementsBox = store.box<StockMovementModel>();
-  //   final movementItemBox = store.box<MovementItemModel>();
-  //
-  //   late StorageModel updatedModel;
-  //
-  //   store.runInTransaction(TxMode.write, () {
-  //     final existing = storageBox.get(storage.storageId);
-  //     if (existing == null) {
-  //       throw AppException(
-  //         AppExceptionCode.CODE_000_ERROR_UNEXPECTED,
-  //         "Estoque não encontrado para atualização",
-  //       );
-  //     }
-  //
-  //     existing.name = storage.name;
-  //     existing.location = storage.location;
-  //     existing.updatedAt = DateTime.now();
-  //
-  //     existing.stockMovements.clear();
-  //     for (final movement in storage.stockMovements) {
-  //       final movementModel = StockMovementModel.fromEntity(movement);
-  //       stockMovementsBox.put(movementModel);
-  //
-  //       for (final item in movement.items) {
-  //         movementItemBox.put(MovementItemModel.fromEntity(item));
-  //       }
-  //
-  //       existing.stockMovements.add(movementModel);
-  //     }
-  //
-  //     storageBox.put(existing);
-  //     updatedModel = existing;
-  //   });
-  //
-  //   return updatedModel.toEntity();
-  // }
-
 
 }

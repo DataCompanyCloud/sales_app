@@ -28,7 +28,7 @@ class StorageModel {
 extension StorageModelMapper on StorageModel {
   /// De StorageModel → Storage
   Storage toEntity() {
-    final movements = this.movements.map((m) => m.toEntity()).toList();
+    final movement = this.movements.map((m) => m.toEntity());
 
     return Storage(
       storageId: storageId,

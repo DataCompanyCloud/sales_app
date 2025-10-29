@@ -179,6 +179,18 @@ class HomePage extends ConsumerWidget {
                           visualDensity: VisualDensity(vertical: 3),
                           leading: CircleAvatar(
                             backgroundColor: Colors.grey.shade100,
+                            child: Icon(Icons.star_rounded, color: Colors.black87),
+                          ),
+                          title: Text("Meu Estoque"),
+                          trailing: Icon(Icons.chevron_right),
+                          onTap: () {
+                            context.goNamed(StorageRouter.storage_details.name);
+                          },
+                        ),
+                        ListTile(
+                          visualDensity: VisualDensity(vertical: 3),
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.grey.shade100,
                             child: Icon(Icons.warehouse, color: Colors.black87),
                           ),
                           title: Text("Lista de Estoques"),
@@ -187,17 +199,40 @@ class HomePage extends ConsumerWidget {
                             context.goNamed(StorageRouter.storage.name);
                           },
                         ),
+                      ],
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.only(top: 12)),
+                  Card(
+                    color: scheme.surface,
+                    elevation: 3,
+                    margin: EdgeInsets.all(2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 12),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 16),
+                            child: Text(
+                              "Transação",
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(padding: EdgeInsets.only(top: 12)),
                         ListTile(
                           visualDensity: VisualDensity(vertical: 3),
                           leading: CircleAvatar(
                             backgroundColor: Colors.grey.shade100,
-                            child: Icon(Icons.star_rounded, color: Colors.black87),
+                            child: Icon(Icons.compare_arrows, color: Colors.black87),
                           ),
-                          title: Text("Meu Estoque"),
+                          title: Text("Transações"),
                           trailing: Icon(Icons.chevron_right),
-                          onTap: () {
-                            context.goNamed(StorageRouter.storage_details.name);
-                          },
+                          onTap: () {},
                         ),
                       ],
                     ),
