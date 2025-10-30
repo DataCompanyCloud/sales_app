@@ -22,7 +22,7 @@ class StorageController extends AutoDisposeAsyncNotifier<List<Storage>>{
       rethrow;
     }
 
-    return await repository.fetchAll(search: search);
+    return await repository.fetchAll();
   }
 
 }

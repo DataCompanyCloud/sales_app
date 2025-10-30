@@ -33,7 +33,8 @@ enum AppRoutes {
   error,
   storage,
   storageDetails,
-  auth
+  auth,
+  movement,
 }
 
 class _AuthStateChange extends ChangeNotifier {

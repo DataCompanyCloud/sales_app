@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
+import 'package:sales_app/src/features/auth/domain/valueObjects/password.dart';
 import 'package:sales_app/src/features/auth/presentation/widgets/dialogs/biometric_error_dialog.dart';
 import 'package:sales_app/src/features/auth/providers.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
@@ -29,8 +30,16 @@ class _AuthPageState extends ConsumerState<AuthPage>{
     ref.read(_isLoadingProvider.notifier).state = true;
 
     try {
-      await ref.read(authControllerProvider.notifier).authenticateByPassword(password);
+      final user = await ref.read(authControllerProvider.future);
+      if (user == null) return;
+
+      final userPassword = Password.fromPlain(password);
+
+      if (userPassword.encrypted == user.userPassword) {
+        await ref.read(authControllerProvider.notifier).authenticate();
+      }
     } catch (e) {
+      //todo: mostar na tela Erro senha inválida
       print(e);
     } finally {
       ref.read(_isLoadingProvider.notifier).state = false;
@@ -59,7 +68,7 @@ class _AuthPageState extends ConsumerState<AuthPage>{
         return;
       }
 
-      ref.read(authControllerProvider.notifier).authenticateByDigital();
+      await ref.read(authControllerProvider.notifier).authenticate();
     } catch (e) {
       print(e);
     }

@@ -40,48 +40,22 @@ class AuthController extends AsyncNotifier<User?> {
     }
   }
 
-  /// Autenticar pela senha do aplicativo
-  Future<void> authenticateByPassword(String password) async {
-    state = await AsyncValue.guard(() async {
-      final user = state.value;
-      if (user == null) return null;
 
-      try {
-        final userPassword = Password.fromPlain(password);
-
-        if (userPassword.encrypted == user.userPassword) {
-          final newUser = user.copyWith(
-            isValidated: true
-          );
-          return newUser;
-        }
-
-      } catch (e, st) {
-        print(e);
-      }
-
-      return user;
-    });
-
-
-  }
-
-  /// Autenticar pela digital
-  Future<void> authenticateByDigital() async {
+  /// Autenticar
+  Future<void> authenticate() async {
     state = await AsyncValue.guard(() async {
       final user = state.value;
       if (user == null) return null;
 
       try {
         final newUser = user.copyWith(
-            isValidated: true
+          isValidated: true
         );
 
         return newUser;
       } catch (e, st) {
         print(e);
       }
-
       return user;
     });
 

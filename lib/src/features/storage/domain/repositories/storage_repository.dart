@@ -2,7 +2,7 @@ import 'package:sales_app/src/features/storage/domain/entities/storage.dart';
 
 abstract class StorageRepository {
   /// Busca todos os estoques
-  Future<List<Storage>> fetchAll({String? search});
+  Future<List<Storage>> fetchAll();
   /// Busca um estoque pelo ID
   Future<Storage> fetchById(int storageId);
   /// Salva vários estoques

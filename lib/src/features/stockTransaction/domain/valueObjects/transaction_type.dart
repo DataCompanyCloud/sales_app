@@ -1,4 +1,4 @@
-enum MovementType {
+enum TransactionType {
   /// Entrada de estoque
   stockIn,
   /// Saída de estoque

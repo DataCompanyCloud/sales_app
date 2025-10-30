@@ -1,8 +1,8 @@
 import 'package:objectbox/objectbox.dart';
-import 'package:sales_app/src/features/storage/domain/entities/movement_item.dart';
+import 'package:sales_app/src/features/stockTransaction/domain/entities/stock_transaction_item.dart';
 
 @Entity()
-class MovementItemModel {
+class StockTransactionItemModel {
   @Id()
   int id;
 
@@ -15,7 +15,7 @@ class MovementItemModel {
   String productName;
   int quantity;
 
-  MovementItemModel ({
+  StockTransactionItemModel ({
     this.id = 0,
     this.itemId = 0,
     required this.code,
@@ -28,10 +28,10 @@ class MovementItemModel {
   });
 }
 
-extension MovementItemModelMapper on MovementItemModel {
-  /// De MovementItemModel → MovementItem
-  MovementItem toEntity(){
-    return MovementItem(
+extension StockTransactionItemModelMapper on StockTransactionItemModel {
+  /// De StockTransactionItemModel → StockTransactionItem
+  StockTransactionItem toEntity(){
+    return StockTransactionItem(
       id: itemId,
       code: code,
       serverId: serverId,
@@ -44,10 +44,10 @@ extension MovementItemModelMapper on MovementItemModel {
   }
 }
 
-extension MovementItemMapper on MovementItem {
-  /// De MovementItem → MovementItemModel
-  MovementItemModel toModel() {
-    final model = MovementItemModel(
+extension StockTransactionItemMapper on StockTransactionItem {
+  /// De StockTransactionItem → StockTransactionItemModel
+  StockTransactionItemModel toModel() {
+    final model = StockTransactionItemModel(
       itemId: id,
       code: code,
       serverId: serverId,

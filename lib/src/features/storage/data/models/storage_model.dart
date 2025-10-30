@@ -1,5 +1,5 @@
 import 'package:objectbox/objectbox.dart';
-import 'package:sales_app/src/features/storage/data/models/stock_movement_model.dart';
+import 'package:sales_app/src/features/stockTransaction/data/models/stock_transaction_model.dart';
 import 'package:sales_app/src/features/storage/domain/entities/storage.dart';
 
 @Entity()
@@ -13,7 +13,7 @@ class StorageModel {
   bool isActive;
   DateTime updatedAt;
 
-  final movements = ToMany<StockMovementModel>();
+  final transaction = ToMany<StockTransactionModel>();
 
   StorageModel ({
     this.id = 0,
@@ -28,7 +28,7 @@ class StorageModel {
 extension StorageModelMapper on StorageModel {
   /// De StorageModel → Storage
   Storage toEntity() {
-    final movement = this.movements.map((m) => m.toEntity());
+    final transaction = this.transaction.map((m) => m.toEntity());
 
     return Storage(
       storageId: storageId,

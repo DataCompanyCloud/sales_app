@@ -228,11 +228,13 @@ class HomePage extends ConsumerWidget {
                           visualDensity: VisualDensity(vertical: 3),
                           leading: CircleAvatar(
                             backgroundColor: Colors.grey.shade100,
-                            child: Icon(Icons.compare_arrows, color: Colors.black87),
+                            child: Icon(Icons.move_up, color: Colors.black87),
                           ),
                           title: Text("Transações"),
                           trailing: Icon(Icons.chevron_right),
-                          onTap: () {},
+                          onTap: () {
+                            // context.pushNamed(TransitionRoute.movement.name);
+                          },
                         ),
                       ],
                     ),

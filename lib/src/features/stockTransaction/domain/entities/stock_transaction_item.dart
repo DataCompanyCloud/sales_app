@@ -1,14 +1,14 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'movement_item.freezed.dart';
-part 'movement_item.g.dart';
+part 'stock_transaction_item.freezed.dart';
+part 'stock_transaction_item.g.dart';
 
 @freezed
-abstract class MovementItem with _$MovementItem {
-  const MovementItem._();
+abstract class StockTransactionItem with _$StockTransactionItem {
+  const StockTransactionItem._();
 
-  const factory MovementItem.raw({
-    required int id,              // id local
+  const factory StockTransactionItem.raw({
+    required int id,      // id local
     required String code, // Sinc com o servidor
     int? serverId,
     int? movementId,
@@ -16,9 +16,9 @@ abstract class MovementItem with _$MovementItem {
     required String productCode,
     required String productName,
     required int quantity,
-  }) = _MovementItem;
+  }) = _StockTransactionItem;
 
-  factory MovementItem ({
+  factory StockTransactionItem ({
     required int id,
     required String code,
     int? serverId,
@@ -30,7 +30,7 @@ abstract class MovementItem with _$MovementItem {
   }) {
     /// TODO: Fazer as validações quando as informações forem diferentes de null!
 
-    return MovementItem.raw(
+    return StockTransactionItem.raw(
       id: id,
       code: code,
       productId: productId,
@@ -40,6 +40,6 @@ abstract class MovementItem with _$MovementItem {
     );
   }
 
-  factory MovementItem.fromJson(Map<String, dynamic> json) =>
-      _$MovementItemFromJson(json);
+  factory StockTransactionItem.fromJson(Map<String, dynamic> json) =>
+      _$StockTransactionItemFromJson(json);
 }

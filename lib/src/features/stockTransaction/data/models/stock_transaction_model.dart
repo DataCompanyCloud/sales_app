@@ -1,11 +1,11 @@
 import 'package:objectbox/objectbox.dart';
-import 'package:sales_app/src/features/storage/data/models/movement_item_model.dart';
-import 'package:sales_app/src/features/storage/domain/entities/stock_movement.dart';
-import 'package:sales_app/src/features/storage/domain/valueObjects/movement_source.dart';
-import 'package:sales_app/src/features/storage/domain/valueObjects/movement_type.dart';
+import 'package:sales_app/src/features/stockTransaction/data/models/stock_transaction_item_model.dart';
+import 'package:sales_app/src/features/stockTransaction/domain/entities/stock_transaction.dart';
+import 'package:sales_app/src/features/stockTransaction/domain/valueObjects/transaction_source.dart';
+import 'package:sales_app/src/features/stockTransaction/domain/valueObjects/transaction_type.dart';
 
 @Entity()
-class StockMovementModel {
+class StockTransactionModel {
   @Id()
   int id;
 
@@ -21,9 +21,9 @@ class StockMovementModel {
   int type;
   int source;
 
-  final items = ToMany<MovementItemModel>();
+  final items = ToMany<StockTransactionItemModel>();
 
-  StockMovementModel ({
+  StockTransactionModel ({
     this.id = 0,
     this.stockId = 0,
     required this.code,
@@ -39,12 +39,12 @@ class StockMovementModel {
   });
 }
 
-extension StockMovementModelMapper on StockMovementModel {
-  /// De StockMovementModel → StockMovement
-  StockMovement toEntity() {
+extension StockTransactionModelMapper on StockTransactionModel {
+  /// De StockTransactionModel → StockTransaction
+  StockTransaction toEntity() {
     final items = this.items.map((m) => m.toEntity()).toList();
 
-    return StockMovement(
+    return StockTransaction(
       id: stockId,
       code: code,
       serverId: serverId,
@@ -54,17 +54,17 @@ extension StockMovementModelMapper on StockMovementModel {
       createAt: createAt,
       fromStorageId: fromStorageId,
       toStorageId: toStorageId,
-      type: MovementType.values[type],
-      source: MovementSource.values[source],
+      type: TransactionType.values[type],
+      source: TransactionSource.values[source],
       items: items
     );
   }
 }
 
-extension StockMovementMapper on StockMovement {
+extension StockTransactionMapper on StockTransaction {
   /// De StockMovement → StockMovementModel
-  StockMovementModel toModel() {
-    final model = StockMovementModel(
+  StockTransactionModel toModel() {
+    final model = StockTransactionModel(
       stockId: id,
       code: code,
       serverId: serverId,
