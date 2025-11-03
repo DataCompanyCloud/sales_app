@@ -10,6 +10,7 @@ import 'package:sales_app/src/features/home/presentation/widgets/drawers/home_dr
 import 'package:sales_app/src/features/home/presentation/widgets/navigator/navigator_bar.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/skeleton/home_page_skeleton.dart';
 import 'package:sales_app/src/features/order/presentation/router/order_router.dart';
+import 'package:sales_app/src/features/stockTransaction/presentation/router/transaction_router.dart';
 import 'package:sales_app/src/features/storage/presentation/router/storage_router.dart';
 
 class HomePage extends ConsumerWidget {
@@ -233,7 +234,7 @@ class HomePage extends ConsumerWidget {
                           title: Text("Transações"),
                           trailing: Icon(Icons.chevron_right),
                           onTap: () {
-                            // context.pushNamed(TransitionRoute.movement.name);
+                            context.pushNamed(TransactionRouter.transaction.name);
                           },
                         ),
                       ],

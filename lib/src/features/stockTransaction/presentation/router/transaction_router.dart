@@ -1,13 +1,13 @@
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/stockTransaction/presentation/views/transaction_page.dart';
 
-enum MovementRouter {
-  movement,
+enum TransactionRouter {
+  transaction,
 }
 
-final movementRoutes = GoRoute(
+final transactionRoutes = GoRoute(
   path: '/movement',
-  name: MovementRouter.movement.name,
+  name: TransactionRouter.transaction.name,
   builder: (context, state) {
     return TransactionPage();
   }
