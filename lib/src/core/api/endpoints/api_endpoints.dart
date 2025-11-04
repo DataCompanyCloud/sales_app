@@ -31,4 +31,9 @@ class ApiEndpoints {
   /// Rota para obter storages
   static const String storages = '/storage';
   static String storageById({required int storageId}) => '/storage/$storageId';
+
+  /// /stockTransaction
+  /// Rota para obter stockTransactions
+  static const String stockTransaction = '/stockTransaction';
+  static String stockTransactionById({required int id}) => '/stockTransaction/$id';
 }

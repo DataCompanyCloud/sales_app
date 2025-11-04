@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:sales_app/src/core/exceptions/app_exception.dart';
+import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/stockTransaction/domain/entities/stock_transaction_item.dart';
 import 'package:sales_app/src/features/stockTransaction/domain/valueObjects/transaction_source.dart';
 import 'package:sales_app/src/features/stockTransaction/domain/valueObjects/transaction_type.dart';
@@ -40,6 +42,9 @@ abstract class StockTransaction with _$StockTransaction {
     required List<StockTransactionItem> items
   }) {
     /// TODO: Fazer as validações
+    if (code.isEmpty) {
+      AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "'Code' não pode ser nulo");
+    }
 
     return StockTransaction.raw(
       id: id,

@@ -2,5 +2,7 @@ enum TransactionSource {
   /// Entrada
   purchase,
   /// Saída
-  sales
+  sales,
+  /// Devolução
+  returnItem
 }

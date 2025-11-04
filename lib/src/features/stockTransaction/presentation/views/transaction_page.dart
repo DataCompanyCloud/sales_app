@@ -10,7 +10,7 @@ class TransactionPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Histórico de Transações"),
+        title: Text("Transações"),
         leading: IconButton(
           onPressed: () {
             context.pop();

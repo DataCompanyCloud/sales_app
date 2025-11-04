@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/features/stockTransaction/domain/entities/stock_transaction.dart';
 
 class StorageTransactionController extends AutoDisposeFamilyAsyncNotifier<List<StockTransaction>, int>{
+
   @override
   FutureOr<List<StockTransaction>> build(int storageId) async {
     state = AsyncLoading();

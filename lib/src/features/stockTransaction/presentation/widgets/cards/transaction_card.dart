@@ -109,13 +109,26 @@ class TransactionCard extends ConsumerWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                "Depósito",
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 3,
-                                style: TextStyle(
-                                  fontSize: 15
-                                ),
+                              Row(
+                                children: [
+                                  Text(
+                                    "Depósito 1",
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 3,
+                                    style: TextStyle(
+                                      fontSize: 15
+                                    ),
+                                  ),
+                                  Icon(Icons.arrow_right_alt),
+                                  Text(
+                                    "Depósito 2",
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 3,
+                                    style: TextStyle(
+                                      fontSize: 15
+                                    ),
+                                  ),
+                                ],
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(right: 18),
