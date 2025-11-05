@@ -1,5 +1,3 @@
-import 'package:sales_app/src/features/stockTransaction/domain/entities/stock_transaction.dart';
-
 abstract class TransactionRepository {
   // /// Busca todos as transações de estoque
   // Future<List<StockTransaction>> fetchAll();

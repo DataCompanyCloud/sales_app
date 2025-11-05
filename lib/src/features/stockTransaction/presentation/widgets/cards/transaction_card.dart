@@ -10,17 +10,18 @@ class TransactionCard extends ConsumerWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 
-    // final randomTitle = random.boolean() ? "Depósito" : "Pagamento";
+    final bool isActive = faker.randomGenerator.boolean();
     final randomCode = faker.randomGenerator.integer(99999, min: 10000);
-    final price = faker.randomGenerator.integer(999, min: 9);
+    final price = faker.randomGenerator.decimal(min: 1, scale: 2).toStringAsFixed(2);
+    final product = faker.randomGenerator.integer(999, min: 1);
     final month = [
       "Jan",
       "Fev",
       "Mar",
       "Abr",
       "Maio",
-      "Junho",
-      "Julho",
+      "Jun",
+      "Jul",
       "Ago",
       "Set",
       "Out",
@@ -116,6 +117,7 @@ class TransactionCard extends ConsumerWidget {
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 3,
                                     style: TextStyle(
+                                      fontWeight: FontWeight.bold,
                                       fontSize: 15
                                     ),
                                   ),
@@ -125,6 +127,7 @@ class TransactionCard extends ConsumerWidget {
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 3,
                                     style: TextStyle(
+                                      fontWeight: FontWeight.bold,
                                       fontSize: 15
                                     ),
                                   ),
@@ -132,13 +135,22 @@ class TransactionCard extends ConsumerWidget {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(right: 18),
-                                child: Text(
-                                  "+R\$$price,00",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.greenAccent
-                                  ),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      isActive ? Icons.archive : Icons.unarchive,
+                                      color: isActive ? Colors.greenAccent : Colors.redAccent,
+                                      size: 18
+                                    ),
+                                    Text(
+                                      "$product",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        color: isActive ? Colors.greenAccent : Colors.redAccent
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
@@ -147,14 +159,23 @@ class TransactionCard extends ConsumerWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("$randomDay-$randomMonth-2025"),
+                              Text(
+                                "$randomDay/$randomMonth/2025",
+                                style: TextStyle(
+                                  color: Colors.grey
+                                ),
+                              ),
                               Padding(
                                 padding: const EdgeInsets.only(right: 18),
-                                child: Icon(
-                                  Icons.arrow_circle_down,
-                                  color: Colors.greenAccent,
+                                child: Text(
+                                  "R\$$price",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    // fontWeight: FontWeight.bold,
+                                    color: isActive ? Colors.greenAccent : Colors.redAccent
+                                  ),
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ],

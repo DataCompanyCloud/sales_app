@@ -231,7 +231,7 @@ class HomePage extends ConsumerWidget {
                             backgroundColor: Colors.grey.shade100,
                             child: Icon(Icons.move_up, color: Colors.black87),
                           ),
-                          title: Text("Transações"),
+                          title: Text("Histórico de Transações"),
                           trailing: Icon(Icons.chevron_right),
                           onTap: () {
                             context.pushNamed(TransactionRouter.transaction.name);

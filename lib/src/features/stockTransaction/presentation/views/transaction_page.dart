@@ -10,7 +10,7 @@ class TransactionPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Transações"),
+        title: Text("Histórico de Transações"),
         leading: IconButton(
           onPressed: () {
             context.pop();
@@ -25,14 +25,12 @@ class TransactionPage extends ConsumerWidget {
         ],
       ),
       body: SafeArea(
-        child: Expanded(
-          child: ListView.builder(
-            padding: EdgeInsets.symmetric(horizontal: 4),
-            itemCount: 12,
-            itemBuilder: (context, index) {
-              return TransactionCard();
-            }
-          )
+        child: ListView.builder(
+          padding: EdgeInsets.symmetric(horizontal: 4),
+          itemCount: 12,
+          itemBuilder: (context, index) {
+            return TransactionCard();
+          }
         ),
       )
     );
