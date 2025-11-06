@@ -8,6 +8,7 @@ class TransactionPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Histórico de Transações"),
@@ -32,7 +33,7 @@ class TransactionPage extends ConsumerWidget {
             return TransactionCard();
           }
         ),
-      )
+      ),
     );
   }
 }

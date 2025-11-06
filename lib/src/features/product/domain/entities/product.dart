@@ -48,10 +48,10 @@ abstract class Product with _$Product {
     if (name.trim().isEmpty) {
       throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "'Name' não pode ser vazio");
     }
-    if (description == null) {
+    if (description != null) {
       throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "'Description' não pode ser nula");
     }
-    if (barcode == null) {
+    if (barcode != null) {
       throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "'Barcode' não pode ser nulo");
     }
 

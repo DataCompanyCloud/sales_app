@@ -12,7 +12,7 @@ class TransactionCard extends ConsumerWidget {
 
     final bool isActive = faker.randomGenerator.boolean();
     final randomCode = faker.randomGenerator.integer(99999, min: 10000);
-    final price = faker.randomGenerator.decimal(min: 1, scale: 2).toStringAsFixed(2);
+    final price = faker.randomGenerator.decimal(min: 1, scale: 100).toStringAsFixed(2);
     final product = faker.randomGenerator.integer(999, min: 1);
     final month = [
       "Jan",
@@ -28,9 +28,11 @@ class TransactionCard extends ConsumerWidget {
       "Nov",
       "Dez",
     ];
+    final transactionType = ["Venda", "Devolução", "Entrada", "Saída"];
 
     final randomDay = faker.randomGenerator.integer(31, min: 1);
     final randomMonth = month[faker.randomGenerator.integer(month.length)];
+    final randomTransactionType = transactionType[faker.randomGenerator.integer(transactionType.length)];
 
     return Container(
       decoration: BoxDecoration(
@@ -110,28 +112,11 @@ class TransactionCard extends ConsumerWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    "Depósito 1",
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 3,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15
-                                    ),
-                                  ),
-                                  Icon(Icons.arrow_right_alt),
-                                  Text(
-                                    "Depósito 2",
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 3,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15
-                                    ),
-                                  ),
-                                ],
+                              Text(
+                                randomTransactionType,
+                                style: TextStyle(
+                                  fontSize: 15
+                                ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(right: 18),

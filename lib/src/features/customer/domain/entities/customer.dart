@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
+import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/address.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/cnpj.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/contact_info.dart';
@@ -96,9 +97,18 @@ abstract class Customer with _$Customer {
     required bool isActive,
     String? notes
   }) {
-    // Validações
+
+    if (paymentMethods.isEmpty) {
+      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "O cliente precisa informar um método de pagamento válido");
+    }
     if (contacts.isEmpty) {
-      throw AppException.errorUnexpected('O Cliente precisa ter pelo menos um contado informado');
+      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "O Cliente precisa ter pelo menos um contado informado");
+    }
+    if (cpf != null) {
+      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "O 'CPF' precisa ser válido");
+    }
+    if (cnpj != null) {
+      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "O 'CNPJ' precisa ser válido");
     }
 
     return Customer.raw(
