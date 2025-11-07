@@ -40,9 +40,9 @@ class OrderDetailsProductScreenState extends ConsumerState<OrderDetailsProductSc
     final onClick = ref.watch(onClickProvider);
 
     return order.items.isEmpty
-      ? Center(
-    child: SingleChildScrollView(
-      child: Column(
+      ? SingleChildScrollView(
+        child: Center(
+            child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -66,9 +66,9 @@ class OrderDetailsProductScreenState extends ConsumerState<OrderDetailsProductSc
             ),
           )
         ],
-      ),
-    ),
-  )
+            ),
+          ),
+      )
     : SafeArea(
       child: Column(
         children: [

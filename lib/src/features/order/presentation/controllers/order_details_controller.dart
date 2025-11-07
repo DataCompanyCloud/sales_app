@@ -13,7 +13,7 @@ class OrderDetailsController extends AutoDisposeFamilyAsyncNotifier<Order, int>{
     try {
       final remote = await service.getById(orderId);
       await repository.save(remote);
-      return remote;
+      // return remote;
     } catch (e) {
       print(e);
     }

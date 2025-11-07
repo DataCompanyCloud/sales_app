@@ -6,12 +6,12 @@ class ApiEndpoints {
   static const String login = '/$api/$version/auth/login';
 
   // products
-  static const String product = '/product';
+  static const String product = '/$api/$version/product';
 
   /// /customers
   /// Rota para obter customers
-  static const String customers = '/customers';
-  static String customerById({required int customerId}) => '/customer/$customerId';
+  static const String customers = '/$api/$version/customers';
+  static String customerById({required int customerId}) => '/$api/$version/customer/$customerId';
 
 // Posts
   // static const String postsList     = '/posts';
@@ -19,21 +19,21 @@ class ApiEndpoints {
 
   /// /products
   /// Rota para obter products
-  static const String products = '/products';
-  static String productById({required int productId}) => '/product/$productId';
+  static const String products = '/$api/$version/products';
+  static String productById({required int productId}) => '/$api/$version/products/$productId';
 
   /// /orders
   /// Rota para obter orders
-  static const String orders = '/orders';
-  static String orderById({required int orderId}) => '/order/$orderId';
+  static const String orders = '/$api/$version/orders';
+  static String orderById({required int orderId}) => '/$api/$version/orders/$orderId';
 
   /// /storage
   /// Rota para obter storages
-  static const String storages = '/storage';
-  static String storageById({required int storageId}) => '/storage/$storageId';
+  static const String storages = '/$api/$version/storage';
+  static String storageById({required int storageId}) => '/$api/$version/storage/$storageId';
 
   /// /stockTransaction
   /// Rota para obter stockTransactions
-  static const String stockTransaction = '/stockTransaction';
-  static String stockTransactionById({required int id}) => '/stockTransaction/$id';
+  static const String stockTransaction = '/$api/$version/stockTransaction';
+  static String stockTransactionById({required int id}) => '/$api/$version/stockTransaction/$id';
 }
