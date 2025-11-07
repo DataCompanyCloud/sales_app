@@ -1,38 +1,53 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:sales_app/src/features/stockTransaction/domain/entities/stock_transaction.dart';
+
+enum TypeT {
+  mySales,
+  sales,
+  transfer
+}
 
 class TransactionCard extends ConsumerWidget {
-  const TransactionCard({super.key});
+  final StockTransaction stockTransaction;
+
+  const TransactionCard({
+    super.key,
+    required this.stockTransaction
+  });
+
+  TypeT getType() {
+    final fromId = stockTransaction.fromStorageId;
+    final toId = stockTransaction.toStorageId;
+    final salesId = stockTransaction.orderId;
+
+    if (fromId == 2 && salesId != null) {
+      return TypeT.mySales;
+    }
+
+    // if (toId == 2 && salesId != null) {
+    //   return "Devolução";
+    // }
+
+    if (salesId != null) {
+      return TypeT.sales;
+    }
+
+    return TypeT.transfer;
+  }
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
+    final type = getType();
 
-    final bool isActive = faker.randomGenerator.boolean();
-    final randomCode = faker.randomGenerator.integer(99999, min: 10000);
-    final price = faker.randomGenerator.decimal(min: 1, scale: 100).toStringAsFixed(2);
-    final product = faker.randomGenerator.integer(999, min: 1);
-    final month = [
-      "Jan",
-      "Fev",
-      "Mar",
-      "Abr",
-      "Maio",
-      "Jun",
-      "Jul",
-      "Ago",
-      "Set",
-      "Out",
-      "Nov",
-      "Dez",
-    ];
-    final transactionType = ["Venda", "Devolução", "Entrada", "Saída"];
-
-    final randomDay = faker.randomGenerator.integer(31, min: 1);
-    final randomMonth = month[faker.randomGenerator.integer(month.length)];
-    final randomTransactionType = transactionType[faker.randomGenerator.integer(transactionType.length)];
+    final date = stockTransaction.createAt;
+    final formatter = DateFormat('dd/MM/yy HH:mm', 'pt-BR');
+    final formattedDate = formatter.format(date);
 
     return Container(
       decoration: BoxDecoration(
@@ -51,14 +66,16 @@ class TransactionCard extends ConsumerWidget {
                     width: 75,
                     height: 20,
                     decoration: BoxDecoration(
-                      color: Colors.blue[800],
+                      color: type == TypeT.sales ? Colors.green[800]
+                          : type == TypeT.mySales ? Colors.teal[800]
+                          : Colors.blue[800],
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
                       ),
                     ),
                     alignment: Alignment.center,
                     child: Text(
-                      "$randomCode",
+                      stockTransaction.code,
                       style: TextStyle(
                         fontWeight: FontWeight.bold
                       ),
@@ -72,7 +89,9 @@ class TransactionCard extends ConsumerWidget {
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(10)
                       ),
-                      color: Colors.blue,
+                        color: type == TypeT.sales ? Colors.green
+                            : type == TypeT.mySales ? Colors.teal
+                            : Colors.blue
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(
@@ -80,7 +99,10 @@ class TransactionCard extends ConsumerWidget {
                         bottomLeft: Radius.circular(10)
                       ),
                       child: Icon(
-                        Icons.compare_arrows,
+                        type == TypeT.sales ? Icons.download_sharp
+                            : type == TypeT.mySales ? Icons.download_sharp
+                            : Icons.compare_arrows
+                        ,
                         color: Colors.white,
                         size: 38,
                       ),
@@ -112,27 +134,49 @@ class TransactionCard extends ConsumerWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                randomTransactionType,
-                                style: TextStyle(
-                                  fontSize: 15
+                              Container(
+                                padding: EdgeInsets.only(left: 8, right: 8),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: type == TypeT.sales ? Colors.green
+                                    : type == TypeT.mySales ? Colors.teal
+                                    : Colors.blue
+                                ),
+                                child: Text(
+                                  type == TypeT.sales ? "Venda"
+                                      : type == TypeT.mySales ? "Minha Venda"
+                                      : "Transferência"
+                                  ,
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold
+                                  ),
                                 ),
                               ),
+
                               Padding(
                                 padding: const EdgeInsets.only(right: 18),
                                 child: Row(
                                   children: [
                                     Icon(
-                                      isActive ? Icons.archive : Icons.unarchive,
-                                      color: isActive ? Colors.greenAccent : Colors.redAccent,
+                                      type == TypeT.transfer
+                                        ? Icons.unarchive
+                                        : Icons.archive
+                                      ,
+                                      color: type == TypeT.transfer
+                                        ? Colors.blue
+                                        : Colors.greenAccent,
                                       size: 18
                                     ),
+                                    SizedBox(width: 4),
                                     Text(
-                                      "$product",
+                                      random.integer(100, min: 1).toString().padLeft(2, "0"),
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
-                                        color: isActive ? Colors.greenAccent : Colors.redAccent
+                                        color: type == TypeT.transfer
+                                          ? Colors.blue
+                                          : Colors.greenAccent,
                                       ),
                                     ),
                                   ],
@@ -145,22 +189,22 @@ class TransactionCard extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "$randomDay/$randomMonth/2025",
+                                formattedDate,
                                 style: TextStyle(
                                   color: Colors.grey
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 18),
-                                child: Text(
-                                  "R\$$price",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    // fontWeight: FontWeight.bold,
-                                    color: isActive ? Colors.greenAccent : Colors.redAccent
-                                  ),
-                                ),
-                              ),
+                              // Padding(
+                              //   padding: const EdgeInsets.only(right: 18),
+                              //   child: Text(
+                              //     "R\$$price",
+                              //     style: TextStyle(
+                              //       fontSize: 15,
+                              //       // fontWeight: FontWeight.bold,
+                              //       color: isActive ? Colors.greenAccent : Colors.redAccent
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           ),
                         ],

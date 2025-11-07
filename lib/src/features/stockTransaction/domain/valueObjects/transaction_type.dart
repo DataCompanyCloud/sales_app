@@ -4,5 +4,5 @@ enum TransactionType {
   /// Saída de estoque
   stockOut,
   /// Transferência entre estoques
-  stockTransfer
+  transfer
 }

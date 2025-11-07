@@ -1,7 +1,6 @@
 import 'package:objectbox/objectbox.dart';
 import 'package:sales_app/src/features/stockTransaction/data/models/stock_transaction_item_model.dart';
 import 'package:sales_app/src/features/stockTransaction/domain/entities/stock_transaction.dart';
-import 'package:sales_app/src/features/stockTransaction/domain/valueObjects/transaction_source.dart';
 import 'package:sales_app/src/features/stockTransaction/domain/valueObjects/transaction_type.dart';
 
 @Entity()
@@ -19,7 +18,6 @@ class StockTransactionModel {
   int? fromStorageId;
   int? toStorageId;
   int type;
-  int source;
 
   final items = ToMany<StockTransactionItemModel>();
 
@@ -34,8 +32,7 @@ class StockTransactionModel {
     required this.createAt,
     this.fromStorageId,
     this.toStorageId,
-    required this.type,
-    required this.source
+    required this.type
   });
 }
 
@@ -55,7 +52,6 @@ extension StockTransactionModelMapper on StockTransactionModel {
       fromStorageId: fromStorageId,
       toStorageId: toStorageId,
       type: TransactionType.values[type],
-      source: TransactionSource.values[source],
       items: items
     );
   }
@@ -74,8 +70,7 @@ extension StockTransactionMapper on StockTransaction {
       createAt: createAt,
       fromStorageId: fromStorageId,
       toStorageId: toStorageId,
-      type: type.index,
-      source: source.index
+      type: type.index
     );
 
     model.items.addAll(items.map((i) => i.toModel()));
