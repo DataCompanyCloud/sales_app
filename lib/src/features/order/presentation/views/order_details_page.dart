@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
+import 'package:sales_app/src/features/order/presentation/widgets/popup/dialog_order_printer.dart';
 import 'package:sales_app/src/features/order/presentation/widgets/screens/order_details_product_screen.dart';
 import 'package:sales_app/src/features/order/presentation/widgets/screens/order_details_screen.dart';
 import 'package:sales_app/src/features/order/presentation/widgets/skeleton/order_details_screen_skeleton.dart';
@@ -46,11 +47,20 @@ class OrderDetailsPage extends ConsumerWidget {
               actions: [
                 IconButton(
                   onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => DialogOrderPrinter()
+                    );
+                  },
+                  icon: Icon(Icons.print, size: 22),
+                ),
+                IconButton(
+                  onPressed: () {
                     if (controller.isLoading) return;
                     final _ = ref.refresh(orderDetailsControllerProvider(order.orderId));
-                  }, 
+                  },
                   icon: Icon(Icons.refresh, size: 22,)
-                )
+                ),
               ],
               bottom: TabBar(
                 indicatorColor: Colors.blue,
