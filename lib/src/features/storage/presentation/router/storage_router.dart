@@ -4,7 +4,8 @@ import 'package:sales_app/src/features/storage/presentation/views/storage_page.d
 
 enum StorageRouter {
   storage,
-  storage_details
+  storage_details,
+  user_storage_details
 }
 
 final storageRoutes = GoRoute(
@@ -20,6 +21,6 @@ final storageRoutes = GoRoute(
       builder: (context, state) {
         return StorageDetailsPage();
       }
-    )
+    ),
   ]
 );

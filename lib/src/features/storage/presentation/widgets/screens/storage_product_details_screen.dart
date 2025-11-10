@@ -18,7 +18,7 @@ class StorageProductDetailsScreen extends ConsumerWidget {
         child: ListView.builder(
           itemCount: 3,
           itemBuilder: (context, index) {
-            final productName = "${faker.food.cuisine() + faker.food.cuisine() + faker.food.cuisine() + faker.food.cuisine() + faker.food.cuisine() + faker.food.cuisine() + faker.food.cuisine() + faker.food.cuisine()}";
+            final productName = faker.food.cuisine() + faker.food.cuisine() + faker.food.cuisine() + faker.food.cuisine() + faker.food.cuisine() + faker.food.cuisine() + faker.food.cuisine() + faker.food.cuisine();
             return Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),

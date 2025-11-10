@@ -35,6 +35,8 @@ abstract class StockTransaction with _$StockTransaction {
     required TransactionType type,
     int? fromStorageId,
     int? toStorageId,
+    // fromStorageId,
+    // toStorageId,
     required List<StockTransactionItem> items
   }) {
 

@@ -185,7 +185,7 @@ class HomePage extends ConsumerWidget {
                           title: Text("Meu Estoque"),
                           trailing: Icon(Icons.chevron_right),
                           onTap: () {
-                            context.goNamed(StorageRouter.storage_details.name);
+                            context.pushNamed(StorageRouter.storage_details.name);
                           },
                         ),
                         ListTile(
