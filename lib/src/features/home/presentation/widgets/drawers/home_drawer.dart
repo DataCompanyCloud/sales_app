@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/auth/providers.dart';
+import 'package:sales_app/src/features/faq/presentation/router/faq_router.dart';
+import 'package:sales_app/src/features/myProfile/presentation/router/my_profile_router.dart';
+import 'package:sales_app/src/features/settings/presentation/router/settings_router.dart';
 
 class HomeDrawer extends ConsumerWidget {
   const HomeDrawer ({super.key});
@@ -28,7 +31,6 @@ class HomeDrawer extends ConsumerWidget {
           if (user == null) {
             return Text("Usuário nulo");
           }
-
           return  SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,9 +76,37 @@ class HomeDrawer extends ConsumerWidget {
                   child: Text(
                     "Serviços".toUpperCase(),
                     style: TextStyle(
-                        color: Colors.white70
+                      color: Colors.white70
                     ),
                   ),
+                ),
+                Column(
+                  children: [
+                    Padding(padding: EdgeInsets.only(left: 24),
+                      child: Divider(
+                        color: Colors.white24,
+                        height: 8,
+                      ),
+                    ),
+                  ],
+                ),
+                ListTile(
+                  leading: SizedBox(
+                    height: 34,
+                    width: 34,
+                    child: Icon(
+                      Icons.person,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                  ),
+                  title: Text(
+                    "Meu perfil",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () {
+                    context.pushNamed(MyProfileRouter.myProfile.name);
+                  },
                 ),
                 Column(
                   children: [
@@ -102,7 +132,9 @@ class HomeDrawer extends ConsumerWidget {
                     "FAQ",
                     style: TextStyle(color: Colors.white),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    context.pushNamed(FaqRouter.faq.name);
+                  },
                 ),
                 Column(
                   children: [
@@ -128,7 +160,9 @@ class HomeDrawer extends ConsumerWidget {
                     "Configurações",
                     style: TextStyle(color: Colors.white),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    context.pushNamed(SettingsRouter.settings.name);
+                  },
                 ),
                 SizedBox(height: 12),
                 Padding(
@@ -136,35 +170,9 @@ class HomeDrawer extends ConsumerWidget {
                   child: Text(
                     "Conta".toUpperCase(),
                     style: TextStyle(
-                        color: Colors.white70
+                      color: Colors.white70
                     ),
                   ),
-                ),
-                Column(
-                  children: [
-                    Padding(padding: EdgeInsets.only(left: 24),
-                      child: Divider(
-                        color: Colors.white24,
-                        height: 8,
-                      ),
-                    ),
-                  ],
-                ),
-                ListTile(
-                  leading: SizedBox(
-                    height: 34,
-                    width: 34,
-                    child: Icon(
-                      Icons.account_circle_rounded,
-                      color: Colors.white,
-                      size: 28,
-                    ),
-                  ),
-                  title: Text(
-                    "Alterar conta",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onTap: () {},
                 ),
                 Column(
                   children: [
@@ -201,6 +209,4 @@ class HomeDrawer extends ConsumerWidget {
       )
     );
   }
-
-
 }

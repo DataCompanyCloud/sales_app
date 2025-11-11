@@ -55,7 +55,7 @@ class HomePage extends ConsumerWidget {
             actions: [
               IconButton(
                 onPressed: () {},
-                icon: Icon(Icons.crisis_alert)
+                icon: Icon(Icons.notifications)
               ),
             ],
           ),

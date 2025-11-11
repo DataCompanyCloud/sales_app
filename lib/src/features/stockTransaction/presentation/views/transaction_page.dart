@@ -60,8 +60,8 @@ List<StockTransaction> genStockTransactions (int max) {
         type: random.element([TransactionType.stockIn, TransactionType.stockOut, TransactionType.transfer]),
         items: genItems(),
         orderId: random.boolean() ? random.integer(1000, min: 1) : null,
-        toStorageId: random.boolean() ? random.integer(5, min: 1) : null,
-        fromStorageId: random.boolean() ? random.integer(5, min: 1) : null,
+        // toStorage: random.boolean() ? random.integer(5, min: 1) : null,
+        // fromStorage: random.boolean() ? random.integer(5, min: 1) : null,
         serverId: random.boolean() ? random.integer(1000, min: 1) : null, // Simboliza se ele está sincronizado com a nuvem
         // userId
         // description

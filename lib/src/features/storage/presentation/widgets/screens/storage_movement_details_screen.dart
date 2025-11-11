@@ -84,11 +84,18 @@ class StorageMovementDetailsScreen extends ConsumerWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(
-                                    "Entrada",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold
+                                  Container(
+                                    padding: EdgeInsets.only(left: 8, right: 8),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: Colors.green
+                                    ),
+                                    child: Text(
+                                      "Entrada",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold
+                                      ),
                                     ),
                                   ),
                                   Text("Data-Hora")
@@ -157,11 +164,18 @@ class StorageMovementDetailsScreen extends ConsumerWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(
-                                    "Saída",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold
+                                  Container(
+                                    padding: EdgeInsets.only(left: 8, right: 8),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: Colors.red
+                                    ),
+                                    child: Text(
+                                      "Saída",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold
+                                      ),
                                     ),
                                   ),
                                   Text("Data-Hora")
@@ -230,11 +244,18 @@ class StorageMovementDetailsScreen extends ConsumerWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(
-                                    "Transferência",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold
+                                  Container(
+                                    padding: EdgeInsets.only(left: 8, right: 8),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: Colors.blue
+                                    ),
+                                    child: Text(
+                                      "Transferência",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold
+                                      ),
                                     ),
                                   ),
                                   Text("Data-Hora")

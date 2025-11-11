@@ -19,8 +19,8 @@ class TransactionCard extends ConsumerWidget {
   });
 
   TypeT getType() {
-    final fromId = stockTransaction.fromStorageId;
-    final toId = stockTransaction.toStorageId;
+    final fromId = stockTransaction.fromStorage;
+    final toId = stockTransaction.toStorage;
     final salesId = stockTransaction.orderId;
 
     if (fromId == 2 && salesId != null) {

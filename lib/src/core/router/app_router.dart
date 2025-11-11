@@ -5,6 +5,9 @@ import 'package:sales_app/src/features/auth/domain/entities/user.dart';
 import 'package:sales_app/src/features/auth/presentation/views/auth_gate.dart';
 import 'package:sales_app/src/features/auth/presentation/views/auth_page.dart';
 import 'package:sales_app/src/features/auth/presentation/views/login_page.dart';
+import 'package:sales_app/src/features/faq/presentation/router/faq_router.dart';
+import 'package:sales_app/src/features/myProfile/presentation/router/my_profile_router.dart';
+import 'package:sales_app/src/features/settings/presentation/router/settings_router.dart';
 import 'package:sales_app/src/features/stockTransaction/presentation/router/transaction_router.dart';
 import 'package:sales_app/src/features/storage/presentation/router/storage_router.dart';
 import 'package:sales_app/src/features/sync/presentation/views/sync_page.dart';
@@ -36,6 +39,9 @@ enum AppRoutes {
   storageDetails,
   auth,
   movement,
+  faq,
+  myProfile,
+  settings,
 }
 
 class _AuthStateChange extends ChangeNotifier {
@@ -118,7 +124,10 @@ final goRouterProvider = Provider((ref) {
       agendaRoutes,
       errorRoutes,
       storageRoutes,
-      transactionRoutes
+      transactionRoutes,
+      faqRoutes,
+      myProfileRoutes,
+      settingsRoutes,
     ],
   );
 });
