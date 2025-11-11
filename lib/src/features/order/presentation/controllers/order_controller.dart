@@ -7,13 +7,13 @@ class OrderController extends AutoDisposeAsyncNotifier<List<Order>>{
 
   @override
   FutureOr<List<Order>> build() async {
-    final search = ref.watch(orderSearchProvider);
+    final filter = ref.watch(orderFilterProvider);
     final repository = await ref.read(orderRepositoryProvider.future);
     state = AsyncLoading();
 
     try {
       final service = await ref.watch(orderServiceProvider.future);
-      final newOrders = await service.getAll(search: search);
+      final newOrders = await service.getAll(filter: filter);
 
       if (newOrders.isNotEmpty) {
         await repository.saveAll(newOrders);
@@ -22,7 +22,7 @@ class OrderController extends AutoDisposeAsyncNotifier<List<Order>>{
       print(e);
     }
 
-    return await repository.fetchAll(search: search);
+    return await repository.fetchAll(filter);
   }
 
 }

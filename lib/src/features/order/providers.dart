@@ -6,6 +6,7 @@ import 'package:sales_app/src/features/order/data/services/order_service.dart';
 import 'package:sales_app/src/features/order/domain/entities/order.dart';
 import 'package:sales_app/src/features/order/domain/repositories/order_repository.dart';
 import 'package:sales_app/src/features/order/presentation/controllers/order_controller.dart';
+import 'package:sales_app/src/features/order/presentation/controllers/order_create_controller.dart';
 import 'package:sales_app/src/features/order/presentation/controllers/order_details_controller.dart';
 
 final orderRepositoryProvider = FutureProvider.autoDispose<OrderRepository>((ref) async {
@@ -24,13 +25,18 @@ enum OrderStatusFilter {
 
 final orderStatusFilterProvider = StateProvider<OrderStatusFilter>((ref) => OrderStatusFilter.all);
 
-final orderSearchProvider = StateProvider.autoDispose<String?>((ref) {
-  return null;
+final orderFilterProvider = StateProvider.autoDispose<OrderFilter>((ref) {
+  return OrderFilter(start: 0, limit: 20);
 });
 
 final orderControllerProvider = AutoDisposeAsyncNotifierProvider<OrderController, List<Order>> (() {
   return OrderController();
 });
+
+final orderCreateControllerProvider = AutoDisposeAsyncNotifierProvider<OrderCreateController, List<Order>> (() {
+  return OrderCreateController();
+});
+
 
 final orderDetailsControllerProvider = AsyncNotifierProvider.autoDispose.family<OrderDetailsController, Order, int>(
   OrderDetailsController.new,

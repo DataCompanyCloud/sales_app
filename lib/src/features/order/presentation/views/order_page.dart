@@ -5,7 +5,7 @@ import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
 import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/navigator/navigator_bar.dart';
-import 'package:sales_app/src/features/order/domain/entities/order.dart';
+import 'package:sales_app/src/features/order/domain/repositories/order_repository.dart';
 import 'package:sales_app/src/features/order/domain/valueObjects/order_status.dart';
 import 'package:sales_app/src/features/order/presentation/router/order_router.dart';
 import 'package:sales_app/src/features/order/presentation/widgets/buttons/order_status_buttons.dart';
@@ -14,11 +14,9 @@ import 'package:sales_app/src/features/order/presentation/widgets/skeleton/order
 import 'package:sales_app/src/features/order/providers.dart';
 
 class OrderPage extends ConsumerStatefulWidget {
-  final List<Order> orders;
 
   const OrderPage({
-    super.key,
-    required this.orders
+    super.key
   });
 
   @override
@@ -46,7 +44,7 @@ class OrderListPageState extends ConsumerState<OrderPage>{
     isOpen.state = !isOpen.state;
 
     if (!isOpen.state) {
-      ref.read(orderSearchProvider.notifier).state = null;
+      ref.read(orderFilterProvider.notifier).state = OrderFilter();
       _searchController.clear();
     }
   }
@@ -157,7 +155,7 @@ class OrderListPageState extends ConsumerState<OrderPage>{
                       onSubmitted: (search) {
                         if (search.isEmpty) return;
 
-                        ref.read(orderSearchProvider.notifier).state = search;
+                        ref.read(orderFilterProvider.notifier).state = OrderFilter(q: search);
                       },
                     ),
                   ) : SizedBox.shrink(),
@@ -232,7 +230,7 @@ class OrderListPageState extends ConsumerState<OrderPage>{
 
                                 return GestureDetector(
                                   onTap: () {
-                                    context.pushNamed(OrderRouter.order_details.name, extra: order.orderId);
+                                    context.pushNamed(OrderRouter.details.name, pathParameters: {"orderId": order.orderId.toString()});
                                   },
                                   child: OrderCard(order: order),
                                 );
@@ -246,6 +244,21 @@ class OrderListPageState extends ConsumerState<OrderPage>{
                 )
               ],
             )
+          ),
+          floatingActionButton: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              FloatingActionButton(
+                heroTag: "btn-go",
+                backgroundColor: Color(0xFF0081F5),
+                foregroundColor: Colors.white,
+                onPressed: () {
+                  context.pushNamed(OrderRouter.create.name);
+                },
+                child: Icon(Icons.add),
+              ),
+            ],
           ),
           bottomNavigationBar: CustomBottomNavigationBar(currentIndex: currentIndex),
         );

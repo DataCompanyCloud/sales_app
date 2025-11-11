@@ -7,6 +7,7 @@ import 'package:sales_app/src/features/order/domain/entities/order_customer.dart
 import 'package:sales_app/src/features/order/domain/entities/order_payment.dart';
 import 'package:sales_app/src/features/order/domain/entities/order_product.dart';
 import 'package:sales_app/src/features/order/domain/valueObjects/order_status.dart';
+import 'package:uuid/uuid.dart';
 
 part 'order.freezed.dart';
 part 'order.g.dart';
@@ -144,4 +145,18 @@ abstract class Order with _$Order {
     status: OrderStatus.cancelled,
     cancelledAt: DateTime.now()
   );
+
+
+  static Order create() {
+    return Order(
+      orderId: 0,
+      orderUuId: const Uuid().v4(),   // <-- gera um UUID v4
+      orderCode: '00000',
+      createdAt: DateTime.now(),
+      itemsCount: 0,
+      total: Money.zero(),
+      items: const [],
+      orderPayment: const [],
+    );
+  }
 }

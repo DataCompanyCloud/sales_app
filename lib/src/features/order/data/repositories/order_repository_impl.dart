@@ -11,6 +11,7 @@ import 'package:sales_app/src/features/order/data/models/order_model.dart';
 import 'package:sales_app/src/features/order/data/models/order_product_model.dart';
 import 'package:sales_app/src/features/order/domain/repositories/order_repository.dart';
 import 'package:sales_app/src/features/order/domain/entities/order.dart' as domain;
+import 'package:sales_app/src/features/order/domain/valueObjects/order_status.dart';
 
 class OrderRepositoryImpl extends OrderRepository {
   final Store store;
@@ -18,30 +19,38 @@ class OrderRepositoryImpl extends OrderRepository {
   OrderRepositoryImpl(this.store);
 
   @override
-  Future<List<domain.Order>> fetchAll({String? search}) async {
+  Future<List<domain.Order>> fetchAll(OrderFilter filter) async {
     final box = store.box<OrderModel>();
 
-    final raw = (search ?? '').trim();
-    if (raw.isEmpty) {
-      final all = await box.getAllAsync();
-      return all.map((m) => m.toEntity()).toList();
+    Condition<OrderModel>? cond;
+
+    // Texto
+    final raw = filter.q?.trim();
+    if (raw != null && raw.isNotEmpty) {
+      cond =
+        OrderModel_.customerName.contains(raw, caseSensitive: false) |
+        OrderModel_.orderCode.contains(raw, caseSensitive: false)
+      ;
     }
 
-    final term = raw.toLowerCase();
-    final digits = raw.replaceAll(RegExp(r'\D+'), '');
-
-    final customerNameCond = OrderModel_.customerName.contains(term, caseSensitive: false);
-    final customerNameQuery = box.query(customerNameCond).build();
-    final byCustomerName = await customerNameQuery.findAsync();
-    customerNameQuery.close();
-
-    final seen = <int>{};
-    final merged = <OrderModel>[];
-    for (final m in [...byCustomerName]) {
-      if (seen.add(m.id)) merged.add(m);
+    // Status (ajuste conforme o tipo persistido)
+    if (filter.status != null) {
+      final statusCond = OrderModel_.status.equals(filter.status!.index);
+      cond = (cond == null) ? statusCond : (cond & statusCond);
     }
 
-    return merged.map((m) => m.toEntity()).toList();
+    final qb = (cond == null) ? box.query() : box.query(cond);
+
+    // Ordenação opcional (ex.: mais recentes primeiro)
+    // qb.order(OrderModel_.createdAt, flags: OrderModel_.createdAt.descending);
+
+    final q = qb.build();
+    try {
+      final models = await q.findAsync();
+      return models.map((m) => m.toEntity()).toList();
+    } finally {
+      q.close();
+    }
   }
 
   @override
@@ -73,19 +82,13 @@ class OrderRepositoryImpl extends OrderRepository {
     final cpfBox = store.box<CPFModel>();
     final moneyBox = store.box<MoneyModel>();
 
-
     store.runInTransaction(TxMode.write, () {
       for (final order in orders) {
-        final existing = orderBox.get(order.orderId);
+        final existingQ = orderBox.query(OrderModel_.orderUuId.equals(order.orderUuId)).build();
+        final existing  = existingQ.findFirst();
+        existingQ.close();
 
-        final newModel = order.maybeMap(
-          raw: (r) => r.toModel(),
-          orElse: () =>
-          throw AppException(
-            AppExceptionCode.CODE_000_ERROR_UNEXPECTED,
-            "Dados do Pedido inválidos para atualização",
-          ),
-        );
+        final newModel = order.toModel();
         if (existing != null) {
           final total = existing.total.target;
           if (total != null) {
@@ -158,7 +161,9 @@ class OrderRepositoryImpl extends OrderRepository {
     final moneyBox = store.box<MoneyModel>();
 
     final id = store.runInTransaction(TxMode.write, () {
-      final existing = orderBox.get(order.orderId);
+      final existingQ = orderBox.query(OrderModel_.orderUuId.equals(order.orderUuId)).build();
+      final existing  = existingQ.findFirst();
+      existingQ.close();
 
       final newModel = order.maybeMap(
         raw: (r) => r.toModel(),

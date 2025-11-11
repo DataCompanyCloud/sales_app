@@ -1,33 +1,45 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/order/presentation/views/order_details_page.dart';
 import 'package:sales_app/src/features/order/presentation/views/order_page.dart';
-import 'package:sales_app/src/features/order/presentation/views/create_order_page.dart';
+import 'package:sales_app/src/features/order/presentation/views/order_create_page.dart';
 
 enum OrderRouter {
-  order,
-  order_list,
-  order_details
+  list,
+  details,
+  create
 }
 
 final orderRoutes = GoRoute(
-  path: '/order',
-  name: OrderRouter.order.name,
+  path: '/orders',
+  name: OrderRouter.list.name,
   builder: (context, state) {
-    return CreateOrderPage();
+    return OrderPage();
+
   },
   routes: [
     GoRoute(
-      path: 'order_list',
-      name: OrderRouter.order_list.name,
+      path: 'create', // /orders/create
+      name: OrderRouter.create.name,
       builder: (context, state) {
-        return OrderPage(orders: []);
+        final fromIdStr = state.uri.queryParameters['from'];
+        final fromId = fromIdStr != null ? int.tryParse(fromIdStr) : null;
+        return OrderCreatePage(orderId: fromId);
       }
     ),
     GoRoute(
-      path: 'order_details',
-      name: OrderRouter.order_details.name,
+      path: ':orderId', // /orders/:orderId
+      name: OrderRouter.details.name,
       builder: (context, state) {
-        final orderId = state.extra as int;
+        final idStr = state.pathParameters['orderId'];
+        final orderId = int.tryParse(idStr ?? '');
+
+        if (orderId == null) {
+          return  Scaffold(
+            body: Center(child: Text('Order inválida')),
+          );
+        }
+
         return OrderDetailsPage(orderId: orderId);
       },
     ),
