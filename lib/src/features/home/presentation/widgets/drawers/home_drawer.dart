@@ -58,7 +58,7 @@ class HomeDrawer extends ConsumerWidget {
                   leading: CircleAvatar(
                     backgroundColor: Colors.white24,
                     child: Icon(
-                      Icons.person_outline,
+                      Icons.person,
                       color: Colors.white,
                     ),
                   ),
@@ -95,7 +95,7 @@ class HomeDrawer extends ConsumerWidget {
                     height: 34,
                     width: 34,
                     child: Icon(
-                      Icons.person,
+                      Icons.person_pin,
                       color: Colors.white,
                       size: 28,
                     ),

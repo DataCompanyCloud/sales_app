@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:sales_app/src/features/stockTransaction/domain/entities/owner_transaction.dart';
 
 part 'storage_endpoint.freezed.dart';
 part 'storage_endpoint.g.dart';

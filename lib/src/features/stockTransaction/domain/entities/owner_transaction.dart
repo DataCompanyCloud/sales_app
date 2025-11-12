@@ -14,15 +14,15 @@ abstract class OwnerTransaction with _$OwnerTransaction {
   }) = _OwnerTransaction;
 
   factory OwnerTransaction ({
-    required int id,
-    required String code,
-    required String name,
+    required int userId,
+    required String userCode,
+    required String userName,
   }) {
 
     return OwnerTransaction(
-      id: id,
-      code: code,
-      name: name
+      userId: userId,
+      userCode: userCode,
+      userName: userName
     );
   }
 
