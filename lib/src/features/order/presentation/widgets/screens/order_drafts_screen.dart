@@ -36,7 +36,7 @@ class OrderDraftsScreen extends ConsumerWidget {
               onTap: () {
                 final loc = GoRouter.of(context).namedLocation(
                   OrderRouter.create.name,
-                  queryParameters: {"from": order.orderId.toString()},
+                  queryParameters: {"orderId": order.orderId.toString()},
                 );
                 context.push(loc);
               },

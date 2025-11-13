@@ -3,6 +3,7 @@ import 'package:sales_app/src/core/providers/api_client_provider.dart';
 import 'package:sales_app/src/core/providers/datasource_provider.dart';
 import 'package:sales_app/src/features/order/data/repositories/order_repository_impl.dart';
 import 'package:sales_app/src/features/order/data/services/order_service.dart';
+import 'package:sales_app/src/features/order/data/services/order_sync_service.dart';
 import 'package:sales_app/src/features/order/domain/entities/order.dart';
 import 'package:sales_app/src/features/order/domain/repositories/order_repository.dart';
 import 'package:sales_app/src/features/order/presentation/controllers/order_controller.dart';
@@ -46,4 +47,11 @@ final orderServiceProvider = FutureProvider.autoDispose<OrderService>((ref) asyn
   final apiClient = ref.watch(apiClientProvider);
   final repository = await ref.watch(orderRepositoryProvider.future);
   return OrderService(apiClient, repository);
+});
+
+
+final orderSyncServiceProvider = FutureProvider.autoDispose<OrderSyncService>((ref) async {
+  final apiClient = ref.watch(apiClientProvider);
+  final repository = await ref.watch(orderRepositoryProvider.future);
+  return OrderSyncService(apiClient, repository);
 });

@@ -22,9 +22,18 @@ final orderRoutes = GoRoute(
       path: 'create', // /orders/create
       name: OrderRouter.create.name,
       builder: (context, state) {
-        final fromIdStr = state.uri.queryParameters['from'];
-        final fromId = fromIdStr != null ? int.tryParse(fromIdStr) : null;
-        return OrderCreatePage(orderId: fromId);
+        // ?showOrders=true ou ?showOrders=false
+        final showOrdersStr = state.uri.queryParameters['showOrders'];
+        final showOrders = showOrdersStr == 'true';
+
+        // ?orderId=123
+        final orderIdStr = state.uri.queryParameters['orderId'];
+        final orderId = orderIdStr != null ? int.tryParse(orderIdStr) : null;
+
+        return OrderCreatePage(
+          orderId: orderId,
+          showOrders: showOrders,
+        );
       }
     ),
     GoRoute(

@@ -9,16 +9,17 @@ import 'package:sales_app/src/features/order/presentation/widgets/popups/dialog_
 import 'package:sales_app/src/features/order/presentation/widgets/screens/order_create_screen.dart';
 import 'package:sales_app/src/features/order/presentation/widgets/screens/order_drafts_screen.dart';
 import 'package:sales_app/src/features/order/presentation/widgets/skeleton/order_create_page_skeleton.dart';
-import 'package:sales_app/src/features/order/presentation/widgets/skeleton/order_details_screen_skeleton.dart';
 import 'package:sales_app/src/features/order/providers.dart';
 import 'package:collection/collection.dart';
 
 class OrderCreatePage extends ConsumerWidget {
   final int? orderId;
+  final bool showOrders;
 
   const OrderCreatePage({
     super.key,
-    required this.orderId
+    required this.orderId,
+    required this.showOrders
   });
 
   @override
@@ -39,15 +40,33 @@ class OrderCreatePage extends ConsumerWidget {
 
         return  Scaffold(
           appBar: AppBar(
-            title: Text(
-              order?.orderCode ?? "Novo Pedido"
+            title: Row(
+              children: [
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    width: 8,
+                    height: 8,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: order?.serverId == null
+                            ? Colors.red
+                            : Colors.cyan
+                    ),
+                  ),
+                ),
+                SizedBox(width: 8),
+                Text(
+                  order?.orderCode ?? "Novo Pedido"
+                )
+              ],
             ),
             automaticallyImplyLeading: false,
             actions: [
-              orderId != null && orders.length > 1
+              !showOrders && orders.length > 1
                 ? IconButton(
                     onPressed: () {
-                      context.goNamed(OrderRouter.create.name);
+                      context.goNamed(OrderRouter.create.name, queryParameters: {"showOrders": "true"});
                     },
                     icon: Icon(Icons.change_circle_outlined),
                   )
@@ -55,7 +74,7 @@ class OrderCreatePage extends ConsumerWidget {
               ,
             ],
           ),
-          body: orderId == null && orders.length > 1
+          body: showOrders && orders.length > 1
               ? RefreshIndicator(
                   onRefresh: () async {
                     if (controller.isLoading) return;
@@ -66,7 +85,7 @@ class OrderCreatePage extends ConsumerWidget {
               : OrderCreateScreen(order: order)
           ,
           floatingActionButton:
-            orderId == null && orders.length > 1
+            showOrders && orders.length > 1
             ? FloatingActionButton(
                 heroTag: "btn-go",
                 backgroundColor: Color(0xFF0081F5),
@@ -82,11 +101,11 @@ class OrderCreatePage extends ConsumerWidget {
                     return;
                   }
 
-                  final newOrder = await ref.read(orderCreateControllerProvider.notifier).createNewOrder();
+                  // final newOrder = await ref.read(orderCreateControllerProvider.notifier).createNewOrder();
 
                   if (!context.mounted) return;
-                  context.goNamed(OrderRouter.create.name, queryParameters: {"from": newOrder.orderId.toString()});
-                  ref.refresh(orderCreateControllerProvider);
+                  context.goNamed(OrderRouter.create.name);
+                  // ref.refresh(orderCreateControllerProvider);
                 },
                 child: Icon(Icons.add),
               )
