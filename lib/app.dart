@@ -3,7 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/core/router/app_router.dart';
 import 'package:sales_app/src/core/themes.dart';
-import 'package:sales_app/src/features/order/providers.dart';
+import 'package:sales_app/src/features/salesOrder/providers.dart';
 
 class SalesApp extends ConsumerStatefulWidget {
   const SalesApp({super.key});
@@ -13,6 +13,10 @@ class SalesApp extends ConsumerStatefulWidget {
 }
 
 class SalesAppState extends ConsumerState<SalesApp> with WidgetsBindingObserver{
+  bool _isSyncing = false;      // evita rodar em paralelo
+  bool _hasSyncedOnce = false;  // só deixa rodar uma vez
+
+
   @override
   void initState() {
     super.initState();
@@ -23,15 +27,22 @@ class SalesAppState extends ConsumerState<SalesApp> with WidgetsBindingObserver{
   }
 
   Future<void> _syncOrdersOnAppOpen() async {
-    try {
-      // pega o OrderService via Riverpod
-      final orderService = await ref.read(orderSyncServiceProvider.future);
+    // já sincronizou nessa execução do app? então nem tenta de novo
+    if (_hasSyncedOnce) return;
 
-      // aqui você chama o método que sincroniza e usa notificações
+    // já está sincronizando? evita chamadas duplicadas enquanto ainda está rodando
+    if (_isSyncing) return;
+
+    _isSyncing = true;
+    try {
+      final orderService = await ref.read(orderSyncServiceProvider.future);
       await orderService.syncOrders(showNotification: true);
+
+      _hasSyncedOnce = true; // marcou que já rodou
     } catch (e, st) {
-      // log se quiser
       debugPrint('Erro ao sincronizar pedidos: $e\n$st');
+    } finally {
+      _isSyncing = false;
     }
   }
 

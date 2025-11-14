@@ -11,7 +11,7 @@ class NotificationService {
   static const int syncNotificationId = 1001;
 
   Future<void> init() async {
-    const androidInit = AndroidInitializationSettings('ic_launcher');
+    const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
     const initializationSettings = InitializationSettings(
       android: androidInit,
     );
@@ -22,23 +22,24 @@ class NotificationService {
   static Future<void> showSyncNotification({
     required String title,
     required String body,
-    required int progress,
-    required int maxProgress,
+    required int progress,     // qtd processada
+    required int maxProgress,  // total
   }) async {
-    const androidDetails = AndroidNotificationDetails(
+    // converte para porcentagem (0–100)
+    final percent = maxProgress == 0 ? 0 : (progress * 100 ~/ maxProgress);
+
+    final androidDetails = AndroidNotificationDetails(
       'sync_channel',
       'Sincronização',
       channelDescription: 'Sincronização de pedidos',
-      ongoing: true,
+      // ongoing: true,
       onlyAlertOnce: true,
       showProgress: true,
       maxProgress: 100,
+      progress: percent
     );
 
     final details = NotificationDetails(android: androidDetails);
-
-    // converte para porcentagem (0–100)
-    final percent = maxProgress == 0 ? 0 : (progress * 100 ~/ maxProgress);
 
     await _plugin.show(
       syncNotificationId,
@@ -47,6 +48,7 @@ class NotificationService {
       details,
     );
   }
+
 
   static Future<void> completeSyncNotification({
     required String title,

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/app.dart';
+import 'package:sales_app/src/core/notifications/notification_service.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -12,6 +13,8 @@ void main() {
     statusBarColor: Colors.black,
     statusBarIconBrightness: Brightness.light,
   ));
+
+  await NotificationService.instance.init();
 
   runApp(
     ProviderScope(

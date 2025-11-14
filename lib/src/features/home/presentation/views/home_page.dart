@@ -9,7 +9,7 @@ import 'package:sales_app/src/features/home/presentation/widgets/draggable/dragg
 import 'package:sales_app/src/features/home/presentation/widgets/drawers/home_drawer.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/navigator/navigator_bar.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/skeleton/home_page_skeleton.dart';
-import 'package:sales_app/src/features/order/presentation/router/order_router.dart';
+import 'package:sales_app/src/features/salesOrder/presentation/router/order_router.dart';
 import 'package:sales_app/src/features/stockTransaction/presentation/router/transaction_router.dart';
 import 'package:sales_app/src/features/storage/presentation/router/storage_router.dart';
 
