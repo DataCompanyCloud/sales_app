@@ -35,7 +35,7 @@ class SalesAppState extends ConsumerState<SalesApp> with WidgetsBindingObserver{
 
     _isSyncing = true;
     try {
-      final orderService = await ref.read(orderSyncServiceProvider.future);
+      final orderService = await ref.read(salesOrderSyncServiceProvider.future);
       await orderService.syncOrders(showNotification: true);
 
       _hasSyncedOnce = true; // marcou que já rodou

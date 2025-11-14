@@ -16,7 +16,7 @@ import 'package:sales_app/src/features/customer/presentation/router/customer_rou
 import 'package:sales_app/src/features/error/presentation/router/error_router.dart';
 import 'package:sales_app/src/features/forgotPassword/presentation/views/forgot_password_page.dart';
 import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
-import 'package:sales_app/src/features/salesOrder/presentation/router/order_router.dart';
+import 'package:sales_app/src/features/salesOrder/presentation/router/sales_order_router.dart';
 import 'package:sales_app/src/features/product/presentation/router/product_router.dart';
 import 'package:sales_app/src/features/schedule/presentation/router/schedule_router.dart';
 import 'package:sales_app/src/features/userType/presentation/views/user_type_page.dart';
