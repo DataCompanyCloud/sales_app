@@ -26,10 +26,7 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
     // Texto
     final raw = filter.q?.trim();
     if (raw != null && raw.isNotEmpty) {
-      cond =
-        SalesOrderModel_.customerName.contains(raw, caseSensitive: false) |
-        SalesOrderModel_.orderCode.contains(raw, caseSensitive: false)
-      ;
+      cond = SalesOrderModel_.customerName.contains(raw, caseSensitive: false) | SalesOrderModel_.orderCode.contains(raw, caseSensitive: false);
     }
 
     if (filter.status != null) {
@@ -44,9 +41,20 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
 
     final qb = (cond == null) ? box.query() : box.query(cond);
 
-    // Ordenação opcional (ex.: mais recentes primeiro)
-    // qb.order(OrderModel_.createdAt, flags: OrderModel_.createdAt.descending);
-
+    final order = filter.direction == SortDirection.desc ? Order.descending: 0;
+    switch (filter.orderBy) {
+      case SalesOrderSortField.createdAt: qb.order(SalesOrderModel_.createdAt, flags: order);
+        break;
+      case SalesOrderSortField.updatedAt: qb.order(SalesOrderModel_.updatedAt, flags: order);
+        break;
+      case SalesOrderSortField.total: qb.order(SalesOrderModel_.total, flags: order);
+        break;
+      case SalesOrderSortField.customerName: qb.order(SalesOrderModel_.customerName, flags: order);
+        break;
+      case SalesOrderSortField.itemsCount: qb.order(SalesOrderModel_.itemsCount, flags: order);
+        break;
+    }
+    
     final q = qb.build();
     try {
       final models = await q.findAsync();

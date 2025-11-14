@@ -1,19 +1,33 @@
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order.dart';
 import 'package:sales_app/src/features/salesOrder/domain/valueObjects/sales_order_status.dart';
 
+enum SortDirection { asc, desc }
+
+enum SalesOrderSortField {
+  createdAt,
+  updatedAt,
+  total,
+  customerName,
+  itemsCount,
+}
+
 class SalesOrderFilter {
   final int start;
   final int limit;
   final String? q;
   final SalesOrderStatus? status;
   final bool onlyPendingSync;
+  final SalesOrderSortField orderBy;
+  final SortDirection direction;
 
   const SalesOrderFilter({
     this.start = 0,
     this.limit = 20,
     this.q,
     this.status,
-    this.onlyPendingSync = false
+    this.onlyPendingSync = false,
+    this.orderBy = SalesOrderSortField.createdAt,
+    this.direction = SortDirection.desc,
   });
 }
 

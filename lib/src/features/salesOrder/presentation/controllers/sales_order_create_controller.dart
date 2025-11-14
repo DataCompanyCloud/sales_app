@@ -93,8 +93,7 @@ class SalesOrderCreateController extends AutoDisposeFamilyAsyncNotifier<SalesOrd
       // final remote = await service.(updated);
       final saved = await repository.save(updated);
 
-      final local = await repository.fetchById(saved.orderId);
-      state = AsyncData(local);
+      state = AsyncData(saved);
     } catch (e, st) {
       // aqui você decide:
       // - manter o último data (não mexer no state)

@@ -11,6 +11,7 @@ import 'package:sales_app/src/features/salesOrder/data/models/sales_order_model.
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_customer.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/router/sales_order_router.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/widgets/indicator/pulsing_dot.dart';
+import 'package:sales_app/src/features/salesOrder/presentation/widgets/section/customer_section.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/widgets/skeleton/sales_order_create_page_skeleton.dart';
 import 'package:sales_app/src/features/salesOrder/providers.dart';
 
@@ -101,105 +102,7 @@ class SalesOrderCreatePageState extends ConsumerState<SalesOrderCreatePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        InkWell(
-                          onTap: () async {
-                            final selected = await context.pushNamed<Customer?>(OrderRouter.select_customer.name);
-
-                            if (selected == null) return;
-
-                            if (order != null) {
-                              final newOrder = order.copyWith(
-                                customer: SalesOrderCustomer.fromCustomer(selected),
-                                updatedAt: DateTime.now()
-                              );
-
-                              await ref
-                                  .read(salesOrderCreateControllerProvider(widget.orderId).notifier)
-                                  .saveEdits(newOrder);
-                              return;
-                            }
-
-                            final newOrder = await ref
-                              .read(salesOrderCreateControllerProvider(widget.orderId).notifier)
-                              .createNewOrder(customer: selected);
-
-                            if (!context.mounted) return;
-                            context.goNamed(OrderRouter.create.name, queryParameters: {"orderId": newOrder.orderId.toString()});
-                          },
-                          child: Container(
-                            padding: EdgeInsets.all(8),
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: scheme.surface,
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: scheme.onTertiary, width: 2)
-                            ),
-                            child: customer == null
-                              ? SizedBox(
-                                  height: 48,
-                                  child: Center(
-                                    child: Text(
-                                      "Selecionar Cliente",
-                                      style: TextStyle(
-                                          fontSize: 18
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              : Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                        color: scheme.onPrimary,
-                                        borderRadius: BorderRadius.circular(40)
-                                    ),
-                                    child: Icon(
-                                        customer.cnpj != null
-                                            ? Icons.apartment
-                                            : Icons.person
-                                    ),
-                                  ),
-                                  SizedBox(width: 8),
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            customer.customerName ?? "--"
-                                        ),
-                                        Text(
-                                          customer.customerCode ?? "--",
-                                          style: TextStyle(
-                                              fontSize: 12
-                                          ),
-                                        ),
-                                        Text(
-                                          customer.cnpj?.formatted ?? customer.cpf?.formatted ?? "--",
-                                          style: TextStyle(
-                                              fontSize: 12
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(width: 8),
-                                  Icon(
-                                    Icons.menu,
-                                  )
-                                ],
-                              )
-                          ),
-                        ),
-                      ],
-                    ),
+                    SalesOrderCustomerSection(order: order)
                   ],
                 ),
               ),

@@ -55,11 +55,13 @@ final orderRoutes = GoRoute(
       path: 'drafts',
       name: OrderRouter.drafts.name,
         builder: (context, state) {
-
           const filter = SalesOrderFilter(
             start: 0,
             limit: 50,
             status: SalesOrderStatus.draft,
+            onlyPendingSync: true,
+            direction: SortDirection.desc,
+            orderBy: SalesOrderSortField.createdAt
           );
 
           return ProviderScope(

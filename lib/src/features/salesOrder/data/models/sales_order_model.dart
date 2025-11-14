@@ -21,9 +21,13 @@ class SalesOrderModel {
   int? customerId;
   String? customerName;
   int status;
+  @Property(type: PropertyType.date)
   DateTime? updatedAt;
+  @Property(type: PropertyType.date)
   DateTime? syncedAt;
+  @Property(type: PropertyType.date)
   DateTime? confirmedAt;
+  @Property(type: PropertyType.date)
   DateTime? cancelledAt;
   String? notes;
   bool needsSync;
