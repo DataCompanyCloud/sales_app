@@ -89,6 +89,44 @@ class MyProfilePage extends ConsumerWidget {
                 ),
               ),
             ),
+            Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8, right: 2, bottom: 4),
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(
+                          color: scheme.onTertiary
+                        ),
+                        color: scheme.surface
+                      ),
+                      child: Text("Nome"),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 2, right: 8, bottom: 4),
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(
+                          color: scheme.onTertiary
+                        ),
+                        color: scheme.surface
+                      ),
+                      child: Text("Sobrenome"),
+                    ),
+                  ),
+                ),
+              ],
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 8, right: 8, bottom: 4),
               child: Container(

@@ -1,14 +1,11 @@
-import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/providers/connectivity_provider.dart';
-import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/navigator/navigator_bar.dart';
 import 'package:sales_app/src/features/salesOrder/data/models/sales_order_model.dart';
-import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_customer.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/router/sales_order_router.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/widgets/indicator/pulsing_dot.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/widgets/section/customer_section.dart';

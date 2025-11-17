@@ -6,7 +6,6 @@ import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_customer.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_product.dart';
-import 'package:sales_app/src/features/salesOrder/domain/repositories/sales_order_repository.dart';
 import 'package:sales_app/src/features/salesOrder/domain/valueObjects/sales_order_status.dart';
 import 'package:sales_app/src/features/salesOrder/providers.dart';
 import 'package:uuid/uuid.dart';

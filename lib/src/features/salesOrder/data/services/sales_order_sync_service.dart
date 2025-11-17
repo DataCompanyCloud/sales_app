@@ -2,7 +2,6 @@ import 'package:faker/faker.dart';
 import 'package:sales_app/src/core/api/api_client.dart';
 import 'package:sales_app/src/core/notifications/notification_service.dart';
 import 'package:sales_app/src/features/salesOrder/domain/repositories/sales_order_repository.dart';
-import 'package:sales_app/src/features/salesOrder/domain/valueObjects/sales_order_status.dart';
 
 class SalesOrderSyncService {
   final SalesOrderRepository repository;
