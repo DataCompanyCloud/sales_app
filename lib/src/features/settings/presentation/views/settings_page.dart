@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sales_app/src/features/settings/presentation/router/settings_router.dart';
 
 final isWifiOnlyProvider = StateProvider<bool>((ref) => false);
 final isDarkModeEnabledProvider = StateProvider<bool>((ref) => false);
@@ -47,12 +48,6 @@ class SettingsPage extends ConsumerWidget {
                 Card(
                   child: Column(
                     children: [
-                      ListTile(
-                        title: Text("Mudar local dos arquivos"),
-                        leading: Icon(Icons.file_open),
-                        trailing: Icon(Icons.chevron_right),
-                        onTap: () {},
-                      ),
                       SwitchListTile(
                         title: Text("Baixar arquivos somente \ncom Wi-Fi"),
                         secondary: Icon(Icons.wifi),
@@ -153,12 +148,6 @@ class SettingsPage extends ConsumerWidget {
                         onTap: () {},
                       ),
                       ListTile(
-                        title: Text("Avaliar o app"),
-                        leading: Icon(Icons.star),
-                        trailing: Icon(Icons.chevron_right),
-                        onTap: () {},
-                      ),
-                      ListTile(
                         title: Text("Termos de uso"),
                         leading: Icon(Icons.list_alt),
                         trailing: Icon(Icons.chevron_right),
@@ -170,18 +159,18 @@ class SettingsPage extends ConsumerWidget {
                         trailing: Icon(Icons.chevron_right),
                         onTap: () {},
                       ),
-                      ListTile(
-                        title: Text("Versão"),
-                        leading: Icon(Icons.error_outline),
-                        trailing: Text(
-                          "v0.0.1",
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.grey
-                          ),
-                        ),
-                        onTap: () {},
-                      ),
+                      // ListTile(
+                      //   title: Text("Versão"),
+                      //   leading: Icon(Icons.error_outline),
+                      //   trailing: Text(
+                      //     "v0.0.1",
+                      //     style: TextStyle(
+                      //       fontSize: 15,
+                      //       color: Colors.grey
+                      //     ),
+                      //   ),
+                      //   onTap: () {},
+                      // ),
                     ],
                   ),
                 ),
@@ -205,7 +194,9 @@ class SettingsPage extends ConsumerWidget {
                         title: Text("Mais opções"),
                         leading: Icon(Icons.settings),
                         trailing: Icon(Icons.chevron_right),
-                        onTap: () {},
+                        onTap: () {
+                          context.pushNamed(SettingsRouter.more_settings.name);
+                        },
                       ),
                     ],
                   ),
