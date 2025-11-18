@@ -1,6 +1,7 @@
 import 'package:objectbox/objectbox.dart';
+import 'package:sales_app/src/features/customer/data/models/contact_info_model.dart';
 import 'package:sales_app/src/features/customer/data/models/money_model.dart';
-import 'package:sales_app/src/features/customer/data/models/payment_method_model.dart';
+import 'package:sales_app/src/features/customer/data/models/phone_model.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
 import 'package:sales_app/src/features/salesOrder/data/models/sales_order_customer_model.dart';
 import 'package:sales_app/src/features/salesOrder/data/models/sales_order_payment_model.dart';
@@ -36,8 +37,7 @@ class SalesOrderModel {
   final freight = ToOne<MoneyModel>();
   final customer = ToOne<SalesOrderCustomerModel>();
   final items = ToMany<OrderProductModel>();
-  final paymentMethods = ToMany<PaymentMethodModel>();
-  final orderPayment = ToMany<SalesOrderPaymentModel>();
+  final orderPaymentMethods = ToMany<SalesOrderPaymentModel>();
 
   SalesOrderModel({
     this.id = 0,
@@ -61,9 +61,8 @@ class SalesOrderModel {
 extension SalesOrderModelMapper on SalesOrderModel {
   SalesOrder toEntity() {
     final itemsList = items.map((i) => i.toEntity()).toList();
-    final payments = paymentMethods.map((p) => p.toEntity()).toList();
     final customers = customer.target?.toEntity();
-    final orderPaymentList = orderPayment.map((o) => o.toEntity()).toList();
+    final orderPaymentList = orderPaymentMethods.map((o) => o.toEntity()).toList();
 
     return SalesOrder(
       orderId: id,
@@ -80,12 +79,47 @@ extension SalesOrderModelMapper on SalesOrderModel {
       itemsCount: itemsCount,
       total: total.target?.toEntity() ?? Money.zero(),
       items: itemsList,
-      orderPayment: orderPaymentList,
-      paymentMethods: payments,
+      orderPaymentMethods: orderPaymentList,
       customer: customers,
       freight: freight.target?.toEntity()
     );
   }
+
+
+  void deleteRecursively(
+    Box<SalesOrderModel> salesOrderBox,
+    Box<SalesOrderCustomerModel> salesOrderCustomerBox,
+    Box<SalesOrderPaymentModel> salesOrderPaymentBox,
+    Box<OrderProductModel> orderProductBox,
+    Box<ContactInfoModel> contactInfoBox,
+    Box<MoneyModel> moneyBox,
+    Box<PhoneModel> phoneBox
+  ) {
+
+    if (total.target != null) {
+      moneyBox.remove(total.targetId);
+    }
+
+    if (freight.target != null) {
+      moneyBox.remove(freight.targetId);
+    }
+
+    final salesCustomer = customer.target;
+    if (salesCustomer != null) {
+      salesCustomer.deleteRecursively(salesOrderCustomerBox, contactInfoBox, phoneBox);
+    }
+
+    for (final payment in orderPaymentMethods) {
+      payment.deleteRecursively(salesOrderPaymentBox, moneyBox);
+    }
+
+    for (final item in items) {
+      item.deleteRecursively(orderProductBox, moneyBox);
+    }
+
+    salesOrderBox.remove(id);
+  }
+
 }
 
 extension SalesOrderMapper on SalesOrder {

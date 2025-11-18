@@ -30,8 +30,7 @@ abstract class SalesOrder with _$SalesOrder {
     DateTime? confirmedAt,
     DateTime? cancelledAt,
     String? notes,
-    @Default([]) List<SalesOrderPayment> orderPayment,
-    @Default([]) List<PaymentMethod> paymentMethods,
+    @Default([]) List<SalesOrderPayment> orderPaymentMethods,
     @Default(Money.raw(amount: 0)) Money freight, /// Frete
     @Default(<SalesOrderProduct>[]) List<SalesOrderProduct> items, /// Itens
     /// Totais armazenados (opcionalmente sincronizados via 'recalculate')
@@ -49,8 +48,7 @@ abstract class SalesOrder with _$SalesOrder {
     required int itemsCount,
     required Money total,
     required List<SalesOrderProduct> items,
-    required List<SalesOrderPayment> orderPayment,
-    List<PaymentMethod> paymentMethods = const [],
+    required List<SalesOrderPayment> orderPaymentMethods,
     SalesOrderCustomer? customer,
     int? serverId,
     SalesOrderStatus status = SalesOrderStatus.draft,
@@ -90,10 +88,9 @@ abstract class SalesOrder with _$SalesOrder {
       notes: notes,
       itemsCount: itemsCount,
       total: total,
-      orderPayment: orderPayment,
+      orderPaymentMethods: orderPaymentMethods,
       customer: customer,
       items: items,
-      paymentMethods: paymentMethods,
       freight: freight ?? Money.zero(),
       //TODO Mudar isso aqui
       itemsSubtotal: Money.zero(),

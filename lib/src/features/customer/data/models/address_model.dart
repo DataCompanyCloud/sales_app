@@ -1,6 +1,6 @@
 import 'package:objectbox/objectbox.dart';
-import 'package:sales_app/src/features/customer/data/models/cep_model.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/address.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/cep.dart';
 
 @Entity()
 class AddressModel {
@@ -10,14 +10,14 @@ class AddressModel {
   String? state;
   String? city;
   String? street;
-
-  final cep = ToOne<CEPModel>();
+  String? cep;
 
   AddressModel({
     this.id = 0,
     this.state,
     this.city,
     this.street,
+    this.cep
   });
 }
 
@@ -28,7 +28,7 @@ extension AddressModelMapper on AddressModel {
       state: state,
       city: city,
       street: street,
-      cep: cep.target?.toEntity()
+      cep: cep != null ? CEP(value: cep!) : null
     );
     return address;
   }
@@ -37,12 +37,12 @@ extension AddressModelMapper on AddressModel {
 extension AddressMapper on Address {
   /// De Address → AddressModel
   AddressModel toModel() {
-    final model = AddressModel(city: city, state: state, street: street);
-
-    if (cep != null) {
-      model.cep.target = cep!.toModel();
-    }
-
+    final model = AddressModel(
+      city: city,
+      state: state,
+      street: street,
+      cep: cep?.value
+    );
     return model;
   }
 }

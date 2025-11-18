@@ -1,8 +1,25 @@
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 
+enum CustomerDirection { asc, desc }
+
+class CustomerFilter {
+  final int start;
+  final int limit;
+  final String? q;
+  final CustomerDirection direction;
+
+  const CustomerFilter({
+    this.start = 0,
+    this.limit = 20,
+    this.q,
+    this.direction = CustomerDirection.desc,
+  });
+}
+
+
 abstract class CustomerRepository {
   /// Busca todos os Clientes
-  Future<List<Customer>> fetchAll({String? search});
+  Future<List<Customer>> fetchAll(CustomerFilter filter);
   /// Busca um cliente pelo ID
   Future<Customer> fetchById(int customerId);
   /// Salva vários cliente

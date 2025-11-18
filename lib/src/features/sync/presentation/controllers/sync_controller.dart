@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sales_app/src/features/customer/domain/repositories/customer_repository.dart';
 import 'package:sales_app/src/features/customer/providers.dart';
 
 final syncProgressCustomerProvider = StateProvider.autoDispose<double>((ref) => 0.0);
@@ -15,10 +16,7 @@ final syncCustomerProvider = FutureProvider.autoDispose<void>((ref) async {
   for (var offset = 0; offset < total; offset += pageSize) {
     try {
       final pageIndex = offset;
-      final batch = await service.getAll(
-        start: pageIndex,
-        limit: pageSize,
-      );
+      final batch = await service.getAll(CustomerFilter());
       print("$offset - ${offset + pageSize} = ${batch.length}");
       if (batch.isEmpty) {
         print("Cabou");

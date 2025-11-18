@@ -2,12 +2,12 @@ import 'dart:async';
 import 'package:sales_app/objectbox.g.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
-import 'package:sales_app/src/features/customer/data/models/cnpj_model.dart';
 import 'package:sales_app/src/features/customer/data/models/contact_info_model.dart';
-import 'package:sales_app/src/features/customer/data/models/cpf_model.dart';
 import 'package:sales_app/src/features/customer/data/models/money_model.dart';
+import 'package:sales_app/src/features/customer/data/models/phone_model.dart';
 import 'package:sales_app/src/features/salesOrder/data/models/sales_order_customer_model.dart';
 import 'package:sales_app/src/features/salesOrder/data/models/sales_order_model.dart';
+import 'package:sales_app/src/features/salesOrder/data/models/sales_order_payment_model.dart';
 import 'package:sales_app/src/features/salesOrder/data/models/sales_order_product_model.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order.dart';
 import 'package:sales_app/src/features/salesOrder/domain/repositories/sales_order_repository.dart';
@@ -20,7 +20,6 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
   @override
   Future<List<SalesOrder>> fetchAll(SalesOrderFilter filter) async {
     final box = store.box<SalesOrderModel>();
-
     Condition<SalesOrderModel>? cond;
 
     // Texto
@@ -89,8 +88,6 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
     final orderCustomerBox = store.box<SalesOrderCustomerModel>();
     final orderProductBox = store.box<OrderProductModel>();
     final contactInfoBox = store.box<ContactInfoModel>();
-    final cnpjBox = store.box<CNPJModel>();
-    final cpfBox = store.box<CPFModel>();
     final moneyBox = store.box<MoneyModel>();
 
     store.runInTransaction(TxMode.write, () {
@@ -116,16 +113,6 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
 
             for (final items in customer.contactInfo) {
               contactInfoBox.remove(items.id);
-            }
-
-            final cnpj = customer.cnpj.target;
-            if (cnpj != null) {
-              cnpjBox.remove(cnpj.id);
-            }
-
-            final cpf = customer.cpf.target;
-            if (cpf != null) {
-              cpfBox.remove(cpf.id);
             }
 
             orderCustomerBox.remove(existing.customer.targetId);
@@ -163,236 +150,97 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
 
   @override
   Future<SalesOrder> save(SalesOrder order) async {
-    final orderBox = store.box<SalesOrderModel>();
-    final orderCustomerBox = store.box<SalesOrderCustomerModel>();
-    final orderProductBox = store.box<OrderProductModel>();
+    final salesOrderBox = store.box<SalesOrderModel>();
+    final salesOrderCustomerBox = store.box<SalesOrderCustomerModel>();
+    final salesOrderPaymentBox = store.box<SalesOrderPaymentModel>();
+    final salesOrderProductBox = store.box<OrderProductModel>();
     final contactInfoBox = store.box<ContactInfoModel>();
-    final cnpjBox = store.box<CNPJModel>();
-    final cpfBox = store.box<CPFModel>();
     final moneyBox = store.box<MoneyModel>();
+    final phoneBox = store.box<PhoneModel>();
 
     final id = store.runInTransaction(TxMode.write, () {
-      final existingQ = orderBox.query(SalesOrderModel_.orderUuId.equals(order.orderUuId)).build();
+      final existingQ = salesOrderBox.query(SalesOrderModel_.orderUuId.equals(order.orderUuId)).build();
       final existing  = existingQ.findFirst();
       existingQ.close();
 
-      final newModel = order.maybeMap(
-        raw: (r) => r.toModel(),
-        orElse: () =>
-        throw AppException(
-          AppExceptionCode.CODE_000_ERROR_UNEXPECTED,
-          "Dados do Pedido inválidos para atualização",
-        ),
-      );
+      final newModel = order.toModel();
 
+      newModel.id = existing?.id ?? 0;
       if (existing != null) {
-        newModel.id = existing.id;
-
-        final total = existing.total.target;
-        if (total != null) {
-          moneyBox.remove(total.id);
-        }
-
-        final freight = existing.freight.target;
-        if (freight != null) {
-          moneyBox.remove(freight.id);
-        }
-
-        final customer = existing.customer.target;
-        if (customer != null) {
-
-          for (final items in customer.contactInfo) {
-            contactInfoBox.remove(items.id);
-          }
-
-          final cnpj = customer.cnpj.target;
-          if (cnpj != null) {
-            cnpjBox.remove(cnpj.id);
-          }
-
-          final cpf = customer.cpf.target;
-          if (cpf != null) {
-            cpfBox.remove(cpf.id);
-          }
-
-          orderCustomerBox.remove(existing.customer.targetId);
-        }
-
-        for (final items in existing.items) {
-
-          final unitPrice = items.unitPrice.target;
-          if (unitPrice != null) {
-            moneyBox.remove(unitPrice.id);
-          }
-
-          final discountAmount = items.discountAmount.target;
-          if (discountAmount != null) {
-            moneyBox.remove(discountAmount.id);
-          }
-
-          final taxAmount = items.taxAmount.target;
-          if (taxAmount != null) {
-            moneyBox.remove(taxAmount.id);
-          }
-
-          orderProductBox.remove(items.id);
-        }
-
-      } else {
-        newModel.id = 0;
+        existing.deleteRecursively(
+          salesOrderBox,
+          salesOrderCustomerBox,
+          salesOrderPaymentBox,
+          salesOrderProductBox,
+          contactInfoBox,
+          moneyBox,
+          phoneBox
+        );
       }
 
       // Importante: put() cuidará de persistir ToOne/ToMany que você setou em newModel
-      return orderBox.put(newModel);
+      return salesOrderBox.put(newModel);
     });
 
-    final saved = await orderBox.getAsync(id);
+    final saved = await salesOrderBox.getAsync(id);
     if (saved == null) {
-      throw AppException(
-        AppExceptionCode.CODE_000_ERROR_UNEXPECTED,
-        "Pedido não encontrado após sua inserção",
-      );
+      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Pedido não encontrado após sua inserção");
     }
     return saved.toEntity();
   }
 
   @override
   Future<void> delete(SalesOrder order) async {
-    final orderBox = store.box<SalesOrderModel>();
-    final orderCustomerBox = store.box<SalesOrderCustomerModel>();
-    final orderProductBox = store.box<OrderProductModel>();
+    final salesOrderBox = store.box<SalesOrderModel>();
+    final salesOrderCustomerBox = store.box<SalesOrderCustomerModel>();
+    final salesOrderPaymentBox = store.box<SalesOrderPaymentModel>();
+    final salesOrderProductBox = store.box<OrderProductModel>();
     final contactInfoBox = store.box<ContactInfoModel>();
-    final cnpjBox = store.box<CNPJModel>();
-    final cpfBox = store.box<CPFModel>();
     final moneyBox = store.box<MoneyModel>();
+    final phoneBox = store.box<PhoneModel>();
 
-    store.runInTransaction(TxMode.write, () async {
-      final model = await orderBox.getAsync(order.orderId);
+    store.runInTransaction(TxMode.write, () {
+      final model = salesOrderBox.get(order.orderId);
 
       if (model == null) {
         throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Pedido não encontrado");
       }
 
-
-      final total = model.total.target;
-      if (total != null) {
-        moneyBox.remove(total.id);
-      }
-
-      final freight = model.freight.target;
-      if (freight != null) {
-        moneyBox.remove(freight.id);
-      }
-
-      final customer = model.customer.target;
-      if (customer != null) {
-
-        for (final items in customer.contactInfo) {
-          contactInfoBox.remove(items.id);
-        }
-
-        final cnpj = customer.cnpj.target;
-        if (cnpj != null) {
-          cnpjBox.remove(cnpj.id);
-        }
-
-        final cpf = customer.cpf.target;
-        if (cpf != null) {
-          cpfBox.remove(cpf.id);
-        }
-
-        orderCustomerBox.remove(model.customer.targetId);
-      }
-
-      for (final items in model.items) {
-
-        final unitPrice = items.unitPrice.target;
-        if (unitPrice != null) {
-          moneyBox.remove(unitPrice.id);
-        }
-
-        final discountAmount = items.discountAmount.target;
-        if (discountAmount != null) {
-          moneyBox.remove(discountAmount.id);
-        }
-
-        final taxAmount = items.taxAmount.target;
-        if (taxAmount != null) {
-          moneyBox.remove(taxAmount.id);
-        }
-
-        orderProductBox.remove(items.id);
-      }
-
-      await orderBox.removeAsync(model.id);
+      model.deleteRecursively(
+        salesOrderBox,
+        salesOrderCustomerBox,
+        salesOrderPaymentBox,
+        salesOrderProductBox,
+        contactInfoBox,
+        moneyBox,
+        phoneBox
+      );
     });
   }
 
   @override
   Future<void> deleteAll() async {
-    final orderBox = store.box<SalesOrderModel>();
-    final orderCustomerBox = store.box<SalesOrderCustomerModel>();
-    final orderProductBox = store.box<OrderProductModel>();
+    final salesOrderBox = store.box<SalesOrderModel>();
+    final salesOrderCustomerBox = store.box<SalesOrderCustomerModel>();
+    final salesOrderPaymentBox = store.box<SalesOrderPaymentModel>();
+    final salesOrderProductBox = store.box<OrderProductModel>();
     final contactInfoBox = store.box<ContactInfoModel>();
-    final cnpjBox = store.box<CNPJModel>();
-    final cpfBox = store.box<CPFModel>();
     final moneyBox = store.box<MoneyModel>();
+    final phoneBox = store.box<PhoneModel>();
 
     store.runInTransaction(TxMode.write, () {
-      final allOrders = orderBox.getAll();
+      final allOrders = salesOrderBox.getAll();
       for (final model in allOrders) {
-
-        final total = model.total.target;
-        if (total != null) {
-          moneyBox.remove(total.id);
-        }
-
-        final freight = model.freight.target;
-        if (freight != null) {
-          moneyBox.remove(freight.id);
-        }
-
-        final customer = model.customer.target;
-        if (customer != null) {
-
-          for (final items in customer.contactInfo) {
-            contactInfoBox.remove(items.id);
-          }
-
-          final cnpj = customer.cnpj.target;
-          if (cnpj != null) {
-            cnpjBox.remove(cnpj.id);
-          }
-
-          final cpf = customer.cpf.target;
-          if (cpf != null) {
-            cpfBox.remove(cpf.id);
-          }
-
-          orderCustomerBox.remove(model.customer.targetId);
-        }
-
-        for (final items in model.items) {
-
-          final unitPrice = items.unitPrice.target;
-          if (unitPrice != null) {
-            moneyBox.remove(unitPrice.id);
-          }
-
-          final discountAmount = items.discountAmount.target;
-          if (discountAmount != null) {
-            moneyBox.remove(discountAmount.id);
-          }
-
-          final taxAmount = items.taxAmount.target;
-          if (taxAmount != null) {
-            moneyBox.remove(taxAmount.id);
-          }
-
-          orderProductBox.remove(items.id);
-        }
+        model.deleteRecursively(
+          salesOrderBox,
+          salesOrderCustomerBox,
+          salesOrderPaymentBox,
+          salesOrderProductBox,
+          contactInfoBox,
+          moneyBox,
+          phoneBox
+        );
       }
-      orderBox.removeAll();
     });
   }
 

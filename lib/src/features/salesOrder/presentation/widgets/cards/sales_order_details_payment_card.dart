@@ -16,7 +16,7 @@ class SalesOrderDetailsPaymentCard extends ConsumerWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 
-    final paymentMethod = order.paymentMethods;
+    final paymentMethod = order.orderPaymentMethods;
     final description = order.notes;
     return Card(
       color: scheme.surface,
@@ -77,7 +77,7 @@ class SalesOrderDetailsPaymentCard extends ConsumerWidget {
                   SizedBox(width: 4),
                   if (paymentMethod.isNotEmpty)
                   Text(
-                    paymentMethod.map((p) => p.label).join(", "),
+                    paymentMethod.map((p) => p.paymentMethod?.label ?? "--").join(", "),
                     style: TextStyle(
                       fontSize: 15,
                     ),

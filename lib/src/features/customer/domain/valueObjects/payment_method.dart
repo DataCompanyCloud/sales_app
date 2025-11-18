@@ -11,6 +11,3 @@ enum PaymentMethod {
   final String label;
   const PaymentMethod(this.label);
 }
-
-
-final a = PaymentMethod.boleto;

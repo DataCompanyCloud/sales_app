@@ -21,6 +21,22 @@ extension CreditLimitModelMapper on CreditLimitModel {
     available: available.target!.toEntity(),
     maximum: maximum.target!.toEntity()
   );
+
+  void deleteRecursively({
+    required Box<CreditLimitModel> creditLimitBox,
+    required Box<MoneyModel> moneyBox,
+  }) {
+
+    if (available.target != null) {
+      moneyBox.remove(available.targetId);
+    }
+
+    if (maximum.target != null) {
+      moneyBox.remove(available.targetId);
+    }
+
+    creditLimitBox.remove(id);
+  }
 }
 
 extension CreditLimitMapper on CreditLimit {

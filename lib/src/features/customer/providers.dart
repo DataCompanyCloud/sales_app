@@ -24,8 +24,8 @@ enum CustomerStatusFilter {
 
 final customerStatusFilterProvider = StateProvider<CustomerStatusFilter>((ref) => CustomerStatusFilter.all);
 
-final customerSearchProvider = StateProvider.autoDispose<String?>((ref) {
-  return null;
+final customerFilterProvider = StateProvider.autoDispose<CustomerFilter>((ref) {
+  return CustomerFilter(start: 0, limit: 30);
 });
 
 

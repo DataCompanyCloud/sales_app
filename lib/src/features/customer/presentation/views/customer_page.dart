@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
+import 'package:sales_app/src/features/customer/domain/repositories/customer_repository.dart';
 import 'package:sales_app/src/features/customer/presentation/router/customer_router.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/buttons/customer_status_buttons.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/cards/company_customer_card.dart';
@@ -42,7 +43,7 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
     isOpen.state = !isOpen.state;
 
     if (!isOpen.state) {
-      ref.read(customerSearchProvider.notifier).state = null;
+      ref.read(customerFilterProvider.notifier).state = CustomerFilter();
       _searchController.clear();
     }
   }
@@ -136,7 +137,7 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
                       onSubmitted: (search) {
                         if (search.isEmpty) return;
 
-                        ref.read(customerSearchProvider.notifier).state = search;
+                        ref.read(customerFilterProvider.notifier).state = CustomerFilter(q: search);
                       },
                     ),
                   ) : SizedBox.shrink(),

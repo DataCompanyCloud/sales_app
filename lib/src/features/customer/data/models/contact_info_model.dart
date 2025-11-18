@@ -1,7 +1,7 @@
 import 'package:objectbox/objectbox.dart';
-import 'package:sales_app/src/features/customer/data/models/email_model.dart';
 import 'package:sales_app/src/features/customer/data/models/phone_model.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/contact_info.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/email.dart';
 
 @Entity()
 class ContactInfoModel {
@@ -11,13 +11,14 @@ class ContactInfoModel {
   final String name;
   final bool isPrimary;
 
-  final email = ToOne<EmailModel>();
+  final String? email;
   final phone = ToOne<PhoneModel>();
 
   ContactInfoModel ({
     this.id = 0,
     required this.name,
-    required this.isPrimary
+    required this.isPrimary,
+    required this.email
   });
 }
 
@@ -27,8 +28,20 @@ extension ContactInfoModelMapper on ContactInfoModel {
     name: name,
     isPrimary: isPrimary,
     phone: phone.target?.toEntity(),
-    email: email.target?.toEntity()
+    email: email != null ? Email(value: email!) : null
   );
+
+  void deleteRecursively({
+    required Box<ContactInfoModel> contactInfoBox,
+    required Box<PhoneModel> phoneBox,
+  }) {
+
+    if (phone.target != null) {
+      phoneBox.remove(phone.targetId);
+    }
+
+    contactInfoBox.remove(id);
+  }
 }
 
 extension ContactInfoMapper on ContactInfo {
@@ -38,14 +51,11 @@ extension ContactInfoMapper on ContactInfo {
     final model = ContactInfoModel(
       name: name,
       isPrimary: isPrimary,
+      email: email?.value
     );
 
     if (phone != null) {
       model.phone.target = phone!.toModel();
-    }
-
-    if (email != null) {
-      model.email.target = email!.toModel();
     }
     return model;
   }

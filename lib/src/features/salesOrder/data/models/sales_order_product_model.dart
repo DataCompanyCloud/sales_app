@@ -48,6 +48,26 @@ extension OrderProductModeMapper on OrderProductModel {
       taxAmount: taxAmount.target?.toEntity()
     );
   }
+
+  void deleteRecursively(
+    Box<OrderProductModel> orderProductBox,
+    Box<MoneyModel> moneyBox
+  ) {
+
+    if (unitPrice.target != null) {
+      moneyBox.remove(unitPrice.targetId);
+    }
+
+    if (discountAmount.target != null) {
+      moneyBox.remove(discountAmount.targetId);
+    }
+
+    if (taxAmount.target != null) {
+      moneyBox.remove(taxAmount.targetId);
+    }
+
+    orderProductBox.remove(id);
+  }
 }
 
 extension OrderProductMapper on SalesOrderProduct {

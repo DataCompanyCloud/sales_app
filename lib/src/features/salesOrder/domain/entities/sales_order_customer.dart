@@ -59,7 +59,8 @@ abstract class SalesOrderCustomer with _$SalesOrderCustomer {
           customerCode: person.customerCode,
           customerUuId: person.customerUuId,
           customerName: person.fullName ?? "--",
-          contactInfo: person.contacts
+          contactInfo: person.contacts,
+          cpf: person.cpf
         );
       },
       company: (company) {
@@ -68,7 +69,8 @@ abstract class SalesOrderCustomer with _$SalesOrderCustomer {
           customerCode: company.customerCode,
           customerUuId: company.customerUuId,
           customerName: company.legalName ?? company.tradeName ?? "--",
-          contactInfo: company.contacts
+          contactInfo: company.contacts,
+          cnpj: company.cnpj
         );
       },
       orElse: () => null

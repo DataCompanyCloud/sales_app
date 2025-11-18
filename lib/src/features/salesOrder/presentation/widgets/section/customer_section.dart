@@ -30,7 +30,7 @@ class SalesOrderCustomerSectionState extends ConsumerState<SalesOrderCustomerSec
     final customer = order?.customer;
 
 
-    if (customer == null) {
+    if (customer == null || order == null) {
       return InkWell(
         onTap: _selectCustomer,
         child: Container(
@@ -125,21 +125,93 @@ class SalesOrderCustomerSectionState extends ConsumerState<SalesOrderCustomerSec
           error: (error, stack) => Text("error"),
           loading: () => CircularProgressIndicator(),
           data: (customer) {
-            return ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: customer.contacts.length,
-              itemBuilder: (context, index) {
-                final contact = customer.contacts[index];
+            final address = customer.address;
 
-                return Container(
-                  width: double.infinity,
-                  height: 20,
-                  child: Text(
-                    contact.name
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Endereços:"),
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                    side: BorderSide(width: 2, color: scheme.onTertiary),
                   ),
-                );
-              }
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: 1,
+                    separatorBuilder: (context, index) => Divider(
+                      height: 2,
+                      thickness: 2,
+                      color: scheme.onTertiary,
+                    ),
+                    itemBuilder: (context, index) {
+
+                      return RadioListTile<int>(
+                        onChanged: (value) {},
+                        value: index,
+                        groupValue: 0,
+                        tileColor: scheme.surface,
+                        title: Text(address?.formatted ?? "--"),
+                        splashRadius: 10,
+                        dense: true,
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text("Contatos:"),
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                    side: BorderSide(width: 2, color: scheme.onTertiary),
+                  ),
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: customer.contacts.length,
+                    separatorBuilder: (context, index) => Divider(
+                      height: 2,
+                      thickness: 2,
+                      color: scheme.onTertiary,
+                    ),
+                    itemBuilder: (context, index) {
+                      final contact = customer.contacts[index];
+
+                      return RadioListTile<int>(
+                        onChanged: (value) {
+                          final updated = order.copyWith(
+                            customer: order.customer?.copyWith(
+                              contactInfo: [contact]
+                            )
+                          );
+
+                          ref.read(salesOrderCreateControllerProvider(order.orderId).notifier)
+                              .saveEdits(updated)
+                          ;
+                        },
+                        value: index,
+                        groupValue: null,
+                        tileColor: scheme.surface,
+                        title: Text(contact.name),
+                        subtitle: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(contact.phone?.value.toString() ?? "--"),
+                            Text(contact.email?.value.toString() ?? "--"),
+                          ],
+                        ),
+                        splashRadius: 10,
+                        dense: true,
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+                      );
+                    },
+                  ),
+                ),
+              ],
             );
           },
         )
@@ -175,5 +247,4 @@ class SalesOrderCustomerSectionState extends ConsumerState<SalesOrderCustomerSec
     if (!context.mounted) return;
     context.goNamed(OrderRouter.create.name, queryParameters: {"orderId": newOrder.orderId.toString()});
   }
-
 }

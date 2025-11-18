@@ -1,12 +1,15 @@
 import 'package:objectbox/objectbox.dart';
 import 'package:sales_app/src/features/customer/data/models/address_model.dart';
-import 'package:sales_app/src/features/customer/data/models/cnpj_model.dart';
 import 'package:sales_app/src/features/customer/data/models/contact_info_model.dart';
-import 'package:sales_app/src/features/customer/data/models/cpf_model.dart';
 import 'package:sales_app/src/features/customer/data/models/credit_limit_model.dart';
+import 'package:sales_app/src/features/customer/data/models/money_model.dart';
+import 'package:sales_app/src/features/customer/data/models/phone_model.dart';
 import 'package:sales_app/src/features/customer/data/models/state_registration_model.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/cnpj.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/cpf.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/payment_method.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/state_registration.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/tax_regime.dart';
 
 @Entity()
@@ -28,10 +31,11 @@ class CustomerModel {
   int? businessGroupId;
   String? businessSector;
 
+  String? cpf;
+  String? cnpj;
+
   final address = ToOne<AddressModel>();
   final creditLimit = ToOne<CreditLimitModel>();
-  final cpf = ToOne<CPFModel>();
-  final cnpj = ToOne<CNPJModel>();
   final stateRegistration = ToOne<StateRegistrationModel>();
   final contacts = ToMany<ContactInfoModel>();
 
@@ -39,6 +43,8 @@ class CustomerModel {
     required this.id,
     required this.customerUuId,
     this.serverId,
+    this.cpf,
+    this.cnpj,
     this.isActive = true,
     this.customerCode,
     this.fullName,
@@ -58,48 +64,12 @@ extension CustomerModelMapper on CustomerModel {
     final contactInfoList = contacts.map((c) => c.toEntity()).toList();
     final payments = paymentMethod.map((p) => PaymentMethod.values[p]).toList();
 
-    if (cpf.target != null && cnpj.target == null) {
-      return Customer.person(
-        customerId: id,
-        customerUuId: customerUuId,
-        serverId: serverId,
-        customerCode: customerCode,
-        fullName: fullName,
-        paymentMethods: payments,
-        taxRegime: taxRegime != null ? TaxRegime.values[taxRegime!] : null,
-        creditLimit: creditLimit.target?.toEntity(),
-        cpf: cpf.target?.toEntity(),
-        contacts: contactInfoList,
-        address: modelAddress?.toEntity(),
-        isActive: isActive,
-        notes: notes
-      );
+    StateRegistration? modelStateRegistration;
+    if (stateRegistration.target != null) {
+      modelStateRegistration = stateRegistration.target!.toEntity();
     }
 
-    if (cnpj.target != null && cpf.target == null) {
-      return Customer.company(
-        customerId: id,
-        customerUuId: customerUuId,
-        serverId: serverId,
-        customerCode: customerCode,
-        legalName: legalName,
-        tradeName: tradeName,
-        stateRegistration: stateRegistration.target!.toEntity(), //TODO precisa rever isso aqui
-        paymentMethods: payments,
-        businessSector: businessSector,
-        businessGroupId: businessGroupId,
-        taxRegime: taxRegime != null ? TaxRegime.values[taxRegime!] : null,
-        creditLimit: creditLimit.target?.toEntity(),
-        cnpj: cnpj.target?.toEntity(),
-        contacts: contactInfoList,
-        address: modelAddress?.toEntity(),
-        isActive: isActive,
-        notes: notes
-      );
-    }
-
-    // fallback: raw
-    return Customer.raw(
+    return Customer(
       customerId: id,
       customerUuId: customerUuId,
       serverId: serverId,
@@ -107,14 +77,14 @@ extension CustomerModelMapper on CustomerModel {
       fullName: fullName,
       legalName: legalName,
       tradeName: tradeName,
-      stateRegistration: stateRegistration.target!.toEntity(), //TODO precisa rever isso aqui
+      stateRegistration: modelStateRegistration,
       paymentMethods: payments,
       businessSector: businessSector,
       businessGroupId: businessGroupId,
       taxRegime: taxRegime != null ? TaxRegime.values[taxRegime!] : null,
       creditLimit: creditLimit.target?.toEntity(),
-      cpf: cpf.target?.toEntity(),
-      cnpj: cnpj.target?.toEntity(),
+      cpf: cpf != null ? CPF(value: cpf!) : null,
+      cnpj: cnpj != null ? CNPJ(value: cnpj!) : null,
       contacts: contactInfoList,
       address: modelAddress?.toEntity(),
       isActive: isActive,
@@ -122,7 +92,40 @@ extension CustomerModelMapper on CustomerModel {
     );
   }
 
+  /// Remove este CustomerModel e todas as entidades relacionadas.
+  void deleteRecursively({
+    required Box<CustomerModel> customerBox,
+    required Box<AddressModel> addressBox,
+    required Box<ContactInfoModel> contactBox,
+    required Box<CreditLimitModel> creditLimitBox,
+    required Box<MoneyModel> moneyBox,
+    required Box<PhoneModel> phoneBox,
+    required Box<StateRegistrationModel> stateRegBox,
+  }) {
+    // State registration
+    if (stateRegistration.target != null) {
+      stateRegBox.remove(stateRegistration.targetId);
+    }
+
+    if (address.target != null) {
+      addressBox.remove(address.targetId);
+    }
+
+    final credit  = creditLimit.target;
+    if (credit != null) {
+      credit.deleteRecursively(creditLimitBox: creditLimitBox, moneyBox: moneyBox);
+    }
+
+    for (final contact in contacts) {
+      contact.deleteRecursively(contactInfoBox: contactBox, phoneBox: phoneBox);
+    }
+
+    customerBox.remove(id);
+  }
 }
+
+
+
 
 extension CustomerPersonMapper on PersonCustomer {
   CustomerModel toModel() {
@@ -130,15 +133,15 @@ extension CustomerPersonMapper on PersonCustomer {
       id: customerId,
       customerUuId: customerUuId,
       serverId: serverId,
+      cpf: cpf?.value,
       isActive: isActive,
       customerCode: customerCode,
       fullName: fullName,
       paymentMethod: paymentMethods.map((p) => p.index).toList(),
       taxRegime: taxRegime?.index,
-      notes: notes
+      notes: notes,
     );
 
-    model.cpf.target = cpf?.toModel();
     model.address.target = address?.toModel();
     model.creditLimit.target = creditLimit?.toModel();
 
@@ -156,6 +159,7 @@ extension CustomerCompanyMapper on CompanyCustomer {
       id: customerId,
       customerUuId: customerUuId,
       serverId: serverId,
+      cnpj: cnpj?.value,
       isActive: isActive,
       customerCode: customerCode,
       legalName: legalName,
@@ -167,7 +171,6 @@ extension CustomerCompanyMapper on CompanyCustomer {
       notes: notes
     );
 
-    model.cnpj.target = cnpj?.toModel();
     model.address.target = address?.toModel();
     model.creditLimit.target = creditLimit?.toModel();
     model.stateRegistration.target = stateRegistration.toModel();
@@ -175,39 +178,6 @@ extension CustomerCompanyMapper on CompanyCustomer {
     if (contacts.isNotEmpty) {
       model.contacts.addAll(contacts.map((p) => p.toModel()));
     }
-
-    return model;
-  }
-}
-
-extension CustomerMapper on RawCustomer {
-  CustomerModel toModel() {
-    final model = CustomerModel(
-      id: customerId,
-      customerUuId: customerUuId,
-      serverId: serverId,
-      isActive: isActive,
-      customerCode: customerCode,
-      paymentMethod: paymentMethods.map((p) => p.index).toList(),
-      businessSector: businessSector,
-      businessGroupId: businessGroupId,
-      fullName: fullName,
-      legalName: legalName,
-      tradeName: tradeName,
-      taxRegime: taxRegime?.index,
-      notes: notes
-    );
-
-    model.cpf.target = cpf?.toModel();
-    model.cnpj.target = cnpj?.toModel();
-    model.creditLimit.target = creditLimit?.toModel();
-    model.address.target = address?.toModel();
-    model.stateRegistration.target = stateRegistration.toModel();
-
-    if (contacts.isNotEmpty) {
-      model.contacts.addAll(contacts.map((p) => p.toModel()));
-    }
-
 
     return model;
   }

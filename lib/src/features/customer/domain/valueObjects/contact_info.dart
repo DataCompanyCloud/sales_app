@@ -26,13 +26,13 @@ abstract class ContactInfo with _$ContactInfo {
     bool isPrimary = false,
   }) {
 
-    if (isPrimary && email == null) {
-      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "O Contado principal precisa obrigatóriamente ter um email");
-    }
+    // if (isPrimary && email == null) {
+    //   throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "O Contado principal precisa obrigatóriamente ter um email");
+    // }
 
-    if (isPrimary && phone == null) {
-      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "O Contado principal precisa obrigatóriamente ter um telefone");
-    }
+    // if (isPrimary && phone == null) {
+    //   throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "O Contado principal precisa obrigatóriamente ter um telefone");
+    // }
 
     return ContactInfo.raw(name: name, email: email, phone: phone, isPrimary: isPrimary);
   }

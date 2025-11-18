@@ -1,7 +1,6 @@
 import 'package:objectbox/objectbox.dart';
-import 'package:sales_app/src/features/customer/data/models/cnpj_model.dart';
 import 'package:sales_app/src/features/customer/data/models/contact_info_model.dart';
-import 'package:sales_app/src/features/customer/data/models/cpf_model.dart';
+import 'package:sales_app/src/features/customer/data/models/phone_model.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_customer.dart';
 
 @Entity()
@@ -17,8 +16,6 @@ class SalesOrderCustomerModel {
   int? orderId;
 
   final contactInfo = ToMany<ContactInfoModel>();
-  final cpf = ToOne<CPFModel>();
-  final cnpj = ToOne<CNPJModel>();
 
   SalesOrderCustomerModel ({
     this.id = 0,
@@ -41,10 +38,20 @@ extension SalesOrderCustomerModeMapper on SalesOrderCustomerModel {
       customerUuId: customerUuId,
       customerName: customerName,
       contactInfo: contactInfoList,
-      cpf: cpf.target?.toEntity(),
-      cnpj: cnpj.target?.toEntity(),
       orderId: orderId
     );
+  }
+
+  void deleteRecursively(
+    Box<SalesOrderCustomerModel> salesOrderCustomerBox,
+    Box<ContactInfoModel> contactInfoBox,
+    Box<PhoneModel> phoneBox
+  ) {
+    for (var contact in contactInfo) {
+      contact.deleteRecursively(contactInfoBox: contactInfoBox, phoneBox: phoneBox);
+    }
+
+    salesOrderCustomerBox.remove(id);
   }
 }
 
@@ -60,8 +67,6 @@ extension SalesOrderCustomerMapper on SalesOrderCustomer {
     );
 
     model.orderId = orderId;
-    model.cpf.target = cpf?.toModel();
-    model.cnpj.target = cnpj?.toModel();
 
     if (contactInfo.isNotEmpty) {
       model.contactInfo.addAll(contactInfo.map((p) => p.toModel()));

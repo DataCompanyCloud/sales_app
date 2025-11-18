@@ -9,13 +9,13 @@ class CustomerController extends AutoDisposeAsyncNotifier<List<Customer>>{
   /// se não encontrar nada busca da API
   @override
   FutureOr<List<Customer>> build() async {
-    final search = ref.watch(customerSearchProvider);
+    final filter = ref.watch(customerFilterProvider);
     final repository = await ref.read(customerRepositoryProvider.future);
     state = AsyncLoading();
     // Tenta sincronizar com a API (se possível)
     try {
       final service = await ref.read(customerServiceProvider.future);
-      final newCustomers = await service.getAll(search: search);
+      final newCustomers = await service.getAll(filter);
 
       if (newCustomers.isNotEmpty) {
         await repository.saveAll(newCustomers); // Atualiza cache local
@@ -24,13 +24,15 @@ class CustomerController extends AutoDisposeAsyncNotifier<List<Customer>>{
       print(e);
     }
 
+
     // Sempre retorna a lista do banco local (fonte da verdade)
-    return await repository.fetchAll(search: search);
+    return await repository.fetchAll(filter);
   }
 
 
   Future<void> createCustomer(Customer customer) async {
     state = await AsyncValue.guard(() async {
+      final filter = ref.watch(customerFilterProvider);
       final repository = await ref.read(customerRepositoryProvider.future);
       var newCustomer = customer;
 
@@ -43,7 +45,7 @@ class CustomerController extends AutoDisposeAsyncNotifier<List<Customer>>{
       }
 
       await repository.save(newCustomer);
-      return repository.fetchAll();
+      return repository.fetchAll(filter);
     });
   }
 }

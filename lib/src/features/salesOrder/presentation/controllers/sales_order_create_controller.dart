@@ -70,7 +70,7 @@ class SalesOrderCreateController extends AutoDisposeFamilyAsyncNotifier<SalesOrd
         customer: salesOrderCustomer,
         total: Money.zero(),
         items: [],
-        orderPayment: []
+        orderPaymentMethods: []
       );
 
       return await repository.save(newOrder);
@@ -145,7 +145,7 @@ SalesOrder fakerOrder (int index) {
       customer: random.boolean() ? null: fakerOrderCustomer(),
       total: total,
       items: items,
-      orderPayment: []
+      orderPaymentMethods: []
   );
 }
 
