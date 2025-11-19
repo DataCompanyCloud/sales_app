@@ -28,7 +28,7 @@ abstract class Customer with _$Customer {
     @Default([]) List<PaymentMethod> paymentMethods,
     @Default([]) List<ContactInfo> contacts,
     CPF? cpf,
-    Address? address,
+    @Default([]) List<Address> addresses,
     required bool isActive,
     String? notes
   }) = PersonCustomer;
@@ -48,7 +48,7 @@ abstract class Customer with _$Customer {
     @Default([]) List<PaymentMethod> paymentMethods,
     @Default([]) List<ContactInfo> contacts,
     CNPJ? cnpj,
-    Address? address,
+    @Default([]) List<Address> addresses,
     required bool isActive,
     String? notes
   }) = CompanyCustomer;
@@ -71,7 +71,7 @@ abstract class Customer with _$Customer {
     List<ContactInfo> contacts = const [],
     CPF? cpf,
     CNPJ? cnpj,
-    Address? address,
+    required List<Address> addresses,
     required bool isActive,
     String? notes
   }) {
@@ -106,7 +106,7 @@ abstract class Customer with _$Customer {
         creditLimit: creditLimit,
         taxRegime: taxRegime,
         cpf: cpf,
-        address: address,
+        addresses: addresses,
         isActive: isActive,
         notes: notes,
       );
@@ -140,7 +140,7 @@ abstract class Customer with _$Customer {
       creditLimit: creditLimit,
       taxRegime: taxRegime,
       cnpj: cnpj,
-      address: address,
+      addresses: addresses,
       isActive: isActive,
       notes: notes,
     );
@@ -155,6 +155,16 @@ abstract class Customer with _$Customer {
     return contacts.firstWhere(
       (c) => c.isPrimary,
       orElse: () => contacts.first,
+    );
+  }
+
+
+  Address? get primaryAddress {
+    if (addresses.isEmpty) return null;
+
+    return addresses.firstWhere(
+      (a) => a.isPrimary,
+      orElse: () => addresses.first
     );
   }
 }

@@ -34,7 +34,7 @@ class CustomerModel {
   String? cpf;
   String? cnpj;
 
-  final address = ToOne<AddressModel>();
+  final addresses = ToMany<AddressModel>();
   final creditLimit = ToOne<CreditLimitModel>();
   final stateRegistration = ToOne<StateRegistrationModel>();
   final contacts = ToMany<ContactInfoModel>();
@@ -60,7 +60,7 @@ class CustomerModel {
 
 extension CustomerModelMapper on CustomerModel {
   Customer toEntity() {
-    final modelAddress = address.target;
+    final addressList = addresses.map((a) => a.toEntity()).toList();
     final contactInfoList = contacts.map((c) => c.toEntity()).toList();
     final payments = paymentMethod.map((p) => PaymentMethod.values[p]).toList();
 
@@ -86,7 +86,7 @@ extension CustomerModelMapper on CustomerModel {
       cpf: cpf != null ? CPF(value: cpf!) : null,
       cnpj: cnpj != null ? CNPJ(value: cnpj!) : null,
       contacts: contactInfoList,
-      address: modelAddress?.toEntity(),
+      addresses: addressList,
       isActive: isActive,
       notes: notes
     );
@@ -107,13 +107,13 @@ extension CustomerModelMapper on CustomerModel {
       stateRegBox.remove(stateRegistration.targetId);
     }
 
-    if (address.target != null) {
-      addressBox.remove(address.targetId);
-    }
-
     final credit  = creditLimit.target;
     if (credit != null) {
       credit.deleteRecursively(creditLimitBox: creditLimitBox, moneyBox: moneyBox);
+    }
+
+    for (final address in addresses) {
+      addressBox.remove(address.id);
     }
 
     for (final contact in contacts) {
@@ -142,11 +142,14 @@ extension CustomerPersonMapper on PersonCustomer {
       notes: notes,
     );
 
-    model.address.target = address?.toModel();
     model.creditLimit.target = creditLimit?.toModel();
 
     if (contacts.isNotEmpty) {
       model.contacts.addAll(contacts.map((p) => p.toModel()));
+    }
+
+    if (addresses.isNotEmpty) {
+      model.addresses.addAll(addresses.map((a) => a.toModel()));
     }
 
     return model;
@@ -171,12 +174,15 @@ extension CustomerCompanyMapper on CompanyCustomer {
       notes: notes
     );
 
-    model.address.target = address?.toModel();
     model.creditLimit.target = creditLimit?.toModel();
     model.stateRegistration.target = stateRegistration.toModel();
 
     if (contacts.isNotEmpty) {
       model.contacts.addAll(contacts.map((p) => p.toModel()));
+    }
+
+    if (addresses.isNotEmpty) {
+      model.addresses.addAll(addresses.map((a) => a.toModel()));
     }
 
     return model;

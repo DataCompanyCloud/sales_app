@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:objectbox/objectbox.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
-import 'package:sales_app/src/features/customer/domain/valueObjects/payment_method.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_customer.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_payment.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_product.dart';

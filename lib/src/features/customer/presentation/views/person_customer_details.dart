@@ -403,7 +403,8 @@ class PersonCustomerDetails extends ConsumerWidget {
                                       visualDensity: VisualDensity(vertical: 0.2),
                                       title: Text("Estado: "),
                                       subtitle: Text(
-                                        customer.address?.state ?? '',
+                                        "--",
+                                        // customer.addresses?.state ?? '',
                                         style: TextStyle(
                                             fontSize: 15
                                         ),
@@ -427,7 +428,8 @@ class PersonCustomerDetails extends ConsumerWidget {
                                       visualDensity: VisualDensity(vertical: 0.2),
                                       title: Text("Cidade: "),
                                       subtitle: Text(
-                                        customer.address?.city ?? '',
+                                        "--",
+                                        // customer.addresses?.city ?? '',
                                         style: TextStyle(
                                           fontSize: 15
                                         ),
@@ -451,7 +453,8 @@ class PersonCustomerDetails extends ConsumerWidget {
                                       visualDensity: VisualDensity(vertical: 0.2),
                                       title: Text("CEP: "),
                                       subtitle: Text(
-                                        customer.address?.cep?.value ?? '',
+                                        "--",
+                                        // customer.addresses?.cep?.value ?? '',
                                         style: TextStyle(
                                           fontSize: 15
                                         ),
@@ -475,7 +478,8 @@ class PersonCustomerDetails extends ConsumerWidget {
                                       visualDensity: VisualDensity(vertical: 0.2),
                                       title: Text("Rua: "),
                                       subtitle: Text(
-                                        customer.address?.street ?? '',
+                                        "--",
+                                        // customer.addresses?.street ?? '',
                                         style: TextStyle(
                                           fontSize: 15
                                         ),

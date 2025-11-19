@@ -1,3 +1,4 @@
+import 'package:sales_app/src/features/customer/domain/valueObjects/address_type.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/cep.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -9,38 +10,41 @@ abstract class Address with _$Address {
   const Address._();
 
   const factory Address({
-    required String? state,
-    required String? city,
-    required String? street,
-    // Bairro String
-    // Número int?
-    required CEP? cep
+    //required String country, // país
+    required String state,
+    required String city,
+    required String street,
+    required String district, // bairro
+    int? number,              // número
+    CEP? cep,
+    required AddressType type,
+    required bool isPrimary
   }) = _Address;
 
   factory Address.fromJson(Map<String, dynamic> json) =>
       _$AddressFromJson(json);
 
+
+  /// Ex.: "Rua X, 123 - Bairro Y, Cidade - UF, 12345-678"
   String get formatted {
-    final parts = <String>[];
+    final buffer = StringBuffer();
 
-    if (street != null && street!.trim().isNotEmpty) {
-      parts.add(street!.trim());
+    buffer.write(street);
+
+    if (number != null) {
+      buffer.write(', $number');
     }
 
-    if (city != null && city!.trim().isNotEmpty) {
-      parts.add(city!.trim());
-    }
-
-    if (state != null && state!.trim().isNotEmpty) {
-      parts.add(state!.trim());
-    }
+    buffer.write(' - $district');
+    buffer.write(', $city - $state');
 
     if (cep != null) {
-      // Ajusta conforme sua classe CEP (value, formatted, etc)
-      parts.add(cep!.value.trim());
+      buffer.write(', ${cep.toString()}');
     }
 
-    return parts.isEmpty ? '-' : parts.join(', ');
+    // buffer.write(', $country');
+
+    return buffer.toString();
   }
 
 }

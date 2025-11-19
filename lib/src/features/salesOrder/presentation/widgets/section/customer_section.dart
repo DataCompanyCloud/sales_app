@@ -125,7 +125,7 @@ class SalesOrderCustomerSectionState extends ConsumerState<SalesOrderCustomerSec
           error: (error, stack) => Text("error"),
           loading: () => CircularProgressIndicator(),
           data: (customer) {
-            final address = customer.address;
+            final address = customer.addresses;
 
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -153,7 +153,7 @@ class SalesOrderCustomerSectionState extends ConsumerState<SalesOrderCustomerSec
                         value: index,
                         groupValue: 0,
                         tileColor: scheme.surface,
-                        title: Text(address?.formatted ?? "--"),
+                        title: Text(customer.primaryAddress?.formatted ?? "--"),
                         splashRadius: 10,
                         dense: true,
                         contentPadding: const EdgeInsets.symmetric(horizontal: 8),

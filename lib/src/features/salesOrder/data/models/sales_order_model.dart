@@ -16,6 +16,7 @@ class SalesOrderModel {
   String orderUuId;
   String? orderCode;
 
+  @Property(type: PropertyType.date)
   DateTime createdAt;
   int itemsCount;
   int? serverId;

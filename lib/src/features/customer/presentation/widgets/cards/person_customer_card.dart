@@ -98,7 +98,7 @@ class PersonCustomerCard extends ConsumerWidget {
                             customer.cpf?.value ?? "--"
                           ),
                           Text(
-                            "${customer.address?.city}, ${customer.address?.state}"
+                            "${customer.primaryAddress?.city}, ${customer.primaryAddress?.state}"
                           ),
                         ],
                       ),
