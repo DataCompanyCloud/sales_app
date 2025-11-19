@@ -1,4 +1,5 @@
 import 'package:objectbox/objectbox.dart';
+import 'package:sales_app/src/features/customer/data/models/address_model.dart';
 import 'package:sales_app/src/features/customer/data/models/contact_info_model.dart';
 import 'package:sales_app/src/features/customer/data/models/money_model.dart';
 import 'package:sales_app/src/features/customer/data/models/phone_model.dart';
@@ -94,7 +95,8 @@ extension SalesOrderModelMapper on SalesOrderModel {
     Box<OrderProductModel> orderProductBox,
     Box<ContactInfoModel> contactInfoBox,
     Box<MoneyModel> moneyBox,
-    Box<PhoneModel> phoneBox
+    Box<PhoneModel> phoneBox,
+    Box<AddressModel> addressModel
   ) {
 
     if (total.target != null) {
@@ -107,7 +109,7 @@ extension SalesOrderModelMapper on SalesOrderModel {
 
     final salesCustomer = customer.target;
     if (salesCustomer != null) {
-      salesCustomer.deleteRecursively(salesOrderCustomerBox, contactInfoBox, phoneBox);
+      salesCustomer.deleteRecursively(salesOrderCustomerBox, contactInfoBox, phoneBox, addressModel);
     }
 
     for (final payment in orderPaymentMethods) {

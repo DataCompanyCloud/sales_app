@@ -52,7 +52,7 @@ class TransactionCard extends ConsumerWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: scheme.onTertiary, width: 2)
+        border: Border.all(color: scheme.outline, width: 2)
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,

@@ -18,7 +18,7 @@ class CompanyCustomerCard extends ConsumerWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: colorScheme.onTertiary, width: 2)
+        border: Border.all(color: colorScheme.outline, width: 2)
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,

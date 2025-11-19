@@ -68,8 +68,7 @@ class SalesOrderCreatePageState extends ConsumerState<SelectCustomerPage> {
           : AppException.errorUnexpected(error.toString()),
       ),
       loading: () => Scaffold(
-        body: CustomerPageSkeleton(),
-        bottomNavigationBar: CustomBottomNavigationBar(currentIndex: currentIndex),
+        body: CustomerPageSkeleton()
       ),
       data: (customers) {
         if(customers.isEmpty) {

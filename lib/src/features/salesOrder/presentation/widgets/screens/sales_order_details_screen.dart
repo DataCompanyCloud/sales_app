@@ -109,11 +109,11 @@ class SalesOrderDetailsScreen extends ConsumerWidget {
                       padding: const EdgeInsets.only(top: 12),
                       child: SalesOrderDetailsClientCard(order: order)
                     ),
-                    contactInfo != null && contactInfo.isNotEmpty
+                    contactInfo != null
                       ? Padding(
-                    padding: const EdgeInsets.only(top: 12),
-                    child: SalesOrderDetailsContactCard(order: order)
-                  )
+                          padding: const EdgeInsets.only(top: 12),
+                          child: SalesOrderDetailsContactCard(order: order)
+                        )
                       : SizedBox()
                     ,
                   ],

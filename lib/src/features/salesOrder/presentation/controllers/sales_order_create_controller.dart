@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:faker/faker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/contact_info.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_customer.dart';
@@ -110,7 +111,8 @@ SalesOrderCustomer fakerOrderCustomer () {
       customerCode: random.integer(1000, min: 1).toString().padLeft(2, "00000"),
       customerUuId: const Uuid().v4(),
       customerName: "${faker.company.name()} ${faker.company.name()}",
-      contactInfo: [ ]
+      contactInfo: null,
+      address: null
   );
 }
 

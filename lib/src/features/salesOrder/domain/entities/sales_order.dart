@@ -2,6 +2,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
+import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/address.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/contact_info.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_customer.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_payment.dart';
@@ -148,4 +151,24 @@ abstract class SalesOrder with _$SalesOrder {
     cancelledAt: DateTime.now()
   );
 
+  SalesOrder updateCustomer(Customer newCustomer) {
+    return copyWith(
+      customer: SalesOrderCustomer.fromCustomer(newCustomer),
+      updatedAt: DateTime.now()
+    );
+  }
+
+  SalesOrder updateCustomerAddress(Address address) {
+    return copyWith(
+      customer: customer?.copyWith(address: address),
+      updatedAt: DateTime.now()
+    );
+  }
+
+  SalesOrder updateCustomerContact(ContactInfo contact) {
+    return copyWith(
+      customer: customer?.copyWith(contactInfo: contact),
+      updatedAt: DateTime.now()
+    );
+  }
 }

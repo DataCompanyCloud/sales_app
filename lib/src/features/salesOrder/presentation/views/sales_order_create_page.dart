@@ -54,58 +54,68 @@ class SalesOrderCreatePageState extends ConsumerState<SalesOrderCreatePage> {
         final document = customer?.cnpj ?? customer?.cpf;
         String? selectedValue;
 
-        return  Scaffold(
-          appBar: AppBar(
-            title: Row(
-              children: [
-                InkWell(
-                  onTap: () {},
-                  child: PulsingDot(
-                    color:
-                    order?.serverId == null
+        return  DefaultTabController(
+          length: 2,
+          child: Scaffold(
+            appBar: AppBar(
+              title: Row(
+                children: [
+                  InkWell(
+                    onTap: () {},
+                    child: PulsingDot(
+                      color:
+                      order?.serverId == null
                         ? Colors.red
                         : order?.isPendingSync == true
                         ? Colors.yellow
                         : Colors.blue,
-                    animated: isConnected,
+                      animated: isConnected,
+                    ),
                   ),
-                ),
-                SizedBox(width: 8),
-                Text(
+                  SizedBox(width: 8),
+                  Text(
                     order?.orderCode ?? "Novo Pedido"
-                )
+                  )
+                ],
+              ),
+              automaticallyImplyLeading: false,
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    context.pushNamed(OrderRouter.drafts.name);
+                  },
+                  icon: Icon(Icons.change_circle_outlined),
+                ),
+              ],
+              bottom: TabBar(
+                indicatorColor: Colors.blue,
+                indicatorSize: TabBarIndicatorSize.tab,
+                unselectedLabelColor: Colors.grey,
+                // onTap: (index) => ref.watch(_tabBarIndexProvider.notifier).state = index,
+                tabs: [
+                  Tab(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Cliente"
+                        ),
+                        SizedBox(width: 4),
+                      ],
+                    ),
+                  ),
+                  Tab(text: "Produtos"),
+                ],
+              ),
+            ),
+            body: TabBarView(
+              children: [
+                SalesOrderCustomerSection(order: order),
+                Container()
               ],
             ),
-            automaticallyImplyLeading: false,
-            actions: [
-              IconButton(
-                onPressed: () {
-                  context.pushNamed(OrderRouter.drafts.name);
-                },
-                icon: Icon(Icons.change_circle_outlined),
-              ),
-            ],
+            bottomNavigationBar: CustomBottomNavigationBar(currentIndex: 1),
           ),
-          body: RefreshIndicator(
-            onRefresh: () async {
-              if (controller.isLoading) return;
-              final _ = ref.refresh(salesOrderCreateControllerProvider(widget.orderId)); 
-            },
-            child: SizedBox(
-              width: double.infinity,
-              height: double.infinity,
-              child: Padding(
-                padding: EdgeInsets.only(top: 22, left: 12, right: 12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SalesOrderCustomerSection(order: order)
-                  ],
-                ),
-              ),
-            ),
-          ),
-          bottomNavigationBar: CustomBottomNavigationBar(currentIndex: 1),
         );
       },
     );

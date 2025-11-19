@@ -41,7 +41,7 @@ final ThemeData salesAppLightTheme = (() {
 
     // Terciários (teal suave para realces)
     tertiary: const Color(0xFF0D9488),
-    onTertiary: Colors.white,
+    onTertiary: Colors.grey,
     tertiaryContainer: const Color(0xFF99F6E4),
     onTertiaryContainer: const Color(0xFF04201C),
 

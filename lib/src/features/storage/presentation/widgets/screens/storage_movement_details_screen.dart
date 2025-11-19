@@ -36,7 +36,7 @@ class StorageMovementDetailsScreen extends ConsumerWidget {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: scheme.onTertiary, width: 2)
+            border: Border.all(color: scheme.outline, width: 2)
           ),
           child: Column(
             children: [
@@ -116,7 +116,7 @@ class StorageMovementDetailsScreen extends ConsumerWidget {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: scheme.onTertiary, width: 2)
+            border: Border.all(color: scheme.outline, width: 2)
           ),
           child: Column(
             children: [
@@ -196,7 +196,7 @@ class StorageMovementDetailsScreen extends ConsumerWidget {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: scheme.onTertiary, width: 2)
+            border: Border.all(color: scheme.outline, width: 2)
           ),
           child: Column(
             children: [

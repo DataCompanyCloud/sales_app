@@ -37,7 +37,7 @@ class _OrderDetailsCardState extends ConsumerState<SalesOrderDetailsCard>{
       decoration: BoxDecoration(
         color: scheme.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: scheme.onTertiary, width: 2),
+        border: Border.all(color: scheme.outline, width: 2),
       ),
       child: Stack(
         children: [

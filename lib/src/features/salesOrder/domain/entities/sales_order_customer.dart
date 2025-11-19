@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/address.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/cnpj.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/contact_info.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/cpf.dart';
@@ -16,7 +17,8 @@ abstract class SalesOrderCustomer with _$SalesOrderCustomer {
     required String? customerCode,
     required String customerUuId,
     required String customerName,
-    @Default(<ContactInfo>[]) List<ContactInfo> contactInfo,
+    required ContactInfo? contactInfo ,
+    required Address? address,
     CPF? cpf,
     CNPJ? cnpj,
     int? orderId
@@ -27,7 +29,8 @@ abstract class SalesOrderCustomer with _$SalesOrderCustomer {
     required String? customerCode,
     required String customerUuId,
     required String customerName,
-    required List<ContactInfo> contactInfo ,
+    required ContactInfo? contactInfo,
+    required Address? address,
     CPF? cpf,
     CNPJ? cnpj,
     int? orderId
@@ -40,6 +43,7 @@ abstract class SalesOrderCustomer with _$SalesOrderCustomer {
       customerUuId: customerUuId,
       customerName: customerName,
       contactInfo: contactInfo,
+      address: address,
       cpf: cpf,
       cnpj: cnpj,
       orderId: orderId
@@ -59,7 +63,8 @@ abstract class SalesOrderCustomer with _$SalesOrderCustomer {
           customerCode: person.customerCode,
           customerUuId: person.customerUuId,
           customerName: person.fullName ?? "--",
-          contactInfo: person.contacts,
+          contactInfo: person.primaryContact,
+          address: person.primaryAddress,
           cpf: person.cpf
         );
       },
@@ -69,7 +74,8 @@ abstract class SalesOrderCustomer with _$SalesOrderCustomer {
           customerCode: company.customerCode,
           customerUuId: company.customerUuId,
           customerName: company.legalName ?? company.tradeName ?? "--",
-          contactInfo: company.contacts,
+          contactInfo: company.primaryContact,
+          address: company.primaryAddress,
           cnpj: company.cnpj
         );
       },

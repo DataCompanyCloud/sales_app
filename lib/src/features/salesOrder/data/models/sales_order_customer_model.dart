@@ -1,6 +1,9 @@
 import 'package:objectbox/objectbox.dart';
+import 'package:sales_app/src/features/customer/data/models/address_model.dart';
 import 'package:sales_app/src/features/customer/data/models/contact_info_model.dart';
 import 'package:sales_app/src/features/customer/data/models/phone_model.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/cnpj.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/cpf.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_customer.dart';
 
 @Entity()
@@ -14,8 +17,11 @@ class SalesOrderCustomerModel {
   String customerUuId;
   String customerName;
   int? orderId;
+  String? cnpj;
+  String? cpf;
 
-  final contactInfo = ToMany<ContactInfoModel>();
+  final contactInfo = ToOne<ContactInfoModel>();
+  final address = ToOne<AddressModel>();
 
   SalesOrderCustomerModel ({
     this.id = 0,
@@ -23,6 +29,8 @@ class SalesOrderCustomerModel {
     required this.customerCode,
     required this.customerUuId,
     required this.customerName,
+    required this.cnpj,
+    required this.cpf,
     this.orderId
   });
 }
@@ -30,14 +38,15 @@ class SalesOrderCustomerModel {
 extension SalesOrderCustomerModeMapper on SalesOrderCustomerModel {
   /// De OrderCustomerModel → OrderCustomer
   SalesOrderCustomer toEntity() {
-    final contactInfoList = contactInfo.map((c) => c.toEntity()).toList();
-
     return SalesOrderCustomer(
       customerId: customerId,
       customerCode: customerCode,
       customerUuId: customerUuId,
       customerName: customerName,
-      contactInfo: contactInfoList,
+      contactInfo: contactInfo.target?.toEntity(),
+      address: address.target!.toEntity(),
+      cnpj: cnpj != null ? CNPJ(value: cnpj!) : null,
+      cpf: cpf != null ? CPF(value: cpf!) : null,
       orderId: orderId
     );
   }
@@ -45,10 +54,16 @@ extension SalesOrderCustomerModeMapper on SalesOrderCustomerModel {
   void deleteRecursively(
     Box<SalesOrderCustomerModel> salesOrderCustomerBox,
     Box<ContactInfoModel> contactInfoBox,
-    Box<PhoneModel> phoneBox
+    Box<PhoneModel> phoneBox,
+    Box<AddressModel> addressBox
   ) {
-    for (var contact in contactInfo) {
-      contact.deleteRecursively(contactInfoBox: contactInfoBox, phoneBox: phoneBox);
+
+    if (contactInfo.target != null) {
+      contactInfo.target!.deleteRecursively(contactInfoBox: contactInfoBox, phoneBox: phoneBox);
+    }
+
+    if (address.target != null) {
+      addressBox.remove(address.targetId);
     }
 
     salesOrderCustomerBox.remove(id);
@@ -63,13 +78,18 @@ extension SalesOrderCustomerMapper on SalesOrderCustomer {
       customerId: customerId,
       customerCode: customerCode,
       customerUuId: customerUuId,
-      customerName: customerName
+      customerName: customerName,
+      cnpj: cnpj?.value,
+      cpf: cpf?.value,
+      orderId: orderId
     );
 
-    model.orderId = orderId;
+    if (address != null) {
+      model.address.target = address!.toModel();
+    }
 
-    if (contactInfo.isNotEmpty) {
-      model.contactInfo.addAll(contactInfo.map((p) => p.toModel()));
+    if (contactInfo != null) {
+      model.contactInfo.target = contactInfo!.toModel();
     }
 
     return model;

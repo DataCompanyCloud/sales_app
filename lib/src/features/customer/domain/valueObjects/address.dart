@@ -39,10 +39,9 @@ abstract class Address with _$Address {
     buffer.write(', $city - $state');
 
     if (cep != null) {
-      buffer.write(', ${cep.toString()}');
+      buffer.write(', ${cep!.value}');
     }
 
-    // buffer.write(', $country');
 
     return buffer.toString();
   }

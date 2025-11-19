@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sales_app/src/core/providers/connectivity_provider.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/features/customer/providers.dart';
 
@@ -12,18 +13,21 @@ class CustomerController extends AutoDisposeAsyncNotifier<List<Customer>>{
     final filter = ref.watch(customerFilterProvider);
     final repository = await ref.read(customerRepositoryProvider.future);
     state = AsyncLoading();
+    final isConnected = ref.read(isConnectedProvider);
+
     // Tenta sincronizar com a API (se possível)
-    try {
-      final service = await ref.read(customerServiceProvider.future);
-      final newCustomers = await service.getAll(filter);
+    if (isConnected) {
+      try {
+        final service = await ref.read(customerServiceProvider.future);
+        final newCustomers = await service.getAll(filter);
 
-      if (newCustomers.isNotEmpty) {
-        await repository.saveAll(newCustomers); // Atualiza cache local
+        if (newCustomers.isNotEmpty) {
+          await repository.saveAll(newCustomers); // Atualiza cache local
+        }
+      } catch (e) {
+        print(e);
       }
-    } catch (e) {
-      print(e);
     }
-
 
     // Sempre retorna a lista do banco local (fonte da verdade)
     return await repository.fetchAll(filter);

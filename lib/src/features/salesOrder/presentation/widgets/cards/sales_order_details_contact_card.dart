@@ -17,7 +17,7 @@ class SalesOrderDetailsContactCard extends ConsumerWidget {
     final scheme = theme.colorScheme;
 
     final customer = order.customer;
-    final contactInfo = customer?.contactInfo;
+    final contact = customer?.contactInfo;
     return Card(
       color: scheme.surface,
       elevation: 3,
@@ -53,110 +53,103 @@ class SalesOrderDetailsContactCard extends ConsumerWidget {
                   color: Colors.grey.shade500,
                 ),
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: contactInfo?.length,
-                itemBuilder: (context, index) {
-                  final contact = contactInfo?[index];
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
                     children: [
-                      Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF2A364B),
-                              border: Border.all(
-                                color: Colors.black,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Text(
-                              "NOME",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold
-                              ),
-                            ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF2A364B),
+                          border: Border.all(
+                            color: Colors.black,
+                            width: 1,
                           ),
-                          SizedBox(width: 4),
-                          Text(
-                            contact?.name ?? "--",
-                            style: TextStyle(
-                              fontSize: 15
-                            ),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          "NOME",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold
                           ),
-                        ],
+                        ),
                       ),
-                      SizedBox(height: 4),
-                      Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF2A364B),
-                              border: Border.all(
-                                color: Colors.black,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Text(
-                              "EMAIL",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 4),
-                          Text(
-                            contact?.email?.value ?? "--",
-                            style: TextStyle(
-                              fontSize: 15
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 4),
-                      Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF2A364B),
-                              border: Border.all(
-                                color: Colors.black,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Text(
-                              "TELEFONE",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 4),
-                          Text(
-                            contact?.phone?.value ?? "--",
-                            style: TextStyle(
-                              fontSize: 15
-                            ),
-                          ),
-                        ],
+                      SizedBox(width: 4),
+                      Text(
+                        contact?.name ?? "--",
+                        style: TextStyle(
+                            fontSize: 15
+                        ),
                       ),
                     ],
-                  );
-                })
+                  ),
+                  SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF2A364B),
+                          border: Border.all(
+                            color: Colors.black,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          "EMAIL",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 4),
+                      Text(
+                        contact?.email?.value ?? "--",
+                        style: TextStyle(
+                            fontSize: 15
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF2A364B),
+                          border: Border.all(
+                            color: Colors.black,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          "TELEFONE",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 4),
+                      Text(
+                        contact?.phone?.value ?? "--",
+                        style: TextStyle(
+                            fontSize: 15
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              )
             ],
           ),
         ),

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:sales_app/objectbox.g.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
+import 'package:sales_app/src/features/customer/data/models/address_model.dart';
 import 'package:sales_app/src/features/customer/data/models/contact_info_model.dart';
 import 'package:sales_app/src/features/customer/data/models/money_model.dart';
 import 'package:sales_app/src/features/customer/data/models/phone_model.dart';
@@ -66,9 +67,9 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
   @override
   Future<SalesOrder> fetchById(int orderId) async {
     try {
-      final orderBox = store.box<SalesOrderModel>();
+      final salesOrderBox = store.box<SalesOrderModel>();
 
-      final model = await orderBox.getAsync(orderId);
+      final model = await salesOrderBox.getAsync(orderId);
 
       if (model == null) {
         throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Pedido não encontrado");
@@ -84,66 +85,38 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
 
   @override
   Future<void> saveAll(List<SalesOrder> orders) async {
-    final orderBox = store.box<SalesOrderModel>();
-    final orderCustomerBox = store.box<SalesOrderCustomerModel>();
-    final orderProductBox = store.box<OrderProductModel>();
+    final salesOrderBox = store.box<SalesOrderModel>();
+    final salesOrderCustomerBox = store.box<SalesOrderCustomerModel>();
+    final salesOrderPaymentBox = store.box<SalesOrderPaymentModel>();
+    final salesOrderProductBox = store.box<OrderProductModel>();
     final contactInfoBox = store.box<ContactInfoModel>();
     final moneyBox = store.box<MoneyModel>();
+    final phoneBox = store.box<PhoneModel>();
+    final addressBox = store.box<AddressModel>();
 
     store.runInTransaction(TxMode.write, () {
       for (final order in orders) {
-        final existingQ = orderBox.query(SalesOrderModel_.orderUuId.equals(order.orderUuId)).build();
+        final existingQ = salesOrderBox.query(SalesOrderModel_.orderUuId.equals(order.orderUuId)).build();
         final existing  = existingQ.findFirst();
         existingQ.close();
 
         final newModel = order.toModel();
+
+        newModel.id = existing?.id ?? 0;
         if (existing != null) {
-          final total = existing.total.target;
-          if (total != null) {
-            moneyBox.remove(total.id);
-          }
-
-            final freight = existing.freight.target;
-          if (freight != null) {
-            moneyBox.remove(freight.id);
-          }
-
-          final customer = existing.customer.target;
-          if (customer != null){
-
-            for (final items in customer.contactInfo) {
-              contactInfoBox.remove(items.id);
-            }
-
-            orderCustomerBox.remove(existing.customer.targetId);
-          }
-
-          for (final items in existing.items) {
-
-            final unitPrice = items.unitPrice.target;
-            if (unitPrice != null) {
-              moneyBox.remove(unitPrice.id);
-            }
-
-            final discountAmount = items.discountAmount.target;
-            if (discountAmount != null) {
-              moneyBox.remove(discountAmount.id);
-            }
-
-            final taxAmount = items.taxAmount.target;
-            if (taxAmount != null) {
-              moneyBox.remove(taxAmount.id);
-            }
-
-            orderProductBox.remove(items.id);
-          }
-
-          newModel.id = existing.id;
-        } else {
-          newModel.id = 0;
+          existing.deleteRecursively(
+            salesOrderBox,
+            salesOrderCustomerBox,
+            salesOrderPaymentBox,
+            salesOrderProductBox,
+            contactInfoBox,
+            moneyBox,
+            phoneBox,
+            addressBox
+          );
         }
 
-        orderBox.put(newModel);
+        salesOrderBox.put(newModel);
       }
     });
   }
@@ -157,6 +130,7 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
     final contactInfoBox = store.box<ContactInfoModel>();
     final moneyBox = store.box<MoneyModel>();
     final phoneBox = store.box<PhoneModel>();
+    final addressBox = store.box<AddressModel>();
 
     final id = store.runInTransaction(TxMode.write, () {
       final existingQ = salesOrderBox.query(SalesOrderModel_.orderUuId.equals(order.orderUuId)).build();
@@ -174,7 +148,8 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
           salesOrderProductBox,
           contactInfoBox,
           moneyBox,
-          phoneBox
+          phoneBox,
+          addressBox
         );
       }
 
@@ -198,6 +173,7 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
     final contactInfoBox = store.box<ContactInfoModel>();
     final moneyBox = store.box<MoneyModel>();
     final phoneBox = store.box<PhoneModel>();
+    final addressBox = store.box<AddressModel>();
 
     store.runInTransaction(TxMode.write, () {
       final model = salesOrderBox.get(order.orderId);
@@ -213,7 +189,8 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
         salesOrderProductBox,
         contactInfoBox,
         moneyBox,
-        phoneBox
+        phoneBox,
+        addressBox
       );
     });
   }
@@ -227,6 +204,7 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
     final contactInfoBox = store.box<ContactInfoModel>();
     final moneyBox = store.box<MoneyModel>();
     final phoneBox = store.box<PhoneModel>();
+    final addressBox = store.box<AddressModel>();
 
     store.runInTransaction(TxMode.write, () {
       final allOrders = salesOrderBox.getAll();
@@ -238,7 +216,8 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
           salesOrderProductBox,
           contactInfoBox,
           moneyBox,
-          phoneBox
+          phoneBox,
+          addressBox
         );
       }
     });

@@ -96,7 +96,7 @@ class MyProfilePage extends ConsumerWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6),
                 border: Border.all(
-                  color: scheme.onTertiary
+                  color: scheme.outline
                 ),
                 color: scheme.surface
               ),
@@ -128,7 +128,7 @@ class MyProfilePage extends ConsumerWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6),
                 border: Border.all(
-                  color: scheme.onTertiary
+                  color: scheme.outline
                 ),
                 color: scheme.surface
               ),
@@ -160,7 +160,7 @@ class MyProfilePage extends ConsumerWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6),
                 border: Border.all(
-                  color: scheme.onTertiary
+                  color: scheme.outline
                 ),
                 color: scheme.surface
               ),
@@ -207,7 +207,7 @@ class MyProfilePage extends ConsumerWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(6),
                   border: Border.all(
-                    color: scheme.onTertiary
+                    color: scheme.outline
                   ),
                   color: scheme.surface
                 ),
@@ -242,7 +242,7 @@ class MyProfilePage extends ConsumerWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(6),
                   border: Border.all(
-                    color: scheme.onTertiary
+                    color: scheme.outline
                   ),
                   color: scheme.surface
                 ),
