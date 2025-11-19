@@ -5,6 +5,7 @@ import 'package:sales_app/src/features/auth/providers.dart';
 import 'package:sales_app/src/features/faq/presentation/router/faq_router.dart';
 import 'package:sales_app/src/features/myProfile/presentation/router/my_profile_router.dart';
 import 'package:sales_app/src/features/settings/presentation/router/settings_router.dart';
+import 'package:sales_app/src/widgets/dialogs/confirmation_dialog.dart';
 
 class HomeDrawer extends ConsumerWidget {
   const HomeDrawer ({super.key});
@@ -55,6 +56,9 @@ class HomeDrawer extends ConsumerWidget {
                   ),
                 ),
                 ListTile(
+                  onTap: () {
+                    context.pushNamed(MyProfileRouter.myProfile.name);
+                  },
                   leading: CircleAvatar(
                     backgroundColor: Colors.white24,
                     child: Icon(
@@ -194,7 +198,16 @@ class HomeDrawer extends ConsumerWidget {
                       size: 28,
                     ),
                   ),
-                  onTap: () {
+                  onTap: () async {
+                    final ok = await showDialog<bool>(
+                      context: context,
+                      builder: (context) => ConfirmationDialog(
+                        title: "Tem certeza que deseja sair?",
+                      )
+                    ) ?? false;
+
+                    if (!ok) return;
+
                     ref.read(authControllerProvider.notifier).logout();
                   },
                   title: Text(

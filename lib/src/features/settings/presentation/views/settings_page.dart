@@ -48,54 +48,25 @@ class SettingsPage extends ConsumerWidget {
                 Card(
                   child: Column(
                     children: [
-                      SwitchListTile(
-                        title: Text("Baixar arquivos somente \ncom Wi-Fi"),
-                        secondary: Icon(Icons.wifi),
-                        value: isWifiOnly,
-                        onChanged: (newValue) {
-                          ref.read(isWifiOnlyProvider.notifier).state = newValue;
-                        },
-                      ),
-                      SwitchListTile(
-                        title: Text("Habilitar notificações do app"),
-                        secondary: Icon(Icons.notifications),
-                        value: isNotificationsOn,
-                        onChanged: (newValue) {
-                          ref.read(isNotificationsOnProvider.notifier).state = newValue;
-                        },
-                      )
-                    ],
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 16, left: 12),
-                    child: Text(
-                      "Tema".toUpperCase(),
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey
-                      ),
-                    ),
-                  ),
-                ),
-                Card(
-                  child: Column(
-                    children: [
                       ListTile(
-                        title: Text("Tamanho da fonte"),
-                        leading: Icon(Icons.text_increase),
-                        trailing: Icon(Icons.chevron_right),
-                        onTap: () {},
+                        title: Text("Baixar arquivos somente \ncom Wi-Fi"),
+                        leading: Icon(Icons.wifi),
+                        trailing: Switch(
+                          value: isWifiOnly,
+                          onChanged: (newValue) {
+                            ref.read(isWifiOnlyProvider.notifier).state = newValue;
+                          }
+                        ),
                       ),
-                      SwitchListTile(
-                        title: Text("Tema escuro"),
-                        secondary: Icon(Icons.nightlight),
-                        value: isDarkMode,
-                        onChanged: (newValue) {
-                          ref.read(isDarkModeEnabledProvider.notifier).state = newValue;
-                        },
+                      ListTile(
+                        title: Text("Habilitar notificações do app"),
+                        leading: Icon(Icons.notifications),
+                        trailing: Switch(
+                          value: isNotificationsOn,
+                          onChanged: (newValue) {
+                            ref.read(isNotificationsOnProvider.notifier).state = newValue;
+                          }
+                        ),
                       ),
                     ],
                   ),
@@ -130,6 +101,41 @@ class SettingsPage extends ConsumerWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 16, left: 12),
                     child: Text(
+                      "Tema".toUpperCase(),
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey
+                      ),
+                    ),
+                  ),
+                ),
+                Card(
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: Text("Tamanho da fonte"),
+                        leading: Icon(Icons.text_increase),
+                        trailing: Icon(Icons.chevron_right),
+                        onTap: () {},
+                      ),
+                      ListTile(
+                        title: Text("Tema escuro"),
+                        leading: Icon(Icons.nightlight),
+                        trailing: Switch(
+                          value: isDarkMode,
+                          onChanged: (newValue) {
+                            ref.read(isDarkModeEnabledProvider.notifier).state = newValue;
+                          }
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 16, left: 12),
+                    child: Text(
                       "Sobre".toUpperCase(),
                       style: TextStyle(
                         fontSize: 16,
@@ -143,7 +149,7 @@ class SettingsPage extends ConsumerWidget {
                     children: [
                       ListTile(
                         title: Text("Fale conosco"),
-                        leading: Icon(Icons.phone),
+                        leading: Icon(Icons.phone_in_talk),
                         trailing: Icon(Icons.chevron_right),
                         onTap: () {},
                       ),
