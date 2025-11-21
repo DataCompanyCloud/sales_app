@@ -4,10 +4,12 @@ import 'package:go_router/go_router.dart';
 
 class ConfirmationDialog extends ConsumerWidget {
   final String title;
+  final String? description;
   
   const ConfirmationDialog({
     super.key,
     required this.title,
+    this.description
   });
   
   @override
@@ -19,6 +21,9 @@ class ConfirmationDialog extends ConsumerWidget {
           fontSize: 18
         ),
       ),
+      content: description != null
+        ? Text(description!)
+        : null,
       actions: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

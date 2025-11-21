@@ -115,7 +115,19 @@ class SettingsPage extends ConsumerWidget {
                       ListTile(
                         title: Text("Tamanho da fonte"),
                         leading: Icon(Icons.text_increase),
-                        trailing: Icon(Icons.chevron_right),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "Pequeno",
+                              style: TextStyle(
+                                fontSize: 12
+                              ),
+                            ),
+                            SizedBox(width: 4),
+                            Icon(Icons.chevron_right),
+                          ],
+                        ),
                         onTap: () {},
                       ),
                       ListTile(

@@ -202,7 +202,8 @@ class HomeDrawer extends ConsumerWidget {
                     final ok = await showDialog<bool>(
                       context: context,
                       builder: (context) => ConfirmationDialog(
-                        title: "Tem certeza que deseja sair?",
+                        title: "Tem certeza que deseja fazer logout?",
+                        description: null,
                       )
                     ) ?? false;
 
