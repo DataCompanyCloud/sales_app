@@ -6,6 +6,7 @@ import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/address.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/contact_info.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
+import 'package:sales_app/src/features/product/domain/entities/product.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_customer.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_payment.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_product.dart';
@@ -151,24 +152,108 @@ abstract class SalesOrder with _$SalesOrder {
     cancelledAt: DateTime.now()
   );
 
-  SalesOrder updateCustomer(Customer newCustomer) {
+  SalesOrder updateCustomer(Customer? newCustomer) {
     return copyWith(
-      customer: SalesOrderCustomer.fromCustomer(newCustomer),
+      customer: newCustomer == null ? null : SalesOrderCustomer.fromCustomer(newCustomer),
       updatedAt: DateTime.now()
     );
   }
 
-  SalesOrder updateCustomerAddress(Address address) {
+  SalesOrder updateCustomerAddress(Address? address) {
     return copyWith(
       customer: customer?.copyWith(address: address),
       updatedAt: DateTime.now()
     );
   }
 
-  SalesOrder updateCustomerContact(ContactInfo contact) {
+  SalesOrder updateCustomerContact(ContactInfo? contact) {
     return copyWith(
       customer: customer?.copyWith(contactInfo: contact),
       updatedAt: DateTime.now()
+    );
+  }
+
+  SalesOrder updateItems(List<SalesOrderProduct> items) {
+    return copyWith(
+      items: items,
+      itemsCount: items.length,
+      updatedAt: DateTime.now()
+    );
+  }
+
+  SalesOrder addItem(SalesOrderProduct salesOrderProduct) {
+    // cria uma cópia da lista atual
+    final newItems = [...items];
+
+    // procura se já existe um item desse produto
+    final index = newItems.indexWhere(
+          (item) => item.productId == salesOrderProduct.productId,
+    );
+
+    if (index == -1) {
+      // não existe -> adiciona novo
+      newItems.add(salesOrderProduct);
+    } else {
+      // já existe -> soma a quantidade
+      final existing = newItems[index];
+      newItems[index] = existing.copyWith(
+        quantity: existing.quantity + salesOrderProduct.quantity,
+      );
+    }
+
+    return copyWith(
+      items: newItems,
+      itemsCount: newItems.length,
+      updatedAt: DateTime.now(),
+    );
+  }
+
+  SalesOrder subtractItem(SalesOrderProduct salesOrderProduct) {
+    final newItems = [...items];
+
+    final index = newItems.indexWhere(
+        (item) => item.productId == salesOrderProduct.productId,
+    );
+
+    if (index == -1) {
+      // não tem esse item no pedido, não faz nada
+      return this;
+    }
+
+    final existing = newItems[index];
+    final newQuantity = existing.quantity - salesOrderProduct.quantity;
+
+    if (newQuantity > 0) {
+      // ainda sobra quantidade -> atualiza
+      newItems[index] = existing.copyWith(
+        quantity: newQuantity,
+      );
+    } else {
+      // zerou ou ficou negativo -> remove da lista
+      newItems.removeAt(index);
+    }
+
+    return copyWith(
+      items: newItems,
+      itemsCount: newItems.length,
+      updatedAt: DateTime.now(),
+    );
+  }
+
+  SalesOrder removeItem(SalesOrderProduct salesOrderProduct) {
+    final newItems = items
+        .where((item) => item.productId != salesOrderProduct.productId)
+        .toList();
+
+    // se nada mudou, retorna o mesmo objeto
+    if (newItems.length == items.length) {
+      return this;
+    }
+
+    return copyWith(
+      items: newItems,
+      itemsCount: newItems.length,
+      updatedAt: DateTime.now(),
     );
   }
 }

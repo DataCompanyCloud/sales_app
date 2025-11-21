@@ -7,6 +7,7 @@ import 'package:sales_app/src/features/salesOrder/presentation/controllers/sales
 import 'package:sales_app/src/features/salesOrder/presentation/views/sales_order_details_page.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/views/sales_order_page.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/views/sales_order_create_page.dart';
+import 'package:sales_app/src/features/salesOrder/presentation/views/sales_order_products_page.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/views/sales_orders_draft_page.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/views/select_customer_page.dart';
 import 'package:sales_app/src/features/salesOrder/providers.dart';
@@ -16,7 +17,9 @@ enum OrderRouter {
   details,
   create,
   drafts,
-  select_customer
+  select_customer,
+  order_products_details,
+  select_products
 }
 
 final orderRoutes = GoRoute(
@@ -49,6 +52,28 @@ final orderRoutes = GoRoute(
             return  SelectCustomerPage(customerId: customerId);
           }
         ),
+        GoRoute(
+          path: 'order-products-details',
+          name: OrderRouter.order_products_details.name,
+          builder: (context, state) {
+            // ?orderId=123
+            final orderIdStr = state.uri.queryParameters['orderId'];
+            final orderId = orderIdStr != null ? int.tryParse(orderIdStr) : null;
+
+            return SalesOrderProductsPage(orderId: orderId);
+          },
+          routes: [
+            GoRoute(
+              path: 'select-products',
+              name: OrderRouter.select_products.name,
+              builder: (context, state) {
+                final orderIdStr = state.uri.queryParameters['orderId'];
+                final orderId = orderIdStr != null ? int.tryParse(orderIdStr) : null;
+                return  SelectCustomerPage(customerId: orderId);
+              }
+            ),
+          ]
+        )
       ]
     ),
     GoRoute(

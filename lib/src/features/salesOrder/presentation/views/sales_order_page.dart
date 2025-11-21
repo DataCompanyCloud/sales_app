@@ -230,6 +230,11 @@ class OrderListPageState extends ConsumerState<SalesOrderPage>{
 
                                 return GestureDetector(
                                   onTap: () {
+                                    if (order.status == SalesOrderStatus.draft) {
+                                      context.pushNamed(OrderRouter.create.name, queryParameters: {"orderId": order.orderId.toString()});
+                                      return;
+                                    }
+
                                     context.pushNamed(OrderRouter.details.name, pathParameters: {"orderId": order.orderId.toString()});
                                   },
                                   child: SalesOrderCard(order: order),

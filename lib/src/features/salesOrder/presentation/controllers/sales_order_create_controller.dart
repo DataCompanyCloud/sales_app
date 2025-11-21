@@ -52,7 +52,7 @@ class SalesOrderCreateController extends AutoDisposeFamilyAsyncNotifier<SalesOrd
     }
   }
 
-  Future<SalesOrder> createNewOrder({ Customer? customer }) async {
+  Future<SalesOrder> createNewOrder({ Customer? customer, List<SalesOrderProduct>? items }) async {
     try {
       final repository = await ref.read(salesOrderRepositoryProvider.future);
 
@@ -62,15 +62,23 @@ class SalesOrderCreateController extends AutoDisposeFamilyAsyncNotifier<SalesOrd
         salesOrderCustomer = SalesOrderCustomer.fromCustomer(customer);
       }
 
+      // final products = items ?? [];
+
+      final products = List.generate(random.integer(5, min: 0), (index) {
+        final money = Money(amount: random.integer(50, min: 1));
+        return fakerOrderProduct(index, money);
+      });
+
+
       final newOrder = SalesOrder(
         orderId: 0,
         orderUuId: const Uuid().v4(),
         orderCode: null,
         createdAt: DateTime.now(),
-        itemsCount: 0,
+        itemsCount: products.length,
         customer: salesOrderCustomer,
         total: Money.zero(),
-        items: [],
+        items: products,
         orderPaymentMethods: []
       );
 
@@ -107,24 +115,24 @@ class SalesOrderCreateController extends AutoDisposeFamilyAsyncNotifier<SalesOrd
 
 SalesOrderCustomer fakerOrderCustomer () {
   return SalesOrderCustomer(
-      customerId: random.integer(1000, min: 1),
-      customerCode: random.integer(1000, min: 1).toString().padLeft(2, "00000"),
-      customerUuId: const Uuid().v4(),
-      customerName: "${faker.company.name()} ${faker.company.name()}",
-      contactInfo: null,
-      address: null
+    customerId: random.integer(1000, min: 1),
+    customerCode: random.integer(1000, min: 1).toString().padLeft(2, "00000"),
+    customerUuId: const Uuid().v4(),
+    customerName: "${faker.company.name()} ${faker.company.name()}",
+    contactInfo: null,
+    address: null
   );
 }
 
 
 SalesOrderProduct fakerOrderProduct (int index, Money unitPrice) {
   return SalesOrderProduct(
-      productId: index,
-      productUuId: const Uuid().v4(),
-      productCode: index.toString().padLeft(2, "00000"),
-      name: "${faker.animal.name()} ${faker.food.cuisine()}",
-      quantity: random.integer(10, min: 1).toDouble(),
-      unitPrice: unitPrice
+    productId: index,
+    productUuId: const Uuid().v4(),
+    productCode: index.toString().padLeft(2, "00000"),
+    name: "${faker.animal.name()} ${faker.food.cuisine()}",
+    quantity: random.integer(10, min: 1).toDouble(),
+    unitPrice: unitPrice
   );
 }
 

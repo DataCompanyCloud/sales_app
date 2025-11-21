@@ -53,7 +53,7 @@ class CustomBottomNavigationBar extends ConsumerWidget {
                     context.goNamed(ProductRouter.product.name);
                     break;
                   case 1:
-                    context.goNamed(OrderRouter.create.name, queryParameters: {"showOrders": "true"});
+                    context.goNamed(OrderRouter.create.name);
                     break;
                   case 2:
                     context.goNamed(HomeRouter.home.name);
