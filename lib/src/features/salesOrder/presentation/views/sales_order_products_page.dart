@@ -4,11 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/providers/connectivity_provider.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
-import 'package:sales_app/src/features/salesOrder/data/models/sales_order_model.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_product.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/router/sales_order_router.dart';
-import 'package:sales_app/src/features/salesOrder/presentation/widgets/indicator/pulsing_dot.dart';
+import 'package:sales_app/src/features/salesOrder/presentation/widgets/cards/sales_order_product_card.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/widgets/skeleton/sales_order_create_page_skeleton.dart';
 import 'package:sales_app/src/features/salesOrder/providers.dart';
 
@@ -39,8 +38,8 @@ class SalesOrderProductsPageState extends ConsumerState<SalesOrderProductsPage> 
     return controller.when(
       error: (error, stack ) => ErrorPage(
         exception: error is AppException
-            ? error
-            : AppException.errorUnexpected(error.toString()),
+          ? error
+          : AppException.errorUnexpected(error.toString()),
       ),
       loading: () => SalesOrderCreatePageSkeleton(),
       data: (order) {
@@ -65,46 +64,121 @@ class SalesOrderProductsPageState extends ConsumerState<SalesOrderProductsPage> 
             ),
           ),
           body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
                 padding: const EdgeInsets.all(12.0),
-                child: Container(
-                  padding: EdgeInsets.all(12),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: scheme.surface,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: scheme.outline, width: 2)
-                  ),
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
+                child: Row(
+                  children: [
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4.0),
+                        side: BorderSide(color: scheme.outline, width: 2)
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          // final selected = await context.pushNamed<List<SalesOrderProduct>?>(OrderRouter.select_products.name) ?? [];
+                          //
+                          // if (selected.isEmpty) return;
+                          //
+                          // if (order != null) {
+                          //   final newOrder = order.updateItems(selected);
+                          //
+                          //   await ref
+                          //       .read(salesOrderCreateControllerProvider(order.orderId).notifier)
+                          //       .saveEdits(newOrder);
+                          //   return;
+                          // }
+                          //
+                          // final newOrder = await ref
+                          //     .read(salesOrderCreateControllerProvider(order?.orderId).notifier)
+                          //     .createNewOrder();
+                          //
+                          // if (!context.mounted) return;
+                          // context.goNamed(OrderRouter.order_products_details.name, queryParameters: {"orderId": newOrder.orderId.toString()});
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(8),
+                          child: Column(
+                            children: [
+                              Container(
+                                width: 50,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  color: scheme.outline,
+                                  borderRadius: BorderRadius.circular(4.0),
+                                ),
+                                child: Center(
+                                  child: Icon(
+                                    Icons.add_box_outlined
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                "Catálago"
+                              ),
+                            ],
+                          )
+                        ),
+                      ),
                     ),
-                    child: InkWell(
-                      onTap: () async {
-                        final selected = await context.pushNamed<List<SalesOrderProduct>?>(OrderRouter.select_products.name) ?? [];
-
-                        if (selected.isEmpty) return;
-
-                        if (order != null) {
-                          final newOrder = order.updateItems(selected);
-
-                          await ref
-                              .read(salesOrderCreateControllerProvider(order.orderId).notifier)
-                              .saveEdits(newOrder);
-                          return;
-                        }
-
-                        final newOrder = await ref
-                            .read(salesOrderCreateControllerProvider(order?.orderId).notifier)
-                            .createNewOrder();
-
-                        if (!context.mounted) return;
-                        context.goNamed(OrderRouter.order_products_details.name, queryParameters: {"orderId": newOrder.orderId.toString()});
-                      },
-                      child: Text("Catalago"),
+                    SizedBox(width: 12),
+                    Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4.0),
+                          side: BorderSide(color: scheme.outline, width: 2)
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          // final selected = await context.pushNamed<List<SalesOrderProduct>?>(OrderRouter.select_products.name) ?? [];
+                          //
+                          // if (selected.isEmpty) return;
+                          //
+                          // if (order != null) {
+                          //   final newOrder = order.updateItems(selected);
+                          //
+                          //   await ref
+                          //       .read(salesOrderCreateControllerProvider(order.orderId).notifier)
+                          //       .saveEdits(newOrder);
+                          //   return;
+                          // }
+                          //
+                          // final newOrder = await ref
+                          //     .read(salesOrderCreateControllerProvider(order?.orderId).notifier)
+                          //     .createNewOrder();
+                          //
+                          // if (!context.mounted) return;
+                          // context.goNamed(OrderRouter.order_products_details.name, queryParameters: {"orderId": newOrder.orderId.toString()});
+                        },
+                        child: Container(
+                            padding: EdgeInsets.all(8),
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: 50,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    color: scheme.outline,
+                                    borderRadius: BorderRadius.circular(4.0),
+                                  ),
+                                  child: Center(
+                                    child: Icon(
+                                        Icons.add_chart_outlined
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  "Histórico"
+                                ),
+                              ],
+                            )
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
               Divider(
@@ -114,46 +188,18 @@ class SalesOrderProductsPageState extends ConsumerState<SalesOrderProductsPage> 
               ),
               SizedBox(height: 12),
               Expanded(
-                child: ListView.builder(
-                  itemCount: items.length,
-                  itemBuilder: (context, index) {
-                    final item = items[index];
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        padding: EdgeInsets.all(12),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: scheme.surface,
-                          borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: scheme.outline, width: 2)
-                        ),
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                item.name,
-                                style: TextStyle(
-                                  color: Colors.red
-                                ),
-                              ),
-                              Text(
-                                item.quantity.toInt().toString().padLeft(2, "0"),
-                                style: TextStyle(
-                                  color: Colors.red
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  }
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView.builder(
+                    itemCount: items.length,
+                    itemBuilder: (context, index) {
+                      final item = items[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: SalesOrderProductCard(item: item),
+                      );
+                    }
+                  ),
                 ),
               ),
             ],

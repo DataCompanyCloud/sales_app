@@ -29,7 +29,7 @@ class _OrderDetailsCardState extends ConsumerState<SalesOrderDetailsCard>{
     final categories = List.generate(9, (index) => "Azul");
     final visibleCategories = isExpanded ? categories : categories.take(3).toList();
 
-    final image = orderProduct.images?.firstOrNull;
+    final image = orderProduct.images;
     final imageUrl = image?.url;
 
     return Container(
@@ -92,7 +92,7 @@ class _OrderDetailsCardState extends ConsumerState<SalesOrderDetailsCard>{
                         SizedBox(width: 8),
                         Expanded(
                           child: Text(
-                            orderProduct.name,
+                            orderProduct.productName,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 4,
                             style: TextStyle(

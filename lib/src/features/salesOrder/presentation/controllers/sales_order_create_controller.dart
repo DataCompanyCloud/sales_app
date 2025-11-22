@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:faker/faker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
-import 'package:sales_app/src/features/customer/domain/valueObjects/contact_info.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_customer.dart';
@@ -130,7 +129,7 @@ SalesOrderProduct fakerOrderProduct (int index, Money unitPrice) {
     productId: index,
     productUuId: const Uuid().v4(),
     productCode: index.toString().padLeft(2, "00000"),
-    name: "${faker.animal.name()} ${faker.food.cuisine()}",
+    productName: "${faker.animal.name()} ${faker.food.cuisine()}",
     quantity: random.integer(10, min: 1).toDouble(),
     unitPrice: unitPrice
   );

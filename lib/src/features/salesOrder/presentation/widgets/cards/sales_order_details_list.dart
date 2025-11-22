@@ -35,7 +35,7 @@ class SalesOrderDetailsList extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              orderProduct.name,
+              orderProduct.productName,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(

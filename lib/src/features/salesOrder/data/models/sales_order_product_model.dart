@@ -40,7 +40,7 @@ extension OrderProductModeMapper on OrderProductModel {
       productUuId: productUuId,
       productId: productId,
       productCode: productCode,
-      name: name,
+      productName: name,
       quantity: quantity,
       unitPrice: price ?? const Money.raw(amount: 0),
       orderId: orderId,
@@ -78,7 +78,7 @@ extension OrderProductMapper on SalesOrderProduct {
       productUuId: productUuId,
       productId: productId,
       productCode: productCode,
-      name: name,
+      name: productName,
       quantity: quantity,
       orderId: orderId
     );

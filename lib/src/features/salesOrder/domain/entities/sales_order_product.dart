@@ -15,10 +15,10 @@ abstract class SalesOrderProduct with _$SalesOrderProduct {
     required String productUuId,
     required int productId,
     required String productCode,
-    required String name,
+    required String productName,
     required double quantity,
     required Money unitPrice,
-    List<ImageEntity>? images,
+    ImageEntity? images,
     int? orderId,
     // @Default('UN') String unitOfMeasure, // Type
     @Default(Money.raw(amount: 0)) Money discountAmount,
@@ -30,28 +30,29 @@ abstract class SalesOrderProduct with _$SalesOrderProduct {
     required String productUuId,
     required int productId,
     required String productCode,
-    required String name,
+    required String productName,
     required double quantity,
     required Money unitPrice,
-    List<ImageEntity>? images,
+    ImageEntity? images,
     int? orderId,
     Money? discountAmount,
     Money? taxAmount,
   }) {
 
     //TODO fazer as validações
-    if (name.trim().isEmpty) {
-      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "'Name' não pode ser vazio");
+    if (productName.trim().isEmpty) {
+      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Nome do produto não pode ser vazio");
     }
+
     if (quantity.isNegative) {
-      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "'Quantity' não pode ser um valor negativo");
+      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Quantidade não pode ser um valor negativo");
     }
 
     return SalesOrderProduct.raw(
       productUuId: productUuId,
       productId: productId,
       productCode: productCode,
-      name: name,
+      productName: productName,
       quantity: quantity,
       unitPrice: unitPrice,
       images: images,
