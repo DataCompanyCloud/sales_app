@@ -1,6 +1,6 @@
 import 'package:objectbox/objectbox.dart';
+import 'package:sales_app/src/features/company/domain/valueObjects/brazilian_state.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/state_registration.dart';
-import 'package:sales_app/src/features/customer/domain/valueObjects/uf.dart';
 
 @Entity()
 class StateRegistrationModel {
@@ -22,7 +22,7 @@ class StateRegistrationModel {
 extension StateRegistrationModelMapper on StateRegistrationModel {
   /// De StateRegistrationModel → StateRegistration
   StateRegistration toEntity() => StateRegistration(
-    uf: UF.values[uf],
+    uf: BrazilianState.values[uf],
     number: number,
     isExempt: isExempt
   );

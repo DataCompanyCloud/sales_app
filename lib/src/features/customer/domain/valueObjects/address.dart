@@ -1,4 +1,5 @@
 import 'package:sales_app/src/features/customer/domain/valueObjects/address_type.dart';
+import 'package:sales_app/src/features/company/domain/valueObjects/brazilian_state.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/cep.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -11,7 +12,7 @@ abstract class Address with _$Address {
 
   const factory Address({
     //required String country, // país
-    required String state,
+    required BrazilianState state,
     required String city,
     required String street,
     required String district, // bairro

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:sales_app/src/features/auth/domain/entities/company.dart';
+import 'package:sales_app/src/features/company/domain/entities/company.dart';
 
 part 'user.freezed.dart';
 part 'user.g.dart';

@@ -207,7 +207,7 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
                             Row(
                               children: [
                                 Text(
-                                  "R\$ ${product.price.toStringAsFixed(2)}",
+                                  "R\$ ${product.price.decimalValue}",
                                   style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
                                 ),
                               ],
@@ -323,7 +323,7 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              (product.price * qty).toStringAsFixed(2),
+                              product.price.multiply(qty).decimalValue.toString(),
                               style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
                             ),
                           ],

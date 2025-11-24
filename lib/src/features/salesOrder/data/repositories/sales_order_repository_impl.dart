@@ -6,10 +6,13 @@ import 'package:sales_app/src/features/customer/data/models/address_model.dart';
 import 'package:sales_app/src/features/customer/data/models/contact_info_model.dart';
 import 'package:sales_app/src/features/customer/data/models/money_model.dart';
 import 'package:sales_app/src/features/customer/data/models/phone_model.dart';
+import 'package:sales_app/src/features/product/data/models/product_fiscal_model.dart';
+import 'package:sales_app/src/features/salesOrder/data/models/sales_order_company_group_model.dart';
 import 'package:sales_app/src/features/salesOrder/data/models/sales_order_customer_model.dart';
 import 'package:sales_app/src/features/salesOrder/data/models/sales_order_model.dart';
 import 'package:sales_app/src/features/salesOrder/data/models/sales_order_payment_model.dart';
 import 'package:sales_app/src/features/salesOrder/data/models/sales_order_product_model.dart';
+import 'package:sales_app/src/features/salesOrder/data/models/tax_context_model.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order.dart';
 import 'package:sales_app/src/features/salesOrder/domain/repositories/sales_order_repository.dart';
 
@@ -88,11 +91,14 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
     final salesOrderBox = store.box<SalesOrderModel>();
     final salesOrderCustomerBox = store.box<SalesOrderCustomerModel>();
     final salesOrderPaymentBox = store.box<SalesOrderPaymentModel>();
-    final salesOrderProductBox = store.box<OrderProductModel>();
+    final salesOrderProductBox = store.box<SalesOrderProductModel>();
     final contactInfoBox = store.box<ContactInfoModel>();
     final moneyBox = store.box<MoneyModel>();
     final phoneBox = store.box<PhoneModel>();
     final addressBox = store.box<AddressModel>();
+    final productFiscalBox = store.box<ProductFiscalModel>();
+    final salesOrderCompanyGroupBox = store.box<SalesOrderCompanyGroupModel>();
+    final taxContextBox = store.box<TaxContextModel>();
 
     store.runInTransaction(TxMode.write, () {
       for (final order in orders) {
@@ -105,14 +111,17 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
         newModel.id = existing?.id ?? 0;
         if (existing != null) {
           existing.deleteRecursively(
-            salesOrderBox,
-            salesOrderCustomerBox,
-            salesOrderPaymentBox,
-            salesOrderProductBox,
-            contactInfoBox,
-            moneyBox,
-            phoneBox,
-            addressBox
+            salesOrderBox: salesOrderBox,
+            salesOrderCustomerBox: salesOrderCustomerBox,
+            salesOrderPaymentBox: salesOrderPaymentBox,
+            salesOrderProductBox: salesOrderProductBox,
+            contactInfoBox: contactInfoBox,
+            moneyBox: moneyBox,
+            phoneBox: phoneBox,
+            addressBox: addressBox,
+            productFiscalBox: productFiscalBox,
+            salesOrderCompanyGroupBox: salesOrderCompanyGroupBox,
+            taxContextBox: taxContextBox
           );
         }
 
@@ -126,11 +135,14 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
     final salesOrderBox = store.box<SalesOrderModel>();
     final salesOrderCustomerBox = store.box<SalesOrderCustomerModel>();
     final salesOrderPaymentBox = store.box<SalesOrderPaymentModel>();
-    final salesOrderProductBox = store.box<OrderProductModel>();
+    final salesOrderProductBox = store.box<SalesOrderProductModel>();
     final contactInfoBox = store.box<ContactInfoModel>();
     final moneyBox = store.box<MoneyModel>();
     final phoneBox = store.box<PhoneModel>();
     final addressBox = store.box<AddressModel>();
+    final productFiscalBox = store.box<ProductFiscalModel>();
+    final salesOrderCompanyGroupBox = store.box<SalesOrderCompanyGroupModel>();
+    final taxContextBox = store.box<TaxContextModel>();
 
     final id = store.runInTransaction(TxMode.write, () {
       final existingQ = salesOrderBox.query(SalesOrderModel_.orderUuId.equals(order.orderUuId)).build();
@@ -142,14 +154,17 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
       newModel.id = existing?.id ?? 0;
       if (existing != null) {
         existing.deleteRecursively(
-          salesOrderBox,
-          salesOrderCustomerBox,
-          salesOrderPaymentBox,
-          salesOrderProductBox,
-          contactInfoBox,
-          moneyBox,
-          phoneBox,
-          addressBox
+          salesOrderBox: salesOrderBox,
+          salesOrderCustomerBox: salesOrderCustomerBox,
+          salesOrderPaymentBox: salesOrderPaymentBox,
+          salesOrderProductBox: salesOrderProductBox,
+          contactInfoBox: contactInfoBox,
+          moneyBox: moneyBox,
+          phoneBox: phoneBox,
+          addressBox: addressBox,
+          productFiscalBox: productFiscalBox,
+          taxContextBox: taxContextBox,
+          salesOrderCompanyGroupBox: salesOrderCompanyGroupBox
         );
       }
 
@@ -169,11 +184,14 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
     final salesOrderBox = store.box<SalesOrderModel>();
     final salesOrderCustomerBox = store.box<SalesOrderCustomerModel>();
     final salesOrderPaymentBox = store.box<SalesOrderPaymentModel>();
-    final salesOrderProductBox = store.box<OrderProductModel>();
+    final salesOrderProductBox = store.box<SalesOrderProductModel>();
     final contactInfoBox = store.box<ContactInfoModel>();
     final moneyBox = store.box<MoneyModel>();
     final phoneBox = store.box<PhoneModel>();
     final addressBox = store.box<AddressModel>();
+    final productFiscalBox = store.box<ProductFiscalModel>();
+    final salesOrderCompanyGroupBox = store.box<SalesOrderCompanyGroupModel>();
+    final taxContextBox = store.box<TaxContextModel>();
 
     store.runInTransaction(TxMode.write, () {
       final model = salesOrderBox.get(order.orderId);
@@ -183,14 +201,17 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
       }
 
       model.deleteRecursively(
-        salesOrderBox,
-        salesOrderCustomerBox,
-        salesOrderPaymentBox,
-        salesOrderProductBox,
-        contactInfoBox,
-        moneyBox,
-        phoneBox,
-        addressBox
+        salesOrderBox: salesOrderBox,
+        salesOrderCustomerBox: salesOrderCustomerBox,
+        salesOrderPaymentBox: salesOrderPaymentBox,
+        salesOrderProductBox: salesOrderProductBox,
+        contactInfoBox: contactInfoBox,
+        moneyBox: moneyBox,
+        phoneBox: phoneBox,
+        addressBox: addressBox,
+        productFiscalBox: productFiscalBox,
+        salesOrderCompanyGroupBox: salesOrderCompanyGroupBox,
+        taxContextBox: taxContextBox
       );
     });
   }
@@ -200,24 +221,30 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
     final salesOrderBox = store.box<SalesOrderModel>();
     final salesOrderCustomerBox = store.box<SalesOrderCustomerModel>();
     final salesOrderPaymentBox = store.box<SalesOrderPaymentModel>();
-    final salesOrderProductBox = store.box<OrderProductModel>();
+    final salesOrderProductBox = store.box<SalesOrderProductModel>();
     final contactInfoBox = store.box<ContactInfoModel>();
     final moneyBox = store.box<MoneyModel>();
     final phoneBox = store.box<PhoneModel>();
     final addressBox = store.box<AddressModel>();
+    final productFiscalBox = store.box<ProductFiscalModel>();
+    final salesOrderCompanyGroupBox = store.box<SalesOrderCompanyGroupModel>();
+    final taxContextBox = store.box<TaxContextModel>();
 
     store.runInTransaction(TxMode.write, () {
       final allOrders = salesOrderBox.getAll();
       for (final model in allOrders) {
         model.deleteRecursively(
-          salesOrderBox,
-          salesOrderCustomerBox,
-          salesOrderPaymentBox,
-          salesOrderProductBox,
-          contactInfoBox,
-          moneyBox,
-          phoneBox,
-          addressBox
+          salesOrderBox: salesOrderBox,
+          salesOrderCustomerBox: salesOrderCustomerBox,
+          salesOrderPaymentBox: salesOrderPaymentBox,
+          salesOrderProductBox: salesOrderProductBox,
+          contactInfoBox: contactInfoBox,
+          moneyBox: moneyBox,
+          phoneBox: phoneBox,
+          addressBox: addressBox,
+          productFiscalBox: productFiscalBox,
+          salesOrderCompanyGroupBox: salesOrderCompanyGroupBox,
+          taxContextBox: taxContextBox
         );
       }
     });

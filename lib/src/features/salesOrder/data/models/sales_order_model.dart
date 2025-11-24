@@ -4,10 +4,14 @@ import 'package:sales_app/src/features/customer/data/models/contact_info_model.d
 import 'package:sales_app/src/features/customer/data/models/money_model.dart';
 import 'package:sales_app/src/features/customer/data/models/phone_model.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
+import 'package:sales_app/src/features/product/data/models/product_fiscal_model.dart';
+import 'package:sales_app/src/features/salesOrder/data/models/sales_order_company_group_model.dart';
 import 'package:sales_app/src/features/salesOrder/data/models/sales_order_customer_model.dart';
 import 'package:sales_app/src/features/salesOrder/data/models/sales_order_payment_model.dart';
 import 'package:sales_app/src/features/salesOrder/data/models/sales_order_product_model.dart';
+import 'package:sales_app/src/features/salesOrder/data/models/tax_context_model.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order.dart';
+import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_company_group.dart';
 import 'package:sales_app/src/features/salesOrder/domain/valueObjects/sales_order_status.dart';
 
 @Entity()
@@ -38,7 +42,7 @@ class SalesOrderModel {
   final total = ToOne<MoneyModel>();
   final freight = ToOne<MoneyModel>();
   final customer = ToOne<SalesOrderCustomerModel>();
-  final items = ToMany<OrderProductModel>();
+  final companiesGroup = ToMany<SalesOrderCompanyGroupModel>();
   final orderPaymentMethods = ToMany<SalesOrderPaymentModel>();
 
   SalesOrderModel({
@@ -62,7 +66,7 @@ class SalesOrderModel {
 
 extension SalesOrderModelMapper on SalesOrderModel {
   SalesOrder toEntity() {
-    final itemsList = items.map((i) => i.toEntity()).toList();
+    final companiesGroupList = companiesGroup.map((i) => i.toEntity()).toList();
     final customers = customer.target?.toEntity();
     final orderPaymentList = orderPaymentMethods.map((o) => o.toEntity()).toList();
 
@@ -80,24 +84,27 @@ extension SalesOrderModelMapper on SalesOrderModel {
       notes: notes,
       itemsCount: itemsCount,
       total: total.target?.toEntity() ?? Money.zero(),
-      items: itemsList,
       orderPaymentMethods: orderPaymentList,
+      companyGroup: companiesGroupList,
       customer: customers,
       freight: freight.target?.toEntity()
     );
   }
 
 
-  void deleteRecursively(
-    Box<SalesOrderModel> salesOrderBox,
-    Box<SalesOrderCustomerModel> salesOrderCustomerBox,
-    Box<SalesOrderPaymentModel> salesOrderPaymentBox,
-    Box<OrderProductModel> orderProductBox,
-    Box<ContactInfoModel> contactInfoBox,
-    Box<MoneyModel> moneyBox,
-    Box<PhoneModel> phoneBox,
-    Box<AddressModel> addressModel
-  ) {
+  void deleteRecursively({
+    required Box<SalesOrderModel> salesOrderBox,
+    required Box<SalesOrderCustomerModel> salesOrderCustomerBox,
+    required Box<SalesOrderPaymentModel> salesOrderPaymentBox,
+    required Box<SalesOrderProductModel> salesOrderProductBox,
+    required Box<SalesOrderCompanyGroupModel> salesOrderCompanyGroupBox,
+    required Box<ContactInfoModel> contactInfoBox,
+    required Box<MoneyModel> moneyBox,
+    required Box<PhoneModel> phoneBox,
+    required Box<AddressModel> addressBox,
+    required Box<ProductFiscalModel> productFiscalBox,
+    required Box<TaxContextModel> taxContextBox
+  }) {
 
     if (total.target != null) {
       moneyBox.remove(total.targetId);
@@ -109,15 +116,15 @@ extension SalesOrderModelMapper on SalesOrderModel {
 
     final salesCustomer = customer.target;
     if (salesCustomer != null) {
-      salesCustomer.deleteRecursively(salesOrderCustomerBox, contactInfoBox, phoneBox, addressModel);
+      salesCustomer.deleteRecursively(salesOrderCustomerBox, contactInfoBox, phoneBox, addressBox);
     }
 
     for (final payment in orderPaymentMethods) {
       payment.deleteRecursively(salesOrderPaymentBox, moneyBox);
     }
 
-    for (final item in items) {
-      item.deleteRecursively(orderProductBox, moneyBox);
+    for (final companyGroup in companiesGroup) {
+      companyGroup.deleteRecursively(salesOrderCompanyGroupBox: salesOrderCompanyGroupBox, salesOrderProductBox: salesOrderProductBox, moneyBox: moneyBox, productFiscalBox: productFiscalBox, taxContextModel: taxContextBox);
     }
 
     salesOrderBox.remove(id);
@@ -158,10 +165,9 @@ extension SalesOrderMapper on SalesOrder {
     entity.customer.target = customer?.toModel();
     entity.total.target = total.toModel();
 
-    if (items.isNotEmpty) {
-      entity.items.addAll(items.map((i) => i.toModel()));
+    if (companyGroup.isNotEmpty) {
+      entity.companiesGroup.addAll(companyGroup.map((c) => c.toModel()));
     }
-
 
     return entity;
   }

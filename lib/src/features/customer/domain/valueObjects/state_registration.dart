@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
-import 'uf.dart';
+import 'package:sales_app/src/features/company/domain/valueObjects/brazilian_state.dart';
 
 part 'state_registration.freezed.dart';
 part 'state_registration.g.dart';
@@ -12,14 +12,14 @@ abstract class StateRegistration with _$StateRegistration {
   const StateRegistration._();
 
   const factory StateRegistration.raw({
-    required UF uf,
+    required BrazilianState uf,
     @Default('') String number,
     @Default(false) bool isExempt,
   }) = _StateRegistration;
 
   /// Construtor com validação e normalização
   factory StateRegistration({
-    required UF uf,
+    required BrazilianState uf,
     String? number,
     bool isExempt = false,
   }) {
@@ -58,34 +58,34 @@ abstract class StateRegistration with _$StateRegistration {
   }
 }
 
-final Map<UF, _IESpec> _ieSpecs = {
-  UF.AC: _IESpec(13, (s) => '${s.substring(0,2)}.${s.substring(2,5)}.${s.substring(5,8)}/${s.substring(8,11)}-${s.substring(11)}'),
-  UF.AL: _IESpec(9,  (s) => s), // sem separadores
-  UF.AM: _IESpec(9,  (s) => '${s.substring(0,2)}.${s.substring(2,5)}.${s.substring(5,8)}-${s.substring(8)}'),
-  UF.AP: _IESpec(9,  (s) => s),
-  UF.BA: _IESpec(9,  (s) => '${s.substring(0,3)}.${s.substring(3,6)}.${s.substring(6,8)}-${s.substring(8)}'),
-  UF.CE: _IESpec(9,  (s) => '${s.substring(0,8)}-${s.substring(8)}'),
-  UF.DF: _IESpec(13, (s) => '${s.substring(0,11)}-${s.substring(11)}'),
-  UF.ES: _IESpec(9,  (s) => '${s.substring(0,3)}.${s.substring(3,6)}.${s.substring(6,8)}-${s.substring(8)}'),
-  UF.GO: _IESpec(9,  (s) => '${s.substring(0,2)}.${s.substring(2,5)}.${s.substring(5,8)}-${s.substring(8)}'),
-  UF.MA: _IESpec(9,  (s) => s),
-  UF.MG: _IESpec(13, (s) => '${s.substring(0,3)}.${s.substring(3,6)}.${s.substring(6,9)}/${s.substring(9)}'),
-  UF.MS: _IESpec(9,  (s) => s),
-  UF.MT: _IESpec(9,  (s) => s),
-  UF.PA: _IESpec(9,  (s) => '${s.substring(0,2)}-${s.substring(2,8)}-${s.substring(8)}'),
-  UF.PB: _IESpec(9,  (s) => '${s.substring(0,8)}-${s.substring(8)}'),
-  UF.PE: _IESpec(14, (s) => '${s.substring(0,2)}.${s.substring(2,3)}.${s.substring(3,6)}.${s.substring(6,13)}-${s.substring(13)}'),
-  UF.PI: _IESpec(9,  (s) => s),
-  UF.PR: _IESpec(10, (s) => '${s.substring(0,8)}-${s.substring(8)}'),
-  UF.RJ: _IESpec(8,  (s) => '${s.substring(0,2)}.${s.substring(2,5)}.${s.substring(5,7)}-${s.substring(7)}'),
-  UF.RN: _IESpec(9,  (s) => '${s.substring(0,2)}.${s.substring(2,5)}.${s.substring(5,8)}-${s.substring(8)}'),
-  UF.RO: _IESpec(9,  (s) => '${s.substring(0,3)}.${s.substring(3,8)}-${s.substring(8)}'),
-  UF.RR: _IESpec(9,  (s) => '${s.substring(0,8)}-${s.substring(8)}'),
-  UF.RS: _IESpec(10, (s) => '${s.substring(0,3)}-${s.substring(3)}'),
-  UF.SC: _IESpec(9,  (s) => '${s.substring(0,3)}.${s.substring(3,6)}.${s.substring(6)}'),
-  UF.SE: _IESpec(10, (s) => '${s.substring(0,9)}-${s.substring(9)}'),
-  UF.SP: _IESpec(12, (s) => '${s.substring(0,3)}.${s.substring(3,6)}.${s.substring(6,9)}.${s.substring(9)}'),
-  UF.TO: _IESpec(11, (s) => s),
+final Map<BrazilianState, _IESpec> _ieSpecs = {
+  BrazilianState.AC: _IESpec(13, (s) => '${s.substring(0,2)}.${s.substring(2,5)}.${s.substring(5,8)}/${s.substring(8,11)}-${s.substring(11)}'),
+  BrazilianState.AL: _IESpec(9,  (s) => s), // sem separadores
+  BrazilianState.AM: _IESpec(9,  (s) => '${s.substring(0,2)}.${s.substring(2,5)}.${s.substring(5,8)}-${s.substring(8)}'),
+  BrazilianState.AP: _IESpec(9,  (s) => s),
+  BrazilianState.BA: _IESpec(9,  (s) => '${s.substring(0,3)}.${s.substring(3,6)}.${s.substring(6,8)}-${s.substring(8)}'),
+  BrazilianState.CE: _IESpec(9,  (s) => '${s.substring(0,8)}-${s.substring(8)}'),
+  BrazilianState.DF: _IESpec(13, (s) => '${s.substring(0,11)}-${s.substring(11)}'),
+  BrazilianState.ES: _IESpec(9,  (s) => '${s.substring(0,3)}.${s.substring(3,6)}.${s.substring(6,8)}-${s.substring(8)}'),
+  BrazilianState.GO: _IESpec(9,  (s) => '${s.substring(0,2)}.${s.substring(2,5)}.${s.substring(5,8)}-${s.substring(8)}'),
+  BrazilianState.MA: _IESpec(9,  (s) => s),
+  BrazilianState.MG: _IESpec(13, (s) => '${s.substring(0,3)}.${s.substring(3,6)}.${s.substring(6,9)}/${s.substring(9)}'),
+  BrazilianState.MS: _IESpec(9,  (s) => s),
+  BrazilianState.MT: _IESpec(9,  (s) => s),
+  BrazilianState.PA: _IESpec(9,  (s) => '${s.substring(0,2)}-${s.substring(2,8)}-${s.substring(8)}'),
+  BrazilianState.PB: _IESpec(9,  (s) => '${s.substring(0,8)}-${s.substring(8)}'),
+  BrazilianState.PE: _IESpec(14, (s) => '${s.substring(0,2)}.${s.substring(2,3)}.${s.substring(3,6)}.${s.substring(6,13)}-${s.substring(13)}'),
+  BrazilianState.PI: _IESpec(9,  (s) => s),
+  BrazilianState.PR: _IESpec(10, (s) => '${s.substring(0,8)}-${s.substring(8)}'),
+  BrazilianState.RJ: _IESpec(8,  (s) => '${s.substring(0,2)}.${s.substring(2,5)}.${s.substring(5,7)}-${s.substring(7)}'),
+  BrazilianState.RN: _IESpec(9,  (s) => '${s.substring(0,2)}.${s.substring(2,5)}.${s.substring(5,8)}-${s.substring(8)}'),
+  BrazilianState.RO: _IESpec(9,  (s) => '${s.substring(0,3)}.${s.substring(3,8)}-${s.substring(8)}'),
+  BrazilianState.RR: _IESpec(9,  (s) => '${s.substring(0,8)}-${s.substring(8)}'),
+  BrazilianState.RS: _IESpec(10, (s) => '${s.substring(0,3)}-${s.substring(3)}'),
+  BrazilianState.SC: _IESpec(9,  (s) => '${s.substring(0,3)}.${s.substring(3,6)}.${s.substring(6)}'),
+  BrazilianState.SE: _IESpec(10, (s) => '${s.substring(0,9)}-${s.substring(9)}'),
+  BrazilianState.SP: _IESpec(12, (s) => '${s.substring(0,3)}.${s.substring(3,6)}.${s.substring(6,9)}.${s.substring(9)}'),
+  BrazilianState.TO: _IESpec(11, (s) => s),
 };
 
 class _IESpec {

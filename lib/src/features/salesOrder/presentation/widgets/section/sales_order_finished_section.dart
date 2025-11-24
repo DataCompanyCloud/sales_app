@@ -149,7 +149,7 @@ class SalesOrderFinishedSectionState extends ConsumerState<SalesOrderFinishedSec
                           children: [
                             Text('Imposto'),
                             Text(
-                              'R\$ ${salesOrder?.calcTaxTotal.decimalValue ?? 0}',
+                              'R\$ 0.0',
                               style: TextStyle(
                                   fontWeight: FontWeight.bold
                               ),

@@ -14,11 +14,11 @@ class ProductService {
 
   ProductService(this.apiClient, this.repository);
 
-  Future<List<Product>> getAll({int start = 0, int limit = 30, String? search}) async {
+  Future<List<Product>> getAll(ProductFilter filter) async {
     final json = await apiClient.get<Map<String, dynamic>>(ApiEndpoints.products, queryParameters: {
-      'search': search,
-      'start': start,
-      'limit': start,
+      'q': filter.q,
+      'start': filter.start,
+      'limit': filter.limit,
     });
 
     final data = json['data'] as List<dynamic>;

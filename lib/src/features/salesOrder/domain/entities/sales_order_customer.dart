@@ -84,4 +84,7 @@ abstract class SalesOrderCustomer with _$SalesOrderCustomer {
 
   }
 
+  @JsonKey(includeFromJson: false)
+  bool get isPerson => cpf != null && cnpj == null;
+
 }

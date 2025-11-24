@@ -94,7 +94,8 @@ class GridViewColumn extends ConsumerWidget {
                       ),
                       SizedBox(height: 2),
                       Text(
-                        "R\$ ${product.price.toStringAsFixed(2)}",
+                        "--",
+                        // "R\$ ${product.price.toStringAsFixed(2)}",
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold

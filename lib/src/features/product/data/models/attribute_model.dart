@@ -31,6 +31,18 @@ extension AttributeModelMapper on AttributeModel {
     name: name,
     values: values.map((v) => v.toEntity()).toList(),
   );
+
+  void deleteRecursively({
+    required Box<AttributeModel> attributeBox,
+    required Box<AttributeValueModel> attributeValueBox,
+  }) {
+
+    for (final value in values) {
+      attributeValueBox.remove(value.id);
+    }
+
+    attributeBox.remove(id);
+  }
 }
 
 extension AttributeMapper on Attribute {

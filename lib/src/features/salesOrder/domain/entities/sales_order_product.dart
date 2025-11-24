@@ -3,6 +3,7 @@ import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/image.dart';
+import 'package:sales_app/src/features/product/domain/valueObjects/product_fiscal.dart';
 
 part 'sales_order_product.freezed.dart';
 part 'sales_order_product.g.dart';
@@ -22,7 +23,7 @@ abstract class SalesOrderProduct with _$SalesOrderProduct {
     int? orderId,
     // @Default('UN') String unitOfMeasure, // Type
     @Default(Money.raw(amount: 0)) Money discountAmount,
-    @Default(Money.raw(amount: 0)) Money taxAmount,
+    required ProductFiscal? fiscal
   }) = _SalesOrderProduct;
 
 
@@ -36,7 +37,7 @@ abstract class SalesOrderProduct with _$SalesOrderProduct {
     ImageEntity? images,
     int? orderId,
     Money? discountAmount,
-    Money? taxAmount,
+    required ProductFiscal? fiscal
   }) {
 
     //TODO fazer as validações
@@ -58,7 +59,7 @@ abstract class SalesOrderProduct with _$SalesOrderProduct {
       images: images,
       orderId: orderId,
       discountAmount: discountAmount ?? const Money.raw(amount: 0),
-      taxAmount: taxAmount ?? const Money.raw(amount: 0),
+      fiscal: fiscal
     );
   }
 

@@ -104,7 +104,7 @@ class SalesOrderProductCard extends ConsumerWidget {
                             ),
                           ),
                           Text(
-                            "Imp. (R\$ ${item.taxAmount.decimalValue})",
+                            "Imp. (R\$ 0.0)",
                             style: TextStyle(
                               fontSize: 11
                             ),

@@ -1,10 +1,12 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/barcode.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/image.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/packing.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/attribute.dart';
+import 'package:sales_app/src/features/product/domain/valueObjects/product_fiscal.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/unit.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/category.dart';
 
@@ -20,14 +22,16 @@ abstract class Product with _$Product {
     required int productId,
     required String code,
     required String name,
+    required int companyId, // Representa qual empresa esse produto pertence
     String? description,
-    required double price,
+    required Money price,
     Barcode? barcode,
     required Unit unit,
     required List<ImageEntity> images,
     required List<Category> categories,
     required List<Packing> packings,
-    required List<Attribute> attributes
+    required List<Attribute> attributes,
+    required ProductFiscal? fiscal
   }) = _Product;
 
   /// TODO Precisa fazer as validações somente quando as informações forem diferentes de null!
@@ -35,30 +39,26 @@ abstract class Product with _$Product {
     required int productId,
     required String code,
     required String name,
+    required int companyId,
     String? description,
-    required double price,
+    required Money price,
     Barcode? barcode,
     required Unit unit,
     required List<ImageEntity> images,
     required List<Category> categories,
     required List<Packing> packings,
-    required List<Attribute> attributes
+    required List<Attribute> attributes,
+    required ProductFiscal? fiscal
   }) {
-
     if (name.trim().isEmpty) {
-      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "'Name' não pode ser vazio");
-    }
-    if (description != null) {
-      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "'Description' não pode ser nula");
-    }
-    if (barcode != null) {
-      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "'Barcode' não pode ser nulo");
+      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, " Nome do produto não pode ser vazio");
     }
 
     return Product.raw(
       productId: productId,
       code: code,
       name: name,
+      companyId: companyId,
       price: price,
       barcode: barcode,
       unit: unit,
@@ -66,7 +66,8 @@ abstract class Product with _$Product {
       categories: categories,
       packings: packings,
       attributes: attributes,
-      description: description
+      description: description,
+      fiscal: fiscal
     );
   }
 

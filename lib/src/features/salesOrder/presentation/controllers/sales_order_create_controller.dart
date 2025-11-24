@@ -77,7 +77,8 @@ class SalesOrderCreateController extends AutoDisposeFamilyAsyncNotifier<SalesOrd
         itemsCount: products.length,
         customer: salesOrderCustomer,
         total: Money.zero(),
-        items: products,
+        // items: products,
+        companyGroup: [],
         orderPaymentMethods: []
       );
 
@@ -131,7 +132,8 @@ SalesOrderProduct fakerOrderProduct (int index, Money unitPrice) {
     productCode: index.toString().padLeft(2, "00000"),
     productName: "${faker.animal.name()} ${faker.food.cuisine()}",
     quantity: random.integer(10, min: 1).toDouble(),
-    unitPrice: unitPrice
+    unitPrice: unitPrice,
+    fiscal: null
   );
 }
 
@@ -153,8 +155,8 @@ SalesOrder fakerOrder (int index) {
       itemsCount: items.length,
       customer: random.boolean() ? null: fakerOrderCustomer(),
       total: total,
-      items: items,
-      orderPaymentMethods: []
+      // items: items,
+      orderPaymentMethods: [], companyGroup: []
   );
 }
 

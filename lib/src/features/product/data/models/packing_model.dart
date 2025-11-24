@@ -35,6 +35,22 @@ extension PackingModelMapper on PackingModel {
     );
     return packing;
   }
+
+  void deleteRecursively({
+    required Box<PackingModel> packingBox,
+    required Box<BarcodeModel> barcodeBox,
+    required Box<UnitModel> unitBox,
+  }) {
+    if (barcode.target != null) {
+      barcodeBox.remove(barcode.targetId);
+    }
+
+    if (unit.target != null) {
+      unitBox.remove(unit.targetId);
+    }
+
+    packingBox.remove(id);
+  }
 }
 
 extension PackingMapper on Packing {

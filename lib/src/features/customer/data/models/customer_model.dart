@@ -10,7 +10,7 @@ import 'package:sales_app/src/features/customer/domain/valueObjects/cnpj.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/cpf.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/payment_method.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/state_registration.dart';
-import 'package:sales_app/src/features/customer/domain/valueObjects/tax_regime.dart';
+import 'package:sales_app/src/features/company/domain/valueObjects/tax_regime.dart';
 
 @Entity()
 class CustomerModel {

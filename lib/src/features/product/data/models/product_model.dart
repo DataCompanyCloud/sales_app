@@ -1,11 +1,16 @@
 import 'package:objectbox/objectbox.dart';
+import 'package:sales_app/src/features/customer/data/models/money_model.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
+import 'package:sales_app/src/features/product/data/models/attribute_value_model.dart';
 import 'package:sales_app/src/features/product/data/models/barcode_model.dart';
 import 'package:sales_app/src/features/product/data/models/category_model.dart';
 import 'package:sales_app/src/features/product/data/models/image_model.dart';
 import 'package:sales_app/src/features/product/data/models/packing_model.dart';
 import 'package:sales_app/src/features/product/data/models/attribute_model.dart';
+import 'package:sales_app/src/features/product/data/models/product_fiscal_model.dart';
 import 'package:sales_app/src/features/product/data/models/unit_model.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
+import 'package:sales_app/src/features/product/domain/valueObjects/attribute_value.dart';
 
 @Entity()
 class ProductModel {
@@ -17,14 +22,17 @@ class ProductModel {
   String code;
   String name;
   String? description;
-  double price;
+  int companyId;
 
+
+  final price = ToOne<MoneyModel>();
   final barcode = ToOne<BarcodeModel>();
-  final category = ToMany<CategoryModel>();
-  final image = ToMany<ImageModel>();
-  final packing = ToMany<PackingModel>();
+  final categories = ToMany<CategoryModel>();
+  final images = ToMany<ImageModel>();
+  final packaging = ToMany<PackingModel>();
   final unit = ToOne<UnitModel>();
   final attributes = ToMany<AttributeModel>();
+  final fiscal = ToOne<ProductFiscalModel>();
 
   ProductModel ({
     this.id = 0,
@@ -32,7 +40,7 @@ class ProductModel {
     required this.code,
     required this.name,
     this.description,
-    required this.price
+    required this.companyId
   });
 }
 
@@ -40,24 +48,74 @@ extension ProductModelMapper on ProductModel {
   Product toEntity() {
     final modelBarcode = barcode.target;
     final modelUnit = unit.target;
-    final packingList = packing.map((p) => p.toEntity()).toList();
-    final categoryList = category.map((p) => p.toEntity()).toList();
-    final imageList = image.map((p) => p.toEntity()).toList();
+    final packagingList = packaging.map((p) => p.toEntity()).toList();
+    final categoriesList = categories.map((p) => p.toEntity()).toList();
+    final imagesList = images.map((p) => p.toEntity()).toList();
     final attributesList = attributes.map((p) => p.toEntity()).toList();
 
     return Product.raw(
       productId: productId,
       code: code,
       name: name,
-      price: price,
+      companyId: companyId,
+      price: price.target!.toEntity(), // Obrigatorio ter
       barcode: modelBarcode?.toEntity(),
-      unit: modelUnit!.toEntity(),
-      images: imageList,
-      categories: categoryList,
-      packings: packingList,
+      unit: modelUnit!.toEntity(), // Obrigatorio ter
+      images: imagesList,
+      categories: categoriesList,
+      packings: packagingList,
       attributes: attributesList,
-      description: description
+      description: description,
+      fiscal: fiscal.target?.toEntity(), // Obrigatorio ter
     );
+  }
+
+  /// Remove este CustomerModel e todas as entidades relacionadas.
+  void deleteRecursively({
+    required Box<ProductModel> productBox,
+    required Box<MoneyModel> moneyBox,
+    required Box<BarcodeModel> barcodeBox,
+    required Box<CategoryModel> categoryBox,
+    required Box<ImageModel> imageBox,
+    required Box<PackingModel> packingBox,
+    required Box<UnitModel> unitBox,
+    required Box<AttributeModel> attributeBox,
+    required Box<AttributeValueModel> attributeValueBox,
+    required Box<ProductFiscalModel> productFiscalBox,
+  }) {
+    if (price.target != null) {
+      moneyBox.remove(price.targetId);
+    }
+
+    if (barcode.target != null) {
+      barcodeBox.remove(barcode.targetId);
+    }
+
+    for (final category in categories) {
+      categoryBox.remove(category.id);
+    }
+
+    for (final image in images) {
+      imageBox.remove(image.id);
+    }
+
+    for (final package in packaging) {
+      package.deleteRecursively(packingBox: packingBox, barcodeBox: barcodeBox, unitBox: unitBox);
+    }
+
+    if (unit.target != null) {
+      unitBox.remove(unit.targetId);
+    }
+
+    for (final attribute in attributes) {
+      attribute.deleteRecursively(attributeBox: attributeBox, attributeValueBox: attributeValueBox);
+    }
+
+    if (fiscal.target != null) {
+      productFiscalBox.remove(fiscal.targetId);
+    }
+
+    productBox.remove(id);
   }
 }
 
@@ -67,22 +125,25 @@ extension ProductMapper on Product {
       productId: productId,
       code: code,
       name: name,
-      price: price,
-      description: description
+      description: description,
+      companyId: companyId
     );
+
+    entity.unit.target = unit.toModel();
+    entity.fiscal.target = fiscal?.toModel();
+    entity.price.target = price.toModel();
 
     if (barcode != null) {
       entity.barcode.target = barcode!.toModel();
     }
-    entity.unit.target = unit.toModel();
     if (images.isNotEmpty) {
-      entity.image.addAll(images.map((i) => i.toModel()));
+      entity.images.addAll(images.map((i) => i.toModel()));
     }
     if (categories.isNotEmpty) {
-      entity.category.addAll(categories.map((c) => c.toModel()));
+      entity.categories.addAll(categories.map((c) => c.toModel()));
     }
     if (packings.isNotEmpty) {
-      entity.packing.addAll(packings.map((p) => p.toModel()));
+      entity.packaging.addAll(packings.map((p) => p.toModel()));
     }
     if (attributes.isNotEmpty) {
       entity.attributes.addAll(attributes.map((p) => p.toModel()));

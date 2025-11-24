@@ -51,4 +51,18 @@ class SalesOrderService {
       throw AppException.errorUnexpected(e.toString());
     }
   }
+
+
+
+  Future<void> save(SalesOrder salesOrder) async {
+    try {
+      final json = await apiClient.post(ApiEndpoints.orders, data: salesOrder.toJson());
+      print(json);
+    } on DioException catch (e) {
+      final status = e.response?.statusCode;
+      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Falha em obter pedido");
+    } catch (o) {
+      throw AppException.errorUnexpected(e.toString());
+    }
+  }
 }

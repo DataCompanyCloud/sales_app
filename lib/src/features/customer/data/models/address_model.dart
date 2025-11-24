@@ -1,6 +1,7 @@
 import 'package:objectbox/objectbox.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/address.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/address_type.dart';
+import 'package:sales_app/src/features/company/domain/valueObjects/brazilian_state.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/cep.dart';
 
 @Entity()
@@ -8,7 +9,7 @@ class AddressModel {
   @Id()
   int id;
 
-  String state;
+  int state; // enum BrazilianState
   String city;
   String street;
   String? cep;
@@ -34,7 +35,7 @@ extension AddressModelMapper on AddressModel {
   /// De AddressModel → Address
   Address toEntity() {
     final address = Address(
-      state: state,
+      state: BrazilianState.values[state],
       city: city,
       street: street,
       district: district,
@@ -52,7 +53,7 @@ extension AddressMapper on Address {
   AddressModel toModel() {
     final model = AddressModel(
       city: city,
-      state: state,
+      state: state.index,
       street: street,
       district: district,
       number: number,

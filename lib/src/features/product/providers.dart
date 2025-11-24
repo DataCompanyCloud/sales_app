@@ -13,8 +13,8 @@ final productRepositoryProvider = FutureProvider.autoDispose<ProductRepository>(
   return ProductRepositoryImpl(store);
 });
 
-final productSearchProvider = StateProvider.autoDispose<String?>((ref) {
-  return null;
+final productSearchProvider = StateProvider.autoDispose<ProductFilter>((ref) {
+  return ProductFilter();
 });
 
 final productControllerProvider = AutoDisposeAsyncNotifierProvider<ProductController, List<Product>> (() {

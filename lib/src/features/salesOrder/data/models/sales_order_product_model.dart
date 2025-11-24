@@ -1,10 +1,11 @@
 import 'package:objectbox/objectbox.dart';
 import 'package:sales_app/src/features/customer/data/models/money_model.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
+import 'package:sales_app/src/features/product/data/models/product_fiscal_model.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_product.dart';
 
 @Entity()
-class OrderProductModel {
+class SalesOrderProductModel {
   @Id()
   int id;
 
@@ -18,9 +19,9 @@ class OrderProductModel {
 
   final unitPrice = ToOne<MoneyModel>();
   final discountAmount = ToOne<MoneyModel>();
-  final taxAmount = ToOne<MoneyModel>();
+  final fiscal = ToOne<ProductFiscalModel>();
 
-  OrderProductModel ({
+  SalesOrderProductModel ({
     this.id = 0,
     required this.productUuId,
     required this.productId,
@@ -31,7 +32,7 @@ class OrderProductModel {
   });
 }
 
-extension OrderProductModeMapper on OrderProductModel {
+extension SalesOrderProductModeMapper on SalesOrderProductModel {
   /// De OrderProductModel → OrderProduct
   SalesOrderProduct toEntity() {
     final price = unitPrice.target?.toEntity();
@@ -45,13 +46,14 @@ extension OrderProductModeMapper on OrderProductModel {
       unitPrice: price ?? const Money.raw(amount: 0),
       orderId: orderId,
       discountAmount: discountAmount.target?.toEntity(),
-      taxAmount: taxAmount.target?.toEntity()
+      fiscal: fiscal.target?.toEntity()
     );
   }
 
   void deleteRecursively(
-    Box<OrderProductModel> orderProductBox,
-    Box<MoneyModel> moneyBox
+    Box<SalesOrderProductModel> orderProductBox,
+    Box<MoneyModel> moneyBox,
+    Box<ProductFiscalModel> productFiscalBox
   ) {
 
     if (unitPrice.target != null) {
@@ -62,19 +64,19 @@ extension OrderProductModeMapper on OrderProductModel {
       moneyBox.remove(discountAmount.targetId);
     }
 
-    if (taxAmount.target != null) {
-      moneyBox.remove(taxAmount.targetId);
+    if (fiscal.target != null) {
+      productFiscalBox.remove(fiscal.targetId);
     }
 
     orderProductBox.remove(id);
   }
 }
 
-extension OrderProductMapper on SalesOrderProduct {
+extension SalesOrderProductMapper on SalesOrderProduct {
   /// De OrderProduct → OrderProductModel
-  OrderProductModel toModel() {
+  SalesOrderProductModel toModel() {
 
-    final model = OrderProductModel(
+    final model = SalesOrderProductModel(
       productUuId: productUuId,
       productId: productId,
       productCode: productCode,
@@ -84,9 +86,9 @@ extension OrderProductMapper on SalesOrderProduct {
     );
 
 
+    model.fiscal.target = fiscal?.toModel();
     model.unitPrice.target = unitPrice.toModel();
     model.discountAmount.target = discountAmount.toModel();
-    model.taxAmount.target = taxAmount.toModel();
 
     return model;
   }
