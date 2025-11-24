@@ -5,14 +5,11 @@ import 'package:sales_app/src/core/api/endpoints/api_endpoints.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
-import 'package:sales_app/src/features/product/domain/repositories/product_repository.dart';
 
 class ProductService {
-  final ProductRepository repository;
-
   final ApiClient apiClient;
 
-  ProductService(this.apiClient, this.repository);
+  ProductService(this.apiClient);
 
   Future<List<Product>> getAll(ProductFilter filter) async {
     final json = await apiClient.get<Map<String, dynamic>>(ApiEndpoints.products, queryParameters: {

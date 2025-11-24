@@ -27,6 +27,5 @@ final productDetailsControllerProvider = AsyncNotifierProvider.autoDispose.famil
 
 final productServiceProvider = FutureProvider.autoDispose<ProductService>((ref) async {
   final apiClient = ref.watch(apiClientProvider);
-  final repository = await ref.watch(productRepositoryProvider.future);
-  return ProductService(apiClient, repository);
+  return ProductService(apiClient);
 });
