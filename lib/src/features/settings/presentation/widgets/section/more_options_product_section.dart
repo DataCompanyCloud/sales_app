@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sales_app/src/features/product/domain/repositories/product_repository.dart';
 import 'package:sales_app/src/features/product/providers.dart';
 import 'package:sales_app/src/features/settings/presentation/widgets/dialogs/options_description_dialog.dart';
 import 'package:sales_app/src/features/settings/providers.dart';
@@ -184,7 +185,7 @@ Future<void> downloadMockProducts(WidgetRef ref) async {
 
   for (int i = 0; i < total; i += limit) {
 
-    final products = await services.getAll(start: i, limit: limit);
+    final products = await services.getAll(ProductFilter());
     final next = [...productList.state, ...products];
     if (next.length > total) {
       productList.state = next.take(total).toList();

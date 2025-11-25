@@ -5,6 +5,7 @@ import 'package:sales_app/src/features/auth/data/services/auth_service.dart';
 import 'package:sales_app/src/features/auth/domain/entities/user.dart';
 import 'package:sales_app/src/features/auth/domain/repositories/auth_repository.dart';
 import 'package:sales_app/src/features/auth/presentation/controllers/auth_controller.dart';
+import 'package:sales_app/src/features/company/providers.dart';
 
 final authRepositoryProvider = Provider.autoDispose<AuthRepository>((ref) {
   return AuthRepositoryImpl();
@@ -12,7 +13,8 @@ final authRepositoryProvider = Provider.autoDispose<AuthRepository>((ref) {
 
 final authServicesProvider = FutureProvider<AuthService>((ref) async {
   final apiClient = ref.watch(apiClientProvider);
-  return AuthService(apiClient);
+  final companyRepository = await ref.watch(companyGroupRepositoryProvider.future);
+  return AuthService(apiClient, companyRepository);
 });
 
 final authControllerProvider =

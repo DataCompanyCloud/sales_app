@@ -5,11 +5,14 @@ import 'package:sales_app/src/core/api/endpoints/api_endpoints.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/auth/domain/entities/user.dart';
+import 'package:sales_app/src/features/company/domain/entities/company_group.dart';
+import 'package:sales_app/src/features/company/domain/repositories/company_group_repository.dart';
 
 class AuthService {
   final ApiClient apiClient;
+  final CompanyGroupRepository companyGroupRepository;
 
-  AuthService(this.apiClient);
+  AuthService(this.apiClient, this.companyGroupRepository);
 
   Future<User> login(String login, String password) async {
     try {
@@ -18,7 +21,17 @@ class AuthService {
         'password': password,
       });
 
-      return User.fromJson(json);
+      final userJson = json['user'] as Map<String, dynamic>;
+      final groupsJson = json['groups'] as List<dynamic>;
+
+      final user = User.fromJson(userJson);
+      final groups = groupsJson
+        .map((e) => CompanyGroup.fromJson(e as Map<String, dynamic>))
+        .toList();
+
+      await companyGroupRepository.saveAll(groups);
+
+      return user;
     } on DioException catch (e) {
       final status = e.response?.statusCode;
       if (status == 401) {

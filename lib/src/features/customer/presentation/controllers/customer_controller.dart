@@ -13,8 +13,8 @@ class CustomerController extends AutoDisposeAsyncNotifier<List<Customer>>{
     final filter = ref.watch(customerFilterProvider);
     final repository = await ref.read(customerRepositoryProvider.future);
     state = AsyncLoading();
-    final isConnected = ref.read(isConnectedProvider);
 
+    final isConnected = ref.read(isConnectedProvider);
     // Tenta sincronizar com a API (se possível)
     if (isConnected) {
       try {

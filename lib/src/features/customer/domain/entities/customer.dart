@@ -27,7 +27,7 @@ abstract class Customer with _$Customer {
     TaxRegime? taxRegime,
     @Default([]) List<PaymentMethod> paymentMethods,
     @Default([]) List<ContactInfo> contacts,
-    CPF? cpf,
+    @CPFConverter() CPF? cpf,
     @Default([]) List<Address> addresses,
     required bool isActive,
     String? notes
@@ -47,7 +47,7 @@ abstract class Customer with _$Customer {
     TaxRegime? taxRegime,
     @Default([]) List<PaymentMethod> paymentMethods,
     @Default([]) List<ContactInfo> contacts,
-    CNPJ? cnpj,
+    @CnpjConverter() CNPJ? cnpj,
     @Default([]) List<Address> addresses,
     required bool isActive,
     String? notes
@@ -69,8 +69,8 @@ abstract class Customer with _$Customer {
     TaxRegime? taxRegime,
     List<PaymentMethod> paymentMethods = const [],
     List<ContactInfo> contacts = const [],
-    CPF? cpf,
-    CNPJ? cnpj,
+    @CPFConverter() CPF? cpf,
+    @CnpjConverter() CNPJ? cnpj,
     required List<Address> addresses,
     required bool isActive,
     String? notes

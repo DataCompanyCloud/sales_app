@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
 import 'package:sales_app/src/features/product/presentation/router/product_router.dart';
+import 'package:sales_app/src/widgets/image_widget.dart';
 
 class ListViewColumnSmall extends ConsumerWidget {
   final List<Product> products;
@@ -52,12 +53,12 @@ class ListViewColumnSmall extends ConsumerWidget {
                       topLeft: Radius.circular(10),
                       bottomLeft: Radius.circular(10)
                     ),
-                    child: Image.asset(
-                      image?.url ?? 'assets/images/not_found.png',
+                    child: ImageWidget(
+                      path: image?.url,
                       width: 80,
                       height: 80,
-                      fit: BoxFit.cover,
-                    ),
+                      fit: BoxFit.cover
+                    )
                   ),
                 ),
                 Expanded(

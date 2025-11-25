@@ -10,13 +10,13 @@ class SalesOrderCompanyGroupModel {
   @Id()
   int id;
 
-  final int companyId;
+  final int groupId;
   final items = ToMany<SalesOrderProductModel>();
   final context = ToOne<TaxContextModel>();
 
   SalesOrderCompanyGroupModel({
     this.id = 0,
-    required this.companyId
+    required this.groupId
   });
 }
 
@@ -25,7 +25,7 @@ extension SalesOrderCompanyGroupModelMapper on SalesOrderCompanyGroupModel {
     final itemsList = items.map((i) => i.toEntity()).toList();
 
     return SalesOrderCompanyGroup(
-      companyId: companyId,
+      companyId: groupId,
       items: itemsList,
       context: context.target?.toEntity()
     );
@@ -56,7 +56,7 @@ extension SalesOrderCompanyGroupMapper on SalesOrderCompanyGroup {
 
   SalesOrderCompanyGroupModel toModel() {
     final entity = SalesOrderCompanyGroupModel(
-     companyId: companyId
+      groupId: groupId
     );
 
     if (items.isNotEmpty) {

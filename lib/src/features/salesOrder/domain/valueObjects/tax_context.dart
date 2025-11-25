@@ -16,10 +16,10 @@ abstract class TaxContext with _$TaxContext {
     required bool consumidorFinal,
     required bool contribuinte,
     required TaxRegime taxRegime,
-    Percentage? icmsInterestadual,  // 7%, 12% ou 4%
-    Percentage? icmsDestino,        // alíquota interna do estado destino
-    Percentage? fcp,                // 2%, 3%, 4% (varia por estado)
-    Percentage? mvaAjustada,        // MVA calculada por estado destino
+    @PercentageConverter() Percentage? icmsInterestadual,  // 7%, 12% ou 4%
+    @PercentageConverter() Percentage? icmsDestino,        // alíquota interna do estado destino
+    @PercentageConverter() Percentage? fcp,                // 2%, 3%, 4% (varia por estado)
+    @PercentageConverter() Percentage? mvaAjustada,        // MVA calculada por estado destino
   }) = _TaxContext;
 
   factory TaxContext({

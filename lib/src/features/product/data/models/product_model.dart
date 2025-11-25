@@ -1,6 +1,5 @@
 import 'package:objectbox/objectbox.dart';
 import 'package:sales_app/src/features/customer/data/models/money_model.dart';
-import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
 import 'package:sales_app/src/features/product/data/models/attribute_value_model.dart';
 import 'package:sales_app/src/features/product/data/models/barcode_model.dart';
 import 'package:sales_app/src/features/product/data/models/category_model.dart';
@@ -10,7 +9,6 @@ import 'package:sales_app/src/features/product/data/models/attribute_model.dart'
 import 'package:sales_app/src/features/product/data/models/product_fiscal_model.dart';
 import 'package:sales_app/src/features/product/data/models/unit_model.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
-import 'package:sales_app/src/features/product/domain/valueObjects/attribute_value.dart';
 
 @Entity()
 class ProductModel {
@@ -22,7 +20,7 @@ class ProductModel {
   String code;
   String name;
   String? description;
-  int companyId;
+  int companyGroupId;
 
 
   final price = ToOne<MoneyModel>();
@@ -40,7 +38,7 @@ class ProductModel {
     required this.code,
     required this.name,
     this.description,
-    required this.companyId
+    required this.companyGroupId
   });
 }
 
@@ -57,7 +55,7 @@ extension ProductModelMapper on ProductModel {
       productId: productId,
       code: code,
       name: name,
-      companyId: companyId,
+      companyGroupId: companyGroupId,
       price: price.target!.toEntity(), // Obrigatorio ter
       barcode: modelBarcode?.toEntity(),
       unit: modelUnit!.toEntity(), // Obrigatorio ter
@@ -126,7 +124,7 @@ extension ProductMapper on Product {
       code: code,
       name: name,
       description: description,
-      companyId: companyId
+      companyGroupId: companyGroupId
     );
 
     entity.unit.target = unit.toModel();

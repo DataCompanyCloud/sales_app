@@ -27,7 +27,14 @@ abstract class CNPJ with _$CNPJ {
     return CNPJ.raw(value: value);
   }
 
+  /// Usado se você quiser criar a partir de uma string simples,
+  /// ex: CNPJ.fromString("12.345.678/0001-90")
+  factory CNPJ.fromString(String json) => CNPJ(value: json);
+
+  /// Continua existindo para quando você quiser o formato:
+  /// { "value": "..." }
   factory CNPJ.fromJson(Map<String, dynamic> json) => _$CNPJFromJson(json);
+
 
   String get formatted {
     final digits = value.padLeft(14, '0');
@@ -36,3 +43,14 @@ abstract class CNPJ with _$CNPJ {
 }
 
 
+
+class CnpjConverter extends JsonConverter<CNPJ, String> {
+  const CnpjConverter();
+
+  @override
+  CNPJ fromJson(String json) => CNPJ.fromString(json);
+  // ou direto: CNPJ(value: json);
+
+  @override
+  String toJson(CNPJ object) => object.value;
+}

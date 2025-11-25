@@ -1,8 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/address.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/cnpj.dart';
-import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_customer.dart';
-import 'package:sales_app/src/features/salesOrder/domain/valueObjects/tax_context.dart';
 
 part 'company.freezed.dart';
 part 'company.g.dart';
@@ -13,7 +11,8 @@ abstract class Company with _$Company {
     required int companyId,
     required String tradeName,
     required String realName,
-    required CNPJ cnpj,
+    @Default(false) bool isPrimary,
+    @CnpjConverter() required CNPJ cnpj,
     required Address address
   }) = _Company;
 

@@ -17,7 +17,7 @@ abstract class Address with _$Address {
     required String street,
     required String district, // bairro
     int? number,              // número
-    CEP? cep,
+    @CEPConverter() CEP? cep,
     required AddressType type,
     required bool isPrimary
   }) = _Address;
@@ -37,7 +37,7 @@ abstract class Address with _$Address {
     }
 
     buffer.write(' - $district');
-    buffer.write(', $city - $state');
+    buffer.write(', $city - $uf');
 
     if (cep != null) {
       buffer.write(', ${cep!.value}');
@@ -47,4 +47,6 @@ abstract class Address with _$Address {
     return buffer.toString();
   }
 
+  String get uf => state.name;
+  String get ufName => state.fullName;
 }

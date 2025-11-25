@@ -16,13 +16,9 @@ class CustomerPageSkeleton extends ConsumerWidget {
         title: Text("Clientes"),
         actions: [
           Skeletonizer(
-            effect: ShimmerEffect(
-              highlightColor: Colors.white,
-              baseColor: scheme.surface
-            ),
             child: Padding(
-              padding: const EdgeInsets.only(right: 6),
-              child: Bone.iconButton(size: 40)
+                padding: const EdgeInsets.only(right: 6),
+                child: Bone.iconButton(size: 40)
             ),
           ),
         ],

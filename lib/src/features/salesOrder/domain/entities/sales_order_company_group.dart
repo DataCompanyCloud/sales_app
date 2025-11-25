@@ -11,7 +11,7 @@ abstract class SalesOrderCompanyGroup with _$SalesOrderCompanyGroup{
   const SalesOrderCompanyGroup._();
 
   const factory SalesOrderCompanyGroup.raw({
-    required int companyId,
+    required int groupId,
     @Default([]) List<SalesOrderProduct> items,
     required TaxContext? context
   }) = _SalesOrderCompanyGroup;
@@ -24,7 +24,7 @@ abstract class SalesOrderCompanyGroup with _$SalesOrderCompanyGroup{
     //TODO: Fazer as validações
 
     return SalesOrderCompanyGroup.raw(
-      companyId: companyId,
+      groupId: companyId,
       context: context,
       items: items
     );
@@ -38,4 +38,9 @@ abstract class SalesOrderCompanyGroup with _$SalesOrderCompanyGroup{
     Money.zero(),
     (acc, it) => acc.plus(it.totalValue),
   );
+
+
+  SalesOrderCompanyGroup addItem(SalesOrderProduct item) {
+    return copyWith(items: [...items, item]);
+  }
 }

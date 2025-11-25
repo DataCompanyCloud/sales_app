@@ -14,10 +14,10 @@ abstract class ProductFiscal with _$ProductFiscal {
     required String ncm,                // Define natureza
     String? cest,                       // Necessário para ST
     required int origem,                // 0..8 (nacional, importado, etc.)
-    required Percentage icmsInterno,    // alíquota interna do estado de origem
-    Percentage? ipi,                    // TIPI, pode ser null se isento
+    @PercentageConverter() required Percentage icmsInterno,    // alíquota interna do estado de origem
+    @PercentageConverter() Percentage? ipi,                    // TIPI, pode ser null se isento
     @Default(false) bool hasST,         // se o produto pode ter ST
-    Percentage? mvaPadrao,              // MVA básica (não ajustada)
+    @PercentageConverter() Percentage? mvaPadrao,              // MVA básica (não ajustada)
   }) = _ProductFiscal;
 
 

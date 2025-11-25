@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
-import 'package:sales_app/src/features/auth/providers.dart';
+import 'package:sales_app/src/features/company/providers.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
 
 class DraggableCompanySelector extends ConsumerStatefulWidget {
@@ -21,7 +21,7 @@ class DraggableCompanySelectorState extends ConsumerState<DraggableCompanySelect
 
   @override
   Widget build(BuildContext context) {
-    final controller = ref.watch(authControllerProvider);
+    final controller = ref.watch(companyGroupControllerProvider);
     // final theme = Theme.of(context);
     // final scheme = theme.colorScheme;
 
@@ -34,12 +34,11 @@ class DraggableCompanySelectorState extends ConsumerState<DraggableCompanySelect
       loading: () {
         return CircularProgressIndicator();
       },
-      data: (user) {
-        if (user == null) {
-          return Center(
-            child: Text("Empresas não encontradas")
-          );
-        }
+      data: (groups) {
+        // TODO Rever isso aqui
+        final group = groups.first;
+        final companies = group.companies;
+
         return DraggableScrollableSheet(
           expand: false,
           initialChildSize: 1.0,
@@ -56,8 +55,8 @@ class DraggableCompanySelectorState extends ConsumerState<DraggableCompanySelect
                     height: 4,
                     margin: EdgeInsets.only(bottom: 12),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(2),
-                        color: Colors.grey[300]
+                      borderRadius: BorderRadius.circular(2),
+                      color: Colors.grey[300]
                     ),
                   ),
                   Padding(
@@ -72,8 +71,9 @@ class DraggableCompanySelectorState extends ConsumerState<DraggableCompanySelect
                   Expanded(
                     child: ListView.builder(
                       controller: scrollController,
-                      itemCount: user.company.length,
+                      itemCount: companies.length,
                       itemBuilder: (context, index) {
+                        final company = companies[index];
                         final isSelected = selectedIndex == index;
                         return ListTile(
                           visualDensity: VisualDensity(vertical: 3),
@@ -81,8 +81,8 @@ class DraggableCompanySelectorState extends ConsumerState<DraggableCompanySelect
                             backgroundColor: Colors.grey.shade100,
                             child: Icon(Icons.factory, color: Colors.black87),
                           ),
-                          title: Text("Empregador: ${user.company[index].tradeName}"),
-                          subtitle: Text("CNPJ: ${user.company[index].cnpj.formatted}"),
+                          title: Text("Empregador: ${company.tradeName}"),
+                          subtitle: Text("CNPJ: ${company.cnpj.formatted}"),
                           trailing: Icon(
                             isSelected ? Icons.check_circle : Icons.circle_outlined
                           ),

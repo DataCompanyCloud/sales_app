@@ -19,8 +19,8 @@ abstract class SalesOrderCustomer with _$SalesOrderCustomer {
     required String customerName,
     required ContactInfo? contactInfo ,
     required Address? address,
-    CPF? cpf,
-    CNPJ? cnpj,
+    @CPFConverter() CPF? cpf,
+    @CnpjConverter() CNPJ? cnpj,
     int? orderId
   }) = _SalesOrderCustomer;
 
@@ -31,8 +31,8 @@ abstract class SalesOrderCustomer with _$SalesOrderCustomer {
     required String customerName,
     required ContactInfo? contactInfo,
     required Address? address,
-    CPF? cpf,
-    CNPJ? cnpj,
+    @CPFConverter() CPF? cpf,
+    @CnpjConverter() CNPJ? cnpj,
     int? orderId
   }) {
     //TODO: Fazer as validações

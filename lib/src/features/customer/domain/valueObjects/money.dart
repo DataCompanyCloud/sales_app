@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/currency.dart';
 
 part 'money.freezed.dart';
 part 'money.g.dart';
@@ -12,7 +13,7 @@ abstract class Money with _$Money {
 
   const factory Money.raw({
     required int amount,
-    @Default("BRL") String currency,
+    @Default(Currency.BRL) Currency currency,
     @Default(2) int scale,
   }) = _Money;
 
@@ -20,7 +21,7 @@ abstract class Money with _$Money {
   /// scale = casas decimais (ex.: 2 → centavos, 3 → milésimos, 8 → satoshis de crypto)
   factory Money({
     required int amount,
-    String currency = 'BRL',
+    Currency currency = Currency.BRL,
     int scale = 2,
   }) {
     // ---- validações ----
@@ -45,7 +46,7 @@ abstract class Money with _$Money {
   String format({String? locale}) => decimalValue.toStringAsFixed(scale);
 
   /// Gera uma entidade Money(amount: 0), scale e currency pode ser adaptados;
-  static Money zero({String currency = 'BRL', int scale = 2}) => Money(amount: 0, currency: currency, scale: scale);
+  static Money zero({Currency currency = Currency.BRL, int scale = 2}) => Money(amount: 0, currency: currency, scale: scale);
 
   // --- operações ---
   Money plus(Money other) {

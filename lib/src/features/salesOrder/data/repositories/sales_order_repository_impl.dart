@@ -194,7 +194,9 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
     final taxContextBox = store.box<TaxContextModel>();
 
     store.runInTransaction(TxMode.write, () {
-      final model = salesOrderBox.get(order.orderId);
+      final existingQ = salesOrderBox.query(SalesOrderModel_.orderUuId.equals(order.orderUuId)).build();
+      final model  = existingQ.findFirst();
+      existingQ.close();
 
       if (model == null) {
         throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Pedido não encontrado");

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -32,12 +30,19 @@ NetworkStatus _mapConnectivityResult(List<ConnectivityResult> results) {
 }
 
 
-final isConnectedProvider = Provider.autoDispose<bool>((ref) {
+final isConnectedProvider = StateProvider.autoDispose<bool>((ref) {
   final asyncStatus = ref.watch(networkStatusProvider);
 
   // Se ainda estiver carregando / erro, considera offline por segurança
-  return asyncStatus.maybeWhen(
-    data: (status) => status == NetworkStatus.online,
+  final value =  asyncStatus.maybeWhen(
+    data: (status) {
+      return status == NetworkStatus.online;
+    },
+    error: (error, _) {
+      return false;
+    },
     orElse: () => false,
   );
+
+  return value;
 });

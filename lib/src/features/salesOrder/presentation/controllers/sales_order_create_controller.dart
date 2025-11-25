@@ -1,9 +1,13 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:faker/faker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
+import 'package:sales_app/src/features/product/domain/repositories/product_repository.dart';
+import 'package:sales_app/src/features/product/providers.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order.dart';
+import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_company_group.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_customer.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_product.dart';
 import 'package:sales_app/src/features/salesOrder/domain/valueObjects/sales_order_status.dart';
@@ -63,10 +67,55 @@ class SalesOrderCreateController extends AutoDisposeFamilyAsyncNotifier<SalesOrd
 
       // final products = items ?? [];
 
-      final products = List.generate(random.integer(5, min: 0), (index) {
-        final money = Money(amount: random.integer(50, min: 1));
-        return fakerOrderProduct(index, money);
-      });
+      final productRepository = await ref.read(productRepositoryProvider.future);
+      final products = await productRepository.fetchAll(ProductFilter());
+
+      // sorteia um número entre 1 e products.length
+      final count = random.integer(products.length - 1);
+
+      // embaralha uma cópia da lista e pega só `count` itens
+      final select = [...products]..shuffle();
+      final randomProducts = select.take(count).toList();
+
+      final List<SalesOrderCompanyGroup> groups = [];
+      final Map<int, int> map = {};
+      var i = 0;
+      for(var product in randomProducts) {
+        if (!map.containsKey(product.companyGroupId)) {
+          groups.add(
+            SalesOrderCompanyGroup(
+              companyId: product.companyGroupId,
+              items: [
+                SalesOrderProduct(
+                  productId: product.productId,
+                  productUuId: const Uuid().v4(),
+                  productCode: product.code,
+                  productName: product.name,
+                  quantity: random.integer(10, min: 1).toDouble(),
+                  unitPrice: product.price,
+                  fiscal: product.fiscal
+                )
+              ],
+              context: null)
+          );
+          map[product.companyGroupId] = i;
+          i++;
+          continue;
+        }
+
+        groups[map[product.companyGroupId]!].addItem(
+          SalesOrderProduct(
+            productId: product.productId,
+            productUuId: const Uuid().v4(),
+            productCode: product.code,
+            productName: product.name,
+            quantity: random.integer(10, min: 1).toDouble(),
+            unitPrice: product.price,
+            fiscal: product.fiscal
+          )
+        );
+      }
+
 
 
       final newOrder = SalesOrder(
@@ -74,11 +123,10 @@ class SalesOrderCreateController extends AutoDisposeFamilyAsyncNotifier<SalesOrd
         orderUuId: const Uuid().v4(),
         orderCode: null,
         createdAt: DateTime.now(),
-        itemsCount: products.length,
+        itemsCount: randomProducts.length,
         customer: salesOrderCustomer,
         total: Money.zero(),
-        // items: products,
-        companyGroup: [],
+        companyGroup: groups,
         orderPaymentMethods: []
       );
 

@@ -85,7 +85,9 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
                     Text("Nenhum cliente para ser mostrado."),
                     Padding(padding: EdgeInsets.only(top: 16)),
                     InkWell(
-                      onTap: () => ref.refresh(customerControllerProvider.future),
+                      onTap: () {
+                        ref.refresh(customerControllerProvider);
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(8),
                         child: Text("Tentar novamente", style: TextStyle(color: Colors.blue),),

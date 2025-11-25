@@ -95,10 +95,10 @@ class CompanyCustomerCard extends ConsumerWidget {
                             customer.legalName ?? "--"
                           ),
                           Text(
-                            customer.cnpj?.value ?? ''
+                            customer.cnpj?.formatted ?? ''
                           ),
                           Text(
-                            "${customer.primaryAddress?.city}, ${customer.primaryAddress?.state}",
+                            "${customer.primaryAddress?.city}, ${customer.primaryAddress?.uf}",
                             overflow: TextOverflow.ellipsis,
                           ),
                         ],

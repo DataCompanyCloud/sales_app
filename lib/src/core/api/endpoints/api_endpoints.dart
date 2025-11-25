@@ -36,4 +36,5 @@ class ApiEndpoints {
   /// Rota para obter stockTransactions
   static const String stockTransaction = '/$api/$version/stockTransactions';
   static String stockTransactionById({required int id}) => '/$api/$version/stockTransactions/$id';
+
 }

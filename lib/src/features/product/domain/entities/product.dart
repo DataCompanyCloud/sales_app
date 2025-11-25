@@ -22,7 +22,7 @@ abstract class Product with _$Product {
     required int productId,
     required String code,
     required String name,
-    required int companyId, // Representa qual empresa esse produto pertence
+    required int companyGroupId, // Representa qual empresa esse produto pertence
     String? description,
     required Money price,
     Barcode? barcode,
@@ -39,7 +39,7 @@ abstract class Product with _$Product {
     required int productId,
     required String code,
     required String name,
-    required int companyId,
+    required int companyGroupId,
     String? description,
     required Money price,
     Barcode? barcode,
@@ -58,7 +58,7 @@ abstract class Product with _$Product {
       productId: productId,
       code: code,
       name: name,
-      companyId: companyId,
+      companyGroupId: companyGroupId,
       price: price,
       barcode: barcode,
       unit: unit,

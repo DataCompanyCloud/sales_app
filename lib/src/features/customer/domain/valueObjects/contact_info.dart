@@ -11,14 +11,14 @@ abstract class ContactInfo with _$ContactInfo {
 
   const factory ContactInfo.raw({
     required String name,
-    Email? email,
+    @EmailConverter() Email? email,
     Phone? phone,
     @Default(false) bool isPrimary,
   }) = _ContactInfo;
 
   factory ContactInfo({
     required String name,
-    Email? email,
+    @EmailConverter() Email? email,
     Phone? phone,
     bool isPrimary = false,
   }) {

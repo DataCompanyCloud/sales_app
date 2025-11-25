@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/my_device.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
 import 'package:sales_app/src/features/product/presentation/router/product_router.dart';
+import 'package:sales_app/src/widgets/image_widget.dart';
 
 class GridViewColumn extends ConsumerWidget {
   final List<Product> products;
@@ -60,14 +61,11 @@ class GridViewColumn extends ConsumerWidget {
                       // border: Border.all(color: Color(0xFFE5E7EB), width: 2),
                     ),
                     child:
-                    imageUrl == null
-                        ? Image.asset(
-                      image?.url ?? 'assets/images/not_found.png',
+                    ImageWidget(
+                      path: image?.url,
                       width: double.infinity,
-                      // height: 138,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.cover
                     )
-                        : Image.network(imageUrl)
                   ),
                 ),
                 SizedBox(height: 2),

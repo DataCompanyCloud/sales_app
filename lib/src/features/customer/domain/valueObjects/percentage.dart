@@ -27,6 +27,8 @@ abstract class Percentage with _$Percentage {
 
   factory Percentage.fromJson(Map<String, dynamic> json) => _$PercentageFromJson(json);
 
+  factory Percentage.fromString(double json) => Percentage(value: json);
+
   /// Converte 18 → 0.18
   double toFactor() => value / 100;
 
@@ -40,4 +42,16 @@ abstract class Percentage with _$Percentage {
 
   @override
   String toString() => format();
+}
+
+
+
+class PercentageConverter extends JsonConverter<Percentage, num> {
+  const PercentageConverter();
+
+  @override
+  Percentage fromJson(num json) => Percentage.fromString(json.toDouble());
+
+  @override
+  double toJson(Percentage object) => object.value;
 }

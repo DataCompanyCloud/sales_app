@@ -29,12 +29,25 @@ abstract class CEP with _$CEP {
     return CEP.raw(value: value);
   }
 
+  factory CEP.fromString(String json) => CEP(value: json);
+
   factory CEP.fromJson(Map<String, dynamic> json) => _$CEPFromJson(json);
 
   String get formatted {
     final digits = value.padLeft(8, '0');
     return '${digits.substring(0, 5)}-${digits.substring(5, 8)}';
   }
+}
+
+
+class CEPConverter extends JsonConverter<CEP, String> {
+  const CEPConverter();
+
+  @override
+  CEP fromJson(String json) => CEP.fromString(json);
+
+  @override
+  String toJson(CEP object) => object.value;
 }
 
 

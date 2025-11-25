@@ -5,6 +5,7 @@ import 'package:sales_app/src/core/api/endpoints/api_endpoints.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
+import 'package:sales_app/src/features/product/domain/repositories/product_repository.dart';
 
 class ProductService {
   final ApiClient apiClient;

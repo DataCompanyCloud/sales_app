@@ -27,10 +27,25 @@ abstract class CPF with _$CPF {
     return CPF.raw(value: value);
   }
 
+  factory CPF.fromString(String json) => CPF(value: json);
+
   factory CPF.fromJson(Map<String, dynamic> json) => _$CPFFromJson(json);
+
 
   String get formatted {
     final digits = value.padLeft(11, '0');
     return '${digits.substring(0, 3)}.${digits.substring(3, 6)}.${digits.substring(6, 9)}-${digits.substring(9, 11)}';
   }
 }
+
+
+class CPFConverter extends JsonConverter<CPF, String> {
+  const CPFConverter();
+
+  @override
+  CPF fromJson(String json) => CPF.fromString(json);
+
+  @override
+  String toJson(CPF object) => object.value;
+}
+
