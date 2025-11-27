@@ -62,7 +62,7 @@ class GridViewColumn extends ConsumerWidget {
                     ),
                     child:
                     ImageWidget(
-                      path: image?.url,
+                      image: image,
                       width: double.infinity,
                       fit: BoxFit.cover
                     )

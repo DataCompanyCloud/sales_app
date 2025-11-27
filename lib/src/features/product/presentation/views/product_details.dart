@@ -107,7 +107,7 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
                             },
                             itemBuilder: (context, index) {
                               return ImageWidget(
-                                path: image?.url,
+                                image: image,
                                 fit: BoxFit.cover
                               );
                             },

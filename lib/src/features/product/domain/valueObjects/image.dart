@@ -7,7 +7,8 @@ part 'image.g.dart';
 abstract class ImageEntity with _$ImageEntity{
   const factory ImageEntity({
     required int imageId,
-    required String url
+    required String url,
+    required String? localUrl
   }) = _ImageEntity;
 
   factory ImageEntity.fromJson(Map<String, dynamic> json) => _$ImageEntityFromJson(json);

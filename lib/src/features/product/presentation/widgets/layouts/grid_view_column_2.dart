@@ -56,7 +56,7 @@ class GridViewColumn2 extends ConsumerWidget {
                       // border: Border.all(color: Color(0xFFE5E7EB), width: 2),
                     ),
                     child: ImageWidget(
-                      path: image?.url,
+                      image: image,
                       width: double.infinity,
                       fit: BoxFit.cover
                     )

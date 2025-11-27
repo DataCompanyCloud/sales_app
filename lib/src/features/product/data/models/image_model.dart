@@ -9,20 +9,22 @@ class ImageModel {
   @Index()
   int imageId;
   String url;
+  String? localUrl;
 
   ImageModel ({
     this.id = 0,
     this.imageId = 0,
-    required this.url
+    required this.url,
+    required this.localUrl
   });
 }
 
 extension ImageModelMapper on ImageModel {
   /// De ImageModel → Image
-  ImageEntity toEntity() => ImageEntity(imageId: imageId, url: url);
+  ImageEntity toEntity() => ImageEntity(imageId: imageId, url: url, localUrl: localUrl);
 }
 
 extension ImageMapper on ImageEntity {
   /// De Image → ImageModel
-  ImageModel toModel() => ImageModel(imageId: imageId, url: url);
+  ImageModel toModel() => ImageModel(imageId: imageId, url: url, localUrl: localUrl);
 }

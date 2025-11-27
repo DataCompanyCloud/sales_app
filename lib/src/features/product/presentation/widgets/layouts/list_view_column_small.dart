@@ -54,7 +54,7 @@ class ListViewColumnSmall extends ConsumerWidget {
                       bottomLeft: Radius.circular(10)
                     ),
                     child: ImageWidget(
-                      path: image?.url,
+                      image: image,
                       width: 80,
                       height: 80,
                       fit: BoxFit.cover
