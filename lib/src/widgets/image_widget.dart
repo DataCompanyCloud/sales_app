@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/image.dart';
@@ -36,8 +38,8 @@ class ImageWidgetState extends ConsumerState<ImageWidget>{
 
     final localUrl = image.localUrl;
     if (localUrl != null) {
-      return Image.asset(
-        localUrl,
+      return Image.file(
+        File(localUrl),
         width: widget.width,
         height: widget.height,
         fit: widget.fit,
