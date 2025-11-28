@@ -24,3 +24,6 @@ final isHideItemProvider = StateProvider<bool>((ref) => false);
 final isTablePriceProvider = StateProvider<bool>((ref) => false);
 final isTablePriceAdjustedProvider = StateProvider<bool>((ref) => false);
 final isSellingTableFixedProvider = StateProvider<bool>((ref) => false);
+
+// Checkboxes
+final checkBoxProvider = StateProvider<bool>((ref) => false);

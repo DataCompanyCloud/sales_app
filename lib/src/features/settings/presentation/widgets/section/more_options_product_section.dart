@@ -15,13 +15,15 @@ import 'package:sales_app/src/widgets/image_widget.dart';
 
 class MoreOptionsProductSection extends ConsumerWidget {
   const MoreOptionsProductSection ({
-    super.key
+    super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
     final isDownloading = ref.watch(isDownloadingProductsProvider);
-    // final localPath = ref.watch(downloadedImagePathProvider);
+    final isBoxSelected = ref.watch(checkBoxProvider);
 
     void showInfoDialog(BuildContext context, String title, String description, IconData icon) {
       showDialog(
@@ -55,7 +57,10 @@ class MoreOptionsProductSection extends ConsumerWidget {
               ListTile(
                 title: Text("Baixar todos os produtos"),
                 leading: InkWell(
-                  onTap: () {
+                  onTap: () async {
+                    final onlyWithImages = ref.read(checkBoxProvider);
+
+                    await downloadMockProducts(ref, onlyWithImages: onlyWithImages);
                     showInfoDialog(
                       context,
                       "Baixar todos os produtos",
@@ -66,17 +71,20 @@ class MoreOptionsProductSection extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(30),
                   child: Icon(Icons.error),
                 ),
-                trailing: Consumer(
-                  builder: (context, ref, _) {
+                trailing: Padding(
+                  padding: const EdgeInsets.only(right: 14),
+                  child: Consumer(
+                    builder: (context, ref, _) {
 
-                    return isDownloading
-                        ? SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                      : Icon(Icons.download);
-                  },
+                      return isDownloading
+                          ? SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                        : Icon(Icons.download);
+                    },
+                  ),
                 ),
                 onTap: isDownloading
                   ? null
@@ -92,10 +100,36 @@ class MoreOptionsProductSection extends ConsumerWidget {
                     if (!ok) return;
                     ref.read(productDownloadProgressProvider.notifier).state = 0;
 
-                    await downloadMockProducts(ref);
+                    await downloadMockProducts(ref, onlyWithImages: ok);
 
                     print("Download Finalizado!");
                   },
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 8, bottom: 8, left: 8, right: 8),
+                decoration: BoxDecoration(
+                  color: scheme.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 4),
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: isBoxSelected,
+                        onChanged: (onChanged) {
+                          ref.read(checkBoxProvider.notifier).state = !isBoxSelected;
+                        }
+                      ),
+                      Text(
+                        "Baixar todos os produtos com imagem",
+                        style: TextStyle(
+                          fontSize: 14
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16),
@@ -150,15 +184,6 @@ class MoreOptionsProductSection extends ConsumerWidget {
                                           fit: BoxFit.fill,
                                           image: image
                                         ),
-                                        // Container(
-                                        //   width: 80,
-                                        //   height: 80,
-                                        //   alignment: Alignment.center,
-                                        //   decoration: BoxDecoration(
-                                        //     color: Colors.white,
-                                        //   ),
-                                        //   child: Image.file(file),
-                                        // ),
                                         SizedBox(width: 12),
                                         Expanded(
                                           child: Column(
@@ -202,11 +227,14 @@ class MoreOptionsProductSection extends ConsumerWidget {
 }
 
 // Baixar produtos
-Future<void> downloadMockProducts(WidgetRef ref) async {
+Future<void> downloadMockProducts(
+    WidgetRef ref, {
+      required bool onlyWithImages,
+    }) async {
   ref.read(isDownloadingProductsProvider.notifier).state = true;
 
   final progress = ref.read(productDownloadProgressProvider.notifier);
-  // final productList = ref.read(productListProvider.notifier);
+
   final services = await ref.read(productServiceProvider.future);
   final repository = await ref.read(productRepositoryProvider.future);
 
@@ -215,12 +243,12 @@ Future<void> downloadMockProducts(WidgetRef ref) async {
   final init = await repository.count();
 
   // progress.state = init;
-  
+
   await NotificationService.showSyncNotification(
     title: "Baixando produtos",
-    body: "Sincronização imagens...",
+    body: "Sincronização iniciada",
     progress: progress.state,
-    maxProgress: total
+    maxProgress: total,
   );
 
   // await repository.deleteAll(); // Delete tudo local
@@ -234,11 +262,35 @@ Future<void> downloadMockProducts(WidgetRef ref) async {
     for (var product in products) {
       progress.state++;
 
-      if (product.imagesAll.isEmpty) {
+      if (onlyWithImages && product.imagesAll.isEmpty) {
         continue;
       }
 
       final List<ImageEntity> imagesSaved = [];
+
+      /// TODO: Arrumar isso
+      // if (onlyWithImages) {
+      //   for (var img in product.images) {
+      //     if (img.url.isEmpty) {
+      //       imagesSaved.add(img);
+      //       continue;
+      //     }
+      //
+      //     final file = await downloadImage(img.url, "${img.imageId}.png");
+      //     ref.read(currentDownloadingImageProvider.notifier).state = file;
+      //
+      //     imagesSaved.add(img.copyWith(localUrl: file.path));
+      //   }
+      // } else {
+      //   imagesSaved.add(
+      //     ImageEntity(
+      //       imageId: -1,
+      //       url: '',
+      //       localUrl: 'asset:assets/images/not_found.png',
+      //     ),
+      //   );
+      // }
+
       for(var img in product.images) {
         final file = await downloadImage(img.url, "${img.imageId}.png");
         ref.read(currentDownloadingImageProvider.notifier).state = file;
@@ -246,15 +298,22 @@ Future<void> downloadMockProducts(WidgetRef ref) async {
         imagesSaved.add(img.copyWith(localUrl: file.path));
 
       }
+
       var newProduct = product.copyWith(images: imagesSaved);
       ref.read(currentDownloadingProductProvider.notifier).state = newProduct;
       await repository.save(newProduct);
     }
-  }
+    await NotificationService.showSyncNotification(
+      title: "Baixando produtos",
+      body: "Sincronizando imagens...",
+      progress: progress.state,
+      maxProgress: total,
+    );
 
+  }
   await NotificationService.completeSyncNotification(
-    title: "Download concluído",
-    body: "Todos os produtos foram baixados com sucesso!"
+      title: "Download concluído",
+      body: "Todos os produtos foram baixados com sucesso!"
   );
 
   ref.read(isDownloadingProductsProvider.notifier).state = false;
