@@ -97,7 +97,7 @@ class SalesOrderProductCard extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            "R\$ ${item.totalValue.decimalValue}",
+                            "R\$ ${item.totalPrice.decimalValue}",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16

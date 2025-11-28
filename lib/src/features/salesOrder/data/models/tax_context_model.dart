@@ -43,7 +43,7 @@ extension TaxContextModelMapper on TaxContextModel {
       ufDestino: BrazilianState.values[ufDestino],
       consumidorFinal: consumidorFinal,
       contribuinte: contribuinte,
-      regime: TaxRegime.values[taxRegime],
+      taxRegime: TaxRegime.values[taxRegime],
       icmsInterestadual: icmsInterestadual != null ? Percentage(value: icmsInterestadual!) : null,
       icmsDestino: icmsDestino != null ? Percentage(value: icmsDestino!) : null,
       fcp: fcp != null ? Percentage(value: fcp!) : null,

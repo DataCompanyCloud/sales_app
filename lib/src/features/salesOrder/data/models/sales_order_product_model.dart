@@ -2,6 +2,7 @@ import 'package:objectbox/objectbox.dart';
 import 'package:sales_app/src/features/customer/data/models/money_model.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
 import 'package:sales_app/src/features/product/data/models/product_fiscal_model.dart';
+import 'package:sales_app/src/features/salesOrder/data/models/product_tax_result.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_product.dart';
 
 @Entity()
@@ -20,6 +21,7 @@ class SalesOrderProductModel {
   final unitPrice = ToOne<MoneyModel>();
   final discountAmount = ToOne<MoneyModel>();
   final fiscal = ToOne<ProductFiscalModel>();
+  final taxResult = ToOne<ProductTaxResultModel>();
 
   SalesOrderProductModel ({
     this.id = 0,
@@ -32,7 +34,7 @@ class SalesOrderProductModel {
   });
 }
 
-extension SalesOrderProductModeMapper on SalesOrderProductModel {
+extension SalesOrderProductModelMapper on SalesOrderProductModel {
   /// De OrderProductModel → OrderProduct
   SalesOrderProduct toEntity() {
     final price = unitPrice.target?.toEntity();
@@ -46,26 +48,32 @@ extension SalesOrderProductModeMapper on SalesOrderProductModel {
       unitPrice: price ?? const Money.raw(amount: 0),
       orderId: orderId,
       discountAmount: discountAmount.target?.toEntity(),
-      fiscal: fiscal.target?.toEntity()
+      fiscal: fiscal.target!.toEntity(),
+      taxResult: taxResult.target?.toEntity()
     );
   }
 
   void deleteRecursively(
     Box<SalesOrderProductModel> orderProductBox,
     Box<MoneyModel> moneyBox,
-    Box<ProductFiscalModel> productFiscalBox
+    Box<ProductFiscalModel> productFiscalBox,
+    Box<ProductTaxResultModel> productTaxResultBox,
   ) {
 
-    if (unitPrice.target != null) {
+    if (unitPrice.hasValue) {
       moneyBox.remove(unitPrice.targetId);
     }
 
-    if (discountAmount.target != null) {
+    if (discountAmount.hasValue) {
       moneyBox.remove(discountAmount.targetId);
     }
 
-    if (fiscal.target != null) {
+    if (fiscal.hasValue) {
       productFiscalBox.remove(fiscal.targetId);
+    }
+
+    if (taxResult.hasValue) {
+      productTaxResultBox.remove(taxResult.targetId);
     }
 
     orderProductBox.remove(id);
@@ -86,9 +94,10 @@ extension SalesOrderProductMapper on SalesOrderProduct {
     );
 
 
-    model.fiscal.target = fiscal?.toModel();
+    model.fiscal.target = fiscal.toModel();
     model.unitPrice.target = unitPrice.toModel();
     model.discountAmount.target = discountAmount.toModel();
+    model.taxResult.target = taxResult?.toModel();
 
     return model;
   }

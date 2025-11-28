@@ -13,7 +13,6 @@ abstract class Percentage with _$Percentage {
     required double value, // sempre em 0-100
   }) = _Percentage;
 
-
   factory Percentage({
     required double value,
   }) {
@@ -28,6 +27,9 @@ abstract class Percentage with _$Percentage {
   factory Percentage.fromJson(Map<String, dynamic> json) => _$PercentageFromJson(json);
 
   factory Percentage.fromString(double json) => Percentage(value: json);
+
+  static Percentage zero() => Percentage(value: 0.0);
+
 
   /// Converte 18 → 0.18
   double toFactor() => value / 100;

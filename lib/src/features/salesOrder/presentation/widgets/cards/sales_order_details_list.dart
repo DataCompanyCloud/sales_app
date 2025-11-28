@@ -102,7 +102,7 @@ class SalesOrderDetailsList extends ConsumerWidget {
                   ],
                 ),
                 Text(
-                  "R\$${orderProduct.totalValue.format()}",
+                  "R\$${orderProduct.totalPrice.format()}",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold

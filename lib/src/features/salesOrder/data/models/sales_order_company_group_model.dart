@@ -1,6 +1,7 @@
 import 'package:objectbox/objectbox.dart';
 import 'package:sales_app/src/features/customer/data/models/money_model.dart';
 import 'package:sales_app/src/features/product/data/models/product_fiscal_model.dart';
+import 'package:sales_app/src/features/salesOrder/data/models/product_tax_result.dart';
 import 'package:sales_app/src/features/salesOrder/data/models/sales_order_product_model.dart';
 import 'package:sales_app/src/features/salesOrder/data/models/tax_context_model.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_company_group.dart';
@@ -37,11 +38,12 @@ extension SalesOrderCompanyGroupModelMapper on SalesOrderCompanyGroupModel {
     required Box<SalesOrderProductModel> salesOrderProductBox,
     required Box<MoneyModel> moneyBox,
     required Box<ProductFiscalModel> productFiscalBox,
-    required Box<TaxContextModel> taxContextModel
+    required Box<TaxContextModel> taxContextModel,
+    required Box<ProductTaxResultModel> productTaxResultBox,
   }) {
 
     for (final item in items) {
-      item.deleteRecursively(salesOrderProductBox, moneyBox, productFiscalBox);
+      item.deleteRecursively(salesOrderProductBox, moneyBox, productFiscalBox, productTaxResultBox);
     }
 
     if (context.target != null) {

@@ -1,5 +1,6 @@
 import 'package:objectbox/objectbox.dart';
 import 'package:sales_app/src/features/company/domain/entities/company.dart';
+import 'package:sales_app/src/features/company/domain/valueObjects/tax_regime.dart';
 import 'package:sales_app/src/features/customer/data/models/address_model.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/cnpj.dart';
 
@@ -13,6 +14,7 @@ class CompanyModel {
   final String realName;
   final String cnpj;
   final bool isPrimary;
+  final int taxRegime;
 
   final address = ToOne<AddressModel>();
 
@@ -22,7 +24,8 @@ class CompanyModel {
     required this.tradeName,
     required this.realName,
     required this.cnpj,
-    required this.isPrimary
+    required this.isPrimary,
+    required this.taxRegime
   });
 }
 
@@ -34,7 +37,8 @@ extension CompanyModelMapper on CompanyModel {
       cnpj: CNPJ(value: cnpj),
       companyId: companyId,
       address: address.target!.toEntity(),
-      isPrimary: isPrimary
+      isPrimary: isPrimary,
+      taxRegime: TaxRegime.values[taxRegime]
     );
   }
 
@@ -59,7 +63,8 @@ extension CompanyMapper on Company {
       cnpj: cnpj.value,
       realName: realName,
       tradeName: tradeName,
-      isPrimary: isPrimary
+      isPrimary: isPrimary,
+      taxRegime: taxRegime.index
     );
 
     model.address.target = address.toModel();

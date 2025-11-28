@@ -5,8 +5,10 @@ import 'package:sales_app/src/features/product/data/repositories/product_reposit
 import 'package:sales_app/src/features/product/data/services/product_service.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
 import 'package:sales_app/src/features/product/domain/repositories/product_repository.dart';
+import 'package:sales_app/src/features/product/presentation/controllers/product_cart_controller.dart';
 import 'package:sales_app/src/features/product/presentation/controllers/product_controller.dart';
 import 'package:sales_app/src/features/product/presentation/controllers/product_details_controller.dart';
+import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_product.dart';
 
 final productRepositoryProvider = FutureProvider.autoDispose<ProductRepository>((ref) async {
   final store = await ref.watch(datasourceProvider.future);
@@ -29,3 +31,7 @@ final productServiceProvider = FutureProvider.autoDispose<ProductService>((ref) 
   final apiClient = ref.watch(apiClientProvider);
   return ProductService(apiClient);
 });
+
+final productCartControllerProvider = NotifierProvider<ProductCartController, Map<int, SalesOrderProduct>>(
+  ProductCartController.new,
+);

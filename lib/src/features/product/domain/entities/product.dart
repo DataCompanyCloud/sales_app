@@ -31,7 +31,7 @@ abstract class Product with _$Product {
     required List<Category> categories,
     required List<Packing> packings,
     required List<Attribute> attributes,
-    required ProductFiscal? fiscal
+    required ProductFiscal fiscal
   }) = _Product;
 
   /// TODO Precisa fazer as validações somente quando as informações forem diferentes de null!
@@ -48,7 +48,7 @@ abstract class Product with _$Product {
     required List<Category> categories,
     required List<Packing> packings,
     required List<Attribute> attributes,
-    required ProductFiscal? fiscal
+    required ProductFiscal fiscal
   }) {
     if (name.trim().isEmpty) {
       throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, " Nome do produto não pode ser vazio");
@@ -78,4 +78,9 @@ abstract class Product with _$Product {
   @JsonKey(includeFromJson: false)
   List<ImageEntity> get imagesAll => [...images, ...attributes.expand((a) => a.imagesAll)];
 
+
+  ImageEntity? get imagePrimary {
+    if (imagesAll.isEmpty) return null;
+    return imagesAll.first;
+  }
 }

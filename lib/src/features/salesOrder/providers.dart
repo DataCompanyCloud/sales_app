@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/core/providers/api_client_provider.dart';
 import 'package:sales_app/src/core/providers/datasource_provider.dart';
 import 'package:sales_app/src/features/salesOrder/data/repositories/sales_order_repository_impl.dart';
+import 'package:sales_app/src/features/salesOrder/data/repositories/tax_repository_impl.dart';
 import 'package:sales_app/src/features/salesOrder/data/services/sales_order_service.dart';
 import 'package:sales_app/src/features/salesOrder/data/services/sales_order_sync_service.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order.dart';
@@ -13,6 +14,10 @@ import 'package:sales_app/src/features/salesOrder/presentation/controllers/sales
 final salesOrderRepositoryProvider = FutureProvider.autoDispose<SalesOrderRepository>((ref) async {
   final store = await ref.watch(datasourceProvider.future);
   return SalesOrderRepositoryImpl(store);
+});
+
+final taxRepositoryImplProvider = Provider.autoDispose<TaxRepositoryImpl>((ref) {
+  return TaxRepositoryImpl();
 });
 
 enum SalesOrderStatusFilter {
@@ -34,7 +39,7 @@ final salesOrderControllerProvider = AutoDisposeAsyncNotifierProvider<SalesOrder
   return SalesOrderController();
 });
 
-final salesOrderCreateControllerProvider =  AsyncNotifierProvider.autoDispose.family<SalesOrderCreateController, SalesOrder?, int?>(
+final salesOrderCreateControllerProvider = AsyncNotifierProvider.autoDispose.family<SalesOrderCreateController, SalesOrder?, int?>(
   SalesOrderCreateController.new,
 );
 

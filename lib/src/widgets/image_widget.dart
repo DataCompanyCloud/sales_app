@@ -47,13 +47,25 @@ class ImageWidgetState extends ConsumerState<ImageWidget>{
     }
 
     // se não tiver path, já cai no fallback
+
+
     return Image.network(
       image.url,
       width: width,
       height: height,
       fit: fit,
-      loadingBuilder: (_, _, _) => _buildFallback(),
-      errorBuilder: (_, _, _) => _buildFallback(),
+      loadingBuilder: (context, child, loadingProgress) {
+        if (loadingProgress == null) {
+          // carregou → mostra a imagem
+          return child;
+        }
+
+        // ainda carregando → pode mostrar um spinner ou placeholder
+        return _buildFallback();
+      },
+      errorBuilder: (context, error, stackTrace) {
+        return _buildFallback();
+      },
     );
   }
 

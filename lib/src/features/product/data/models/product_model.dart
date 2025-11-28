@@ -45,7 +45,6 @@ class ProductModel {
 extension ProductModelMapper on ProductModel {
   Product toEntity() {
     final modelBarcode = barcode.target;
-    final modelUnit = unit.target;
     final packagingList = packaging.map((p) => p.toEntity()).toList();
     final categoriesList = categories.map((p) => p.toEntity()).toList();
     final imagesList = images.map((p) => p.toEntity()).toList();
@@ -58,13 +57,13 @@ extension ProductModelMapper on ProductModel {
       companyGroupId: companyGroupId,
       price: price.target!.toEntity(), // Obrigatorio ter
       barcode: modelBarcode?.toEntity(),
-      unit: modelUnit!.toEntity(), // Obrigatorio ter
+      unit: unit.target!.toEntity(), // Obrigatorio ter
       images: imagesList,
       categories: categoriesList,
       packings: packagingList,
       attributes: attributesList,
       description: description,
-      fiscal: fiscal.target?.toEntity(), // Obrigatorio ter
+      fiscal: fiscal.target!.toEntity(), // Obrigatorio ter
     );
   }
 
@@ -106,7 +105,7 @@ extension ProductModelMapper on ProductModel {
     }
 
     for (final attribute in attributes) {
-      attribute.deleteRecursively(attributeBox: attributeBox, attributeValueBox: attributeValueBox);
+      attribute.deleteRecursively(attributeBox: attributeBox, attributeValueBox: attributeValueBox, imageBox: imageBox, moneyBox: moneyBox);
     }
 
     if (fiscal.target != null) {
@@ -128,7 +127,7 @@ extension ProductMapper on Product {
     );
 
     entity.unit.target = unit.toModel();
-    entity.fiscal.target = fiscal?.toModel();
+    entity.fiscal.target = fiscal.toModel();
     entity.price.target = price.toModel();
 
     if (barcode != null) {

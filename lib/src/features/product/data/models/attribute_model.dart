@@ -1,5 +1,7 @@
 import 'package:objectbox/objectbox.dart' hide Property ;
+import 'package:sales_app/src/features/customer/data/models/money_model.dart';
 import 'package:sales_app/src/features/product/data/models/attribute_value_model.dart';
+import 'package:sales_app/src/features/product/data/models/image_model.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/attribute.dart';
 
 @Entity()
@@ -35,10 +37,12 @@ extension AttributeModelMapper on AttributeModel {
   void deleteRecursively({
     required Box<AttributeModel> attributeBox,
     required Box<AttributeValueModel> attributeValueBox,
+    required Box<MoneyModel> moneyBox,
+    required Box<ImageModel> imageBox,
   }) {
 
     for (final value in values) {
-      attributeValueBox.remove(value.id);
+      value.deleteRecursively(moneyBox: moneyBox, imageBox: imageBox, attributeValueBox: attributeValueBox);
     }
 
     attributeBox.remove(id);

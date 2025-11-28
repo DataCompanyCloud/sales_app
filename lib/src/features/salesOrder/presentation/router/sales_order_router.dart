@@ -10,6 +10,7 @@ import 'package:sales_app/src/features/salesOrder/presentation/views/sales_order
 import 'package:sales_app/src/features/salesOrder/presentation/views/sales_order_products_page.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/views/sales_orders_draft_page.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/views/select_customer_page.dart';
+import 'package:sales_app/src/features/salesOrder/presentation/views/select_products_page.dart';
 import 'package:sales_app/src/features/salesOrder/providers.dart';
 
 enum OrderRouter {
@@ -67,9 +68,7 @@ final orderRoutes = GoRoute(
               path: 'select-products',
               name: OrderRouter.select_products.name,
               builder: (context, state) {
-                final orderIdStr = state.uri.queryParameters['orderId'];
-                final orderId = orderIdStr != null ? int.tryParse(orderIdStr) : null;
-                return  SelectCustomerPage(customerId: orderId);
+                return  SelectProductsPage();
               }
             ),
           ]

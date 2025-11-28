@@ -13,7 +13,6 @@ class ProductFiscalModel {
   double icmsInterno;
   double? ipi;
   bool hasST;
-  double? mvaPadrao;
 
   ProductFiscalModel({
     this.id = 0,
@@ -23,7 +22,6 @@ class ProductFiscalModel {
     required this.icmsInterno,
     required this.ipi,
     required this.hasST,
-    required this.mvaPadrao
   });
 }
 
@@ -35,8 +33,7 @@ extension ProductFiscalModelMapper on ProductFiscalModel {
       origem: origem ,
       icmsInterno: Percentage(value: icmsInterno),
       ipi: ipi != null ? Percentage(value: ipi!) : null,
-      hasST: hasST ,
-      mvaPadrao: mvaPadrao != null ? Percentage(value: mvaPadrao!) : null,
+      hasST: hasST
     );
   }
 }
@@ -49,8 +46,7 @@ extension ProductFiscalMapper on ProductFiscal {
       origem: origem,
       icmsInterno: icmsInterno.value,
       ipi: ipi?.value,
-      hasST: hasST,
-      mvaPadrao: mvaPadrao?.value
+      hasST: hasST
     );
 
     return model;

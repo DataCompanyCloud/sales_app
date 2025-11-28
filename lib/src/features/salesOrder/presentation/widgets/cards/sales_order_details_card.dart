@@ -218,7 +218,7 @@ class _OrderDetailsCardState extends ConsumerState<SalesOrderDetailsCard>{
                               ],
                             ),
                             Text(
-                              "R\$ ${orderProduct.totalValue.format()}",
+                              "R\$ ${orderProduct.totalPrice.format()}",
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold

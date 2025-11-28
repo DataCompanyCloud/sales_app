@@ -77,7 +77,8 @@ class SalesOrderProductsPageState extends ConsumerState<SalesOrderProductsPage> 
                         side: BorderSide(color: scheme.outline, width: 2)
                       ),
                       child: InkWell(
-                        onTap: () {
+                        onTap: () async {
+                          final selected = await context.pushNamed<List<SalesOrderProduct>?>(OrderRouter.select_products.name) ?? [];
                           // final selected = await context.pushNamed<List<SalesOrderProduct>?>(OrderRouter.select_products.name) ?? [];
                           //
                           // if (selected.isEmpty) return;

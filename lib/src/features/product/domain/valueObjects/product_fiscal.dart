@@ -11,15 +11,17 @@ abstract class ProductFiscal with _$ProductFiscal {
   const ProductFiscal._();
 
   const factory ProductFiscal({
-    required String ncm,                // Define natureza
-    String? cest,                       // Necessário para ST
-    required int origem,                // 0..8 (nacional, importado, etc.)
-    @PercentageConverter() required Percentage icmsInterno,    // alíquota interna do estado de origem
-    @PercentageConverter() Percentage? ipi,                    // TIPI, pode ser null se isento
-    @Default(false) bool hasST,         // se o produto pode ter ST
-    @PercentageConverter() Percentage? mvaPadrao,              // MVA básica (não ajustada)
+    required String ncm,           // natureza da mercadoria
+    String? cest,                  // necessário para ST
+    required int origem,           // 0..8
+    @PercentageConverter() required Percentage icmsInterno,
+    @PercentageConverter() Percentage? ipi,
+    @Default(false) bool hasST,    // se pode ter ST
+    @PercentageConverter() Percentage? mvaOriginal, // se você quiser guardar a "MVA base" aqui
+    String? csosn,                 // opcional
+    String? cst,                   // opcional
   }) = _ProductFiscal;
 
-
-  factory ProductFiscal.fromJson(Map<String, dynamic> json) => _$ProductFiscalFromJson(json);
+  factory ProductFiscal.fromJson(Map<String, dynamic> json) =>
+      _$ProductFiscalFromJson(json);
 }

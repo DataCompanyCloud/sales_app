@@ -7,6 +7,7 @@ import 'package:sales_app/src/features/customer/data/models/contact_info_model.d
 import 'package:sales_app/src/features/customer/data/models/money_model.dart';
 import 'package:sales_app/src/features/customer/data/models/phone_model.dart';
 import 'package:sales_app/src/features/product/data/models/product_fiscal_model.dart';
+import 'package:sales_app/src/features/salesOrder/data/models/product_tax_result.dart';
 import 'package:sales_app/src/features/salesOrder/data/models/sales_order_company_group_model.dart';
 import 'package:sales_app/src/features/salesOrder/data/models/sales_order_customer_model.dart';
 import 'package:sales_app/src/features/salesOrder/data/models/sales_order_model.dart';
@@ -99,6 +100,7 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
     final productFiscalBox = store.box<ProductFiscalModel>();
     final salesOrderCompanyGroupBox = store.box<SalesOrderCompanyGroupModel>();
     final taxContextBox = store.box<TaxContextModel>();
+    final productTaxResultBox = store.box<ProductTaxResultModel>();
 
     store.runInTransaction(TxMode.write, () {
       for (final order in orders) {
@@ -121,7 +123,8 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
             addressBox: addressBox,
             productFiscalBox: productFiscalBox,
             salesOrderCompanyGroupBox: salesOrderCompanyGroupBox,
-            taxContextBox: taxContextBox
+            taxContextBox: taxContextBox,
+            productTaxResultBox: productTaxResultBox
           );
         }
 
@@ -143,6 +146,7 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
     final productFiscalBox = store.box<ProductFiscalModel>();
     final salesOrderCompanyGroupBox = store.box<SalesOrderCompanyGroupModel>();
     final taxContextBox = store.box<TaxContextModel>();
+    final productTaxResultBox = store.box<ProductTaxResultModel>();
 
     final id = store.runInTransaction(TxMode.write, () {
       final existingQ = salesOrderBox.query(SalesOrderModel_.orderUuId.equals(order.orderUuId)).build();
@@ -164,7 +168,8 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
           addressBox: addressBox,
           productFiscalBox: productFiscalBox,
           taxContextBox: taxContextBox,
-          salesOrderCompanyGroupBox: salesOrderCompanyGroupBox
+          salesOrderCompanyGroupBox: salesOrderCompanyGroupBox,
+          productTaxResultBox: productTaxResultBox
         );
       }
 
@@ -192,6 +197,7 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
     final productFiscalBox = store.box<ProductFiscalModel>();
     final salesOrderCompanyGroupBox = store.box<SalesOrderCompanyGroupModel>();
     final taxContextBox = store.box<TaxContextModel>();
+    final productTaxResultBox = store.box<ProductTaxResultModel>();
 
     store.runInTransaction(TxMode.write, () {
       final existingQ = salesOrderBox.query(SalesOrderModel_.orderUuId.equals(order.orderUuId)).build();
@@ -213,7 +219,8 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
         addressBox: addressBox,
         productFiscalBox: productFiscalBox,
         salesOrderCompanyGroupBox: salesOrderCompanyGroupBox,
-        taxContextBox: taxContextBox
+        taxContextBox: taxContextBox,
+        productTaxResultBox: productTaxResultBox
       );
     });
   }
@@ -231,6 +238,7 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
     final productFiscalBox = store.box<ProductFiscalModel>();
     final salesOrderCompanyGroupBox = store.box<SalesOrderCompanyGroupModel>();
     final taxContextBox = store.box<TaxContextModel>();
+    final productTaxResultBox = store.box<ProductTaxResultModel>();
 
     store.runInTransaction(TxMode.write, () {
       final allOrders = salesOrderBox.getAll();
@@ -246,7 +254,8 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
           addressBox: addressBox,
           productFiscalBox: productFiscalBox,
           salesOrderCompanyGroupBox: salesOrderCompanyGroupBox,
-          taxContextBox: taxContextBox
+          taxContextBox: taxContextBox,
+          productTaxResultBox: productTaxResultBox
         );
       }
     });

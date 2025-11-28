@@ -10,7 +10,7 @@ part 'tax_context.g.dart';
 abstract class TaxContext with _$TaxContext {
   const TaxContext._();
 
-  const factory TaxContext.raw({
+  const factory TaxContext({
     required BrazilianState ufOrigem,
     required BrazilianState ufDestino,
     required bool consumidorFinal,
@@ -21,31 +21,6 @@ abstract class TaxContext with _$TaxContext {
     @PercentageConverter() Percentage? fcp,                // 2%, 3%, 4% (varia por estado)
     @PercentageConverter() Percentage? mvaAjustada,        // MVA calculada por estado destino
   }) = _TaxContext;
-
-  factory TaxContext({
-    required BrazilianState ufOrigem,
-    required BrazilianState ufDestino,
-    required bool consumidorFinal,
-    required bool contribuinte,
-    required TaxRegime regime,
-    Percentage? icmsInterestadual,  // 7%, 12% ou 4%
-    Percentage? icmsDestino,        // alíquota interna do estado destino
-    Percentage? fcp,                // 2%, 3%, 4% (varia por estado)
-    Percentage? mvaAjustada,        // MVA calculada por estado destino
-  }) {
-
-    return TaxContext.raw(
-      ufOrigem: ufOrigem,
-      ufDestino: ufDestino,
-      consumidorFinal: consumidorFinal,
-      contribuinte: contribuinte,
-      taxRegime: regime,
-      icmsInterestadual: icmsInterestadual,  // 7%, 12% ou 4%
-      icmsDestino: icmsDestino,        // alíquota interna do estado destino
-      fcp: fcp,                // 2%, 3%, 4% (varia por estado)
-      mvaAjustada: mvaAjustada,        // MVA calculada por estado destino
-    );
-  }
 
   factory TaxContext.fromJson(Map<String, dynamic> json) =>
       _$TaxContextFromJson(json);

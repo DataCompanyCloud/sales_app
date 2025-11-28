@@ -5,13 +5,13 @@ import 'package:sales_app/src/features/customer/data/models/money_model.dart';
 import 'package:sales_app/src/features/customer/data/models/phone_model.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
 import 'package:sales_app/src/features/product/data/models/product_fiscal_model.dart';
+import 'package:sales_app/src/features/salesOrder/data/models/product_tax_result.dart';
 import 'package:sales_app/src/features/salesOrder/data/models/sales_order_company_group_model.dart';
 import 'package:sales_app/src/features/salesOrder/data/models/sales_order_customer_model.dart';
 import 'package:sales_app/src/features/salesOrder/data/models/sales_order_payment_model.dart';
 import 'package:sales_app/src/features/salesOrder/data/models/sales_order_product_model.dart';
 import 'package:sales_app/src/features/salesOrder/data/models/tax_context_model.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order.dart';
-import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_company_group.dart';
 import 'package:sales_app/src/features/salesOrder/domain/valueObjects/sales_order_status.dart';
 
 @Entity()
@@ -103,7 +103,8 @@ extension SalesOrderModelMapper on SalesOrderModel {
     required Box<PhoneModel> phoneBox,
     required Box<AddressModel> addressBox,
     required Box<ProductFiscalModel> productFiscalBox,
-    required Box<TaxContextModel> taxContextBox
+    required Box<TaxContextModel> taxContextBox,
+    required Box<ProductTaxResultModel> productTaxResultBox,
   }) {
 
     if (total.target != null) {
@@ -124,12 +125,18 @@ extension SalesOrderModelMapper on SalesOrderModel {
     }
 
     for (final companyGroup in companiesGroup) {
-      companyGroup.deleteRecursively(salesOrderCompanyGroupBox: salesOrderCompanyGroupBox, salesOrderProductBox: salesOrderProductBox, moneyBox: moneyBox, productFiscalBox: productFiscalBox, taxContextModel: taxContextBox);
+      companyGroup.deleteRecursively(
+        salesOrderCompanyGroupBox: salesOrderCompanyGroupBox,
+        salesOrderProductBox: salesOrderProductBox,
+        moneyBox: moneyBox,
+        productFiscalBox: productFiscalBox,
+        taxContextModel: taxContextBox,
+        productTaxResultBox: productTaxResultBox
+      );
     }
 
     salesOrderBox.remove(id);
   }
-
 }
 
 extension SalesOrderMapper on SalesOrder {

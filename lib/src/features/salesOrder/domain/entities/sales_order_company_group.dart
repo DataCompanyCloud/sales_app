@@ -36,7 +36,7 @@ abstract class SalesOrderCompanyGroup with _$SalesOrderCompanyGroup{
   @JsonKey(includeFromJson: false)
   Money get calcItemsSubtotal => items.fold(
     Money.zero(),
-    (acc, it) => acc.plus(it.totalValue),
+    (acc, it) => acc.plus(it.totalPrice),
   );
 
 
