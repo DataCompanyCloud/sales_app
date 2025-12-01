@@ -39,8 +39,8 @@ class SalesOrderCustomerSectionState extends ConsumerState<SalesOrderCustomerSec
           Text(
             "Cliente",
             style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16
+              fontWeight: FontWeight.bold,
+              fontSize: 16
             ),
           ),
           SizedBox(height: 4),

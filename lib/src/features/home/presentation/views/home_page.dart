@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
-import 'package:sales_app/src/core/providers/connectivity_provider.dart';
 import 'package:sales_app/src/features/company/providers.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_screen.dart';
 import 'package:sales_app/src/features/home/presentation/controllers/home_providers.dart';
