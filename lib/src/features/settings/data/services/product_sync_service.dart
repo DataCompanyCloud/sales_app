@@ -13,10 +13,20 @@ class ProductSyncService {
     required this.images
   });
 
+  void _finishCancelled(WidgetRef ref) {
+    ref.read(isDownloadingProductsProvider.notifier).state = false;
+
+    NotificationService.completeSyncNotification(
+      title: "Download cancelado",
+      body: "O download foi interrompido pelo usuário.",
+    );
+  }
+
   Future<void> downloadMockProducts(
       WidgetRef ref, {
         required bool productWithImages,
       }) async {
+    ref.read(cancelDownloadProvider.notifier).state = false;
     ref.read(isDownloadingProductsProvider.notifier).state = true;
 
     final progress = ref.read(productDownloadProgressProvider.notifier);
@@ -37,15 +47,35 @@ class ProductSyncService {
       maxProgress: total,
     );
 
+    if (ref.read(cancelDownloadProvider)) {
+      _finishCancelled(ref);
+      return;
+    }
+
     // await repository.deleteAll(); // Delete tudo local
 
     for (int i = init; i < total; i += limit) {
+
+      if (ref.read(cancelDownloadProvider)) {
+        _finishCancelled(ref);
+        return;
+      }
 
       final products = await services.getAll(
         ProductFilter(start: i, limit: limit),
       );
 
+      if (ref.read(cancelDownloadProvider)) {
+        _finishCancelled(ref);
+        return;
+      }
+
       for (var product in products) {
+        if (ref.read(cancelDownloadProvider)) {
+          _finishCancelled(ref);
+          return;
+        }
+
         progress.state++;
 
         if (productWithImages && product.imagesAll.isEmpty) {
@@ -56,6 +86,11 @@ class ProductSyncService {
 
         if (productWithImages) {
           for (var img in product.images) {
+            if (ref.read(cancelDownloadProvider)) {
+              _finishCancelled(ref);
+              return;
+            }
+
             final imageService = ref.read(imageServiceProvider);
             final file = await imageService.downloadImage(img.url, "${img.imageId}.png");
             ref.read(currentDownloadingImageProvider.notifier).state = file;

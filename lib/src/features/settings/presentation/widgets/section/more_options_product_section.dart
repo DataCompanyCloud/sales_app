@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sales_app/src/core/notifications/notification_service.dart';
-import 'package:sales_app/src/features/product/domain/repositories/product_repository.dart';
-import 'package:sales_app/src/features/product/domain/valueObjects/image.dart';
-import 'package:sales_app/src/features/product/providers.dart';
 import 'package:sales_app/src/features/settings/presentation/widgets/dialogs/options_description_dialog.dart';
 import 'package:sales_app/src/features/settings/providers.dart';
 import 'package:sales_app/src/widgets/dialogs/confirmation_dialog.dart';
@@ -27,7 +23,6 @@ class MoreOptionsProductSectionState extends ConsumerState<MoreOptionsProductSec
     final scheme = theme.colorScheme;
     final isDownloading = ref.watch(isDownloadingProvider);
     final isBoxSelected = ref.watch(checkWithImagesProvider);
-
 
     return Column(
       children: [
@@ -63,19 +58,30 @@ class MoreOptionsProductSectionState extends ConsumerState<MoreOptionsProductSec
                   borderRadius: BorderRadius.circular(30),
                   child: Icon(Icons.error),
                 ),
-                trailing: Padding(
-                  padding: const EdgeInsets.only(right: 14),
-                  child: Consumer(
-                    builder: (context, ref, _) {
-                      return isDownloading
-                        ? SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : Icon(Icons.download);
-                    },
-                  ),
+                trailing: Consumer(
+                  builder: (context, ref, _) {
+                    return isDownloading
+                      ? SizedBox(
+                        width: 30,
+                        height: 30,
+                        child: InkWell(
+                          onTap: () async {
+                            final ok = await showDialog(
+                              context: context,
+                              builder: (context) => ConfirmationDialog(
+                                title: "Cancelar Donwload",
+                                description: "Tem certeza que deseja cancelar o download?\n Todo o progresso será perdido.",
+                              ),
+                            ) ?? false;
+                            if (!ok) return;
+                            ref.read(cancelDownloadProvider.notifier).state = true;
+                          },
+                          borderRadius: BorderRadius.circular(30),
+                          child: Icon(Icons.close),
+                        ),
+                      )
+                      : Icon(Icons.download);
+                  },
                 ),
                 onTap: isDownloading
                     ? null
@@ -92,32 +98,43 @@ class MoreOptionsProductSectionState extends ConsumerState<MoreOptionsProductSec
                   ref.read(productDownloadProgressProvider.notifier).state = 0;
 
                   final syncService = ref.read(productSyncProvider);
+
+                  ref.read(isDownloadingProvider.notifier).state = true;
                   await syncService.downloadMockProducts(ref, productWithImages: isBoxSelected);
+                  ref.read(isDownloadingProvider.notifier).state = false;
                 },
               ),
-              Container(
-                margin: EdgeInsets.only(top: 8, bottom: 8, left: 8, right: 8),
-                decoration: BoxDecoration(
-                  color: scheme.surfaceContainerHighest,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 4),
-                  child: Row(
-                    children: [
-                      Checkbox(
-                        value: isBoxSelected,
-                        onChanged: (value) {
-                          ref.read(checkWithImagesProvider.notifier).state = value ?? false;
-                        }
+              AbsorbPointer(
+                absorbing: isDownloading,
+                child: Opacity(
+                  opacity: isDownloading ? 0.6 : 1.0, // visual quando desativado
+                  child: Container(
+                    margin: EdgeInsets.only(top: 8, bottom: 8, left: 8, right: 8),
+                    decoration: BoxDecoration(
+                      color: scheme.surfaceContainerHighest,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 4),
+                      child: Row(
+                        children: [
+                          Checkbox(
+                            value: isBoxSelected,
+                            onChanged: isDownloading
+                              ? null
+                              : (value) {
+                                ref.read(checkWithImagesProvider.notifier).state = value ?? false;
+                              }
+                          ),
+                          Text(
+                            "Baixar todos os produtos com imagem",
+                            style: TextStyle(
+                              fontSize: 14
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        "Baixar todos os produtos com imagem",
-                        style: TextStyle(
-                          fontSize: 14
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
@@ -214,97 +231,3 @@ class MoreOptionsProductSectionState extends ConsumerState<MoreOptionsProductSec
     );
   }
 }
-
-// // Baixar produtos
-// Future<void> downloadMockProducts(
-//     WidgetRef ref, {
-//       required bool productWithImages,
-//     }) async {
-//   ref.read(isDownloadingProductsProvider.notifier).state = true;
-//
-//   final progress = ref.read(productDownloadProgressProvider.notifier);
-//
-//   final services = await ref.read(productServiceProvider.future);
-//   final repository = await ref.read(productRepositoryProvider.future);
-//
-//   final total = 15000;
-//   final limit = 30;
-//   final init = await repository.count();
-//
-//   // progress.state = init;
-//
-//   await NotificationService.showSyncNotification(
-//     title: "Baixando produtos",
-//     body: "Sincronização iniciada",
-//     progress: progress.state,
-//     maxProgress: total,
-//   );
-//
-//   // await repository.deleteAll(); // Delete tudo local
-//
-//   for (int i = init; i < total; i += limit) {
-//
-//     final products = await services.getAll(
-//       ProductFilter(start: i, limit: limit),
-//     );
-//
-//     for (var product in products) {
-//       progress.state++;
-//
-//       if (productWithImages && product.imagesAll.isEmpty) {
-//         continue;
-//       }
-//
-//       final List<ImageEntity> imagesSaved = [];
-//
-//       if (productWithImages) {
-//         for (var img in product.images) {
-//           final imageService = ref.read(imageServiceProvider);
-//           final file = await imageService.downloadImage(img.url, "${img.imageId}.png");
-//           ref.read(currentDownloadingImageProvider.notifier).state = file;
-//
-//           imagesSaved.add(img.copyWith(localUrl: file.path));
-//         }
-//       }
-//
-//       var newProduct = product.copyWith(images: imagesSaved);
-//       ref.read(currentDownloadingProductProvider.notifier).state = newProduct;
-//       await repository.save(newProduct);
-//     }
-//
-//     await NotificationService.showSyncNotification(
-//       title: "Baixando produtos",
-//       body: "Sincronizando imagens...",
-//       progress: progress.state,
-//       maxProgress: total,
-//     );
-//   }
-//
-//   await NotificationService.completeSyncNotification(
-//       title: "Download concluído",
-//       body: "Todos os produtos foram baixados com sucesso!"
-//   );
-//   ref.read(isDownloadingProductsProvider.notifier).state = false;
-// }
-
-// // Baixar imagem (mock)
-// Future<File> downloadImage(String url, String fileName) async {
-//   final response = await http.get(Uri.parse(url));
-//
-//   final directory = await getApplicationDocumentsDirectory();
-//   final filePath = '${directory.path}/$fileName';
-//
-//   final file = File(filePath);
-//   return file.writeAsBytes(response.bodyBytes);
-// }
-
-// // Carregar imagem local
-// Future<File> loadAssetImage(String assetPath, String fileName) async {
-//   final byteData = await rootBundle.load(assetPath);
-//
-//   final directory = await getApplicationDocumentsDirectory();
-//   final filePath = '${directory.path}/$fileName';
-//
-//   final file = File(filePath);
-//   return file.writeAsBytes(byteData.buffer.asUint8List());
-// }
