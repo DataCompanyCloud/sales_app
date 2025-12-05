@@ -47,6 +47,19 @@ class CustomerService {
     }
   }
 
+  Future<int> getCount(CustomerFilter filter) async {
+    final json = await apiClient.get<Map<String, dynamic>>(ApiEndpoints.customers,
+      queryParameters: {
+        'q': filter.q,
+      },
+    );
+
+    final data = json['total'];
+
+    // garante que retorna int sempre
+    return data is int ? data : int.tryParse(data.toString()) ?? 0;
+  }
+
   Future<int> putCustomer(Customer customer) async {
     final json = await apiClient.post<Map<String, dynamic>>(
       ApiEndpoints.customers,

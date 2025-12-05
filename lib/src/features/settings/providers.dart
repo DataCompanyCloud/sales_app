@@ -1,13 +1,18 @@
 import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
 import 'package:sales_app/src/features/settings/data/services/image_service.dart';
+import 'package:sales_app/src/features/settings/presentation/controllers/sync_customer_controller.dart';
 import 'package:sales_app/src/features/settings/presentation/controllers/sync_products_controller.dart';
 import 'package:sales_app/src/features/settings/presentation/controllers/valueObjects/sync_state.dart';
 
-
 final syncProductsProvider = AsyncNotifierProvider<SyncProductsNotifier, SyncState>(
   SyncProductsNotifier.new,
+);
+
+final syncCustomersProvider = AsyncNotifierProvider<SyncCustomersNotifier, SyncState>(
+  SyncCustomersNotifier.new,
 );
 
 // Cancelar Sincronização
@@ -23,11 +28,8 @@ final currentDownloadingProductProvider = StateProvider<Product?>((ref) => null)
 // Salvar as imagens baixadas em uma lista
 final downloadedImagePathProvider = StateProvider<String?>((ref) => '/data/user/0/com.datacompany.sales_app.sales_app/app_flutter/produto1.jpg');
 
-// Download dos produtos
-final isDownloadingProductsProvider = StateProvider<bool>((ref) => false);
-final productDownloadProgressProvider = StateProvider<int>((ref) => 0);
-final productListProvider = StateProvider<List<Product>>((ref) => []);
-
+// Download de clientes
+final currentDownloadingCustomerProvider = StateProvider<Customer?>((ref) => null);
 
 // Switches
 final isCnpjRequiredProvider = StateProvider<bool>((ref) => false);
