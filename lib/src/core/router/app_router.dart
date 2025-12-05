@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/auth/domain/entities/user.dart';
+import 'package:sales_app/src/features/auth/presentation/router/auth_router.dart';
 import 'package:sales_app/src/features/auth/presentation/views/auth_gate.dart';
 import 'package:sales_app/src/features/auth/presentation/views/auth_page.dart';
 import 'package:sales_app/src/features/auth/presentation/views/login_page.dart';
@@ -91,32 +92,10 @@ final goRouterProvider = Provider((ref) {
         builder: (ctx, state) => AuthGate(),
       ),
       GoRoute(
-        path: '/sync',
-        builder: (context, state) => SyncPage(title: "Bem-vindo ao SalesApp"),
-        name: AppRoutes.sync.name,
+          path: '/sync',
+          builder: (ctx, state) => SyncPage(title: "Sincronização")
       ),
-      GoRoute(
-        path: '/auth',
-        builder: (context, state) => AuthPage(),
-        name: AppRoutes.auth.name,
-      ),
-      GoRoute(
-        path: '/login',
-        builder: (context, state) => LoginPage(),
-        name: AppRoutes.login.name,
-        routes: [
-          GoRoute(
-            path: 'forgotPassword',
-            builder: (context, state) => ForgotPasswordPage(title: "Esquecer senha"),
-            name: AppRoutes.passwordRecovery.name,
-          ),
-          GoRoute(
-            path: '/userType',
-            builder: (context, state) => UserTypePage(),
-            name: AppRoutes.userType.name,
-          ),
-        ]
-      ),
+      ...authRoutes,
       customerRoutes,
       homeRoutes,
       orderRoutes,
