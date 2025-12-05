@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationService {
@@ -19,7 +21,32 @@ class NotificationService {
     await _plugin.initialize(initializationSettings);
   }
 
+
+  static Future<void> initialSyncNotification({
+    required String channel,
+    required String channelDescription,
+    required String title,
+    required String body,
+  }) async {
+    final androidDetails = AndroidNotificationDetails(
+      channel,
+      'Sincronização',
+      channelDescription: channelDescription,
+    );
+
+    final details = NotificationDetails(android: androidDetails);
+
+    await _plugin.show(
+      syncNotificationId,
+      title,
+      body,
+      details,
+    );
+  }
+
   static Future<void> showSyncNotification({
+    required String channel,
+    required String channelDescription,
     required String title,
     required String body,
     required int progress,     // qtd processada
@@ -44,20 +71,26 @@ class NotificationService {
     await _plugin.show(
       syncNotificationId,
       title,
-      '$body ($percent%)',
+      '$progress/$maxProgress itens ($percent%) ',
       details,
+      payload: jsonEncode({
+        "processed": progress,
+        "total": maxProgress,
+      })
     );
   }
 
 
   static Future<void> completeSyncNotification({
+    required String channel,
+    required String channelDescription,
     required String title,
     required String body,
   }) async {
-    const androidDetails = AndroidNotificationDetails(
-      'sync_channel',
+    final androidDetails = AndroidNotificationDetails(
+      channel,
       'Sincronização',
-      channelDescription: 'Sincronização de pedidos',
+      channelDescription: channelDescription,
     );
 
     final details = NotificationDetails(android: androidDetails);

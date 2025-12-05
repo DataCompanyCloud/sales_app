@@ -23,6 +23,8 @@ class SalesOrderSyncService {
 
     if (showNotification) {
       await NotificationService.showSyncNotification(
+        channel: "sync_orders",
+        channelDescription: "Sincronizando pedidos",
         title: 'Sincronizando pedidos',
         body: '0 de $total concluídos',
         progress: 0,
@@ -44,6 +46,8 @@ class SalesOrderSyncService {
 
       if (showNotification) {
         await NotificationService.showSyncNotification(
+          channel: "sync_orders",
+          channelDescription: "Sincronizando pedidos",
           title: 'Sincronizando pedidos',
           body: '$processed de $total concluídos',
           progress: processed,
@@ -55,6 +59,8 @@ class SalesOrderSyncService {
     // 3. Finalizou
     if (showNotification) {
       await NotificationService.completeSyncNotification(
+        channel: "sync_orders",
+        channelDescription: "Sincronizando pedidos",
         title: 'Sincronização concluída',
         body: '$total pedidos atualizados',
       );

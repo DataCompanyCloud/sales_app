@@ -31,7 +31,7 @@ class MoreOptionsCustomerSection extends ConsumerWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: 12),
             child: Text(
-              "Cliente".toUpperCase(),
+              "CLIENTE",
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey

@@ -46,4 +46,17 @@ class ProductService {
       throw AppException.errorUnexpected(e.toString());
     }
   }
+
+  Future<int> getCount(ProductFilter filter) async {
+    final json = await apiClient.get<Map<String, dynamic>>(ApiEndpoints.products,
+      queryParameters: {
+        'q': filter.q,
+      },
+    );
+
+    final data = json['total'];
+
+    // garante que retorna int sempre
+    return data is int ? data : int.tryParse(data.toString()) ?? 0;
+  }
 }

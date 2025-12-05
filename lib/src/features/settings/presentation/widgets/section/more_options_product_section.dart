@@ -14,15 +14,16 @@ class MoreOptionsProductSection extends ConsumerStatefulWidget {
 }
 
 class MoreOptionsProductSectionState extends ConsumerState<MoreOptionsProductSection> {
-  final checkWithImagesProvider = StateProvider<bool>((ref) => false);
-  final isDownloadingProvider = StateProvider<bool>((ref) => false);
+  final productWithImagesProvider = StateProvider<bool>((ref) => false);
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
-    final isDownloading = ref.watch(isDownloadingProvider);
-    final isBoxSelected = ref.watch(checkWithImagesProvider);
+    final productWithImages = ref.watch(productWithImagesProvider);
+    final syncState = ref.watch(syncProductsProvider);
+    final isSync = syncState.isLoading || syncState.value?.isSyncing == true;
+    final cancelSync = ref.read(cancelSyncProvider);
 
     return Column(
       children: [
@@ -31,7 +32,7 @@ class MoreOptionsProductSectionState extends ConsumerState<MoreOptionsProductSec
           child: Padding(
             padding: const EdgeInsets.only(top: 16, left: 12),
             child: Text(
-              "Produtos".toUpperCase(),
+              "PRODUTOS",
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey
@@ -43,14 +44,20 @@ class MoreOptionsProductSectionState extends ConsumerState<MoreOptionsProductSec
           child: Column(
             children: [
               ListTile(
-                title: Text("Baixar todos os produtos"),
+                title: Text(
+                  cancelSync && isSync
+                    ? "Cancelando processo..."
+                    : isSync
+                      ? "Sincronizando produtos"
+                      : "Baixar produtos"
+                ),
                 leading: InkWell(
                   onTap: () {
                     showDialog(
                       context: context,
                       builder: (_) => OptionsDescriptionDialog(
-                        title: "Baixar todos os produtos",
-                        description: "Baixa todos os produtos salvos no banco.",
+                        title: "Baixar produtos",
+                        description: "Baixa os produtos salvos no banco.",
                         icon: Icons.error_outline,
                       )
                     );
@@ -60,7 +67,7 @@ class MoreOptionsProductSectionState extends ConsumerState<MoreOptionsProductSec
                 ),
                 trailing: Consumer(
                   builder: (context, ref, _) {
-                    return isDownloading
+                    return isSync
                       ? SizedBox(
                         width: 30,
                         height: 30,
@@ -74,7 +81,7 @@ class MoreOptionsProductSectionState extends ConsumerState<MoreOptionsProductSec
                               ),
                             ) ?? false;
                             if (!ok) return;
-                            ref.read(cancelDownloadProvider.notifier).state = true;
+                            ref.read(cancelSyncProvider.notifier).state = true;
                           },
                           borderRadius: BorderRadius.circular(30),
                           child: Icon(Icons.close),
@@ -83,31 +90,28 @@ class MoreOptionsProductSectionState extends ConsumerState<MoreOptionsProductSec
                       : Icon(Icons.download);
                   },
                 ),
-                onTap: isDownloading
-                    ? null
-                    : () async {
-                  final ok = await showDialog<bool>(
-                    context: context,
-                    builder: (context) => ConfirmationDialog(
-                      title: "Atenção!".toUpperCase(),
-                      description: "Este é um processo lento e recomendamos que você esteja conectado a uma rede Wi-Fi.\n\nDeseja continuar?",
-                    )
-                  ) ?? false;
+                onTap: isSync
+                  ? null
+                  : () async {
+                    final ok = await showDialog<bool>(
+                      context: context,
+                      builder: (context) => ConfirmationDialog(
+                        title: "ATENÇÃO!",
+                        description: "Este é um processo lento e recomendamos que você esteja conectado a uma rede Wi-Fi.\n\nDeseja continuar?",
+                      )
+                    ) ?? false;
 
-                  if (!ok) return;
-                  ref.read(productDownloadProgressProvider.notifier).state = 0;
+                    if (!ok) return;
 
-                  final syncService = ref.read(productSyncProvider);
-
-                  ref.read(isDownloadingProvider.notifier).state = true;
-                  await syncService.downloadMockProducts(ref, productWithImages: isBoxSelected);
-                  ref.read(isDownloadingProvider.notifier).state = false;
+                    await ref.read(syncProductsProvider.notifier).syncProducts(
+                      productWithImages: productWithImages
+                    );
                 },
               ),
               AbsorbPointer(
-                absorbing: isDownloading,
+                absorbing: isSync,
                 child: Opacity(
-                  opacity: isDownloading ? 0.6 : 1.0, // visual quando desativado
+                  opacity: isSync ? 0.6 : 1.0, // visual quando desativado
                   child: Container(
                     margin: EdgeInsets.only(top: 8, bottom: 8, left: 8, right: 8),
                     decoration: BoxDecoration(
@@ -119,15 +123,15 @@ class MoreOptionsProductSectionState extends ConsumerState<MoreOptionsProductSec
                       child: Row(
                         children: [
                           Checkbox(
-                            value: isBoxSelected,
-                            onChanged: isDownloading
+                            value: productWithImages,
+                            onChanged: isSync
                               ? null
                               : (value) {
-                                ref.read(checkWithImagesProvider.notifier).state = value ?? false;
+                                ref.read(productWithImagesProvider.notifier).state = value ?? false;
                               }
                           ),
                           Text(
-                            "Baixar todos os produtos com imagem",
+                            "Baixar os produtos com imagem",
                             style: TextStyle(
                               fontSize: 14
                             ),
@@ -142,10 +146,12 @@ class MoreOptionsProductSectionState extends ConsumerState<MoreOptionsProductSec
                 padding: const EdgeInsets.only(left: 16, right: 16),
                 child: Consumer(
                   builder: (context, ref, _) {
-                    final downloaded = ref.watch(productDownloadProgressProvider);
-                    final progress = downloaded / 15000;
+                    final progress = syncState.value?.progress ?? 0;
+                    print(progress);
+                    final count = syncState.value?.itemsSyncAmount ?? 0;
+                    final total = syncState.value?.total ?? 0;
 
-                    if (downloaded == 0 || downloaded == 1.0) {
+                    if (progress == 0 || progress == 1.0) {
                       return SizedBox.shrink();
                     }
                     return Column(
@@ -158,7 +164,7 @@ class MoreOptionsProductSectionState extends ConsumerState<MoreOptionsProductSec
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "$downloaded/15000",
+                                    "$count/$total",
                                     textAlign: TextAlign.start,
                                   ),
                                   Text("${(progress * 100).toStringAsFixed(0)}%"),

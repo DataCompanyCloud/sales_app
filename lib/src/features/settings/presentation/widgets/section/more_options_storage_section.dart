@@ -32,7 +32,7 @@ class MoreOptionsStorageSection extends ConsumerWidget {
           child: Padding(
             padding: const EdgeInsets.only(top: 16, left: 12),
             child: Text(
-              "Estoque".toUpperCase(),
+              "ESTOQUE",
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey

@@ -33,7 +33,7 @@ class MoreOptionsOrderSection extends ConsumerWidget {
           child: Padding(
             padding: const EdgeInsets.only(top: 16, left: 12),
             child: Text(
-              "Pedido".toUpperCase(),
+              "PEDIDO",
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey

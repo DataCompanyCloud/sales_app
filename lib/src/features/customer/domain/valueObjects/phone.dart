@@ -10,6 +10,7 @@ enum PhoneType {
   whatsapp,
   other
 }
+
 @freezed
 abstract class Phone with _$Phone {
   const Phone._();
