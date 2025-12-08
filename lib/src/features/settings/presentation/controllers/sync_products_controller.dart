@@ -6,6 +6,7 @@ import 'package:sales_app/src/features/product/providers.dart';
 import 'package:sales_app/src/features/settings/presentation/controllers/valueObjects/sync_state.dart';
 import 'package:sales_app/src/features/settings/presentation/controllers/valueObjects/sync_status.dart';
 import 'package:sales_app/src/features/settings/providers.dart';
+import 'dart:math';
 
 class SyncProductsNotifier extends AsyncNotifier<SyncState> {
   static const channel = "sync_product";
@@ -18,7 +19,6 @@ class SyncProductsNotifier extends AsyncNotifier<SyncState> {
 
   Future<void> syncProducts({
     bool productWithImages = false,
-    bool resetAll = false,
   }) async {
     if (state.isLoading) return;
     state = AsyncData(SyncState(status: SyncStatus.preparing));
@@ -38,7 +38,7 @@ class SyncProductsNotifier extends AsyncNotifier<SyncState> {
       final imageService = ref.read(imageServiceProvider);
       final limit = 30;
       final totalLocal = await repository.count();
-      final start = resetAll ? 0 : totalLocal ;
+      final start = max(0, totalLocal);
       final total = await service.getCount(ProductFilter());
 
       if (total == totalLocal) {
@@ -125,7 +125,7 @@ class SyncProductsNotifier extends AsyncNotifier<SyncState> {
         channel: channel,
         channelDescription: channelDescription,
         title: "Sincronização concluída",
-        body: "Todos os produtos foram baixados com sucesso!"
+        body: "Todos os produtos foram baixados com sucesso!",
       );
 
       // salva horário da última sync
