@@ -21,7 +21,7 @@ class MoreOptionsCustomerSectionState extends ConsumerState<MoreOptionsCustomerS
     final requiredCnpj = ref.watch(isCnpjRequiredProvider);
     final isEditable = ref.watch(isMoreOptionsEditableProvider);
     final syncState = ref.watch(syncCustomersProvider);
-    final isSync = syncState.isLoading || syncState.value?.isSyncing == true;
+    final isSync = syncState.isLoading;
     final cancelSync = ref.read(cancelSyncProvider);
     
     void showInfoDialog(BuildContext context, String title, String description, IconData icon) {
@@ -190,10 +190,14 @@ class MoreOptionsCustomerSectionState extends ConsumerState<MoreOptionsCustomerS
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        SizedBox(
-                                          width: 80,
-                                          height: 80,
-                                          child: Icon(Icons.person),
+                                        Container(
+                                          width: 50,
+                                          height: 50,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(12),
+                                            color: Colors.white
+                                          ),
+                                          child: Icon(Icons.person, size: 36),
                                         ),
                                         SizedBox(width: 12),
                                         Expanded(

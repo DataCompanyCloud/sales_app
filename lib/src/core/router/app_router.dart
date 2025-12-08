@@ -4,8 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/auth/domain/entities/user.dart';
 import 'package:sales_app/src/features/auth/presentation/router/auth_router.dart';
 import 'package:sales_app/src/features/auth/presentation/views/auth_gate.dart';
-import 'package:sales_app/src/features/auth/presentation/views/auth_page.dart';
-import 'package:sales_app/src/features/auth/presentation/views/login_page.dart';
 import 'package:sales_app/src/features/faq/presentation/router/faq_router.dart';
 import 'package:sales_app/src/features/myProfile/presentation/router/my_profile_router.dart';
 import 'package:sales_app/src/features/settings/presentation/router/settings_router.dart';
@@ -15,12 +13,10 @@ import 'package:sales_app/src/features/sync/presentation/views/sync_page.dart';
 import 'package:sales_app/src/features/auth/providers.dart';
 import 'package:sales_app/src/features/customer/presentation/router/customer_router.dart';
 import 'package:sales_app/src/features/error/presentation/router/error_router.dart';
-import 'package:sales_app/src/features/forgotPassword/presentation/views/forgot_password_page.dart';
 import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/router/sales_order_router.dart';
 import 'package:sales_app/src/features/product/presentation/router/product_router.dart';
 import 'package:sales_app/src/features/schedule/presentation/router/schedule_router.dart';
-import 'package:sales_app/src/features/userType/presentation/views/user_type_page.dart';
 
 enum AppRoutes {
   userType,

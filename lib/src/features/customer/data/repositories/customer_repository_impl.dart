@@ -139,7 +139,7 @@ class CustomerRepositoryImpl extends CustomerRepository{
         );
       }
 
-      customerBox.put(newModel);
+      return customerBox.put(newModel);
     });
 
     final saved = await customerBox.getAsync(id);

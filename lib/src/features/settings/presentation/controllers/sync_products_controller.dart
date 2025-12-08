@@ -51,7 +51,7 @@ class SyncProductsNotifier extends AsyncNotifier<SyncState> {
         );
 
         // salva horário da última sync
-        state = AsyncData(state.value!.copyWith( status: SyncStatus.complete));
+        state = AsyncData(state.value!.copyWith(status: SyncStatus.complete));
         return;
       }
 
@@ -69,7 +69,7 @@ class SyncProductsNotifier extends AsyncNotifier<SyncState> {
       );
 
       for (int i = start; i < total; i += limit) {
-
+        /// TODO: Reavaliar essa função
         final cancelSync = ref.read(cancelSyncProvider);
         if (cancelSync) {
           NotificationService.completeSyncNotification(

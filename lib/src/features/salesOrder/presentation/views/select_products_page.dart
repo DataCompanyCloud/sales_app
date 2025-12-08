@@ -8,7 +8,6 @@ import 'package:sales_app/src/features/product/presentation/widgets/draggable/dr
 import 'package:sales_app/src/features/product/presentation/widgets/skeleton/grid_view_column_skeleton.dart';
 import 'package:sales_app/src/features/product/providers.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/widgets/product/card/select_product_card.dart';
-import 'package:sales_app/src/widgets/image_widget.dart';
 
 class SelectProductsPage extends ConsumerStatefulWidget {
   const SelectProductsPage({super.key});

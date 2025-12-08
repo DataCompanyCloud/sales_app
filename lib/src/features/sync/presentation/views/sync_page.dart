@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/auth/providers.dart';
 import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
-import 'package:sales_app/src/features/sync/presentation/widgets/sections/load_card.dart';
 import 'package:sales_app/src/features/sync/presentation/widgets/sections/load_card_test.dart';
 
 class SyncPage extends ConsumerWidget {
