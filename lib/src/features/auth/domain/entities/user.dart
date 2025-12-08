@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:sales_app/src/features/company/domain/entities/company.dart';
 
 part 'user.freezed.dart';
 part 'user.g.dart';
@@ -13,6 +12,7 @@ abstract class User with _$User {
     required String token,
     @JsonKey(includeFromJson: false) @Default(false) bool isValidated,
     @Default(null) String? userPassword,
+    @Default(false) bool isSync
     // List<Permission> permissons
   }) = _User;
 

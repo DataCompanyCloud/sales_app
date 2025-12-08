@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
-import 'package:sales_app/src/core/router/app_router.dart';
+import 'package:sales_app/src/features/auth/presentation/router/auth_router.dart';
 import 'package:sales_app/src/features/auth/providers.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
@@ -18,7 +18,6 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class LoginPageState extends ConsumerState<LoginPage> {
-  final toggleRememberProvider = StateProvider<bool>((_) => false);
   final toggleVisibilityProvider = StateProvider<bool>((_) => true);
   late final TextEditingController _loginController;
   late final TextEditingController _passwordController;
@@ -41,7 +40,6 @@ class LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final toggleVisibility = ref.watch(toggleVisibilityProvider);
-    final toggleRemember = ref.watch(toggleRememberProvider);
     final authState = ref.watch(authControllerProvider);
 
     final authError = authState.hasError && authState.error is AppException
@@ -144,7 +142,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                     alignment: Alignment.centerRight,
                     child: TextButton(
                       onPressed: () {
-                        context.goNamed(AppRoutes.passwordRecovery.name);
+                        context.goNamed(AuthRouter.forgotPassword.name);
                       },
                       child: Text(
                         "Esqueceu a senha?",
@@ -231,7 +229,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                   SizedBox(height: 24),
                   TextButton(
                     onPressed: () {
-                      context.goNamed(AppRoutes.passwordRecovery.name);
+                      context.goNamed(AuthRouter.forgotPassword.name);
                     },
                     child: Text(
                       "Cadastre-se",

@@ -1,129 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sales_app/src/core/router/app_router.dart';
-import 'package:sales_app/src/features/sync/presentation/controllers/sync_controller.dart';
+import 'package:sales_app/src/features/auth/providers.dart';
+import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
+import 'package:sales_app/src/features/sync/presentation/widgets/sections/load_card.dart';
+import 'package:sales_app/src/features/sync/presentation/widgets/sections/load_card_test.dart';
 
 class SyncPage extends ConsumerWidget {
-  final String title;
 
   const SyncPage ({
-    super.key,
-    required this.title
+    super.key
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final progressCustomer = ref.watch(syncProgressCustomerProvider);
-    // final processProducts = ref.watch(syncProgressProductsProvider);
 
     return Scaffold(
-      body: Center(
+      appBar: AppBar(
+        title: Text("Sincronização"),
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: EdgeInsets.only(bottom: 8),
-              child: Text(
-                "Bem-vindo ao SalesApp!",
-                style: TextStyle(
-                  color: Color(0xFF0081F5),
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold
-                ),
-              ),
-            ),
-            Text(
-              "Olá, vejo que é sua primeira vez aqui.\nDeseja sincronizar seus dados com a nuvem?",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 18
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 32, bottom: 12, left: 32, right: 32),
-              child: Container(
-                width: double.infinity,
-                height: 48,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Color(0xFF0081F5)
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 12),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.check_box,
-                        color: Colors.white,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8),
-                        child: Text(
-                          "Produtos",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 12, left: 32, right: 32),
-              child: Container(
-                width: double.infinity,
-                height: 48,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Color(0xFF0081F5)
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 12, right: 12),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.check_box,
-                        color: Colors.white,
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 8),
-                          child: Text(
-                            "Clientes",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white
-                            ),
-                          ),
-                        ),
-                      ),
-                      Text(
-                        '${progressCustomer.round()} %',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            // SyncProductsSection(),
+            SyncProductsSection(),
+            SizedBox(height: 12,),
+            // DownloadCard()
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.goNamed(AppRoutes.home.name);
+        onPressed: () async {
+          context.goNamed(HomeRouter.home.name);
           // final user = ref.read(authControllerProvider);
-          // ref.read(authControllerProvider.notifier).updateAuth(user.value!.copyWith(hasSynced: true));
+          await ref.read(authControllerProvider.notifier).sync();
           return;
         },
         shape: RoundedRectangleBorder(

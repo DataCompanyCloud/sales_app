@@ -36,7 +36,7 @@ extension AttributeValueModelMapper on AttributeValueModel {
     return AttributeValue(
       id: attributeValueId,
       value: value,
-      price: price.target?.toEntity(),
+      priceDelta: price.target?.toEntity(),
       images: imagesList
     );
   }
@@ -67,7 +67,7 @@ extension AttributeValueMapper on AttributeValue {
       value: value,
     );
 
-    model.price.target = price?.toModel();
+    model.price.target = priceDelta?.toModel();
 
     if (images.isNotEmpty) {
       model.images.addAll(images.map((i) => i.toModel()));

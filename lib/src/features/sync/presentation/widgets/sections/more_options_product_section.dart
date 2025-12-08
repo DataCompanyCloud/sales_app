@@ -22,7 +22,7 @@ class MoreOptionsProductSectionState extends ConsumerState<MoreOptionsProductSec
     final scheme = theme.colorScheme;
     final productWithImages = ref.watch(productWithImagesProvider);
     final syncState = ref.watch(syncProductsProvider);
-    final isSync = syncState.isLoading || syncState.value?.isSyncing == true;
+    final isSync = syncState.isLoading ; // || syncState.value?.isSyncing == true;
     final cancelSync = ref.read(cancelSyncProvider);
 
     return Column(

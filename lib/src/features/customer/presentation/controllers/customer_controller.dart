@@ -15,17 +15,17 @@ class CustomerController extends AutoDisposeAsyncNotifier<List<Customer>>{
     state = AsyncLoading();
 
     final isConnected = ref.read(isConnectedProvider);
-    // Tenta sincronizar com a API (se possível)
+    print(isConnected);
     if (isConnected) {
       try {
         final service = await ref.read(customerServiceProvider.future);
         final newCustomers = await service.getAll(filter);
 
         if (newCustomers.isNotEmpty) {
-          await repository.saveAll(newCustomers); // Atualiza cache local
+          await repository.saveAll(newCustomers);
         }
       } catch (e) {
-        print(e);
+        print('Erro ao sincronizar clientes: $e');
       }
     }
 

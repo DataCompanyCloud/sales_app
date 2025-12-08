@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/settings/presentation/widgets/section/more_options_customer_section.dart';
 import 'package:sales_app/src/features/settings/presentation/widgets/section/more_options_order_section.dart';
-import 'package:sales_app/src/features/settings/presentation/widgets/section/more_options_product_section.dart';
+import 'package:sales_app/src/features/sync/presentation/widgets/sections/more_options_product_section.dart';
 import 'package:sales_app/src/features/settings/presentation/widgets/section/more_options_storage_section.dart';
 import 'package:sales_app/src/features/settings/providers.dart';
 

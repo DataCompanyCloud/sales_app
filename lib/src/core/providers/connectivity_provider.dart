@@ -6,7 +6,7 @@ enum NetworkStatus {
   offline,
 }
 
-final networkStatusProvider = StreamProvider.autoDispose<NetworkStatus>((ref) async* {
+final networkStatusProvider = StreamProvider<NetworkStatus>((ref) async* {
   final connectivity = Connectivity();
 
   // estado inicial
@@ -30,19 +30,12 @@ NetworkStatus _mapConnectivityResult(List<ConnectivityResult> results) {
 }
 
 
-final isConnectedProvider = StateProvider.autoDispose<bool>((ref) {
+final isConnectedProvider = Provider<bool>((ref) {
   final asyncStatus = ref.watch(networkStatusProvider);
 
-  // Se ainda estiver carregando / erro, considera offline por segurança
-  final value =  asyncStatus.maybeWhen(
-    data: (status) {
-      return status == NetworkStatus.online;
-    },
-    error: (error, _) {
-      return false;
-    },
+  return asyncStatus.maybeWhen(
+    data: (status) => status == NetworkStatus.online,
+    error: (error, _) => false,
     orElse: () => false,
   );
-
-  return value;
 });

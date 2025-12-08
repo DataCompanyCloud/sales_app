@@ -32,16 +32,15 @@ class AuthController extends AsyncNotifier<User?> {
       );
 
       final repo = ref.read(authRepositoryProvider);
-      await repo.save(userLogged);
+      final saved = await repo.save(userLogged);
 
-      state = AsyncData(userLogged);
+      print(saved);
+      state = AsyncData(saved);
     } catch (e, st) {
       state = AsyncError(e, st);
     }
   }
 
-
-  /// Autenticar
   Future<void> authenticate() async {
     state = await AsyncValue.guard(() async {
       final user = state.value;
@@ -58,8 +57,6 @@ class AuthController extends AsyncNotifier<User?> {
       }
       return user;
     });
-
-
   }
 
   Future<void> logout() async {
@@ -69,6 +66,23 @@ class AuthController extends AsyncNotifier<User?> {
       await repo.delete(currentUser);
     }
     state = const AsyncData(null);
+  }
+
+  Future<void> sync() async {
+    state = const AsyncLoading();
+
+    try {
+      final userSync = state.value!.copyWith(
+        isSync: true
+      );
+
+      final repo = ref.read(authRepositoryProvider);
+      await repo.sync(userSync);
+
+      state = AsyncData(userSync);
+    } catch (e, st) {
+      state = AsyncError(e, st);
+    }
   }
 }
 

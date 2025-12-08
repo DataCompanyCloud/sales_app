@@ -48,7 +48,6 @@ class ImageWidgetState extends ConsumerState<ImageWidget>{
 
     // se não tiver path, já cai no fallback
 
-
     return Image.network(
       image.url,
       width: width,

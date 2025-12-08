@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepositoryImpl extends AuthRepository{
   static const _userKey = 'auth_user';
+  static const _syncBaseKey = 'sync_key';
 
   @override
   Future<void> delete(User user) async {
@@ -23,13 +24,33 @@ class AuthRepositoryImpl extends AuthRepository{
     }
 
     final Map<String, dynamic> data = jsonDecode(jsonString);
-    return User.fromJson(data);
+    final user = User.fromJson(data);
+    final isSync = prefs.getBool('${_syncBaseKey}_${user.userId}');
+
+    print(isSync);
+    return user.copyWith(isSync: isSync ?? false);
   }
 
   @override
-  Future<void> save(User user) async {
+  Future<User> save(User user) async {
     final prefs = await SharedPreferences.getInstance();
     final jsonString = jsonEncode(user.toJson());
     await prefs.setString(_userKey, jsonString);
+
+    final isSync = prefs.getBool('${_syncBaseKey}_${user.userId}');
+    print ('${_syncBaseKey}_${user.userId}');
+    if (isSync == null) {
+      await prefs.setBool('${_syncBaseKey}_${user.userId}', false);
+    }
+
+    return user.copyWith(
+      isSync: isSync ?? user.isSync
+    );
+  }
+
+  @override
+  Future<void> sync(User user) async{
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('${_syncBaseKey}_${user.userId}', user.isSync);
   }
 }

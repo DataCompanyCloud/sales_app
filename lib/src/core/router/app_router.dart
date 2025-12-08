@@ -62,26 +62,50 @@ final goRouterProvider = Provider((ref) {
   return GoRouter(
     refreshListenable: authListener,        // aqui ele “ouve” o AuthController
     initialLocation: '/',                   // rota inicial
+    redirectLimit: 10,
     redirect: (BuildContext context, GoRouterState state) {
       final user = authAsync.value;
       final fullPath = state.fullPath ?? "";
+
       final goingToLogin = fullPath == '/login' || fullPath.startsWith('/login');
-      final goingToAuthBiometric = fullPath == '/auth' || fullPath.startsWith('/auth');
+      final goingToAuth = fullPath == '/auth' || fullPath.startsWith('/auth');
+      final goingToSync = fullPath == '/sync' || fullPath.startsWith('/sync');
+
+      final isLogged = user != null;
+      final isSynced = user?.isSync ?? false;
       final biometricValidated = user?.isValidated ?? false;
 
       // Usuário não logado → envia para login
-      if (user == null && !goingToLogin) {
-        return '/login';
+      if (!isLogged) {
+        if (!goingToLogin) {
+          return '/login';
+        }
+        return null;
       }
 
       // Usuário logado mas sem autenticação biométrica → envia para digitalAuth
-      if (user != null && !goingToAuthBiometric && !biometricValidated) {
-        return '/auth';
+      if (!biometricValidated) {
+        if (!goingToAuth) {
+          return '/auth';
+        }
+        return null;
       }
 
-      // Usuário logado e biometria já validada → envia para home
-      if (user != null && biometricValidated && (goingToLogin || goingToAuthBiometric)) {
-        return '/home';
+      // Usuário logado ou autenticado mas não sincronizado → envia para sincronização
+      if (!isSynced) {
+        if (!goingToSync) {
+          return '/sync';
+        }
+
+        return null;
+      }
+
+
+      // Usuário logado ou autenticado e sincronizado → envia para home
+      if (isSynced && biometricValidated) {
+        if ((fullPath == '/' || goingToLogin || goingToAuth || goingToSync)) {
+          return '/home';
+        }
       }
 
       return null;
@@ -93,7 +117,7 @@ final goRouterProvider = Provider((ref) {
       ),
       GoRoute(
           path: '/sync',
-          builder: (ctx, state) => SyncPage(title: "Sincronização")
+          builder: (ctx, state) => SyncPage()
       ),
       ...authRoutes,
       customerRoutes,

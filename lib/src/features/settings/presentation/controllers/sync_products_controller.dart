@@ -4,6 +4,7 @@ import 'package:sales_app/src/features/product/domain/repositories/product_repos
 import 'package:sales_app/src/features/product/domain/valueObjects/image.dart';
 import 'package:sales_app/src/features/product/providers.dart';
 import 'package:sales_app/src/features/settings/presentation/controllers/valueObjects/sync_state.dart';
+import 'package:sales_app/src/features/settings/presentation/controllers/valueObjects/sync_status.dart';
 import 'package:sales_app/src/features/settings/providers.dart';
 
 class SyncProductsNotifier extends AsyncNotifier<SyncState> {
@@ -19,20 +20,14 @@ class SyncProductsNotifier extends AsyncNotifier<SyncState> {
     bool productWithImages = false,
     bool resetAll = false,
   }) async {
-    state = AsyncData(SyncState());
-    final syncValue = state.value;
-
-    if (syncValue == null || syncValue.isSyncing == true) return; // evita duplicar requisições
-
-    if (state.value?.isSyncing == true) return;
-
+    if (state.isLoading) return;
+    state = AsyncData(SyncState(status: SyncStatus.preparing));
     state = const AsyncLoading();
 
     final service = await ref.read(productServiceProvider.future);
     final repository = await ref.read(productRepositoryProvider.future);
     try {
       // Preparação
-
       await NotificationService.initialSyncNotification(
         channel: channel,
         channelDescription: channelDescription,
@@ -43,12 +38,7 @@ class SyncProductsNotifier extends AsyncNotifier<SyncState> {
       final imageService = ref.read(imageServiceProvider);
       final limit = 30;
       final totalLocal = await repository.count();
-      final start = resetAll
-          ? 0
-          : totalLocal
-      ;
-      print(resetAll);
-      print (start);
+      final start = resetAll ? 0 : totalLocal ;
       final total = await service.getCount(ProductFilter());
 
       if (total == totalLocal) {
@@ -61,14 +51,12 @@ class SyncProductsNotifier extends AsyncNotifier<SyncState> {
         );
 
         // salva horário da última sync
-        state = AsyncData(state.value!.copyWith( isSyncing: false, lastSync: DateTime.now()));
+        state = AsyncData(state.value!.copyWith( status: SyncStatus.complete));
         return;
       }
 
-      await Future.delayed(Duration(seconds: 5));
-
       // Inicia sincronização
-      state = AsyncData(syncValue.copyWith(isSyncing: true, total: total));
+      state = AsyncData(state.value!.copyWith(status: SyncStatus.syncing, total: total));
 
       int count = start;
       await NotificationService.showSyncNotification(
@@ -92,7 +80,7 @@ class SyncProductsNotifier extends AsyncNotifier<SyncState> {
           );
 
           ref.read(cancelSyncProvider.notifier).state = false;
-          state = AsyncData(state.value!.copyWith(isSyncing: false, lastSync: DateTime.now()));
+          state = AsyncData(state.value!.copyWith(status: SyncStatus.cancel, total: total));
           return;
         }
 
@@ -101,7 +89,6 @@ class SyncProductsNotifier extends AsyncNotifier<SyncState> {
         );
 
         for (var product in products) {
-
           state = AsyncData(state.value!.copyWith(itemsSyncAmount: count++ ));
 
           if (productWithImages && product.imagesAll.isEmpty) {
@@ -142,9 +129,11 @@ class SyncProductsNotifier extends AsyncNotifier<SyncState> {
       );
 
       // salva horário da última sync
-      state = AsyncData(state.value!.copyWith( isSyncing: false, lastSync: DateTime.now()));
+      state = AsyncData(state.value!.copyWith( status: SyncStatus.complete ));
     } catch (e, st) {
       state = AsyncError(e, st);
     }
   }
+
+
 }

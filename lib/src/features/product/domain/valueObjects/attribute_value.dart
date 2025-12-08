@@ -7,13 +7,22 @@ part 'attribute_value.g.dart';
 
 @freezed
 abstract class AttributeValue with _$AttributeValue{
+  const AttributeValue._();
+
   const factory AttributeValue({
     required int id,
     required String value,
     @Default([]) List<ImageEntity> images,
-    required Money? price,
+    /// Ajuste de preço relativo ao preço base do produto
+    /// null = não altera o preço
+    required Money? priceDelta,
   }) = _AttributeValue;
 
   factory AttributeValue.fromJson(Map<String, dynamic> json) => _$AttributeValueFromJson(json);
 
+
+  ImageEntity? get imagePrimary {
+    if (images.isEmpty) return null;
+    return images.first;
+  }
 }
