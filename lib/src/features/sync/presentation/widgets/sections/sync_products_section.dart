@@ -23,7 +23,7 @@ class SyncProductsSectionState extends ConsumerState<SyncProductsSection> {
     final productWithImages = ref.watch(productWithImagesProvider);
     final syncState = ref.watch(syncProductsProvider);
     final isSync = syncState.isLoading; //; || syncState.value?.isSyncing == true;
-    final cancelSync = ref.read(cancelSyncProvider);
+    final cancelSync = ref.read(cancelProductSyncProvider);
 
     return Card(
       child: Column(
@@ -66,7 +66,7 @@ class SyncProductsSectionState extends ConsumerState<SyncProductsSection> {
                         ),
                       ) ?? false;
                       if (!ok) return;
-                      ref.read(cancelSyncProvider.notifier).state = true;
+                      ref.read(cancelProductSyncProvider.notifier).state = true;
                     },
                     borderRadius: BorderRadius.circular(30),
                     child: Icon(Icons.close),

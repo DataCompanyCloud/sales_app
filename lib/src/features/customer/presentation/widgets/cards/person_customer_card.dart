@@ -92,7 +92,7 @@ class PersonCustomerCard extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            customer.fullName ?? "--",
+                            customer.fullName ?? "--"
                           ),
                           Text(
                             customer.cpf?.formatted ?? "--"

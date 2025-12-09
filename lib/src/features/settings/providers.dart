@@ -16,7 +16,8 @@ final syncCustomersProvider = AsyncNotifierProvider<SyncCustomersNotifier, SyncS
 );
 
 // Cancelar Sincronização
-final cancelSyncProvider = StateProvider<bool>((ref) => false);
+final cancelProductSyncProvider = StateProvider<bool>((ref) => false);
+final cancelCustomerSyncProvider = StateProvider<bool>((ref) => false);
 
 // Flag de permissão para editar a página
 final isMoreOptionsEditableProvider = StateProvider<bool>((ref) => false);

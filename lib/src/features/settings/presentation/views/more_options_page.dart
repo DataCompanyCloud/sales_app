@@ -49,7 +49,7 @@ class MoreOptionsPage extends ConsumerWidget {
                 MoreOptionsCustomerSection(),
                 MoreOptionsStorageSection(),
                 MoreOptionsOrderSection(),
-                MoreOptionsProductSection(),
+                // MoreOptionsProductSection(),
               ],
             ),
           ),

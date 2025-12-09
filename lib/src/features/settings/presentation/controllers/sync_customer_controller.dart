@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/core/notifications/notification_service.dart';
 import 'package:sales_app/src/features/customer/domain/repositories/customer_repository.dart';
@@ -17,7 +16,6 @@ class SyncCustomersNotifier extends AsyncNotifier<SyncState> {
     return SyncState();
   }
 
-  /// TODO: Função de baixar clientes não está funcionando
   Future<void> syncCustomers() async {
     if (state.isLoading) return;
     state = AsyncData(SyncState(status: SyncStatus.preparing));
@@ -36,7 +34,7 @@ class SyncCustomersNotifier extends AsyncNotifier<SyncState> {
 
       final limit = 20;
       final totalLocal = await repository.count();
-      final start = max(0, totalLocal);
+      final start = 0;
       final total = await service.getCount(CustomerFilter());
 
       if (total == totalLocal) {
@@ -66,7 +64,7 @@ class SyncCustomersNotifier extends AsyncNotifier<SyncState> {
 
       for (int i = start; i < total; i += limit) {
 
-        final cancelSync = ref.read(cancelSyncProvider);
+        final cancelSync = ref.read(cancelCustomerSyncProvider);
         if (cancelSync) {
           NotificationService.completeSyncNotification(
             channel: channel,
@@ -75,7 +73,7 @@ class SyncCustomersNotifier extends AsyncNotifier<SyncState> {
             body: "O download foi interrompido pelo usuário.",
           );
 
-          ref.read(cancelSyncProvider.notifier).state = false;
+          ref.read(cancelCustomerSyncProvider.notifier).state = false;
           state = AsyncData(state.value!.copyWith(status: SyncStatus.cancel, total: total));
           return;
         }

@@ -99,7 +99,7 @@ class CustomerRepositoryImpl extends CustomerRepository{
           );
         }
 
-        customerBox.put(newModel);
+        return customerBox.put(newModel);
       }
     });
   }

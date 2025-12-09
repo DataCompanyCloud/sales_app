@@ -11,7 +11,7 @@ class SyncProductsSection extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      SyncProductsSectionState();
+    SyncProductsSectionState();
 }
 
 class SyncProductsSectionState extends ConsumerState<SyncProductsSection> {
@@ -23,7 +23,7 @@ class SyncProductsSectionState extends ConsumerState<SyncProductsSection> {
     final scheme = theme.colorScheme;
     final productWithImages = ref.watch(productWithImagesProvider);
     final syncState = ref.watch(syncProductsProvider);
-    final cancelSync = ref.watch(cancelSyncProvider);
+    final cancelSync = ref.watch(cancelProductSyncProvider);
 
     final isSync = syncState.value?.status == SyncStatus.syncing;
     final isCancel = cancelSync || syncState.value?.status == SyncStatus.cancel;
@@ -84,7 +84,7 @@ class SyncProductsSectionState extends ConsumerState<SyncProductsSection> {
       margin: const EdgeInsets.symmetric(vertical: 4),
       decoration: BoxDecoration(
 
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(18),
         border: Border.all(
           color: borderColor,
           width: 2
@@ -176,14 +176,14 @@ class SyncProductsSectionState extends ConsumerState<SyncProductsSection> {
                               final ok = await showDialog(
                                 context: context,
                                 builder: (context) => const ConfirmationDialog(
-                                  title: "Cancelar Donwload",
+                                  title: "Cancelar Download",
                                   description:
                                   "Tem certeza que deseja cancelar o download?\nTodo o progresso será perdido.",
                                 ),
                               ) ??
                                   false;
                               if (!ok) return;
-                              ref.read(cancelSyncProvider.notifier).state = true;
+                              ref.read(cancelProductSyncProvider.notifier).state = true;
                             },
                             borderRadius: BorderRadius.circular(30),
                             child: Icon(
@@ -215,8 +215,7 @@ class SyncProductsSectionState extends ConsumerState<SyncProductsSection> {
 
                   if (!ok) return;
 
-                  await ref.read(syncProductsProvider.notifier).syncProducts(productWithImages: productWithImages,
-                );
+                  await ref.read(syncProductsProvider.notifier).syncProducts(productWithImages: productWithImages);
               },
             ),
             isSync
@@ -285,8 +284,7 @@ class SyncProductsSectionState extends ConsumerState<SyncProductsSection> {
                             child: Column(
                               children: [
                                 Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text("$count/$total"),
                                     Text("${(progress * 100).toStringAsFixed(0)}%"),

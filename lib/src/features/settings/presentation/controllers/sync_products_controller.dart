@@ -69,8 +69,7 @@ class SyncProductsNotifier extends AsyncNotifier<SyncState> {
       );
 
       for (int i = start; i < total; i += limit) {
-        /// TODO: Reavaliar essa função
-        final cancelSync = ref.read(cancelSyncProvider);
+        final cancelSync = ref.read(cancelProductSyncProvider);
         if (cancelSync) {
           NotificationService.completeSyncNotification(
             channel: channel,
@@ -79,7 +78,7 @@ class SyncProductsNotifier extends AsyncNotifier<SyncState> {
             body: "O download foi interrompido pelo usuário.",
           );
 
-          ref.read(cancelSyncProvider.notifier).state = false;
+          ref.read(cancelProductSyncProvider.notifier).state = false;
           state = AsyncData(state.value!.copyWith(status: SyncStatus.cancel, total: total));
           return;
         }

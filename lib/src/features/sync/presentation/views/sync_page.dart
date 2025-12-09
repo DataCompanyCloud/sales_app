@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/auth/providers.dart';
 import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
 import 'package:sales_app/src/features/sync/presentation/widgets/sections/load_card_test.dart';
+import 'package:sales_app/src/features/sync/presentation/widgets/sections/sync_customer_section.dart';
 
 class SyncPage extends ConsumerWidget {
 
@@ -27,7 +28,8 @@ class SyncPage extends ConsumerWidget {
           children: [
             // SyncProductsSection(),
             SyncProductsSection(),
-            SizedBox(height: 12,),
+            SyncCustomerSection(),
+            SizedBox(height: 12),
             // DownloadCard()
           ],
         ),
