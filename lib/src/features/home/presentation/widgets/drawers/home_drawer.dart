@@ -57,6 +57,7 @@ class HomeDrawer extends ConsumerWidget {
                 ),
                 ListTile(
                   onTap: () {
+                    Navigator.of(context).pop();
                     context.pushNamed(MyProfileRouter.myProfile.name);
                   },
                   leading: CircleAvatar(
@@ -78,7 +79,7 @@ class HomeDrawer extends ConsumerWidget {
                 Padding(
                   padding: EdgeInsets.only(left: 24, top: 32, bottom: 16),
                   child: Text(
-                    "Serviços".toUpperCase(),
+                    "SERVIÇOS",
                     style: TextStyle(
                       color: Colors.white70
                     ),
@@ -109,6 +110,7 @@ class HomeDrawer extends ConsumerWidget {
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () {
+                    Navigator.of(context).pop();
                     context.pushNamed(MyProfileRouter.myProfile.name);
                   },
                 ),
@@ -137,6 +139,7 @@ class HomeDrawer extends ConsumerWidget {
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () {
+                    Navigator.of(context).pop();
                     context.pushNamed(FaqRouter.faq.name);
                   },
                 ),
@@ -165,6 +168,7 @@ class HomeDrawer extends ConsumerWidget {
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () {
+                    Navigator.of(context).pop();
                     context.pushNamed(SettingsRouter.settings.name);
                   },
                 ),
@@ -172,7 +176,7 @@ class HomeDrawer extends ConsumerWidget {
                 Padding(
                   padding: EdgeInsets.only(left: 24, top: 32, bottom: 16),
                   child: Text(
-                    "Conta".toUpperCase(),
+                    "CONTA",
                     style: TextStyle(
                       color: Colors.white70
                     ),

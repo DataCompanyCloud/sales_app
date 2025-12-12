@@ -143,21 +143,6 @@ class HomePage extends ConsumerWidget {
                       trailing: Icon(Icons.chevron_right),
                       onTap: () {},
                     ),
-                    ListTile(
-                      visualDensity: VisualDensity(vertical: 3),
-                      leading: CircleAvatar(
-                        backgroundColor: Colors.grey.shade100,
-                        child: Icon(Icons.support_agent_outlined, color: Colors.black87),
-                      ),
-                      title: Text("Suporte"),
-                      trailing: Icon(Icons.chevron_right),
-                      onTap: () {},
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(12), bottomRight: Radius.circular(12)
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),
