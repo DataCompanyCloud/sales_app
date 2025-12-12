@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sales_app/src/core/router/app_router.dart';
 import 'package:sales_app/src/features/settings/presentation/router/settings_router.dart';
 
-final isDarkModeEnabledProvider = StateProvider<bool>((ref) => false);
 final isNotificationsOnProvider = StateProvider<bool>((ref) => false);
 
 class SettingsPage extends ConsumerWidget {
@@ -11,7 +11,6 @@ class SettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(isDarkModeEnabledProvider);
     final isNotificationsOn = ref.watch(isNotificationsOnProvider);
 
     return Scaffold(
@@ -19,7 +18,7 @@ class SettingsPage extends ConsumerWidget {
         title: Text("Configurações"),
         leading: IconButton(
           onPressed: () {
-            context.pop();
+            context.goNamed(AppRoutes.home.name);
           },
           icon: Icon(Icons.arrow_back_ios_new, size: 22),
         ),
@@ -80,53 +79,6 @@ class SettingsPage extends ConsumerWidget {
                         leading: Icon(Icons.lock),
                         trailing: Icon(Icons.chevron_right),
                         onTap: () {},
-                      ),
-                    ],
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 16, left: 12),
-                    child: Text(
-                      "Tema".toUpperCase(),
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey
-                      ),
-                    ),
-                  ),
-                ),
-                Card(
-                  child: Column(
-                    children: [
-                      ListTile(
-                        title: Text("Tamanho da fonte"),
-                        leading: Icon(Icons.text_increase),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              "Pequeno",
-                              style: TextStyle(
-                                fontSize: 12
-                              ),
-                            ),
-                            SizedBox(width: 4),
-                            Icon(Icons.chevron_right),
-                          ],
-                        ),
-                        onTap: () {},
-                      ),
-                      ListTile(
-                        title: Text("Tema escuro"),
-                        leading: Icon(Icons.nightlight),
-                        trailing: Switch(
-                          value: isDarkMode,
-                          onChanged: (newValue) {
-                            ref.read(isDarkModeEnabledProvider.notifier).state = newValue;
-                          }
-                        ),
                       ),
                     ],
                   ),
