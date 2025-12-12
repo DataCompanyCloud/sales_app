@@ -8,7 +8,6 @@ import 'package:sales_app/src/features/customer/domain/repositories/customer_rep
 
 class CustomerService {
   final CustomerRepository repository;
-
   final ApiClient apiClient;
 
   CustomerService(this.apiClient, this.repository);
@@ -73,6 +72,11 @@ class CustomerService {
     return json['serverId'] as int;
 
   }
+
+  Future<int> addCustomer(Customer customer) async {
+    return putCustomer(customer);
+  }
+
 }
 
 

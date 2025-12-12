@@ -6,15 +6,15 @@ import 'package:sales_app/src/features/settings/presentation/widgets/dialogs/opt
 import 'package:sales_app/src/features/settings/providers.dart';
 import 'package:sales_app/src/widgets/dialogs/confirmation_dialog.dart';
 
-class SyncCustomerSection extends ConsumerStatefulWidget {
-  const SyncCustomerSection({super.key});
+class SyncCustomersSection extends ConsumerStatefulWidget {
+  const SyncCustomersSection({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => SyncCustomerSectionState();
 
 }
 
-class SyncCustomerSectionState extends ConsumerState<SyncCustomerSection> {
+class SyncCustomerSectionState extends ConsumerState<SyncCustomersSection> {
 
   @override
   Widget build(BuildContext context) {
@@ -92,18 +92,22 @@ class SyncCustomerSectionState extends ConsumerState<SyncCustomerSection> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             ListTile(
-              title: Text(
-                isSync && isCancel
-                  ? "Cancelando..."
-                  : isSync
-                  ? "Sincronizando clientes..."
-                  : isCancel
-                  ? "Cancelado"
-                  : isComplete
-                  ? "Finalizado"
-                  : "Baixar clientes",
-                textAlign: TextAlign.start,
-                key: ValueKey(titleText),
+              title: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 200),
+                transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child),
+                child: Text(
+                  isSync && isCancel
+                    ? "Cancelando..."
+                    : isSync
+                    ? "Sincronizando clientes..."
+                    : isCancel
+                    ? "Cancelado"
+                    : isComplete
+                    ? "Finalizado"
+                    : "Baixar clientes",
+                  textAlign: TextAlign.start,
+                  key: ValueKey(titleText),
+                ),
               ),
               leading: InkWell(
                 onTap: () {
@@ -150,11 +154,12 @@ class SyncCustomerSectionState extends ConsumerState<SyncCustomerSection> {
                   return AnimatedSwitcher(
                     duration: const Duration(milliseconds: 200),
                     transitionBuilder: (child, animation) => ScaleTransition(scale: animation, child: child),
-                    child:
-                    isCancel && isSync
+                    child: isComplete
                       ? SizedBox.shrink()
-                      : isSync
-                        ? SizedBox(
+                      : isCancel && isSync
+                        ? SizedBox.shrink()
+                        : isSync
+                    ? SizedBox(
                       key: const ValueKey('close'),
                       width: 30,
                       height: 30,
@@ -186,9 +191,9 @@ class SyncCustomerSectionState extends ConsumerState<SyncCustomerSection> {
                   );
                 },
               ),
-              onTap: isSync
-                  ? null
-                  : () async {
+              onTap: (isSync || isComplete)
+                ? null
+                : () async {
                 final ok = await showDialog<bool>(
                   context: context,
                   builder: (context) => ConfirmationDialog(
@@ -196,7 +201,6 @@ class SyncCustomerSectionState extends ConsumerState<SyncCustomerSection> {
                     description: "Este é um processo lento e recomendamos que você esteja conectado a uma rede Wi-Fi.\n\nDeseja continuar?",
                   )
                 ) ?? false;
-
                 if (!ok) return;
 
                 await ref.read(syncCustomersProvider.notifier).syncCustomers();
@@ -206,17 +210,13 @@ class SyncCustomerSectionState extends ConsumerState<SyncCustomerSection> {
               padding: const EdgeInsets.only(left: 16, right: 16),
               child: Consumer(
                 builder: (context, ref, _) {
+                  final progress = syncState.value?.progress ?? 0;
                   final count = syncState.value?.itemsSyncAmount ?? 0;
                   final total = syncState.value?.total ?? 0;
-                  final progress = total == 0 ? 0.0 : count/total;
 
-                  if (progress <= 0 || progress == 1.0) {
-                    return SizedBox.shrink();
-                  }
+                  if (progress <= 0) return SizedBox.shrink();
 
-                  if (progress >= 1.0) {
-                    return SizedBox.shrink();
-                  }
+                  if (progress >= 1.0) return SizedBox.shrink();
 
                   return Column(
                     children: [

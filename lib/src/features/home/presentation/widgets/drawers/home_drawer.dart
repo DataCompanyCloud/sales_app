@@ -208,7 +208,6 @@ class HomeDrawer extends ConsumerWidget {
                     ) ?? false;
 
                     if (!ok) return;
-
                     ref.read(authControllerProvider.notifier).logout();
                   },
                   title: Text(

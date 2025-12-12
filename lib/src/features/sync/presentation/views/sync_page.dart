@@ -4,7 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/auth/providers.dart';
 import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
 import 'package:sales_app/src/features/sync/presentation/widgets/sections/load_card_test.dart';
-import 'package:sales_app/src/features/sync/presentation/widgets/sections/sync_customer_section.dart';
+import 'package:sales_app/src/features/sync/presentation/widgets/sections/sync_products_section.dart';
+import 'package:sales_app/src/features/sync/presentation/widgets/sections/sync_customers_section.dart';
 
 class SyncPage extends ConsumerWidget {
 
@@ -26,9 +27,8 @@ class SyncPage extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // SyncProductsSection(),
             SyncProductsSection(),
-            SyncCustomerSection(),
+            SyncCustomersSection(),
             SizedBox(height: 12),
             // DownloadCard()
           ],

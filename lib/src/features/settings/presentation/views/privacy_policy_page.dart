@@ -30,7 +30,7 @@ class PrivacyPolicyPage extends ConsumerWidget {
                 size: 76,
               ),
             ),
-            
+
             SizedBox(height: 32),
             Text(
               "Privacidade de Usuário",

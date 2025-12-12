@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/core/notifications/notification_service.dart';
 import 'package:sales_app/src/features/customer/domain/repositories/customer_repository.dart';
@@ -34,7 +35,7 @@ class SyncCustomersNotifier extends AsyncNotifier<SyncState> {
 
       final limit = 20;
       final totalLocal = await repository.count();
-      final start = 0;
+      final start = max(0, totalLocal);
       final total = await service.getCount(CustomerFilter());
 
       if (total == totalLocal) {
@@ -83,7 +84,7 @@ class SyncCustomersNotifier extends AsyncNotifier<SyncState> {
         );
 
         for (var customer in customers) {
-          state = AsyncData(state.value!.copyWith(itemsSyncAmount: count ++));
+          state = AsyncData(state.value!.copyWith(itemsSyncAmount: ++count));
 
           var newCustomer = customer.copyWith();
           ref.read(currentDownloadingCustomerProvider.notifier).state = newCustomer;

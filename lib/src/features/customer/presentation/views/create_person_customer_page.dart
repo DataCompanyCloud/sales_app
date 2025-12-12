@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sales_app/src/features/company/domain/valueObjects/brazilian_state.dart';
+import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/address.dart';
 import 'package:sales_app/src/features/customer/presentation/router/customer_router.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/dialogs/quit_dialog.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/indicator/step_indicator.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/textFields/textfield_create_customer.dart';
+import 'package:sales_app/src/features/customer/providers.dart';
 
 class CreatePersonCustomerPage extends ConsumerStatefulWidget {
   const CreatePersonCustomerPage({
@@ -214,32 +218,41 @@ class CreatePersonCustomerState extends ConsumerState<CreatePersonCustomerPage>{
         ),
       ),
       floatingActionButton: currentStep < steps.length - 1
-        ? FloatingActionButton(
-          backgroundColor: Colors.blue,
-          onPressed: () {
-            nextStep();
-          },
-          child: Icon(
-            Icons.arrow_forward,
-            color: Colors.white,
-          ),
-        )
-        : FloatingActionButton(
-          backgroundColor: Colors.blue,
-          onPressed: () async {
-            try {
-              if (context.mounted) {
-                context.goNamed(CustomerRouter.customer.name);
-              }
-            } catch (e) {
-              print(e);
-            }
-          },
-          child: Icon(
-            Icons.check,
-            color: Colors.white,
-          ),
+      ? FloatingActionButton(
+        onPressed: () {
+          nextStep();
+        },
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30)
         ),
+        child: Icon(
+          Icons.arrow_forward,
+          color: Colors.white,
+        ),
+      )
+      : FloatingActionButton(
+        onPressed: () async {
+          try {
+            // final customer = a;
+            // final service = await ref.read(customerServiceProvider.future);
+            // final newId = await service.addCustomer(customer);
+            // print("Cliente salvo com ID: $newId");
+
+            if (context.mounted) {
+              context.goNamed(CustomerRouter.customer.name);
+            }
+          } catch (e) {
+            print(e);
+          }
+        },
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30)
+        ),
+        child: Icon(
+          Icons.check,
+          color: Colors.white,
+        ),
+      ),
     );
   }
 }

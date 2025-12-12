@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sales_app/src/features/auth/providers.dart';
+import 'package:sales_app/src/widgets/dialogs/confirmation_dialog.dart';
 
 class MyProfilePage extends ConsumerWidget {
   const MyProfilePage({ super.key });
@@ -172,7 +174,7 @@ class MyProfilePage extends ConsumerWidget {
                       Icon(Icons.location_on),
                       SizedBox(width: 4),
                       Text(
-                        "Localização",
+                        "Endereço",
                         style: TextStyle(
                           color: Colors.grey
                         ),
@@ -235,7 +237,18 @@ class MyProfilePage extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.only(left: 12, right: 12),
             child: GestureDetector(
-              onTap: () {},
+              onTap: () async {
+                final ok = await showDialog<bool>(
+                  context: context,
+                  builder: (context) => ConfirmationDialog(
+                    title: "Tem certeza que deseja fazer logout?",
+                    description: null,
+                  )
+                ) ?? false;
+
+                if (!ok) return;
+                ref.read(authControllerProvider.notifier).logout();
+              },
               child: Container(
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
