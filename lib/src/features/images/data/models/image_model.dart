@@ -1,5 +1,5 @@
 import 'package:objectbox/objectbox.dart';
-import 'package:sales_app/src/features/product/domain/valueObjects/image.dart';
+import 'package:sales_app/src/features/images/domain/entities/image.dart';
 
 @Entity()
 class ImageModel {
@@ -7,13 +7,13 @@ class ImageModel {
   int id;
 
   @Index()
-  int imageId;
+  String code;
   String url;
   String? localUrl;
 
   ImageModel ({
     this.id = 0,
-    this.imageId = 0,
+    required this.code,
     required this.url,
     required this.localUrl
   });
@@ -21,10 +21,10 @@ class ImageModel {
 
 extension ImageModelMapper on ImageModel {
   /// De ImageModel → Image
-  ImageEntity toEntity() => ImageEntity(imageId: imageId, url: url, localUrl: localUrl);
+  ImageEntity toEntity() => ImageEntity(code: code, url: url, localUrl: localUrl);
 }
 
 extension ImageMapper on ImageEntity {
   /// De Image → ImageModel
-  ImageModel toModel() => ImageModel(imageId: imageId, url: url, localUrl: localUrl);
+  ImageModel toModel() => ImageModel(code: code, url: url, localUrl: localUrl);
 }

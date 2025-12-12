@@ -4,9 +4,9 @@ part 'image.freezed.dart';
 part 'image.g.dart';
 
 @freezed
-abstract class ImageEntity with _$ImageEntity{
+abstract class ImageEntity with _$ImageEntity {
   const factory ImageEntity({
-    required int imageId,
+    required String code,
     required String url,
     required String? localUrl
   }) = _ImageEntity;

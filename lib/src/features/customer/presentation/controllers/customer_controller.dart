@@ -15,7 +15,6 @@ class CustomerController extends AutoDisposeAsyncNotifier<List<Customer>>{
     state = AsyncLoading();
 
     final isConnected = ref.read(isConnectedProvider);
-    print(isConnected);
     if (isConnected) {
       try {
         final service = await ref.read(customerServiceProvider.future);

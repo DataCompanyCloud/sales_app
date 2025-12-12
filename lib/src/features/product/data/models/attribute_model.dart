@@ -1,7 +1,8 @@
 import 'package:objectbox/objectbox.dart' hide Property ;
 import 'package:sales_app/src/features/customer/data/models/money_model.dart';
+import 'package:sales_app/src/features/images/domain/entities/image.dart';
 import 'package:sales_app/src/features/product/data/models/attribute_value_model.dart';
-import 'package:sales_app/src/features/product/data/models/image_model.dart';
+import 'package:sales_app/src/features/images/data/models/image_model.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/attribute.dart';
 
 @Entity()
@@ -65,5 +66,13 @@ extension AttributeMapper on Attribute {
     }
 
     return model;
+  }
+
+  Attribute mapImages(ImageEntity Function(ImageEntity) transform) {
+    return copyWith(
+      values: values
+        .map((v) => v.mapImages(transform))
+        .toList(),
+    );
   }
 }

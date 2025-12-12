@@ -1,7 +1,8 @@
 import 'package:objectbox/objectbox.dart';
 import 'package:sales_app/src/features/customer/data/models/money_model.dart';
+import 'package:sales_app/src/features/images/domain/entities/image.dart';
 import 'package:sales_app/src/features/product/data/models/attribute_model.dart';
-import 'package:sales_app/src/features/product/data/models/image_model.dart';
+import 'package:sales_app/src/features/images/data/models/image_model.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/attribute_value.dart';
 
 @Entity()
@@ -74,5 +75,11 @@ extension AttributeValueMapper on AttributeValue {
     }
 
     return model;
+  }
+
+  AttributeValue mapImages(ImageEntity Function(ImageEntity) transform) {
+    return copyWith(
+      images: images.map(transform).toList(),
+    );
   }
 }

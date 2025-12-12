@@ -3,8 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:readmore/readmore.dart';
+import 'package:sales_app/src/features/images/presentation/controllers/valueObjects/product_image_cached.dart';
+import 'package:sales_app/src/features/images/presentation/widgets/product_image_cached_widget.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
-import 'package:sales_app/src/widgets/image_widget.dart';
+import 'package:sales_app/src/features/images/presentation/widgets/image_widget.dart';
 
 class ProductDetails extends ConsumerStatefulWidget {
   final Product product;
@@ -106,8 +108,11 @@ class ProductDetailsState extends ConsumerState<ProductDetails>{
                               currentPage.value = index;
                             },
                             itemBuilder: (context, index) {
-                              return ImageWidget(
+                              return ProductImageCachedWidget(
+                                productId: product.productId,
                                 image: image,
+                                width: 60,
+                                height: 60,
                                 fit: BoxFit.cover
                               );
                             },

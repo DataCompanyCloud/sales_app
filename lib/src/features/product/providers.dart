@@ -8,6 +8,7 @@ import 'package:sales_app/src/features/product/domain/repositories/product_repos
 import 'package:sales_app/src/features/product/presentation/controllers/product_cart_controller.dart';
 import 'package:sales_app/src/features/product/presentation/controllers/product_controller.dart';
 import 'package:sales_app/src/features/product/presentation/controllers/product_details_controller.dart';
+import 'package:sales_app/src/features/product/presentation/controllers/valueObjects/products_pagination.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_product.dart';
 
 final productRepositoryProvider = FutureProvider.autoDispose<ProductRepository>((ref) async {
@@ -15,13 +16,15 @@ final productRepositoryProvider = FutureProvider.autoDispose<ProductRepository>(
   return ProductRepositoryImpl(store);
 });
 
-final productSearchProvider = StateProvider.autoDispose<ProductFilter>((ref) {
+final productFilterProvider = StateProvider.autoDispose<ProductFilter>((ref) {
   return ProductFilter();
 });
 
-final productControllerProvider = AutoDisposeAsyncNotifierProvider<ProductController, List<Product>> (() {
+final productControllerProvider = AutoDisposeAsyncNotifierProvider<ProductController, ProductsPagination> (() {
   return ProductController();
 });
+
+
 
 final productDetailsControllerProvider = AsyncNotifierProvider.autoDispose.family<ProductDetailsController, Product, int>(
   ProductDetailsController.new,

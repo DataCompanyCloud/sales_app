@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/my_device.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/navigator/navigator_bar.dart';
+import 'package:sales_app/src/features/product/presentation/router/product_router.dart';
+import 'package:sales_app/src/features/product/presentation/widgets/card/product_card.dart';
+import 'package:sales_app/src/features/product/presentation/widgets/card/product_details_card.dart';
 import 'package:sales_app/src/features/product/presentation/widgets/draggable/draggable_filter_product.dart';
 import 'package:sales_app/src/features/product/presentation/widgets/draggable/draggable_layout_product.dart';
-import 'package:sales_app/src/features/product/presentation/widgets/layouts/grid_view_column.dart';
 import 'package:sales_app/src/features/product/presentation/widgets/skeleton/grid_view_column_skeleton.dart';
 import 'package:sales_app/src/features/product/providers.dart';
 
@@ -17,57 +21,83 @@ class ProductPage extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => ProductPageState();
 }
 
-enum LayoutProduct {
-  listSmallCard,
-  listBigCard,
-  gridColumn2,
-  gridColumn3
-}
 
 class ProductPageState extends ConsumerState<ProductPage>{
-  final productIndexProvider = StateProvider<int>((ref) => 0);
-  final isSearchOpenProvider = StateProvider<bool>((_) => false);
-  final searchQueryProvider = StateProvider<String>((_) => '');
   final _searchController = TextEditingController();
+  final _searchFocusNode = FocusNode();
+  final _scrollController = ScrollController();
+  final _isSearchOpenProvider = StateProvider<bool>((_) => false);
+  final _crossAxisCountProvider = StateProvider<double>((_) => 2);
+  double? _draftSliderValue; // valor temporário enquanto arrasta
 
-  LayoutProduct layoutProduct = LayoutProduct.gridColumn2;
-
-  void updateLayout(LayoutProduct layout) {
-    layoutProduct = layout;
-  }
 
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(_onScroll);
   }
 
   @override
   void dispose() {
     _searchController.dispose();
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    _searchFocusNode.dispose();
     super.dispose();
   }
 
+
+  void _onScroll() {
+    // 1) Evita crash quando o controller ainda não está anexado
+    if (!_scrollController.hasClients) return;
+
+    // 2) Pega o estado atual do controller (Riverpod)
+    final state = ref.read(productControllerProvider).valueOrNull;
+    if (state == null) return;
+
+    // 3) Guardas para paginação
+    if (!state.hasMore) return;
+    if (state.isLoadingMore) return;
+
+    final position = _scrollController.position;
+
+    // Evita disparar quando não dá pra scrollar (ex.: lista curta)
+    if (!position.hasContentDimensions) return;
+
+    const threshold = 200.0;
+    final remaining = position.maxScrollExtent - position.pixels;
+
+    if (remaining <= threshold) {
+      _loadMoreProducts();
+    }
+  }
+
+  Future<void> _loadMoreProducts() async {
+    await ref.read(productControllerProvider.notifier).loadMore();
+  }
+
   void _toggleSearch() {
-    final isOpen = ref.read(isSearchOpenProvider.notifier);
+    final isOpen = ref.read(_isSearchOpenProvider.notifier);
     isOpen.state = !isOpen.state;
   }
 
   @override
   Widget build(BuildContext context) {
+    final filter = ref.watch(productFilterProvider);
     final controller = ref.watch(productControllerProvider);
-    final currentIndex = ref.watch(productIndexProvider);
+    final isSearchOpen = ref.watch(_isSearchOpenProvider);
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
 
-    final type = MyDevice.getType(context);
+    // final device = MyDevice.getType(context);
+    // final isMobile = device == DeviceType.mobile;
 
-    if (type == DeviceType.mobile) {
-      print("Celular");
-    }
+    // final min = isMobile ? 1.0 : 1.0;
+    // final max = isMobile ? 4.0 : 8.0;
 
-    if (type == DeviceType.tablet) {
-      print("Tablet");
-    }
-
-    final isSearchOpen = ref.watch(isSearchOpenProvider);
+    final columns = ref.watch(_crossAxisCountProvider);
+    // final sliderValue = (_draftSliderValue ?? columns.toDouble())
+    //     .clamp(min.toDouble(), max.toDouble());
 
     return controller.when(
       error: (error, stack) => ErrorPage(
@@ -77,69 +107,24 @@ class ProductPageState extends ConsumerState<ProductPage>{
       ),
       loading: () => Scaffold(
         body: GridViewColumnSkeleton(),
-        bottomNavigationBar: CustomBottomNavigationBar(currentIndex: currentIndex),
+        bottomNavigationBar: CustomBottomNavigationBar(currentIndex: 0),
       ),
-      data: (products) {
-        if(products.isEmpty) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text("Produtos"),
-              actions: [
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.remove_red_eye)
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.filter_alt)
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.search),
-                ),
-              ],
-              foregroundColor: Colors.white,
-            ),
-            body: Center(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.cloud_rounded,
-                      size: 96,
-                    ),
-                    Padding(padding: EdgeInsets.only(top: 12)),
-                    Text("Nenhum produto para ser mostrado."),
-                    Padding(padding: EdgeInsets.only(top: 16)),
-                    InkWell(
-                      onTap: () => ref.refresh(productControllerProvider.future),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Text("Tentar novamente", style: TextStyle(color: Colors.blue),),
-                      )
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            bottomNavigationBar: CustomBottomNavigationBar(currentIndex: currentIndex),
-          );
-        }
+      data: (cubit) {
+        final products = cubit.items;
+
         return Scaffold(
           appBar: AppBar(
             title: Text("Produtos"),
             actions: [
-              IconButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) => DraggableLayoutProduct()
-                  );
-                },
-                icon: Icon(Icons.remove_red_eye)
-              ),
+              // IconButton(
+              //   onPressed: () {
+              //     showModalBottomSheet(
+              //       context: context,
+              //       builder: (context) => DraggableLayoutProduct()
+              //     );
+              //   },
+              //   icon: Icon(Icons.remove_red_eye)
+              // ),
               IconButton(
                 onPressed: () {
                   showModalBottomSheet(
@@ -163,46 +148,179 @@ class ProductPageState extends ConsumerState<ProductPage>{
             child: Column(
               children: [
                 AnimatedSize(
-                  duration: Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
-                  child: isSearchOpen
+                    duration: Duration(milliseconds: 300),
+                    reverseDuration: Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                    onEnd: () {
+                      if (isSearchOpen) {
+                        FocusScope.of(context).requestFocus(_searchFocusNode);
+                      }
+                    },
+                    child: isSearchOpen
                       ? Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    child: TextField(
-                      controller: _searchController,
-                      autofocus: true,
-                      decoration: InputDecoration(
-                        hintText: "Pesquisar...",
-                        prefixIcon: Icon(Icons.search),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
                         ),
-                      ),
-                      onChanged: (value) {
-                        ref.read(searchQueryProvider.notifier).state = value;
-                        /// TODO: Adicionar lógica para filtro de produtos
-                      },
-                    ),
-                  ) : SizedBox.shrink(),
-                ),
-                Flexible(
-                  child: GridViewColumn(products: products),
-                ),
-                // Flexible(
-                //   child: switch(layoutProduct) {
-                //     LayoutProduct.listSmallCard => ListViewColumnSmall(products: products),
-                //     LayoutProduct.listBigCard => ListViewColumnBig(products: products),
-                //     LayoutProduct.gridColumn2 => GridViewColumn2(products: products),
-                //     LayoutProduct.gridColumn3 => GridViewColumn3(products: products),
-                //   },
+                        child: TextField(
+                          controller: _searchController,
+                          focusNode: _searchFocusNode,
+                          autofocus: false,
+                          decoration: InputDecoration(
+                            hintText: "Pesquisar...",
+                            prefixIcon: Icon(Icons.search),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          onSubmitted: (value) {
+                            ref.read(productFilterProvider.notifier).state = filter.copyWith(
+                                start: 0,
+                                q: value
+                            );
+
+                            _searchFocusNode.unfocus();
+                            _toggleSearch();
+                          },
+                        ),
+                      ) : SizedBox.shrink(),
+                  ),
+                // SizedBox(
+                //   width: double.infinity,
+                //   child: Slider(
+                //     value: columns,
+                //     min: min,
+                //     max: max,
+                //     divisions: (max - min).toInt(),
+                //     label: '${sliderValue.round()} colunas',
+                //     onChanged: (v) {
+                //       // setState(() {
+                //       //   if (isMobile) {
+                //       //     _columnsMobile = v.round();
+                //       //   } else {
+                //       //     _columnsDesktop = v.round();
+                //       //   }
+                //       // });
+                //       // setState(() => _draftSliderValue = v);
+                //       // comita no Riverpod ao soltar
+                //       final newCols = v.round().clamp(min, max);
+                //       ref.read(_crossAxisCountProvider.notifier).state = newCols.toDouble();
+                //       setState(() => _draftSliderValue = null);
+                //
+                //     },
+                //     onChangeEnd: (v) {
+                //       // comita no Riverpod ao soltar
+                //       final newCols = v.round().clamp(min, max);
+                //       ref.read(_crossAxisCountProvider.notifier).state = newCols.toDouble();
+                //       setState(() => _draftSliderValue = null);
+                //     },
+                //   ),
                 // ),
+                Expanded(
+                  child:
+                    products.isEmpty
+                    ? Center(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.cloud_rounded,
+                                size: 96,
+                              ),
+                              SizedBox(height: 12),
+                              Text("Nenhum produto para ser mostrado."),
+                              SizedBox(height: 16),
+                              InkWell(
+                                  onTap: () => ref.refresh(productControllerProvider.future),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: Text("Tentar novamente", style: TextStyle(color: Colors.blue)),
+                                  )
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : Stack(
+                      children: [
+                        MasonryGridView.builder(
+                          controller: _scrollController,
+                          gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: columns.toInt(),
+                          ),
+                          padding: const EdgeInsets.all(14),
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          mainAxisSpacing: 12,
+                          crossAxisSpacing: 12,
+                          cacheExtent: 900,
+                          itemCount: products.length,
+                          itemBuilder: (context, i) {
+                            final product = products[i];
+
+                            return Card(
+                              margin: EdgeInsets.zero,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              clipBehavior: Clip.antiAlias,
+                              child: InkWell(
+                                onTap: () {
+                                  context.pushNamed(ProductRouter.productDetails.name, extra: product);
+                                },
+                                child: 
+                                columns > 1    
+                                  ? ProductCard(product: product)
+                                  : ProductDetailsCard(product: product)
+                                ,
+                              ),
+                            );
+                          },
+                        ),
+                        cubit.isLoadingMore
+                          ? SafeArea(
+                            top: false,
+                            child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Container(
+                                margin: const EdgeInsets.all(16),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 10,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.surface,
+                                  borderRadius: BorderRadius.circular(16),
+                                  border: Border.all(color: scheme.outline, width: 2)
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      width: 18,
+                                      height: 18,
+                                      child: const CircularProgressIndicator(strokeWidth: 2.4),
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Text(
+                                      'Carregando mais produtos...',
+                                      style: Theme.of(context).textTheme.bodyMedium,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                          : SizedBox.shrink(),
+                      ],
+                    ),
+                ),
               ],
             ),
           ),
-          bottomNavigationBar: CustomBottomNavigationBar(currentIndex: currentIndex),
+          bottomNavigationBar: CustomBottomNavigationBar(currentIndex: 0),
         );
       }
     );

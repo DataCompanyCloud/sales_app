@@ -6,13 +6,14 @@ import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
 import 'package:sales_app/src/features/product/domain/repositories/product_repository.dart';
+import 'package:sales_app/src/features/product/presentation/controllers/valueObjects/products_pagination.dart';
 
 class ProductService {
   final ApiClient apiClient;
 
   ProductService(this.apiClient);
 
-  Future<List<Product>> getAll(ProductFilter filter) async {
+  Future<ProductsPagination> getAll(ProductFilter filter) async {
     final json = await apiClient.get<Map<String, dynamic>>(ApiEndpoints.products, queryParameters: {
       'q': filter.q,
       'start': filter.start,
@@ -26,7 +27,10 @@ class ProductService {
       return Product.fromJson(p);
     }).toList();
 
-    return products;
+    return ProductsPagination(
+      total: json['total'] ?? products.length,
+      items: products,
+    );
   }
 
   Future<Product> getById(int productId) async {

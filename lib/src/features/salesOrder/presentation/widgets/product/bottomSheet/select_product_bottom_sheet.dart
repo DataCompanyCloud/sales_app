@@ -3,11 +3,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sales_app/src/features/images/presentation/controllers/valueObjects/product_image_cached.dart';
+import 'package:sales_app/src/features/images/presentation/widgets/product_image_cached_widget.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/attribute.dart';
-import 'package:sales_app/src/features/product/domain/valueObjects/image.dart';
+import 'package:sales_app/src/features/images/domain/entities/image.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_product.dart';
-import 'package:sales_app/src/widgets/image_widget.dart';
+import 'package:sales_app/src/features/images/presentation/widgets/image_widget.dart';
 import 'package:uuid/uuid.dart';
 
 
@@ -152,9 +154,10 @@ class SelectProductBottomSheetState extends ConsumerState<SelectProductBottomShe
                           clipBehavior: Clip.antiAlias,
                           child: SizedBox(
                             height: 220,
-                            child: ImageWidget(
+                            child:  ProductImageCachedWidget(
+                              productId: product.productId,
                               image: imagePreview,
-                              fit: BoxFit.contain,
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
@@ -170,19 +173,19 @@ class SelectProductBottomSheetState extends ConsumerState<SelectProductBottomShe
                               itemCount: product.imagesAll.length,
                               separatorBuilder: (_, __) => const SizedBox(width: 8),
                               itemBuilder: (context, i) {
-                                final img = product.imagesAll[i];
+                                final image = product.imagesAll[i];
 
                                 return Card(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadiusGeometry.circular(8),
                                     side: BorderSide(
-                                      color: img == imagePreview ? scheme.primary : scheme.outline,
+                                      color: image == imagePreview ? scheme.primary : scheme.outline,
                                       width: 4
                                     )
                                   ),
                                   child: InkWell(
                                     onTap: () {
-                                      ref.read(imagePreviewProvider.notifier).state = img;
+                                      ref.read(imagePreviewProvider.notifier).state = image;
                                     },
                                     child: Container(
                                       width: 70,
@@ -191,8 +194,9 @@ class SelectProductBottomSheetState extends ConsumerState<SelectProductBottomShe
                                         color: Colors.grey.shade300,
                                       ),
                                       clipBehavior: Clip.antiAlias,
-                                      child: ImageWidget(
-                                        image: img,
+                                      child: ProductImageCachedWidget(
+                                        productId: product.productId,
+                                        image: image,
                                         fit: BoxFit.cover,
                                       ),
                                     ),

@@ -55,104 +55,105 @@ class SelectProductsPageState extends ConsumerState<SelectProductsPage>{
     final isSearchOpen = ref.watch(isSearchOpenProvider);
 
     return controller.when(
-        error: (error, stack) => ErrorPage(
-          exception: error is AppException
-            ? error
-            : AppException.errorUnexpected(error.toString()),
-        ),
-        loading: () => Scaffold(
-          body: GridViewColumnSkeleton(),
-        ),
-        data: (products) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text("Catálago"),
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (context) => DraggableLayoutProduct()
-                    );
-                  },
-                  icon: Icon(Icons.remove_red_eye)
+      error: (error, stack) => ErrorPage(
+        exception: error is AppException
+          ? error
+          : AppException.errorUnexpected(error.toString()),
+      ),
+      loading: () => Scaffold(
+        body: GridViewColumnSkeleton(),
+      ),
+      data: (page) {
+        final products = page.items;
+        return Scaffold(
+          appBar: AppBar(
+            title: Text("Catálago"),
+            actions: [
+              // IconButton(
+              //   onPressed: () {
+              //     showModalBottomSheet(
+              //       context: context,
+              //       builder: (context) => DraggableLayoutProduct()
+              //     );
+              //   },
+              //   icon: Icon(Icons.remove_red_eye)
+              // ),
+              // IconButton(
+              //   onPressed: () {
+              //     showModalBottomSheet(
+              //       context: context,
+              //       builder: (context) => DraggableFilterProduct()
+              //     );
+              //   },
+              //   icon: Icon(Icons.filter_alt)
+              // ),
+              IconButton(
+                onPressed: _toggleSearch,
+                icon: Icon(isSearchOpen ? Icons.close : Icons.search),
+              ),
+            ],
+          ),
+          body: RefreshIndicator(
+            onRefresh: () async {
+              if (controller.isLoading) return;
+              ref.refresh(productControllerProvider);
+            },
+            child: Column(
+              children: [
+                AnimatedSize(
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  child: isSearchOpen
+                      ? Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    child: TextField(
+                      controller: _searchController,
+                      autofocus: true,
+                      decoration: InputDecoration(
+                        hintText: "Pesquisar...",
+                        prefixIcon: Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      onChanged: (value) {
+                        ref.read(searchQueryProvider.notifier).state = value;
+                        /// TODO: Adicionar lógica para filtro de produtos
+                      },
+                    ),
+                  ) : SizedBox.shrink(),
                 ),
-                // IconButton(
-                //   onPressed: () {
-                //     showModalBottomSheet(
-                //       context: context,
-                //       builder: (context) => DraggableFilterProduct()
-                //     );
-                //   },
-                //   icon: Icon(Icons.filter_alt)
-                // ),
-                IconButton(
-                  onPressed: _toggleSearch,
-                  icon: Icon(isSearchOpen ? Icons.close : Icons.search),
+
+                Flexible(
+                  child: MasonryGridView.builder(
+                    gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                    ),
+                    padding: const EdgeInsets.all(14),
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    mainAxisSpacing: 12,
+                    crossAxisSpacing: 12,
+                    cacheExtent: 900,
+                    itemCount: products.length,
+                    itemBuilder: (context, i) {
+                      final product = products[i];
+                      final salesOrderProduct = cart[product.productId];
+
+                      return SelectProductCard(
+                        product: product,
+                        salesOrderProduct: salesOrderProduct,
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
-            body: RefreshIndicator(
-              onRefresh: () async {
-                if (controller.isLoading) return;
-                ref.refresh(productControllerProvider);
-              },
-              child: Column(
-                children: [
-                  AnimatedSize(
-                    duration: Duration(milliseconds: 300),
-                    curve: Curves.easeInOut,
-                    child: isSearchOpen
-                        ? Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      child: TextField(
-                        controller: _searchController,
-                        autofocus: true,
-                        decoration: InputDecoration(
-                          hintText: "Pesquisar...",
-                          prefixIcon: Icon(Icons.search),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        onChanged: (value) {
-                          ref.read(searchQueryProvider.notifier).state = value;
-                          /// TODO: Adicionar lógica para filtro de produtos
-                        },
-                      ),
-                    ) : SizedBox.shrink(),
-                  ),
-
-                  Flexible(
-                    child: MasonryGridView.builder(
-                      gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                      ),
-                      padding: const EdgeInsets.all(14),
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      mainAxisSpacing: 12,
-                      crossAxisSpacing: 12,
-                      cacheExtent: 900,
-                      itemCount: products.length,
-                      itemBuilder: (context, i) {
-                        final product = products[i];
-                        final salesOrderProduct = cart[product.productId];
-
-                        return SelectProductCard(
-                          product: product,
-                          salesOrderProduct: salesOrderProduct,
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        }
+          ),
+        );
+      }
     );
   }
 }

@@ -4,7 +4,7 @@ import 'package:sales_app/src/features/settings/presentation/controllers/valueOb
 import 'package:sales_app/src/features/settings/presentation/widgets/dialogs/options_description_dialog.dart';
 import 'package:sales_app/src/features/settings/providers.dart';
 import 'package:sales_app/src/widgets/dialogs/confirmation_dialog.dart';
-import 'package:sales_app/src/widgets/image_widget.dart';
+import 'package:sales_app/src/features/images/presentation/widgets/image_widget.dart';
 
 class SyncProductsSection extends ConsumerStatefulWidget {
   const SyncProductsSection({super.key});

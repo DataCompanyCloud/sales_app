@@ -6,14 +6,32 @@ class ProductFilter {
   final int start;
   final int limit;
   final String? q;
+  final String? walletCode;
   final ProductDirection direction;
 
   const ProductFilter({
     this.start = 0,
     this.limit = 20,
     this.q,
+    this.walletCode,
     this.direction = ProductDirection.desc,
   });
+
+  ProductFilter copyWith ({
+    int? start,
+    // int? limit,
+    String? q,
+    String? walletCode,
+    ProductDirection? direction,
+  }) {
+    return ProductFilter(
+      start: start ?? this.start,
+      limit: limit,
+      q: q ?? this.q,
+      walletCode: walletCode ?? this.walletCode,
+      direction: direction ?? this.direction,
+    );
+  }
 }
 
 abstract class ProductRepository {

@@ -3,10 +3,11 @@ import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/barcode.dart';
-import 'package:sales_app/src/features/product/domain/valueObjects/image.dart';
+import 'package:sales_app/src/features/images/domain/entities/image.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/packing.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/attribute.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/product_fiscal.dart';
+import 'package:sales_app/src/features/product/domain/valueObjects/product_wallet.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/unit.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/category.dart';
 
@@ -31,7 +32,8 @@ abstract class Product with _$Product {
     required List<Category> categories,
     required List<Packing> packings,
     required List<Attribute> attributes,
-    required ProductFiscal fiscal
+    required ProductFiscal fiscal,
+    @Default([]) List<ProductWallet> wallets,
   }) = _Product;
 
   /// TODO Precisa fazer as validações somente quando as informações forem diferentes de null!
@@ -48,7 +50,8 @@ abstract class Product with _$Product {
     required List<Category> categories,
     required List<Packing> packings,
     required List<Attribute> attributes,
-    required ProductFiscal fiscal
+    required ProductFiscal fiscal,
+    List<ProductWallet>? wallets,
   }) {
     if (name.trim().isEmpty) {
       throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, " Nome do produto não pode ser vazio");
@@ -67,7 +70,8 @@ abstract class Product with _$Product {
       packings: packings,
       attributes: attributes,
       description: description,
-      fiscal: fiscal
+      fiscal: fiscal,
+      wallets: wallets ?? []
     );
   }
 
@@ -75,6 +79,7 @@ abstract class Product with _$Product {
       _$ProductFromJson(json);
 
 
+  /// Todas as imagens (produto + atributos)
   @JsonKey(includeFromJson: false)
   List<ImageEntity> get imagesAll => [...images, ...attributes.expand((a) => a.imagesAll)];
 

@@ -1,11 +1,13 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sales_app/src/features/images/presentation/controllers/valueObjects/product_image_cached.dart';
+import 'package:sales_app/src/features/images/presentation/widgets/product_image_cached_widget.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
 import 'package:sales_app/src/features/product/providers.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_product.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/widgets/product/bottomSheet/select_product_bottom_sheet.dart';
-import 'package:sales_app/src/widgets/image_widget.dart';
+import 'package:sales_app/src/features/images/presentation/widgets/image_widget.dart';
 
 
 class SelectProductCard extends ConsumerStatefulWidget {
@@ -83,9 +85,11 @@ class SelectProductCardState extends ConsumerState<SelectProductCard> {
                     // border: Border.all(color: Color(0xFFE5E7EB), width: 2),
                   ),
                   child:
-                  ImageWidget(
+                  ProductImageCachedWidget(
+                    productId: product.productId,
                     image: product.imagePrimary,
                     width: double.infinity,
+                    height: 160,
                     fit: BoxFit.cover
                   )
                 ),

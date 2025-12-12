@@ -1,12 +1,14 @@
 import 'package:objectbox/objectbox.dart';
 import 'package:sales_app/src/features/customer/data/models/money_model.dart';
+import 'package:sales_app/src/features/images/domain/entities/image.dart';
 import 'package:sales_app/src/features/product/data/models/attribute_value_model.dart';
 import 'package:sales_app/src/features/product/data/models/barcode_model.dart';
 import 'package:sales_app/src/features/product/data/models/category_model.dart';
-import 'package:sales_app/src/features/product/data/models/image_model.dart';
+import 'package:sales_app/src/features/images/data/models/image_model.dart';
 import 'package:sales_app/src/features/product/data/models/packing_model.dart';
 import 'package:sales_app/src/features/product/data/models/attribute_model.dart';
 import 'package:sales_app/src/features/product/data/models/product_fiscal_model.dart';
+import 'package:sales_app/src/features/product/data/models/product_wallet_model.dart';
 import 'package:sales_app/src/features/product/data/models/unit_model.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
 
@@ -32,6 +34,9 @@ class ProductModel {
   final attributes = ToMany<AttributeModel>();
   final fiscal = ToOne<ProductFiscalModel>();
 
+  // @Backlink('product')
+  final wallets = ToMany<ProductWalletModel>();
+
   ProductModel ({
     this.id = 0,
     this.productId = 0,
@@ -49,6 +54,7 @@ extension ProductModelMapper on ProductModel {
     final categoriesList = categories.map((p) => p.toEntity()).toList();
     final imagesList = images.map((p) => p.toEntity()).toList();
     final attributesList = attributes.map((p) => p.toEntity()).toList();
+    final walletsList = wallets.map((w) => w.toEntity()).toList();
 
     return Product.raw(
       productId: productId,
@@ -64,6 +70,7 @@ extension ProductModelMapper on ProductModel {
       attributes: attributesList,
       description: description,
       fiscal: fiscal.target!.toEntity(), // Obrigatorio ter
+      wallets: walletsList
     );
   }
 
@@ -79,6 +86,7 @@ extension ProductModelMapper on ProductModel {
     required Box<AttributeModel> attributeBox,
     required Box<AttributeValueModel> attributeValueBox,
     required Box<ProductFiscalModel> productFiscalBox,
+    required Box<ProductWalletModel> productWalletBox
   }) {
     if (price.target != null) {
       moneyBox.remove(price.targetId);
@@ -110,6 +118,10 @@ extension ProductModelMapper on ProductModel {
 
     if (fiscal.target != null) {
       productFiscalBox.remove(fiscal.targetId);
+    }
+
+    for (final wallet in wallets) {
+      productWalletBox.remove(wallet.id);
     }
 
     productBox.remove(id);
@@ -145,7 +157,19 @@ extension ProductMapper on Product {
     if (attributes.isNotEmpty) {
       entity.attributes.addAll(attributes.map((p) => p.toModel()));
     }
+    if (wallets.isNotEmpty) {
+      entity.wallets.addAll(wallets.map((w) => w.toModel()));
+    }
 
     return entity;
+  }
+
+  Product mapImages(ImageEntity Function(ImageEntity) transform) {
+    return copyWith(
+      images: images.map(transform).toList(),
+      attributes: attributes
+        .map((a) => a.mapImages(transform))
+        .toList(),
+    );
   }
 }

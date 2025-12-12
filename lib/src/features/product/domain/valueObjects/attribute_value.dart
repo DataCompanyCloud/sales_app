@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/money.dart';
-import 'package:sales_app/src/features/product/domain/valueObjects/image.dart';
+import 'package:sales_app/src/features/images/domain/entities/image.dart';
 
 part 'attribute_value.freezed.dart';
 part 'attribute_value.g.dart';
