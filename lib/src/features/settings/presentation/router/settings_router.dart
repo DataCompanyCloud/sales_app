@@ -1,10 +1,12 @@
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/settings/presentation/views/more_options_page.dart';
+import 'package:sales_app/src/features/settings/presentation/views/privacy_policy_page.dart';
 import 'package:sales_app/src/features/settings/presentation/views/settings_page.dart';
 
 enum SettingsRouter {
   settings,
-  more_settings
+  more_settings,
+  privacy_policy,
 }
 
 final settingsRoutes = GoRoute(
@@ -19,7 +21,14 @@ final settingsRoutes = GoRoute(
       name: SettingsRouter.more_settings.name,
       builder: (context, state) {
         return MoreOptionsPage();
+      },
+    ),
+    GoRoute(
+      path: 'privacy_policy',
+      name: SettingsRouter.privacy_policy.name,
+      builder: (context, state) {
+        return PrivacyPolicyPage();
       }
-    )
+    ),
   ]
 );

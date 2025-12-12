@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
-import 'package:sales_app/src/features/images/data/services/image_service.dart';
 import 'package:sales_app/src/features/settings/presentation/controllers/sync_customer_controller.dart';
 import 'package:sales_app/src/features/settings/presentation/controllers/sync_products_controller.dart';
 import 'package:sales_app/src/features/settings/presentation/controllers/valueObjects/sync_state.dart';

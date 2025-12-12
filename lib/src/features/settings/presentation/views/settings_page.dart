@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/settings/presentation/router/settings_router.dart';
 
-final isWifiOnlyProvider = StateProvider<bool>((ref) => false);
 final isDarkModeEnabledProvider = StateProvider<bool>((ref) => false);
 final isNotificationsOnProvider = StateProvider<bool>((ref) => false);
 
@@ -12,7 +11,6 @@ class SettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isWifiOnly = ref.watch(isWifiOnlyProvider);
     final isDarkMode = ref.watch(isDarkModeEnabledProvider);
     final isNotificationsOn = ref.watch(isNotificationsOnProvider);
 
@@ -48,16 +46,6 @@ class SettingsPage extends ConsumerWidget {
                 Card(
                   child: Column(
                     children: [
-                      ListTile(
-                        title: Text("Baixar arquivos somente \ncom Wi-Fi"),
-                        leading: Icon(Icons.wifi),
-                        trailing: Switch(
-                          value: isWifiOnly,
-                          onChanged: (newValue) {
-                            ref.read(isWifiOnlyProvider.notifier).state = newValue;
-                          }
-                        ),
-                      ),
                       ListTile(
                         title: Text("Habilitar notificações do app"),
                         leading: Icon(Icons.notifications),
@@ -175,7 +163,9 @@ class SettingsPage extends ConsumerWidget {
                         title: Text("Política de privacidade"),
                         leading: Icon(Icons.shield),
                         trailing: Icon(Icons.chevron_right),
-                        onTap: () {},
+                        onTap: () {
+                          context.goNamed(SettingsRouter.privacy_policy.name);
+                        },
                       ),
                       // ListTile(
                       //   title: Text("Versão"),
