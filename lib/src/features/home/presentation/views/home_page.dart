@@ -65,15 +65,15 @@ class HomePage extends ConsumerWidget {
                   final company = group.primaryCompany ?? group.companies.first;
 
                   return Card(
+                    color: scheme.surface,
+                    margin: EdgeInsets.all(2),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(12)),
                       side: BorderSide(
-                        color: scheme.secondary,
-                        width: 1
+                        color: scheme.outline,
+                        width: 2
                       ),
                     ),
-                    color: scheme.surface,
-                    margin: EdgeInsets.all(2),
                     child: ListTile(
                       visualDensity: VisualDensity(vertical: 3),
                       leading: CircleAvatar(
@@ -96,8 +96,14 @@ class HomePage extends ConsumerWidget {
               Padding(padding: EdgeInsets.only(top: 16)),
               Card(
                 color: scheme.surface,
-                elevation: 3,
                 margin: EdgeInsets.all(2),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  side: BorderSide(
+                    color: scheme.outline,
+                    width: 2
+                  ),
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -158,8 +164,14 @@ class HomePage extends ConsumerWidget {
               Padding(padding: EdgeInsets.only(top: 12)),
               Card(
                 color: scheme.surface,
-                elevation: 3,
                 margin: EdgeInsets.all(2),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  side: BorderSide(
+                    color: scheme.outline,
+                    width: 2
+                  ),
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -207,8 +219,14 @@ class HomePage extends ConsumerWidget {
               Padding(padding: EdgeInsets.only(top: 12)),
               Card(
                 color: scheme.surface,
-                elevation: 3,
                 margin: EdgeInsets.all(2),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  side: BorderSide(
+                    color: scheme.outline,
+                    width: 2
+                  ),
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

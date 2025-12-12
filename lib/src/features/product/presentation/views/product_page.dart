@@ -3,14 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
-import 'package:sales_app/src/core/my_device.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/navigator/navigator_bar.dart';
 import 'package:sales_app/src/features/product/presentation/router/product_router.dart';
 import 'package:sales_app/src/features/product/presentation/widgets/card/product_card.dart';
 import 'package:sales_app/src/features/product/presentation/widgets/card/product_details_card.dart';
 import 'package:sales_app/src/features/product/presentation/widgets/draggable/draggable_filter_product.dart';
-import 'package:sales_app/src/features/product/presentation/widgets/draggable/draggable_layout_product.dart';
 import 'package:sales_app/src/features/product/presentation/widgets/skeleton/grid_view_column_skeleton.dart';
 import 'package:sales_app/src/features/product/providers.dart';
 
@@ -18,7 +16,7 @@ class ProductPage extends ConsumerStatefulWidget {
   const ProductPage({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => ProductPageState();
+  ConsumerState<ProductPage> createState() => ProductPageState();
 }
 
 

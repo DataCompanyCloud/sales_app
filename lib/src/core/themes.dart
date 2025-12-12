@@ -314,5 +314,38 @@ final ThemeData salesAppDarkTheme = (() {
       disabledColor: scheme.surfaceContainerHighest.withOpacity(.35),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
     ),
+
+    navigationBarTheme: NavigationBarThemeData(
+      height: 72,
+      backgroundColor: scheme.surface,
+      indicatorColor: scheme.primary.withOpacity(.14),
+      elevation: 0,
+      surfaceTintColor: Colors.transparent,
+      labelTextStyle: WidgetStateProperty.resolveWith((states) {
+        final selected = states.contains(WidgetState.selected);
+        return TextStyle(
+          fontSize: 12,
+          fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+          color: selected ? scheme.primary : scheme.onSurfaceVariant,
+        );
+      }),
+      iconTheme: WidgetStateProperty.resolveWith((states) {
+        final selected = states.contains(WidgetState.selected);
+        return IconThemeData(
+          size: 24,
+          color: selected ? scheme.primary : scheme.onSurfaceVariant,
+        );
+      }),
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: scheme.surface,
+      elevation: 0,
+      type: BottomNavigationBarType.fixed,
+      selectedItemColor: scheme.primary,
+      unselectedItemColor: scheme.onSurfaceVariant,
+      selectedLabelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+      unselectedLabelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+      showUnselectedLabels: true,
+    ),
   );
 })();

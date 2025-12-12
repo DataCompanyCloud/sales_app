@@ -7,100 +7,105 @@ import 'package:sales_app/src/features/home/presentation/router/home_router.dart
 import 'package:sales_app/src/features/salesOrder/presentation/router/sales_order_router.dart';
 import 'package:sales_app/src/features/product/presentation/router/product_router.dart';
 
-class CustomBottomNavigationBar extends ConsumerWidget {
-  final int currentIndex;
 
+class CustomBottomNavigationBar extends ConsumerStatefulWidget {
+  final int currentIndex;
   const CustomBottomNavigationBar ({
     super.key,
     required this.currentIndex
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final viewModelProvider = ref.watch(homeViewModelProvider);
+  ConsumerState<CustomBottomNavigationBar> createState() => CustomBottomNavigationBarState();
+}
+
+
+class CustomBottomNavigationBarState extends ConsumerState<CustomBottomNavigationBar>{
+
+  @override
+  Widget build(BuildContext context) {
+    // final viewModelProvider = ref.watch(homeViewModelProvider);
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final scheme = theme.colorScheme;
+
+    final routeByIndex = <int, String>{
+      0: ProductRouter.product.name,
+      1: OrderRouter.create.name,
+      2: HomeRouter.home.name,
+      3: CustomerRouter.customer.name,
+      // 4: ScheduleRouter.schedule.name,
+    };
 
     return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.only(bottom: 12, left: 8, right: 8),
-        child: Container(
-          height: 75,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(
-              Radius.circular(30)
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                blurRadius: 10
+      child: Container(
+        height: 80,
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(color: scheme.outline, width: 2)
+          )
+        ),
+        child: ClipRRect(
+          child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            currentIndex: widget.currentIndex,
+            showUnselectedLabels: true,
+            onTap: (index) {
+              final routeName = routeByIndex[index];
+              if (routeName == null) return; // evita crash se índice não existir
+              context.goNamed(routeName);
+            },
+            items: [
+              _buildNavItem(
+                isSelected: false,
+                iconData: Icons.shopping_bag,
+                label: "Catálogo"
               ),
+              _buildNavItem(
+                isSelected: false,
+                iconData: Icons.add_circle,
+                label: "Pedidos"
+              ),
+              _buildNavItem(
+                isSelected: false,
+                iconData: Icons.home_filled,
+                label: "Início"
+              ),
+              _buildNavItem(
+                isSelected: false,
+                iconData: Icons.person,
+                label: "Clientes",
+              ),
+              _buildNavItem(
+                isSelected: false,
+                iconData: Icons.calendar_month,
+                label: "Agenda",
+              )
             ],
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(30),
-            child: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              currentIndex: currentIndex,
-              selectedItemColor: colorScheme.secondary,
-              backgroundColor: colorScheme.surface,
-              showUnselectedLabels: true,
-              onTap: (index) {
-                ref.read(homeIndexProvider.notifier).state = 2;
-                switch(index) {
-                  case 0:
-                    context.goNamed(ProductRouter.product.name);
-                    break;
-                  case 1:
-                    context.goNamed(OrderRouter.create.name);
-                    break;
-                  case 2:
-                    context.goNamed(HomeRouter.home.name);
-                    break;
-                  case 3:
-                    context.goNamed(CustomerRouter.customer.name);
-                    break;
-                //   case 4:
-                //     context.goNamed(ScheduleRouter.schedule.name);
-                }
-              },
-              items: [
-                viewModelProvider.buildNavItem(
-                  index: 0,
-                  iconData: Icons.shopping_bag,
-                  label: "Catálogo",
-                  currentIndex: currentIndex
-                ),
-                viewModelProvider.buildNavItem(
-                  index: 1,
-                  iconData: Icons.add_circle,
-                  label: "Pedidos",
-                  currentIndex: currentIndex
-                ),
-                viewModelProvider.buildNavItem(
-                  index: 2,
-                  iconData: Icons.home_filled,
-                  label: "Início",
-                  currentIndex: currentIndex
-                ),
-                viewModelProvider.buildNavItem(
-                  index: 3,
-                  iconData: Icons.person,
-                  label: "Clientes",
-                  currentIndex: currentIndex
-                ),
-                viewModelProvider.buildNavItem(
-                  index: 4,
-                  iconData: Icons.calendar_month,
-                  label: "Agenda",
-                  currentIndex: currentIndex
-                ),
-              ],
-            ),
           ),
         ),
       ),
+    );
+  }
+
+  BottomNavigationBarItem _buildNavItem({
+    required bool isSelected,
+    required String label,
+    required IconData iconData,
+  }) {
+    final scheme = Theme.of(context).colorScheme;
+
+    return BottomNavigationBarItem(
+      activeIcon: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: scheme.primary.withValues(alpha: .14), // indicator suave
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: scheme.primary.withValues(alpha: .22)),
+        ),
+        child: Icon(iconData, size: 24, color: scheme.primary),
+      ),
+      icon: Icon(iconData, size: 24),
+      label: label,
     );
   }
 }
