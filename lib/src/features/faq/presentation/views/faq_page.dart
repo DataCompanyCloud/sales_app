@@ -8,8 +8,8 @@ class FaqPage extends ConsumerWidget {
   
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final theme = Theme.of(context);
-    // final scheme = theme.colorScheme;
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
 
     return Scaffold(
       appBar: AppBar(
@@ -20,12 +20,22 @@ class FaqPage extends ConsumerWidget {
           },
           icon: Icon(Icons.arrow_back_ios_new, size: 22),
         ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1.0),
+          child: Container(
+            color: scheme.outline,
+            height: 1.0,
+          ),
+        ),
       ),
-      body: ListView.builder(
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return FaqQuestionCard();
-        }
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 12),
+        child: ListView.builder(
+          itemCount: 10,
+          itemBuilder: (context, index) {
+            return FaqQuestionCard();
+          }
+        ),
       ),
     );
   }
