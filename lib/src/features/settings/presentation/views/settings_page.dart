@@ -11,6 +11,8 @@ class SettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
     final isNotificationsOn = ref.watch(isNotificationsOnProvider);
 
     return Scaffold(
@@ -21,6 +23,13 @@ class SettingsPage extends ConsumerWidget {
             context.goNamed(AppRoutes.home.name);
           },
           icon: Icon(Icons.arrow_back_ios_new, size: 22),
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1.0),
+          child: Container(
+            color: scheme.outline,
+            height: 1.0,
+          ),
         ),
       ),
       body: SafeArea(
@@ -109,7 +118,9 @@ class SettingsPage extends ConsumerWidget {
                         title: Text("Termos de uso"),
                         leading: Icon(Icons.list_alt),
                         trailing: Icon(Icons.chevron_right),
-                        onTap: () {},
+                        onTap: () {
+                          context.goNamed(SettingsRouter.use_terms.name);
+                        },
                       ),
                       ListTile(
                         title: Text("Política de privacidade"),
