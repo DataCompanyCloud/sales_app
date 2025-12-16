@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:sales_app/src/features/storage/domain/entities/storage.dart';
 import 'package:sales_app/src/features/storage/presentation/views/storage_details_page.dart';
 import 'package:sales_app/src/features/storage/presentation/views/storage_page.dart';
 
@@ -19,7 +20,8 @@ final storageRoutes = GoRoute(
       path: 'storage_details',
       name: StorageRouter.storage_details.name,
       builder: (context, state) {
-        return StorageDetailsPage();
+        final storage = state.extra as Storage;
+        return StorageDetailsPage(storage: storage);
       }
     ),
   ]

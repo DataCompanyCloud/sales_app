@@ -5,6 +5,7 @@ import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/storage/domain/entities/storage.dart';
 import 'package:sales_app/src/features/storage/domain/repositories/storage_repository.dart';
+import 'package:sales_app/src/features/storage/presentation/controllers/valueObjects/storages_pagination.dart';
 
 class StorageService {
   final StorageRepository repository;
@@ -13,25 +14,25 @@ class StorageService {
   
   StorageService(this.apiClient, this.repository);
   
-  Future<List<Storage>> getAll({
-    int start = 0,
-    int limit = 10,
-    String? search,
-    bool withProducts = false
-  }) async {
-    final json = await apiClient.get<Map<String, dynamic>>(ApiEndpoints.storages, queryParameters: {
-      'search': search,
-      'start': start,
-      'limit': limit
+  Future<StoragesPagination> getAll(StorageFilter filter) async {
+    final json = await apiClient.get<Map<String, dynamic>>(
+        ApiEndpoints.storages, queryParameters: {
+      'q': filter.q,
+      'start': filter.start,
+      'limit': filter.limit,
     });
 
     final data = json['data'] as List<dynamic>;
 
-    final storages = data.map((s) {
+    final storages = data
+        .map((s) {
       return Storage.fromJson(s);
     }).toList();
 
-    return storages;
+    return StoragesPagination(
+        total: json['total'] ?? storages.length,
+        items: storages
+    );
   }
 
   Future<Storage> getById(int storageId) async {
@@ -50,5 +51,17 @@ class StorageService {
     } catch (s) {
       throw AppException.errorUnexpected(s.toString());
     }
+  }
+
+  Future<int> getCount(StorageFilter filter) async {
+    final json = await apiClient.get<Map<String, dynamic>>(ApiEndpoints.storages,
+      queryParameters: {
+        'q': filter.q,
+      },
+    );
+
+    final data = json['total'];
+
+    return data is int ? data : int.tryParse(data.toString()) ?? 0;
   }
 }

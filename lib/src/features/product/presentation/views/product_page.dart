@@ -107,8 +107,8 @@ class ProductPageState extends ConsumerState<ProductPage>{
         body: GridViewColumnSkeleton(),
         bottomNavigationBar: CustomBottomNavigationBar(currentIndex: 0),
       ),
-      data: (cubit) {
-        final products = cubit.items;
+      data: (pagination) {
+        final products = pagination.items;
 
         return Scaffold(
           appBar: AppBar(
@@ -276,7 +276,7 @@ class ProductPageState extends ConsumerState<ProductPage>{
                             );
                           },
                         ),
-                        cubit.isLoadingMore
+                        pagination.isLoadingMore
                           ? SafeArea(
                             top: false,
                             child: Align(

@@ -1,16 +1,19 @@
-import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sales_app/src/features/storage/domain/entities/storage.dart';
 
 class CustomerStorageCard extends ConsumerWidget {
-  const CustomerStorageCard({super.key});
+  final Storage storage;
+
+  const CustomerStorageCard({
+    super.key,
+    required this.storage
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
-
-    final randomName = faker.person.name();
 
     return Container(
       decoration: BoxDecoration(
@@ -38,7 +41,6 @@ class CustomerStorageCard extends ConsumerWidget {
                   ),
                   child: Icon(
                     Icons.warehouse,
-                    color: Colors.white,
                     size: 38,
                   ),
                 ),
@@ -64,11 +66,17 @@ class CustomerStorageCard extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                randomName,
+                                storage.name,
                                 style: TextStyle(
                                   fontSize: 16
                                 ),
                               ),
+                              Text(
+                                "${storage.description}",
+                                style: TextStyle(
+                                  fontSize: 16
+                                ),
+                              )
                             ],
                           ),
                         ),
