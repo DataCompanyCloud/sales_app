@@ -41,14 +41,14 @@ class HomeDrawer extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       CircleAvatar(
-                        backgroundColor: Colors.white,
+                        backgroundColor: scheme.onSurface,
                         child: IconButton(
                           onPressed: () {
                             context.pop();
                           },
                           icon: Icon(
                             Icons.close,
-                            color: Colors.black,
+                            color: scheme.surface,
                           )
                         )
                       ),
@@ -64,32 +64,25 @@ class HomeDrawer extends ConsumerWidget {
                     backgroundColor: Colors.white24,
                     child: Icon(
                       Icons.person,
-                      color: Colors.white,
                     ),
                   ),
                   title: Text(
                     user.userName,
-                    style: TextStyle(color: Colors.white),
                   ),
                   subtitle: Text(
                     user.userCode,
-                    style: TextStyle(color: Colors.white70),
                   ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 24, top: 32, bottom: 16),
                   child: Text(
                     "SERVIÇOS",
-                    style: TextStyle(
-                      color: Colors.white70
-                    ),
                   ),
                 ),
                 Column(
                   children: [
                     Padding(padding: EdgeInsets.only(left: 24),
                       child: Divider(
-                        color: Colors.white24,
                         height: 8,
                       ),
                     ),
@@ -101,13 +94,11 @@ class HomeDrawer extends ConsumerWidget {
                     width: 34,
                     child: Icon(
                       Icons.person_pin,
-                      color: Colors.white,
                       size: 28,
                     ),
                   ),
                   title: Text(
                     "Meu perfil",
-                    style: TextStyle(color: Colors.white),
                   ),
                   onTap: () {
                     Navigator.of(context).pop();
@@ -118,7 +109,6 @@ class HomeDrawer extends ConsumerWidget {
                   children: [
                     Padding(padding: EdgeInsets.only(left: 24),
                       child: Divider(
-                        color: Colors.white24,
                         height: 8,
                       ),
                     ),
@@ -130,13 +120,11 @@ class HomeDrawer extends ConsumerWidget {
                     width: 34,
                     child: Icon(
                       Icons.chat,
-                      color: Colors.white,
                       size: 28,
                     ),
                   ),
                   title: Text(
                     "FAQ",
-                    style: TextStyle(color: Colors.white),
                   ),
                   onTap: () {
                     Navigator.of(context).pop();
@@ -147,7 +135,6 @@ class HomeDrawer extends ConsumerWidget {
                   children: [
                     Padding(padding: EdgeInsets.only(left: 24),
                       child: Divider(
-                        color: Colors.white24,
                         height: 8,
                       ),
                     ),
@@ -159,13 +146,11 @@ class HomeDrawer extends ConsumerWidget {
                     width: 34,
                     child: Icon(
                       Icons.settings,
-                      color: Colors.white,
                       size: 28,
                     ),
                   ),
                   title: Text(
                     "Configurações",
-                    style: TextStyle(color: Colors.white),
                   ),
                   onTap: () {
                     Navigator.of(context).pop();
@@ -178,7 +163,6 @@ class HomeDrawer extends ConsumerWidget {
                   child: Text(
                     "CONTA",
                     style: TextStyle(
-                      color: Colors.white70
                     ),
                   ),
                 ),
@@ -186,7 +170,6 @@ class HomeDrawer extends ConsumerWidget {
                   children: [
                     Padding(padding: EdgeInsets.only(left: 24),
                       child: Divider(
-                        color: Colors.white24,
                         height: 8,
                       ),
                     ),
@@ -198,7 +181,6 @@ class HomeDrawer extends ConsumerWidget {
                     width: 34,
                     child: Icon(
                       Icons.logout_outlined,
-                      color: Colors.white,
                       size: 28,
                     ),
                   ),
@@ -216,7 +198,6 @@ class HomeDrawer extends ConsumerWidget {
                   },
                   title: Text(
                     "Sair",
-                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ]

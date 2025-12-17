@@ -27,10 +27,10 @@ class ApiEndpoints {
   static const String orders = '/$api/$version/orders';
   static String orderById({required int orderId}) => '/$api/$version/orders/$orderId';
 
-  /// /storage
+  /// /storages
   /// Rota para obter storages
-  static const String storages = '/$api/$version/storage';
-  static String storageById({required int storageId}) => '/$api/$version/storage/$storageId';
+  static const String storages = '/$api/$version/storages';
+  static String storageById({required int storageId}) => '/$api/$version/storages/$storageId';
 
   /// /stockTransaction
   /// Rota para obter stockTransactions

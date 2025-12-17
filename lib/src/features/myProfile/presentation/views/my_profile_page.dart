@@ -22,6 +22,13 @@ class MyProfilePage extends ConsumerWidget {
           },
           icon: Icon(Icons.arrow_back_ios_new, size: 22)
         ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1.0),
+          child: Container(
+            color: scheme.outline,
+            height: 1.0,
+          ),
+        ),
       ),
       body: Column(
         children: [

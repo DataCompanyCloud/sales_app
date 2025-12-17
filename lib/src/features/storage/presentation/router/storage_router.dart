@@ -4,8 +4,7 @@ import 'package:sales_app/src/features/storage/presentation/views/storage_page.d
 
 enum StorageRouter {
   storage,
-  storage_details,
-  user_storage_details
+  storage_details
 }
 
 final storageRoutes = GoRoute(
@@ -19,7 +18,18 @@ final storageRoutes = GoRoute(
       path: 'storage_details',
       name: StorageRouter.storage_details.name,
       builder: (context, state) {
-        return StorageDetailsPage();
+        final storageIdStr = state.uri.queryParameters['storageId'];
+        final isMyStorageStr = state.uri.queryParameters['isMyStorage'];
+
+        final storageId = storageIdStr != null
+          ? int.tryParse(storageIdStr)
+          : null;
+        final isMyStorage = isMyStorageStr == 'true';
+
+        return StorageDetailsPage(
+          storageId: storageId,
+          isMyStorage: isMyStorage
+        );
       }
     ),
   ]

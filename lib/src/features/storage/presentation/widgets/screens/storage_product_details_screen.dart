@@ -18,7 +18,6 @@ class StorageProductDetailsScreen extends ConsumerWidget {
         child: ListView.builder(
           itemCount: 3,
           itemBuilder: (context, index) {
-            final productName = faker.food.cuisine() + faker.food.cuisine() + faker.food.cuisine() + faker.food.cuisine() + faker.food.cuisine() + faker.food.cuisine() + faker.food.cuisine() + faker.food.cuisine();
             return Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
@@ -71,7 +70,7 @@ class StorageProductDetailsScreen extends ConsumerWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        productName,
+                                        "NomeDoProduto",
                                         maxLines: 3,
                                         style: TextStyle(
                                           fontSize: 15,

@@ -3,14 +3,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/router/app_router.dart';
 import 'package:sales_app/src/features/settings/presentation/router/settings_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final isNotificationsOnProvider = StateProvider<bool>((ref) => false);
+final isLoadingWhatsAppProvider = StateProvider<bool>((ref) => false);
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({ super.key });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final isLoadingWhatsApp = ref.watch(isLoadingWhatsAppProvider);
     final isNotificationsOn = ref.watch(isNotificationsOnProvider);
 
     return Scaffold(
@@ -21,6 +26,13 @@ class SettingsPage extends ConsumerWidget {
             context.goNamed(AppRoutes.home.name);
           },
           icon: Icon(Icons.arrow_back_ios_new, size: 22),
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1.0),
+          child: Container(
+            color: scheme.outline,
+            height: 1.0,
+          ),
         ),
       ),
       body: SafeArea(
@@ -103,13 +115,19 @@ class SettingsPage extends ConsumerWidget {
                         title: Text("Fale conosco"),
                         leading: Icon(Icons.phone_in_talk),
                         trailing: Icon(Icons.chevron_right),
-                        onTap: () {},
+                        onTap: isLoadingWhatsApp
+                        ? null
+                        : () async {
+                          await openWhatsApp();
+                        },
                       ),
                       ListTile(
                         title: Text("Termos de uso"),
                         leading: Icon(Icons.list_alt),
                         trailing: Icon(Icons.chevron_right),
-                        onTap: () {},
+                        onTap: () {
+                          context.goNamed(SettingsRouter.use_terms.name);
+                        },
                       ),
                       ListTile(
                         title: Text("Política de privacidade"),
@@ -119,18 +137,6 @@ class SettingsPage extends ConsumerWidget {
                           context.goNamed(SettingsRouter.privacy_policy.name);
                         },
                       ),
-                      // ListTile(
-                      //   title: Text("Versão"),
-                      //   leading: Icon(Icons.error_outline),
-                      //   trailing: Text(
-                      //     "v0.0.1",
-                      //     style: TextStyle(
-                      //       fontSize: 15,
-                      //       color: Colors.grey
-                      //     ),
-                      //   ),
-                      //   onTap: () {},
-                      // ),
                     ],
                   ),
                 ),
@@ -167,5 +173,21 @@ class SettingsPage extends ConsumerWidget {
         ),
       )
     );
+  }
+}
+
+Future<void> openWhatsApp() async {
+  const String phone = '5547992284400';
+  const String msg = 'Olá, preciso de ajuda.';
+
+  final Uri url = Uri.parse(
+    'https://wa.me/$phone?text=${Uri.encodeComponent(msg)}',
+  );
+
+  if (!await launchUrl(
+    url,
+    mode: LaunchMode.externalApplication,
+  )) {
+    throw 'Não foi possível abrir o WhatsApp';
   }
 }

@@ -7,10 +7,15 @@ import 'package:sales_app/src/features/storage/domain/entities/storage.dart';
 import 'package:sales_app/src/features/storage/domain/repositories/storage_repository.dart';
 import 'package:sales_app/src/features/storage/presentation/controllers/storage_controller.dart';
 import 'package:sales_app/src/features/storage/presentation/controllers/storage_details_controller.dart';
+import 'package:sales_app/src/features/storage/presentation/controllers/valueObjects/storages_pagination.dart';
 
 final storageRepositoryProvider = FutureProvider.autoDispose<StorageRepository>((ref) async {
   final store = await ref.watch(datasourceProvider.future);
   return StorageRepositoryImpl(store);
+});
+
+final storageFilterProvider = StateProvider.autoDispose<StorageFilter>((ref) {
+  return StorageFilter();
 });
 
 enum StorageMovementStatusFilter {
@@ -23,16 +28,15 @@ enum StorageMovementStatusFilter {
 }
 
 final storageMovementStatusFilterProvider = StateProvider<StorageMovementStatusFilter>((ref) => StorageMovementStatusFilter.all);
-
 final storageSearchProvider = StateProvider.autoDispose<String?>((ref) {
   return null;
 });
 
-final storageControllerProvider = AutoDisposeAsyncNotifierProvider<StorageController, List<Storage>> (() {
+final storageControllerProvider = AutoDisposeAsyncNotifierProvider<StorageController, StoragesPagination> (() {
   return StorageController();
 });
 
-final storageDetailsControllerProvider = AsyncNotifierProvider.autoDispose.family<StorageDetailsController, Storage, int>(
+final storageDetailsControllerProvider = AsyncNotifierProvider.autoDispose.family<StorageDetailsController, Storage, int?>(
   StorageDetailsController.new,
 );
 

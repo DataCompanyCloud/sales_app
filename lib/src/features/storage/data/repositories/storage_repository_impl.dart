@@ -1,4 +1,3 @@
-
 import 'package:sales_app/objectbox.g.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
@@ -11,14 +10,36 @@ import 'package:sales_app/src/features/storage/domain/repositories/storage_repos
 class StorageRepositoryImpl extends StorageRepository {
   final Store store;
 
+  Box<StorageModel> get storageBox => store.box<StorageModel>();
+  Box<StockTransactionModel> get stockTransactionBox => store.box<StockTransactionModel>();
+
   StorageRepositoryImpl(this.store);
 
   @override
-  Future<List<Storage>> fetchAll() async {
+  Future<List<Storage>> fetchAll(StorageFilter filter) async {
     final box = store.box<StorageModel>();
+    Condition<StorageModel>? cond;
 
-    final all = await box.getAllAsync();
-    return all.map((m) => m.toEntity()).toList();
+    final raw = filter.q?.trim();
+    if (raw != null && raw.isNotEmpty) {
+      cond = StorageModel_.name.contains(raw, caseSensitive: false);
+    }
+
+    final qb = (cond == null) ? box.query() : box.query(cond);
+
+    final q = qb.build()
+      ..offset = filter.start
+      ..limit = filter.limit
+    ;
+
+    try {
+      final models = await q.findAsync(
+
+      );
+      return models.map((m) => m.toEntity()).toList();
+    } finally {
+      q.close();
+    }
   }
 
   @override

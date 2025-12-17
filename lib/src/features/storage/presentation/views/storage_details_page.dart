@@ -6,9 +6,13 @@ import 'package:sales_app/src/features/storage/presentation/widgets/screens/stor
 
 class StorageDetailsPage extends ConsumerWidget {
   final _tabBarIndexProvider = StateProvider((ref) => 0);
+  final int? storageId;
+  final bool isMyStorage;
 
   StorageDetailsPage({
-    super.key
+    super.key,
+    this.storageId,
+    required this.isMyStorage
   });
 
   @override
@@ -41,7 +45,8 @@ class StorageDetailsPage extends ConsumerWidget {
         body: TabBarView(
           children: [
             StorageProductDetailsScreen(),
-            StorageMovementDetailsScreen()
+            /// TODO: Ajustar isso (provavelmente está errado)
+            StorageMovementDetailsScreen(storageId: storageId!)
           ]
         ),
       ),
