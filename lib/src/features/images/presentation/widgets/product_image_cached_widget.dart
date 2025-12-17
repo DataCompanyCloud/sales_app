@@ -35,7 +35,7 @@ class ProductImageCachedWidget extends ConsumerWidget {
           width: width,
           height: height,
           fit: fit,
-          errorBuilder: (_, __, ___) => _buildFallback(),
+          errorBuilder: (_, _, _) => _buildFallback(),
         );
       }
     }
@@ -54,7 +54,7 @@ class ProductImageCachedWidget extends ConsumerWidget {
             width: width,
             height: height,
             fit: fit,
-            errorBuilder: (_, __, ___) => _buildFallback(),
+            errorBuilder: (_, _, _) => _buildFallback(),
           );
         }
 

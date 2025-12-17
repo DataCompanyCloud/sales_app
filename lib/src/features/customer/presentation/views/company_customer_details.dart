@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
-import 'package:sales_app/src/features/customer/domain/valueObjects/phone.dart';
+import 'package:sales_app/src/features/customer/domain/valueObjects/phone_type.dart';
 import 'package:sales_app/src/features/customer/providers.dart';
 
 class CompanyCustomerDetails extends ConsumerWidget {

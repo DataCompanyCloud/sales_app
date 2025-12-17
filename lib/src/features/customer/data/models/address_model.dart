@@ -34,7 +34,7 @@ class AddressModel {
 extension AddressModelMapper on AddressModel {
   /// De AddressModel → Address
   Address toEntity() {
-    final address = Address(
+    final address = Address.raw(
       state: BrazilianState.values[state],
       city: city,
       street: street,

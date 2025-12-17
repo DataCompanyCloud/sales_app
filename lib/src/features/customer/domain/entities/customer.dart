@@ -24,7 +24,7 @@ abstract class Customer with _$Customer {
     required String? customerCode,
     required String? fullName,
     CreditLimit? creditLimit,
-    TaxRegime? taxRegime,
+    TaxRegime? taxRegime, // TODO Remover isso
     @Default([]) List<PaymentMethod> paymentMethods,
     @Default([]) List<ContactInfo> contacts,
     @CPFConverter() CPF? cpf,
@@ -82,17 +82,29 @@ abstract class Customer with _$Customer {
 
     // precisa ter exatamente um: CPF ou CNPJ
     if (!hasCpf && !hasCnpj) {
-      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Informe um CPF ou um CNPJ");
+      throw AppException(AppExceptionCode.CODE_030_DOCUMENT_REQUIRED, 'Informe um CPF ou um CNPJ.');
     }
 
     if (hasCpf && hasCnpj) {
-      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Informe apenas CPF ou apenas CNPJ, não ambos");
+      throw AppException(AppExceptionCode.CODE_031_DOCUMENT_CONFLICT, 'Informe apenas CPF ou CNPJ.');
     }
 
-    // se for pessoa física
+    if (addresses.isEmpty) {
+      throw AppException(AppExceptionCode.CODE_033_CUSTOMER_ADDRESS_REQUIRED, 'Informe ao menos um endereço.');
+    }
+
+    if (contacts.isEmpty) {
+      throw AppException(AppExceptionCode.CODE_034_CUSTOMER_CONTACT_REQUIRED, 'Informe ao menos um contato.');
+    }
+
+    if (paymentMethods.isEmpty) {
+      throw AppException(AppExceptionCode.CODE_035_CUSTOMER_PAYMENT_METHOD_REQUIRED, 'Informe ao menos uma forma de pagamento.');
+    }
+
+    // pessoa física
     if (hasCpf) {
       if (fullName == null || fullName.trim().isEmpty) {
-        throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Para pessoa física, o nome completo é obrigatório");
+        throw AppException(AppExceptionCode.CODE_032_PERSON_NAME_REQUIRED, 'Nome completo é obrigatório');
       }
 
       return Customer.person(

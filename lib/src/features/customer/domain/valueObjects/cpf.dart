@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
+import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 
 part 'cpf.freezed.dart';
 part 'cpf.g.dart';
@@ -16,12 +17,12 @@ abstract class CPF with _$CPF {
     required String value
   }) {
     if (value.trim().isEmpty) {
-      throw AppException.errorUnexpected("CPF não pode ser nulo.");
+      throw AppException(AppExceptionCode.CODE_036_CPF_REQUIRED, 'CPF é obrigatório.');
     }
 
     final numericOnly = value.replaceAll(RegExp(r'\D'), '');
     if (numericOnly.length != 11) {
-      throw AppException.errorUnexpected("CPF inválido: precisa ter 11 dígitos.");
+      throw AppException(AppExceptionCode.CODE_037_CPF_INVALID_LENGTH, "CPF inválido: precisa ter 11 dígitos.");
     }
 
     return CPF.raw(value: value);

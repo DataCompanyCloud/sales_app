@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
+import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 
 part 'email.freezed.dart';
 part 'email.g.dart';
@@ -16,7 +17,7 @@ abstract class Email with _$Email {
     required String value
   }) {
     if (value.trim().isEmpty) {
-      throw AppException.errorUnexpected("Email não pode ser nulo.");
+      throw AppException(AppExceptionCode.CODE_029_EMAIL_REQUIRED, "E-mail é obrigatório.");
     }
 
     final emailRegex = RegExp(
@@ -25,7 +26,7 @@ abstract class Email with _$Email {
         r"(?:\.[a-zA-Z]{2,})+$"
     );
     if (!emailRegex.hasMatch(value)) {
-      throw AppException.errorUnexpected("Email inválido: preisa ser um email válido.");
+      throw AppException(AppExceptionCode.CODE_028_EMAIL_INVALID, "E-mail informado é inválido.");
     }
 
     return Email.raw(value: value);

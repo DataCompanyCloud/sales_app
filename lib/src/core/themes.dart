@@ -14,6 +14,7 @@ final ThemeData salesAppLightTheme = (() {
   final scheme = ColorScheme.fromSeed(
     seedColor: seed,
     brightness: Brightness.light,
+    error: const Color(0xFFD32F2F),
   ).copyWith(
     // Neutros / superfícies
     surface: surf,
@@ -141,6 +142,15 @@ final ThemeData salesAppLightTheme = (() {
       ),
     ),
 
+    filledButtonTheme: FilledButtonThemeData(
+      style: FilledButton.styleFrom(
+        backgroundColor: scheme.primary,
+        foregroundColor: scheme.onSurface,
+        shape: RoundedRectangleBorder(borderRadius: radius),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      ),
+    ),
+
     // Texto: deixe o scheme cuidar; só garantimos contraste suave
     textTheme: Typography.blackMountainView.apply(
       bodyColor: scheme.onSurface,
@@ -171,6 +181,7 @@ final ThemeData salesAppDarkTheme = (() {
 
   final scheme = ColorScheme.fromSeed(
     seedColor: seed,
+    error: const Color(0xFFD32F2F),
     brightness: Brightness.dark,
   ).copyWith(
     // Neutros / superfícies
@@ -204,7 +215,7 @@ final ThemeData salesAppDarkTheme = (() {
     onTertiaryContainer: const Color(0xFFB8FFF3),
 
     // Erros (M3 dark)
-    error: const Color(0xFFFFB4AB),
+    error: const Color(0xFFD32F2F),
     onError: const Color(0xFF690005),
     errorContainer: const Color(0xFF93000A),
     onErrorContainer: const Color(0xFFFFDAD6),
@@ -262,7 +273,7 @@ final ThemeData salesAppDarkTheme = (() {
     // Campos de texto “filled” discretos
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: scheme.surfaceVariant.withOpacity(.55),
+      fillColor: scheme.surfaceVariant.withValues(alpha: .55),
       hintStyle: TextStyle(color: scheme.onSurfaceVariant),
       labelStyle: TextStyle(color: scheme.onSurface),
       border: OutlineInputBorder(
@@ -293,6 +304,14 @@ final ThemeData salesAppDarkTheme = (() {
       style: OutlinedButton.styleFrom(
         foregroundColor: scheme.primary,
         side: BorderSide(color: scheme.outline),
+        shape: RoundedRectangleBorder(borderRadius: radius),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      ),
+    ),
+    filledButtonTheme: FilledButtonThemeData(
+      style: FilledButton.styleFrom(
+        backgroundColor: scheme.primary,
+        foregroundColor: scheme.onSurface,
         shape: RoundedRectangleBorder(borderRadius: radius),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       ),

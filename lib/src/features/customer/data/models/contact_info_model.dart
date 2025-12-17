@@ -24,7 +24,7 @@ class ContactInfoModel {
 
 extension ContactInfoModelMapper on ContactInfoModel {
   /// De ContactInfoModel → ContactInfo
-  ContactInfo toEntity() => ContactInfo(
+  ContactInfo toEntity() => ContactInfo.raw(
     name: name,
     isPrimary: isPrimary,
     phone: phone.target?.toEntity(),

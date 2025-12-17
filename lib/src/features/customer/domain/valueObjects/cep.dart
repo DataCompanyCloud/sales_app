@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
+import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 
 part 'cep.freezed.dart';
 part 'cep.g.dart';
@@ -17,13 +18,16 @@ abstract class CEP with _$CEP {
   factory CEP ({
     required String value
   }){
-    if (value.trim().isEmpty) {
-      throw AppException.errorUnexpected("CEP não pode ser nulo.");
+    final trimmed = value.trim();
+
+    if (trimmed.isEmpty) {
+      throw AppException(AppExceptionCode.CODE_020_CEP_REQUIRED, 'CEP é obrigatório');
     }
 
-    final numericOnly = value.replaceAll(RegExp(r'\D'), '');
+    final numericOnly = trimmed.replaceAll(RegExp(r'\D'), '');
+
     if (numericOnly.length != 8) {
-      throw AppException.errorUnexpected('CEP inválido: precisa ter 8 dígitos.');
+      throw AppException(AppExceptionCode.CODE_021_CEP_INVALID_LENGTH, 'CEP inválido. Informe um CEP com 8 dígitos');
     }
 
     return CEP.raw(value: value);

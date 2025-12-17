@@ -75,7 +75,10 @@ class CustomerRepositoryImpl extends CustomerRepository{
 
     store.runInTransaction(TxMode.write, () {
       for (final customer in customers) {
-        final existing = customerBox.get(customer.customerId);
+        final CustomerModel? existing = customer.customerId > 0
+          ? customerBox.get(customer.customerId)
+          : null
+        ;
 
         final newModel = customer.maybeMap(
           person: (p) => p.toModel(),
@@ -115,7 +118,9 @@ class CustomerRepositoryImpl extends CustomerRepository{
     final stateRegBox = store.box<StateRegistrationModel>();
 
     final id = store.runInTransaction(TxMode.write, () {
-      final existing = customerBox.get(customer.customerId);
+      final CustomerModel? existing = customer.customerId > 0
+          ? customerBox.get(customer.customerId)
+          : null;
 
       final newModel = customer.maybeMap(
         person: (p) => p.toModel(),
