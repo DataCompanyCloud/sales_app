@@ -24,6 +24,7 @@ class StorageController extends AutoDisposeAsyncNotifier<StoragesPagination> {
         if (storages.isNotEmpty) {
           await repository.saveAll(storages);
         }
+
       } catch (e) {
         print(e);
       }
@@ -76,5 +77,4 @@ class StorageController extends AutoDisposeAsyncNotifier<StoragesPagination> {
       )
     );
   }
-
 }

@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sales_app/src/features/storage/domain/entities/storage.dart';
 
-class CustomerStorageCard extends ConsumerWidget {
-  final Storage storage;
-
-  const CustomerStorageCard({
-    super.key,
-    required this.storage
-  });
+class StorageMovementDetailsCard extends ConsumerWidget {
+  const StorageMovementDetailsCard({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,7 +26,7 @@ class CustomerStorageCard extends ConsumerWidget {
                     topLeft: Radius.circular(10),
                     bottomLeft: Radius.circular(10)
                   ),
-                  color: Colors.blue
+                  color: Colors.green.shade600
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.only(
@@ -40,7 +34,7 @@ class CustomerStorageCard extends ConsumerWidget {
                     bottomLeft: Radius.circular(10)
                   ),
                   child: Icon(
-                    Icons.warehouse,
+                    Icons.move_to_inbox_sharp,
                     color: Colors.white,
                     size: 38,
                   ),
@@ -66,12 +60,21 @@ class CustomerStorageCard extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
-                                storage.name,
-                                style: TextStyle(
-                                  fontSize: 16
+                              Container(
+                                padding: EdgeInsets.only(left: 8, right: 8),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: Colors.green
+                                ),
+                                child: Text(
+                                  "Entrada",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold
+                                  ),
                                 ),
                               ),
+                              Text("Data-Hora")
                             ],
                           ),
                         ),

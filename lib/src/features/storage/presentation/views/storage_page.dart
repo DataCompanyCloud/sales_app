@@ -8,11 +8,10 @@ import 'package:sales_app/src/features/storage/presentation/router/storage_route
 import 'package:sales_app/src/features/storage/presentation/widgets/cards/customer_storage_card.dart';
 import 'package:sales_app/src/features/storage/presentation/widgets/cards/user_storage_card.dart';
 import 'package:sales_app/src/features/storage/presentation/widgets/screens/storage_search_screen.dart';
-import 'package:sales_app/src/features/storage/presentation/widgets/skeleton/storage_product_details_skeleton.dart';
+import 'package:sales_app/src/features/storage/presentation/widgets/skeleton/storage_list_skeleton.dart';
 import 'package:sales_app/src/features/storage/providers.dart';
 
 class StoragePage extends ConsumerStatefulWidget {
-
   const StoragePage ({
     super.key
   });
@@ -49,7 +48,7 @@ class StoragePageState extends ConsumerState<StoragePage>{
           : AppException.errorUnexpected(error.toString()),
       ),
       loading: () => Scaffold(
-        body: StorageProductDetailsSkeleton(),
+        body: StorageListSkeleton(),
       ),
       data: (pagination) {
         final storages = pagination.items;
@@ -63,11 +62,18 @@ class StoragePageState extends ConsumerState<StoragePage>{
               },
               icon: Icon(Icons.arrow_back_ios_new, size: 22),
             ),
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(1.0),
+              child: Container(
+                color: scheme.outline,
+                height: 1.0,
+              ),
+            ),
             actions: [
               IconButton(
-                  onPressed: _showSearch,
-                  icon: Icon(isSearchScreenOpen ? Icons.close : Icons.search)
-              )
+                onPressed: _showSearch,
+                icon: Icon(isSearchScreenOpen ? Icons.close : Icons.search)
+              ),
             ],
           ),
           body: SafeArea(
@@ -81,20 +87,17 @@ class StoragePageState extends ConsumerState<StoragePage>{
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 12),
                     child: GestureDetector(
                       onTap: () {
-                        context.pushNamed(StorageRouter.storage_details.name);
+                        context.pushNamed(
+                          StorageRouter.storage_details.name,
+                          queryParameters: {
+                            'isMyStorage': true,
+                          }
+                        );
                       },
                       child: UserStorageCard()
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 12, bottom: 12),
-                    child: Divider(
-                      color: scheme.surface,
-                      indent: 8,
-                      endIndent: 8,
                     ),
                   ),
                   Expanded(
@@ -104,7 +107,21 @@ class StoragePageState extends ConsumerState<StoragePage>{
                       itemBuilder: (context, i) {
                         final storage = storages[i];
 
-                        return CustomerStorageCard(storage: storage);
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 4),
+                          child: GestureDetector(
+                            onTap: () {
+                              context.pushNamed(
+                                StorageRouter.storage_details.name,
+                                queryParameters: {
+                                  'storageId': storage.storageId.toString(),
+                                  'isMyStorage': 'false',
+                                }
+                              );
+                            },
+                            child: CustomerStorageCard(storage: storage)
+                          ),
+                        );
                       }
                     ),
                   ),

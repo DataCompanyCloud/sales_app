@@ -36,7 +36,7 @@ final storageControllerProvider = AutoDisposeAsyncNotifierProvider<StorageContro
   return StorageController();
 });
 
-final storageDetailsControllerProvider = AsyncNotifierProvider.autoDispose.family<StorageDetailsController, Storage, int>(
+final storageDetailsControllerProvider = AsyncNotifierProvider.autoDispose.family<StorageDetailsController, Storage, int?>(
   StorageDetailsController.new,
 );
 

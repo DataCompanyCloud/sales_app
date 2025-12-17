@@ -28,7 +28,6 @@ class StorageModel {
 extension StorageModelMapper on StorageModel {
   /// De StorageModel → Storage
   Storage toEntity() {
-    final transaction = this.transaction.map((m) => m.toEntity());
 
     return Storage(
       storageId: storageId,
