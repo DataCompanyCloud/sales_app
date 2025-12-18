@@ -70,9 +70,7 @@ abstract class Address with _$Address {
 
     buffer.write(street);
 
-    if (number != null) {
-      buffer.write(', $number');
-    }
+    buffer.write(', ${number ?? "S/N"}');
 
     buffer.write(' - $district');
     buffer.write(', $city');

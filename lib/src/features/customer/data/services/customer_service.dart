@@ -26,7 +26,7 @@ class CustomerService {
           try {
             return Customer.fromJson(c);
           } catch (error) {
-            print(error);
+            // print(error);
             return null;
           }
         })

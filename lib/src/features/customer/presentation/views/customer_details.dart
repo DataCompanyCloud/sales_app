@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/screens/company_customer_details.dart';
@@ -29,37 +28,17 @@ class CustomerDetails extends ConsumerWidget {
       ),
       loading: () => CustomerDetailsSkeleton(),
       data: (customer) {
-
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(customer.customerCode ?? ""),
-            leading: IconButton(
-              onPressed: () {
-                context.pop();
-              },
-              icon: Icon(Icons.arrow_back_ios_new, size: 22)
-            ),
-          ),
-          body: RefreshIndicator(
-            onRefresh: () async {
-              final controller = ref.read(customerDetailsControllerProvider(customer.customerId));
-              if (!controller.isLoading) {
-                final _ = ref.refresh(customerDetailsControllerProvider(customer.customerId));
-              }
-            },
-            child: customer.maybeMap(
-              person: (person) => PersonCustomerDetails(customer: person),
-              company: (company) => CompanyCustomerDetails(customer: company),
-              orElse: () => Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Text(
-                    "Não foi possível mostrar os dados do cliente"
-                  ),
-                ),
+        return customer.maybeMap(
+          person: (person) => PersonCustomerDetails(customer: person),
+          company: (company) => CompanyCustomerDetails(customer: company),
+          orElse: () => Center(
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Text(
+                  "Não foi possível mostrar os dados do cliente"
               ),
             ),
-          )
+          ),
         );
       },
     );

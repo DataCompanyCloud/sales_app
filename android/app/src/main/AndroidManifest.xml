@@ -50,5 +50,6 @@
             <data android:mimeType="text/plain"/>
         </intent>
         <package android:name="com.whatsapp"/>
+        <package android:name="com.google.android.apps.maps" />
     </queries>
 </manifest>
