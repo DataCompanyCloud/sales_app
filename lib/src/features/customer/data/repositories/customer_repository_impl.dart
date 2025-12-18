@@ -119,8 +119,8 @@ class CustomerRepositoryImpl extends CustomerRepository{
 
     final id = store.runInTransaction(TxMode.write, () {
       final CustomerModel? existing = customer.customerId > 0
-          ? customerBox.get(customer.customerId)
-          : null;
+        ? customerBox.get(customer.customerId)
+        : null;
 
       final newModel = customer.maybeMap(
         person: (p) => p.toModel(),

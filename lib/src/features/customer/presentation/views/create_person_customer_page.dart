@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/address.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/contact_info.dart';
 import 'package:sales_app/src/features/customer/domain/valueObjects/payment_method.dart';
@@ -376,14 +377,8 @@ class CreatePersonCustomerState extends ConsumerState<CreatePersonCustomerPage>{
 
                 if (newCustomer == null) return;
 
-                print(newCustomer);
-
-                final repository = await ref.read(customerRepositoryProvider.future);
-                repository.save(newCustomer);
-
                 if (!context.mounted) return;
-                Navigator.pop(context, newCustomer);
-
+                context.pop(newCustomer);
               } finally {
                 ref.read(_isLoadingProvider.notifier).state = false;
               }

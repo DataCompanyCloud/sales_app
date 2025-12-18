@@ -21,7 +21,7 @@ class MoneyModel{
 
 extension MoneyModelMapper on MoneyModel {
   /// De MoneyModel → Money
-  Money toEntity() => Money(
+  Money toEntity() => Money.raw(
     scale: scale,
     amount: amount,
     currency: Currency.values[currency]

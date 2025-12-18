@@ -34,7 +34,7 @@ extension CompanyModelMapper on CompanyModel {
     return Company(
       tradeName: tradeName,
       realName: realName,
-      cnpj: CNPJ(value: cnpj),
+      cnpj: CNPJ.raw(value: cnpj),
       companyId: companyId,
       address: address.target!.toEntity(),
       isPrimary: isPrimary,

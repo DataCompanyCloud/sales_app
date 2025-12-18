@@ -22,9 +22,17 @@ class CustomerService {
     final data = json['data'] as List<dynamic>;
 
     final customers = data
-      .map((c) {
-        return Customer.fromJson(c);
-      }).toList();
+      .map<Customer?>((c) {
+          try {
+            return Customer.fromJson(c);
+          } catch (error) {
+            print(error);
+            return null;
+          }
+        })
+      .whereType<Customer>()
+      .toList();
+
 
     return customers;
   }

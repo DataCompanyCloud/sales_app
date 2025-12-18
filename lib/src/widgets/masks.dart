@@ -7,6 +7,11 @@ class Masks {
     filter: { '#': RegExp(r'[0-9]') },
   );
 
+  static final cnpj = MaskTextInputFormatter(
+    mask: '##.###.###/####-##',
+    filter: { "#": RegExp(r'[0-9]') },
+  );
+
   static final cpf = MaskTextInputFormatter(
     mask: '###.###.###-##',
     filter: { "#": RegExp(r'[0-9]') },

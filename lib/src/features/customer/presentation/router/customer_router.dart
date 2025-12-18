@@ -1,19 +1,17 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/customer/presentation/views/create_company_customer_page.dart';
-import 'package:sales_app/src/features/customer/presentation/views/create_customer_page.dart';
 import 'package:sales_app/src/features/customer/presentation/views/create_person_customer_page.dart';
 import 'package:sales_app/src/features/customer/presentation/views/customer_details.dart';
 import 'package:sales_app/src/features/customer/presentation/views/customer_page.dart';
-import 'package:sales_app/src/features/customer/presentation/views/insert_customer_cnpj.dart';
 
 enum CustomerRouter {
   customer,
   customerDetails,
-  createCustomer,
   createPersonCustomer,
   createCompanyCustomer,
-  insertCustomerCnpj
+  editPersonCustomer,
+  editCompanyCustomer,
 }
 
 final previousTabIndexProvider = StateProvider<int>((ref) => 3);
@@ -56,39 +54,39 @@ final customerRoutes = GoRoute(
       builder: (context, state) {
         final customerId = state.extra as int;
         return CustomerDetails(customerId: customerId);
-      }
-    ),
-    GoRoute(
-      path: 'create_customer',
-      name: CustomerRouter.createCustomer.name,
-      builder: (context, state) {
-        return CreateCustomer();
       },
       routes: [
-        GoRoute(
-          path: 'create_person_customer',
-          name: CustomerRouter.createPersonCustomer.name,
-          builder: (context, state) {
-            return CreatePersonCustomerPage();
-          },
-        ),
-        GoRoute(
-          path: 'insert_customer_cnpj',
-          name: CustomerRouter.insertCustomerCnpj.name,
-          builder: (context, state) {
-            return InsertCustomerCnpj();
-          },
-          routes: [
-            GoRoute(
-              path: 'create_company_customer',
-              name: CustomerRouter.createCompanyCustomer.name,
-              builder: (context, state) {
-                return CreateCompanyCustomerPage();
-              },
-            )
-          ]
-        ),
+        // GoRoute(
+        //   path: 'edit_person_customer',
+        //   name: CustomerRouter.editPersonCustomer.name,
+        //   builder: (context, state) {
+        //     final customerId = state.extra as int;
+        //     return EditPersonCustomer(customerId: customerId);
+        //   },
+        // ),
+        // GoRoute(
+        //   path: 'edit_company_customer',
+        //   name: CustomerRouter.editCompanyCustomer.name,
+        //   builder: (context, state) {
+        //     final customerId = state.extra as int;
+        //     return EditCompanyCustomer(customerId: customerId);
+        //   },
+        // ),
       ]
     ),
+    GoRoute(
+      path: 'create_person_customer',
+      name: CustomerRouter.createPersonCustomer.name,
+      builder: (context, state) {
+        return CreatePersonCustomerPage();
+      },
+    ),
+    GoRoute(
+      path: 'create_company_customer',
+      name: CustomerRouter.createCompanyCustomer.name,
+      builder: (context, state) {
+        return CreateCompanyCustomerPage();
+      },
+    )
   ]
 );

@@ -25,7 +25,11 @@ abstract class CPF with _$CPF {
       throw AppException(AppExceptionCode.CODE_037_CPF_INVALID_LENGTH, "CPF inválido: precisa ter 11 dígitos.");
     }
 
-    return CPF.raw(value: value);
+    if (!isValidCPF(numericOnly)) {
+      throw AppException(AppExceptionCode.CODE_038_CPF_INVALID, 'CPF inválido.');
+    }
+
+    return CPF.raw(value: numericOnly);
   }
 
   factory CPF.fromString(String json) => CPF(value: json);
@@ -34,8 +38,33 @@ abstract class CPF with _$CPF {
 
 
   String get formatted {
-    final digits = value.padLeft(11, '0');
+    final numericOnly = value.replaceAll(RegExp(r'\D'), '');
+    final digits = numericOnly.padLeft(11, '0');
     return '${digits.substring(0, 3)}.${digits.substring(3, 6)}.${digits.substring(6, 9)}-${digits.substring(9, 11)}';
+  }
+
+  static bool isValidCPF(String cpf) {
+    final numbers = cpf.replaceAll(RegExp(r'\D'), '');
+
+    if (numbers.length != 11) return false;
+    if (RegExp(r'^(\d)\1*$').hasMatch(numbers)) return false;
+
+    List<int> digits = numbers.split('').map(int.parse).toList();
+
+    int calcDigit(int length) {
+      int sum = 0;
+      int weight = length + 1;
+
+      for (int i = 0; i < length; i++) {
+        sum += digits[i] * weight--;
+      }
+
+      int mod = sum % 11;
+      return mod < 2 ? 0 : 11 - mod;
+    }
+
+    return calcDigit(9) == digits[9] &&
+        calcDigit(10) == digits[10];
   }
 }
 

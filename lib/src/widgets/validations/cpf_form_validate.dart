@@ -40,6 +40,7 @@ class CpfFormNotifier extends StateNotifier<CpfFormValidate> {
       switch (e.code) {
         case AppExceptionCode.CODE_036_CPF_REQUIRED:
         case AppExceptionCode.CODE_037_CPF_INVALID_LENGTH:
+        case AppExceptionCode.CODE_038_CPF_INVALID:
           state = state.copyWith(cpfError: e.message);
           break;
 

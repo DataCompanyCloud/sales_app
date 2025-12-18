@@ -34,6 +34,8 @@ class CustomerController extends AutoDisposeAsyncNotifier<List<Customer>>{
 
 
   Future<void> createCustomer(Customer customer) async {
+    state = const AsyncValue.loading();
+
     state = await AsyncValue.guard(() async {
       final filter = ref.watch(customerFilterProvider);
       final repository = await ref.read(customerRepositoryProvider.future);

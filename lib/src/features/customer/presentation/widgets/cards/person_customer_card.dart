@@ -23,21 +23,33 @@ class PersonCustomerCard extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Stack(
-            alignment: Alignment.topCenter,
-            children: [
-              Column(
-                children: [
-                  Container(
+          Container(
+            width: 75,
+            height: 75,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10),
+                bottomLeft: Radius.circular(10)
+              ),
+              color: customer.isActive ? Colors.green : Colors.red,
+            ),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                if (customer.customerCode != null)
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  child: Container(
                     width: 75,
                     height: 20,
                     decoration: BoxDecoration(
-                      color: customer.isActive
-                        ? Colors.green.shade900
-                        : Colors.red.shade900,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                      )
+                        color: customer.isActive
+                          ? Colors.green.shade900
+                          : Colors.red.shade900,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                        )
                     ),
                     alignment: Alignment.center,
                     child: Text(
@@ -45,31 +57,14 @@ class PersonCustomerCard extends ConsumerWidget {
                       style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.only(bottom: 8),
-                    width: 75,
-                    height: 55,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(10)
-                      ),
-                      color: customer.isActive ? Colors.green : Colors.red,
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        bottomLeft: Radius.circular(10)
-                      ),
-                      child: Icon(
-                        Icons.person,
-                        color: Colors.white,
-                        size: 38
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+                ),
+                Icon(
+                  Icons.person,
+                  color: Colors.white,
+                  size: 38
+                ),
+              ],
+            ),
           ),
           Expanded(
             child: Container(

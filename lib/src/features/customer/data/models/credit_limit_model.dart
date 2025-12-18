@@ -17,7 +17,7 @@ class CreditLimitModel{
 
 extension CreditLimitModelMapper on CreditLimitModel {
   /// De MoneyModel → Money
-  CreditLimit toEntity() => CreditLimit(
+  CreditLimit toEntity() => CreditLimit.raw(
     available: available.target!.toEntity(),
     maximum: maximum.target!.toEntity()
   );

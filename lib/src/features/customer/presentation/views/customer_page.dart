@@ -8,6 +8,7 @@ import 'package:sales_app/src/features/customer/presentation/router/customer_rou
 import 'package:sales_app/src/features/customer/presentation/widgets/buttons/customer_status_buttons.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/cards/company_customer_card.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/cards/person_customer_card.dart';
+import 'package:sales_app/src/features/customer/presentation/widgets/draggable/draggable_create_customer.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/skeleton/customer_page_skeleton.dart';
 import 'package:sales_app/src/features/customer/providers.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_screen.dart';
@@ -50,8 +51,10 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
 
   @override
   Widget build(BuildContext context) {
-    final currentIndex = ref.watch(customerIndexProvider);
     final controller = ref.watch(customerControllerProvider);
+    final notifier = ref.read(customerControllerProvider.notifier);
+
+    final currentIndex = ref.watch(customerIndexProvider);
     final status = ref.watch(customerStatusFilterProvider);
     final isSearchOpen = ref.watch(isSearchOpenProvider);
 
@@ -105,8 +108,8 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
             title: Text("Clientes"),
             actions: [
               IconButton(
-                onPressed: _toggleSearch,
                 icon: Icon(isSearchOpen ? Icons.close : Icons.search),
+                onPressed: _toggleSearch,
               ),
             ],
           ),
@@ -234,8 +237,18 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
           floatingActionButton: FloatingActionButton(
             backgroundColor: Color(0xFF0081F5),
             foregroundColor: Colors.white,
-            onPressed: () {
-              context.pushNamed(CustomerRouter.createCustomer.name);
+            onPressed: () async {
+              // context.pushNamed(CustomerRouter.createCustomer.name);
+              final newCustomer = await showModalBottomSheet<Customer?>(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                builder: (_) => const DraggableCreateCustomer(),
+              );
+
+              if (newCustomer == null) return;
+
+              notifier.createCustomer(newCustomer);
             },
             child: Icon(Icons.group_add),
           ),
