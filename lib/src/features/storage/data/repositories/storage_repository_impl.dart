@@ -1,11 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:sales_app/objectbox.g.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/stockTransaction/data/models/stock_transaction_model.dart';
 import 'package:sales_app/src/features/storage/data/models/storage_model.dart';
 import 'package:sales_app/src/features/storage/domain/entities/storage.dart';
+import 'package:sales_app/src/features/storage/domain/entities/storage_product.dart';
 import 'package:sales_app/src/features/storage/domain/repositories/storage_repository.dart';
-
 
 class StorageRepositoryImpl extends StorageRepository {
   final Store store;
@@ -192,4 +193,17 @@ class StorageRepositoryImpl extends StorageRepository {
     return Future.value(storageBox.count());
   }
 
+  @override
+  Future<List<StorageProduct>> getProductsByStorage(int storageId) async {
+    await Future.delayed(const Duration(milliseconds: 300));
+    debugPrint('[Repository] getProductsByStorage($storageId)');
+
+    return List.generate(
+      10,
+      (i) => StorageProduct(
+        productId: i + 1,
+        quantity: (i + 1) * 5,
+      ),
+    );
+  }
 }

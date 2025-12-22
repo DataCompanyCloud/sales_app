@@ -15,7 +15,7 @@ class StoragePage extends ConsumerStatefulWidget {
   const StoragePage ({
     super.key
   });
-  
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => StoragePageState();
 }
@@ -47,9 +47,7 @@ class StoragePageState extends ConsumerState<StoragePage>{
           ? error
           : AppException.errorUnexpected(error.toString()),
       ),
-      loading: () => Scaffold(
-        body: StorageListSkeleton(),
-      ),
+      loading: () => StorageListSkeleton(),
       data: (pagination) {
         final storages = pagination.items;
 
@@ -88,17 +86,7 @@ class StoragePageState extends ConsumerState<StoragePage>{
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 12),
-                    child: GestureDetector(
-                      onTap: () {
-                        context.pushNamed(
-                          StorageRouter.storage_details.name,
-                          queryParameters: {
-                            'isMyStorage': true,
-                          }
-                        );
-                      },
-                      child: UserStorageCard()
-                    ),
+                    child: UserStorageCard(),
                   ),
                   Expanded(
                     child: ListView.builder(
@@ -111,11 +99,12 @@ class StoragePageState extends ConsumerState<StoragePage>{
                           padding: const EdgeInsets.only(bottom: 4),
                           child: GestureDetector(
                             onTap: () {
+                              debugPrint('Clicando storageId: ${storage.storageId}');
+
                               context.pushNamed(
-                                StorageRouter.storage_details.name,
-                                queryParameters: {
-                                  'storageId': storage.storageId.toString(),
-                                  'isMyStorage': 'false',
+                                StorageRouter.storage_details.name, queryParameters: {'storageId': storage.storageId.toString()},
+                                extra: {
+                                  'isMyStorage': false,
                                 }
                               );
                             },

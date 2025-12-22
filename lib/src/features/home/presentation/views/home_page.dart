@@ -59,7 +59,6 @@ class HomePage extends ConsumerWidget {
                     return SizedBox.shrink();
                   }
 
-
                   // TODO Rever isso aqui
                   final group = groups.first;
                   final company = group.primaryCompany ?? group.companies.first;
@@ -182,9 +181,7 @@ class HomePage extends ConsumerWidget {
                       ),
                       title: Text("Meu Estoque"),
                       trailing: Icon(Icons.chevron_right),
-                      onTap: () {
-                        context.pushNamed(StorageRouter.storage_details.name);
-                      },
+                      onTap: () {},
                     ),
                     ListTile(
                       visualDensity: VisualDensity(vertical: 3),

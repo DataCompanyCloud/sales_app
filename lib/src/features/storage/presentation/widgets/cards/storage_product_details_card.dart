@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sales_app/src/features/storage/domain/entities/storage_product.dart';
 
-class StorageMovementDetailsCard extends ConsumerWidget {
-  const StorageMovementDetailsCard({super.key});
+class StorageProductDetailsCard extends ConsumerWidget {
+  final StorageProduct product;
+
+  const StorageProductDetailsCard({
+    super.key,
+    required this.product
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,7 +32,7 @@ class StorageMovementDetailsCard extends ConsumerWidget {
                     topLeft: Radius.circular(10),
                     bottomLeft: Radius.circular(10)
                   ),
-                  color: Colors.green.shade600
+                  color: Colors.blue
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.only(
@@ -34,7 +40,7 @@ class StorageMovementDetailsCard extends ConsumerWidget {
                     bottomLeft: Radius.circular(10)
                   ),
                   child: Icon(
-                    Icons.move_to_inbox_sharp,
+                    Icons.shopping_cart,
                     color: Colors.white,
                     size: 38,
                   ),
@@ -58,24 +64,36 @@ class StorageMovementDetailsCard extends ConsumerWidget {
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Container(
-                                padding: EdgeInsets.only(left: 8, right: 8),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: Colors.green
-                                ),
-                                child: Text(
-                                  "Texto Aqui",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold
-                                  ),
+                              Text(
+                                // "${product.productId}",
+                                "--",
+                                maxLines: 3,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                              Text("Texto Aqui")
                             ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 12),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: scheme.surfaceContainerHighest,
+                              border: Border.all(color: Colors.black),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text(
+                              // "${product.quantity}",
+                              "--",
+                              style: TextStyle(
+                                color: scheme.onSecondaryContainer
+                              ),
+                            ),
                           ),
                         ),
                         Icon(Icons.chevron_right, size: 28),

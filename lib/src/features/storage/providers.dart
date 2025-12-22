@@ -4,6 +4,7 @@ import 'package:sales_app/src/core/providers/datasource_provider.dart';
 import 'package:sales_app/src/features/storage/data/repositories/storage_repository_impl.dart';
 import 'package:sales_app/src/features/storage/data/services/storage_service.dart';
 import 'package:sales_app/src/features/storage/domain/entities/storage.dart';
+import 'package:sales_app/src/features/storage/domain/entities/storage_product.dart';
 import 'package:sales_app/src/features/storage/domain/repositories/storage_repository.dart';
 import 'package:sales_app/src/features/storage/presentation/controllers/storage_controller.dart';
 import 'package:sales_app/src/features/storage/presentation/controllers/storage_details_controller.dart';
@@ -34,6 +35,11 @@ final storageSearchProvider = StateProvider.autoDispose<String?>((ref) {
 
 final storageControllerProvider = AutoDisposeAsyncNotifierProvider<StorageController, StoragesPagination> (() {
   return StorageController();
+});
+
+final storageProductsProvider = FutureProvider.autoDispose.family<List<StorageProduct>, int>((ref, storageId) async {
+  final repository = await ref.read(storageRepositoryProvider.future);
+  return repository.getProductsByStorage(storageId);
 });
 
 final storageDetailsControllerProvider = AsyncNotifierProvider.autoDispose.family<StorageDetailsController, Storage, int?>(

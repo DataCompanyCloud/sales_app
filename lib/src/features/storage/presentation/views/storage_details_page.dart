@@ -5,23 +5,23 @@ import 'package:sales_app/src/features/storage/presentation/widgets/screens/stor
 import 'package:sales_app/src/features/storage/presentation/widgets/screens/storage_product_details_screen.dart';
 
 class StorageDetailsPage extends ConsumerWidget {
-  final _tabBarIndexProvider = StateProvider((ref) => 0);
-  final int? storageId;
+  // final _tabBarIndexProvider = StateProvider((ref) => 0);
+  final int storageId;
   final bool isMyStorage;
 
   StorageDetailsPage({
     super.key,
-    this.storageId,
+    required this.storageId,
     required this.isMyStorage
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tabBarIndex = ref.watch(_tabBarIndexProvider);
+    // final tabBarIndex = ref.read(_tabBarIndexProvider);
 
     return DefaultTabController(
       length: 2,
-      initialIndex: tabBarIndex,
+      // initialIndex: tabBarIndex,
       child: Scaffold(
         appBar: AppBar(
           title: Text("Detalhes do Estoque"),
@@ -35,18 +35,18 @@ class StorageDetailsPage extends ConsumerWidget {
             indicatorColor: Colors.blue,
             indicatorSize: TabBarIndicatorSize.tab,
             unselectedLabelColor: Colors.grey,
-            onTap: (index) => ref.watch(_tabBarIndexProvider.notifier).state = index,
-            tabs: [
+            // onTap: (index) => ref.read(_tabBarIndexProvider.notifier).state = index,
+            tabs: const [
               Tab(text: "Produtos"),
-              Tab(text: "Movimentação")
-            ]
+              Tab(text: "Movimentação"),
+            ],
           ),
         ),
         body: TabBarView(
           children: [
-            StorageProductDetailsScreen(),
-            /// TODO: Ajustar isso (provavelmente está errado)
-            StorageMovementDetailsScreen(storageId: storageId!)
+            // ScreenTest(),
+            StorageProductDetailsScreen(storageId: storageId),
+            StorageMovementDetailsScreen()
           ]
         ),
       ),
