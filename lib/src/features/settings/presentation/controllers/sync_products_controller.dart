@@ -9,7 +9,6 @@ import 'package:sales_app/src/features/product/providers.dart';
 import 'package:sales_app/src/features/settings/presentation/controllers/valueObjects/sync_state.dart';
 import 'package:sales_app/src/features/settings/presentation/controllers/valueObjects/sync_status.dart';
 import 'package:sales_app/src/features/settings/providers.dart';
-import 'dart:math';
 
 class SyncProductsNotifier extends AsyncNotifier<SyncState> {
   static const channel = "sync_product";

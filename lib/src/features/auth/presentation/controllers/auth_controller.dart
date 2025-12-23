@@ -12,7 +12,7 @@ class AuthController extends AsyncNotifier<User?> {
       final repo = ref.read(authRepositoryProvider);
       return await repo.fetch(); // Tenta buscar o usuário salvo localmente ao iniciar
     } catch(e) {
-      print(e);
+      // print(e);
     }
     return null;
   }
@@ -34,7 +34,7 @@ class AuthController extends AsyncNotifier<User?> {
       final repo = ref.read(authRepositoryProvider);
       final saved = await repo.save(userLogged);
 
-      print(saved);
+      // print(saved);
       state = AsyncData(saved);
     } catch (e, st) {
       state = AsyncError(e, st);
@@ -52,8 +52,8 @@ class AuthController extends AsyncNotifier<User?> {
         );
 
         return newUser;
-      } catch (e, st) {
-        print(e);
+      } catch (e) {
+        // print(e);
       }
       return user;
     });

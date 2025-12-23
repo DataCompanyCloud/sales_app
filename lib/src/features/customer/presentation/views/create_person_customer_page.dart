@@ -8,7 +8,6 @@ import 'package:sales_app/src/features/customer/presentation/widgets/sections/ad
 import 'package:sales_app/src/features/customer/presentation/widgets/sections/contact_info_section.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/sections/credit_limit_section.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/sections/payment_method_section.dart';
-import 'package:sales_app/src/features/customer/providers.dart';
 import 'package:sales_app/src/widgets/dialogs/confirmation_dialog.dart';
 import 'package:sales_app/src/widgets/draggable/contact_info_draggable.dart';
 import 'package:sales_app/src/widgets/formField/custom_text_field.dart';

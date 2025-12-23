@@ -1,15 +1,12 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sales_app/src/features/images/presentation/controllers/valueObjects/product_image_cached.dart';
 import 'package:sales_app/src/features/images/presentation/widgets/product_image_cached_widget.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/attribute.dart';
 import 'package:sales_app/src/features/images/domain/entities/image.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_product.dart';
-import 'package:sales_app/src/features/images/presentation/widgets/image_widget.dart';
 import 'package:uuid/uuid.dart';
 
 
@@ -171,7 +168,7 @@ class SelectProductBottomSheetState extends ConsumerState<SelectProductBottomShe
                             child: ListView.separated(
                               scrollDirection: Axis.horizontal,
                               itemCount: product.imagesAll.length,
-                              separatorBuilder: (_, __) => const SizedBox(width: 8),
+                              separatorBuilder: (_, _) => const SizedBox(width: 8),
                               itemBuilder: (context, i) {
                                 final image = product.imagesAll[i];
 
@@ -384,7 +381,7 @@ class SelectProductBottomSheetState extends ConsumerState<SelectProductBottomShe
                             textAlign: TextAlign.center,
                             keyboardType: TextInputType.number,
                             onChanged: (text) {
-                              final n =  max(int.tryParse(text) ?? 0, 0);
+                              max(int.tryParse(text) ?? 0, 0);
 
                               // cart.setProductQuantity(product, n);
                             },

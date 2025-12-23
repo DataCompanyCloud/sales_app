@@ -16,7 +16,7 @@ class CustomerDetailsController extends AutoDisposeFamilyAsyncNotifier<Customer,
       await repository.save(remote); // mantém cache atualizado
       return remote;
     } catch (e) {
-      print(e);
+      // print(e);
     }
 
     // 2) Fallback: tenta local

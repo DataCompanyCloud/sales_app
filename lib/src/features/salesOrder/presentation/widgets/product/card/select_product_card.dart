@@ -1,13 +1,11 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sales_app/src/features/images/presentation/controllers/valueObjects/product_image_cached.dart';
 import 'package:sales_app/src/features/images/presentation/widgets/product_image_cached_widget.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
 import 'package:sales_app/src/features/product/providers.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_product.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/widgets/product/bottomSheet/select_product_bottom_sheet.dart';
-import 'package:sales_app/src/features/images/presentation/widgets/image_widget.dart';
 
 
 class SelectProductCard extends ConsumerStatefulWidget {
@@ -218,7 +216,7 @@ class SelectProductCardState extends ConsumerState<SelectProductCard> {
                   ),
                   child: InkWell(
                     onTap: () async {
-                      final selected = await showModalBottomSheet<SalesOrderProduct?>(
+                      await showModalBottomSheet<SalesOrderProduct?>(
                         context: context,
                         isScrollControlled: true,
                         backgroundColor: Colors.transparent,
@@ -227,7 +225,7 @@ class SelectProductCardState extends ConsumerState<SelectProductCard> {
                         },
                       );
 
-                      print(selected);
+                      // print(selected);
                     },
                     child: Container(
                       width: double.infinity,

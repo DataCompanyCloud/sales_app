@@ -89,7 +89,7 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
                     Padding(padding: EdgeInsets.only(top: 16)),
                     InkWell(
                       onTap: () {
-                        ref.refresh(customerControllerProvider);
+                        // ref.refresh(customerControllerProvider);
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8),

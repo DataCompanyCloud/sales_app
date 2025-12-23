@@ -95,7 +95,6 @@ class StorageRepositoryImpl extends StorageRepository {
   @override
   Future<Storage> save(Storage storage) async {
     final storageBox = store.box<StorageModel>();
-    final stockTransactionBox = store.box<StockTransactionModel>();
 
     final id = store.runInTransaction(TxMode.write, () {
       final existing = storageBox.get(storage.storageId);

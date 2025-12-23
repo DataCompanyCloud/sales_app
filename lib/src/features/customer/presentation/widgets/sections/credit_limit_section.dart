@@ -135,7 +135,7 @@ class CreditLimitSectionState extends ConsumerState<CreditLimitSection> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        creditLimit.available.format(scale: 2) ?? "--",
+                        creditLimit.available.format(scale: 2),
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sales_app/src/features/images/presentation/controllers/valueObjects/product_image_cached.dart';
 import 'package:sales_app/src/features/images/presentation/widgets/product_image_cached_widget.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
 

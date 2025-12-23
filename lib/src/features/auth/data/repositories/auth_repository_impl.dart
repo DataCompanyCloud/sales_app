@@ -27,7 +27,7 @@ class AuthRepositoryImpl extends AuthRepository{
     final user = User.fromJson(data);
     final isSync = prefs.getBool('${_syncBaseKey}_${user.userId}');
 
-    print(isSync);
+    // print(isSync);
     return user.copyWith(isSync: isSync ?? false);
   }
 
@@ -38,7 +38,7 @@ class AuthRepositoryImpl extends AuthRepository{
     await prefs.setString(_userKey, jsonString);
 
     final isSync = prefs.getBool('${_syncBaseKey}_${user.userId}');
-    print ('${_syncBaseKey}_${user.userId}');
+    // print ('${_syncBaseKey}_${user.userId}');
     if (isSync == null) {
       await prefs.setBool('${_syncBaseKey}_${user.userId}', false);
     }

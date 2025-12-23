@@ -87,6 +87,6 @@ abstract class Address with _$Address {
     return buffer.toString();
   }
 
-  String? get uf => state?.name;
-  String? get ufName => state?.fullName;
+  String? get uf => state.name;
+  String? get ufName => state.fullName;
 }

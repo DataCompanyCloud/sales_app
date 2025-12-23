@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sales_app/src/core/exceptions/app_exception.dart';
-import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
-import 'package:sales_app/src/features/storage/domain/entities/storage_product.dart';
 import 'package:sales_app/src/features/storage/presentation/widgets/cards/storage_product_details_card.dart';
 import 'package:sales_app/src/features/storage/providers.dart';
 

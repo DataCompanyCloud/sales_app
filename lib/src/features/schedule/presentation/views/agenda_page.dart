@@ -53,7 +53,7 @@ final markedDatesProvider = NotifierProvider<MarkedDates, Set<DateTime>>(
 /// Utils de data
 /// =========================
 DateTime _startOfMonth(DateTime d) => DateTime(d.year, d.month, 1);
-int _daysInMonth(DateTime d) => DateTime(d.year, d.month + 1, 0).day;
+// int _daysInMonth(DateTime d) => DateTime(d.year, d.month + 1, 0).day;
 
 DateTime _gridStart(DateTime monthAnchor) {
   // Semana começando na segunda-feira (weekday: 1=Mon..7=Sun).
@@ -112,7 +112,7 @@ class SchedulePage extends ConsumerWidget {
 
     final weeks = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SAB"];
 
-    final theme = Theme.of(context);
+    // final theme = Theme.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -157,7 +157,7 @@ class SchedulePage extends ConsumerWidget {
                         child: Text(
                           _ptWeekdaysShort[i],
                           style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 179),
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -192,13 +192,13 @@ class SchedulePage extends ConsumerWidget {
                             ? scheme.onPrimary
                             : (inCurrentMonth
                             ? scheme.onSurface
-                            : scheme.onSurface.withOpacity(0.35)),
+                            : scheme.onSurface.withValues(alpha: 89)),
                       );
 
                       final bg = isMarked
                           ? scheme.primary
                           : (isToday
-                          ? scheme.primary.withOpacity(0.20)
+                          ? scheme.primary.withValues(alpha: 51)
                           : Colors.transparent);
 
                       return Padding(
@@ -212,7 +212,7 @@ class SchedulePage extends ConsumerWidget {
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
                                 color: isToday
-                                    ? scheme.primary.withOpacity(0.4)
+                                    ? scheme.primary.withValues(alpha: 102)
                                     : scheme.outlineVariant,
                               ),
                             ),
@@ -254,7 +254,7 @@ class SchedulePage extends ConsumerWidget {
                     scrollDirection: Axis.horizontal,
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     itemCount: 7, // garanta que weeks.length >= 7
-                    separatorBuilder: (_, __) => const SizedBox(width: 12),
+                    separatorBuilder: (_, _) => const SizedBox(width: 12),
                     itemBuilder: (context, index) {
                       final d = DateTime.now().add(Duration(days: index));
                       return Container(

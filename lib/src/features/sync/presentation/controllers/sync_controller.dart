@@ -15,11 +15,11 @@ final syncCustomerProvider = FutureProvider.autoDispose<void>((ref) async {
   // 2) itera em páginas
   for (var offset = 0; offset < total; offset += pageSize) {
     try {
-      final pageIndex = offset;
+      // final pageIndex = offset;
       final batch = await service.getAll(CustomerFilter());
-      print("$offset - ${offset + pageSize} = ${batch.length}");
+      // print("$offset - ${offset + pageSize} = ${batch.length}");
       if (batch.isEmpty) {
-        print("Cabou");
+        // print("Cabou");
         break;
       }
       await repository.saveAll(batch);
@@ -28,7 +28,7 @@ final syncCustomerProvider = FutureProvider.autoDispose<void>((ref) async {
       final pct = ((offset + batch.length) / total) * 100;
       ref.read(syncProgressCustomerProvider.notifier).state = pct;
     } catch (e) {
-      print(e);
+      // print(e);
     }
 
   }

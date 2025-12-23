@@ -4,7 +4,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/my_device.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
-import 'package:sales_app/src/features/product/presentation/widgets/draggable/draggable_layout_product.dart';
 import 'package:sales_app/src/features/product/presentation/widgets/skeleton/grid_view_column_skeleton.dart';
 import 'package:sales_app/src/features/product/providers.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/widgets/product/card/select_product_card.dart';
@@ -50,7 +49,7 @@ class SelectProductsPageState extends ConsumerState<SelectProductsPage>{
   Widget build(BuildContext context) {
     final controller = ref.watch(productControllerProvider);
     final cart = ref.watch(productCartControllerProvider);
-    final type = MyDevice.getType(context);
+    final _ = MyDevice.getType(context);
 
     final isSearchOpen = ref.watch(isSearchOpenProvider);
 
@@ -95,8 +94,11 @@ class SelectProductsPageState extends ConsumerState<SelectProductsPage>{
           ),
           body: RefreshIndicator(
             onRefresh: () async {
-              if (controller.isLoading) return;
-              ref.refresh(productControllerProvider);
+              if (controller.isLoading) {
+                return Future.value();
+              }
+
+              return ref.refresh(productControllerProvider);
             },
             child: Column(
               children: [

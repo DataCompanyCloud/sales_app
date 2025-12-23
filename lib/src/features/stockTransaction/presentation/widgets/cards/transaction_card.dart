@@ -23,7 +23,7 @@ class TransactionCard extends ConsumerWidget {
     final toId = stockTransaction.toStorage;
     final salesId = stockTransaction.orderId;
 
-    if (fromId == 2 && salesId != null) {
+    if (fromId == toId && salesId != null) {
       return TypeT.mySales;
     }
 

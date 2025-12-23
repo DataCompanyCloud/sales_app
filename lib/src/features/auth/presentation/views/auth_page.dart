@@ -39,8 +39,8 @@ class _AuthPageState extends ConsumerState<AuthPage>{
         await ref.read(authControllerProvider.notifier).authenticate();
       }
     } catch (e) {
-      //todo: mostar na tela Erro senha inválida
-      print(e);
+      //TODO: mostar na tela Erro senha inválida
+      // print(e);
     } finally {
       ref.read(_isLoadingProvider.notifier).state = false;
     }
@@ -70,7 +70,7 @@ class _AuthPageState extends ConsumerState<AuthPage>{
 
       await ref.read(authControllerProvider.notifier).authenticate();
     } catch (e) {
-      print(e);
+      // print(e);
     }
   }
 

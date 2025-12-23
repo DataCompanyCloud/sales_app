@@ -25,7 +25,7 @@ class CompanyGroupController extends AutoDisposeAsyncNotifier<List<CompanyGroup>
           await repository.saveAll(newCustomers); // Atualiza cache local
         }
       } catch (e) {
-        print(e);
+        // print(e);
       }
     }
 

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/widgets/badges/text_badge.dart';
-import 'package:sales_app/src/widgets/draggable/address_draggable.dart';
 
 class PersonCustomerHeader extends ConsumerWidget {
   final PersonCustomer customer;
@@ -14,7 +13,6 @@ class PersonCustomerHeader extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final scheme = Theme.of(context).colorScheme;
     final address = customer.primaryAddress;
 
     return Padding(

@@ -115,7 +115,7 @@ class DraggableCreateCustomer extends ConsumerWidget {
     return ListTile(
       onTap: onTap,
       leading: CircleAvatar(
-        backgroundColor: scheme.primary.withOpacity(0.12),
+        backgroundColor: scheme.primary.withValues(alpha: 31),
         child: Icon(
           icon,
           color: scheme.primary,

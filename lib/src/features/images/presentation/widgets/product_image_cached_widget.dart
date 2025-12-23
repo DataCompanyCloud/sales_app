@@ -78,15 +78,15 @@ class ProductImageCachedWidget extends ConsumerWidget {
     );
   }
 
-  Widget _buildLoading() {
-    return SizedBox(
-      width: width ?? 160,
-      height: height ?? 160,
-      child: const Center(
-        child: CircularProgressIndicator(strokeWidth: 2),
-      ),
-    );
-  }
+  // Widget _buildLoading() {
+  //   return SizedBox(
+  //     width: width ?? 160,
+  //     height: height ?? 160,
+  //     child: const Center(
+  //       child: CircularProgressIndicator(strokeWidth: 2),
+  //     ),
+  //   );
+  // }
 
   Widget _buildFallback() {
     return SizedBox(

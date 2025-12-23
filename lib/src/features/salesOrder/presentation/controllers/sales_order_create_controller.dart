@@ -29,7 +29,7 @@ class SalesOrderCreateController extends AutoDisposeFamilyAsyncNotifier<SalesOrd
       await repository.save(remote);
 
     } catch (e) {
-      print(e);
+      // print(e);
     }
 
     return await repository.fetchById(orderId);
@@ -132,7 +132,7 @@ class SalesOrderCreateController extends AutoDisposeFamilyAsyncNotifier<SalesOrd
       );
 
       return await repository.save(newOrder);
-    } catch (e, st) {
+    } catch (e) {
       rethrow;
     }
   }
@@ -140,7 +140,7 @@ class SalesOrderCreateController extends AutoDisposeFamilyAsyncNotifier<SalesOrd
 
   /// 2) Salvar/editar em background, sem loading global
   Future<void> saveEdits(SalesOrder updated) async {
-    final service = await ref.read(salesOrderServiceProvider.future);
+    ref.read(salesOrderServiceProvider.future);
     final repository = await ref.read(salesOrderRepositoryProvider.future);
 
     // optimistically: atualiza estado local imediatamente

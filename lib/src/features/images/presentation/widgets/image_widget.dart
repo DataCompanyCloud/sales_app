@@ -37,7 +37,7 @@ class ImageWidget extends ConsumerWidget {
         width: width,
         height: height,
         fit: fit,
-        errorBuilder: (_, __, ___) => _buildFallback(),
+        errorBuilder: (_, _, _) => _buildFallback(),
       );
     }
 
@@ -55,7 +55,7 @@ class ImageWidget extends ConsumerWidget {
       fit: fit,
       // enquanto estiver carregando
       loadingBuilder: (context, child, loadingProgress) {
-        print("carregando: ${loadingProgress}");
+        // print("carregando: ${loadingProgress}");
         if (loadingProgress == null) {
           // já carregou → mostra a imagem
           return child;
@@ -66,7 +66,7 @@ class ImageWidget extends ConsumerWidget {
       },
       // se der erro ao carregar a imagem remota
       errorBuilder: (context, error, stackTrace) {
-        print("error");
+        // print("error");
         return _buildFallback();
       },
     );

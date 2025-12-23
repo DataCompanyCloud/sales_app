@@ -10,7 +10,7 @@ class SyncUserController extends AutoDisposeFamilyAsyncNotifier<bool, int>{
       final repo = ref.watch(syncRepositoryProvider);
       return await repo.get();
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
     }
 
     return false;

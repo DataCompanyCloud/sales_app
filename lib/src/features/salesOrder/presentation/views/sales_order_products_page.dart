@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
-import 'package:sales_app/src/core/providers/connectivity_provider.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
-import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order_product.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/router/sales_order_router.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/widgets/cards/sales_order_product_card.dart';
@@ -33,7 +31,7 @@ class SalesOrderProductsPageState extends ConsumerState<SalesOrderProductsPage> 
 
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
-    final isConnected = ref.watch(isConnectedProvider);
+    // final isConnected = ref.watch(isConnectedProvider);
 
     return controller.when(
       error: (error, stack ) => ErrorPage(
@@ -78,7 +76,7 @@ class SalesOrderProductsPageState extends ConsumerState<SalesOrderProductsPage> 
                       ),
                       child: InkWell(
                         onTap: () async {
-                          final selected = await context.pushNamed<List<SalesOrderProduct>?>(OrderRouter.select_products.name) ?? [];
+                          await context.pushNamed<List<SalesOrderProduct>?>(OrderRouter.select_products.name) ?? [];
                           // final selected = await context.pushNamed<List<SalesOrderProduct>?>(OrderRouter.select_products.name) ?? [];
                           //
                           // if (selected.isEmpty) return;
@@ -210,7 +208,5 @@ class SalesOrderProductsPageState extends ConsumerState<SalesOrderProductsPage> 
     );
   }
 
-  Future<void> _selectProducts(SalesOrder? order) async{
-
-  }
+  // Future<void> _selectProducts(SalesOrder? order) async{}
 }

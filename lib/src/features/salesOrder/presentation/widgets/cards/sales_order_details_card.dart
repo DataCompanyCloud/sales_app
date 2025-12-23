@@ -27,7 +27,7 @@ class _OrderDetailsCardState extends ConsumerState<SalesOrderDetailsCard>{
     final isExpanded = ref.watch(isExpandedProvider);
 
     final categories = List.generate(9, (index) => "Azul");
-    final visibleCategories = isExpanded ? categories : categories.take(3).toList();
+    isExpanded ? categories : categories.take(3).toList();
 
     final image = orderProduct.images;
     final imageUrl = image?.url;

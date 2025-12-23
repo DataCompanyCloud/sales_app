@@ -12,8 +12,6 @@ class CompanyCustomerHeader extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final scheme = Theme.of(context).colorScheme;
-
 
     return Padding(
       padding: const EdgeInsets.all(16),

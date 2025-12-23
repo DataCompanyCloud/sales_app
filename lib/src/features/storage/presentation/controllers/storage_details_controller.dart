@@ -15,7 +15,7 @@ class StorageDetailsController extends AutoDisposeFamilyAsyncNotifier<Storage, i
       await repository.save(remote);
       return remote;
     } catch (e) {
-      print(e);
+      // print(e);
     }
 
     return await repository.fetchById(storageId);

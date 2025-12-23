@@ -26,7 +26,7 @@ class ProductPageState extends ConsumerState<ProductPage>{
   final _scrollController = ScrollController();
   final _isSearchOpenProvider = StateProvider<bool>((_) => false);
   final _crossAxisCountProvider = StateProvider<double>((_) => 2);
-  double? _draftSliderValue; // valor temporário enquanto arrasta
+  // double? _draftSliderValue; // valor temporário enquanto arrasta
 
 
   @override
@@ -140,48 +140,51 @@ class ProductPageState extends ConsumerState<ProductPage>{
           ),
           body: RefreshIndicator(
             onRefresh: () async {
-              if (controller.isLoading) return;
-              ref.refresh(productControllerProvider);
+              if (controller.isLoading) {
+                return Future.value();
+              }
+
+              return ref.refresh(productControllerProvider);
             },
             child: Column(
               children: [
                 AnimatedSize(
-                    duration: Duration(milliseconds: 300),
-                    reverseDuration: Duration(milliseconds: 300),
-                    curve: Curves.easeInOut,
-                    onEnd: () {
-                      if (isSearchOpen) {
-                        FocusScope.of(context).requestFocus(_searchFocusNode);
-                      }
-                    },
-                    child: isSearchOpen
-                      ? Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        child: TextField(
-                          controller: _searchController,
-                          focusNode: _searchFocusNode,
-                          autofocus: false,
-                          decoration: InputDecoration(
-                            hintText: "Pesquisar...",
-                            prefixIcon: Icon(Icons.search),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
+                  duration: Duration(milliseconds: 300),
+                  reverseDuration: Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  onEnd: () {
+                    if (isSearchOpen) {
+                      FocusScope.of(context).requestFocus(_searchFocusNode);
+                    }
+                  },
+                  child: isSearchOpen
+                    ? Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      child: TextField(
+                        controller: _searchController,
+                        focusNode: _searchFocusNode,
+                        autofocus: false,
+                        decoration: InputDecoration(
+                          hintText: "Pesquisar...",
+                          prefixIcon: Icon(Icons.search),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                          onSubmitted: (value) {
-                            ref.read(productFilterProvider.notifier).state = filter.copyWith(
-                                start: 0,
-                                q: value
-                            );
-
-                            _searchFocusNode.unfocus();
-                            _toggleSearch();
-                          },
                         ),
-                      ) : SizedBox.shrink(),
+                        onSubmitted: (value) {
+                          ref.read(productFilterProvider.notifier).state = filter.copyWith(
+                              start: 0,
+                              q: value
+                          );
+
+                          _searchFocusNode.unfocus();
+                          _toggleSearch();
+                        },
+                      ),
+                    ) : SizedBox.shrink(),
                   ),
                 // SizedBox(
                 //   width: double.infinity,
@@ -218,29 +221,29 @@ class ProductPageState extends ConsumerState<ProductPage>{
                   child:
                     products.isEmpty
                     ? Center(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.cloud_rounded,
-                                size: 96,
-                              ),
-                              SizedBox(height: 12),
-                              Text("Nenhum produto para ser mostrado."),
-                              SizedBox(height: 16),
-                              InkWell(
-                                  onTap: () => ref.refresh(productControllerProvider.future),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8),
-                                    child: Text("Tentar novamente", style: TextStyle(color: Colors.blue)),
-                                  )
-                              ),
-                            ],
-                          ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.cloud_rounded,
+                              size: 96,
+                            ),
+                            SizedBox(height: 12),
+                            Text("Nenhum produto para ser mostrado."),
+                            SizedBox(height: 16),
+                            InkWell(
+                                onTap: () => ref.refresh(productControllerProvider.future),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Text("Tentar novamente", style: TextStyle(color: Colors.blue)),
+                                )
+                            ),
+                          ],
                         ),
-                      )
+                      ),
+                    )
                     : Stack(
                       children: [
                         MasonryGridView.builder(

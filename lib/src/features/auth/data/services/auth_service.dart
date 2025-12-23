@@ -63,7 +63,7 @@ class AuthService {
 
       return didAuthenticate;
     } catch (e) {
-      print('Erro na autenticação: $e');
+      // print('Erro na autenticação: $e');
       return false;
     }
   }

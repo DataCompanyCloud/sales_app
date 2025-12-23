@@ -65,7 +65,7 @@ class PersonCustomerInformation extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
-                  address.type.icon ??  Icons.location_on,
+                  address.type.icon,
                   color: scheme.primary,
                 ),
               ),

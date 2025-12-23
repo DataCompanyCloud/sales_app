@@ -24,7 +24,7 @@ class CustomerController extends AutoDisposeAsyncNotifier<List<Customer>>{
           await repository.saveAll(newCustomers);
         }
       } catch (e) {
-        print('Erro ao sincronizar clientes: $e');
+        // print('Erro ao sincronizar clientes: $e');
       }
     }
 
@@ -45,8 +45,8 @@ class CustomerController extends AutoDisposeAsyncNotifier<List<Customer>>{
         final service = await ref.read(customerServiceProvider.future);
         final serverId = await service.putCustomer(customer);
         newCustomer = customer.copyWith(serverId: serverId);
-      } catch (e, st) {
-        print(e);
+      } catch (e) {
+        // print(e);
       }
 
       await repository.save(newCustomer);

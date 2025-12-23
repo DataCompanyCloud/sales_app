@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/features/settings/presentation/widgets/dialogs/options_description_dialog.dart';
 import 'package:sales_app/src/features/settings/providers.dart';
-import 'package:sales_app/src/widgets/dialogs/confirmation_dialog.dart';
 
 class MoreOptionsCustomerSection extends ConsumerStatefulWidget {
   const MoreOptionsCustomerSection({

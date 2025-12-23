@@ -11,7 +11,7 @@ abstract class User with _$User {
     required String userName,
     required String token,
     required String? productWalletCode,
-    @JsonKey(includeFromJson: false) @Default(false) bool isValidated,
+    @Default(false) bool isValidated,
     @Default(null) String? userPassword,
     @Default(false) bool isSync
     // List<Permission> permissons

@@ -30,8 +30,8 @@ class CompanyGroupRepositoryImpl extends CompanyGroupRepository {
     // }
 
 
-    final qb = (cond == null) ? box.query() : box.query(cond);
-    final q = qb.build();
+    // final qb = (cond == null) ? box.query() : box.query(cond);
+    final q = box.query(cond).build();
 
     try {
       final models = await q.findAsync();

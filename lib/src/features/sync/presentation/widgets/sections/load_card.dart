@@ -116,7 +116,7 @@ class DownloadCard extends ConsumerWidget {
             blurRadius: 12,
             spreadRadius: 0,
             offset: const Offset(0, 6),
-            color: Colors.black.withOpacity(0.06),
+            color: Colors.black.withValues(alpha: 15),
           ),
         ],
         border: Border.all(

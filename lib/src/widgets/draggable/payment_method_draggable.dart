@@ -90,7 +90,7 @@ class PaymentMethodDraggableState extends ConsumerState<PaymentMethodDraggable> 
                   controller: scrollController,
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   itemCount: PaymentMethod.values.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 8),
+                  separatorBuilder: (_, _) => const SizedBox(height: 8),
                   itemBuilder: (context, index) {
                     final method = PaymentMethod.values[index];
                     final isSelected = selected.contains(method);
@@ -116,7 +116,7 @@ class PaymentMethodDraggableState extends ConsumerState<PaymentMethodDraggable> 
                                 : scheme.outline,
                           ),
                           color: isSelected
-                              ? scheme.primary.withOpacity(.08)
+                              ? scheme.primary.withValues(alpha: 20)
                               : scheme.surface,
                         ),
                         child: Row(

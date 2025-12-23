@@ -8,8 +8,6 @@ class CustomerPageSkeleton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
 
     return Scaffold(
       appBar: AppBar(

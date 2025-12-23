@@ -77,7 +77,7 @@ class SalesOrderDetailsPaymentCard extends ConsumerWidget {
                   SizedBox(width: 4),
                   if (paymentMethod.isNotEmpty)
                   Text(
-                    paymentMethod.map((p) => p.paymentMethod?.label ?? "--").join(", "),
+                    paymentMethod.map((p) => p.paymentMethod.label).join(", "),
                     style: TextStyle(
                       fontSize: 15,
                     ),

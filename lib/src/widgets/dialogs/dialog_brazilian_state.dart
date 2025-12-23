@@ -46,7 +46,7 @@ class DialogBrazilianState extends ConsumerWidget{
        child: ListView.separated(
          shrinkWrap: true,
          itemCount: BrazilianState.values.length,
-         separatorBuilder: (_, __) => const SizedBox(height: 4),
+         separatorBuilder: (_, _) => const SizedBox(height: 4),
          itemBuilder: (context, index) {
            final state = BrazilianState.values[index];
            final isSelected = state == selected;

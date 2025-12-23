@@ -45,15 +45,15 @@ class SyncCustomerSectionState extends ConsumerState<SyncCustomersSection> {
       : scheme.outline;
 
 // 2) Cor de fundo do card conforme estado
-    final backgroundColor = isSync && isCancel
-      ? scheme.tertiaryContainer.withOpacity(0.3)
-      : isSync
-      ? scheme.primaryContainer.withOpacity(0.35)
-      : isCancel
-      ? scheme.errorContainer.withOpacity(0.25)
-      : isComplete
-      ? scheme.primaryContainer.withOpacity(0.25)
-      : scheme.surface; // estado "normal"
+//     final backgroundColor = isSync && isCancel
+//       ? scheme.tertiaryContainer.withValues(alpha: 77)
+//       : isSync
+//       ? scheme.primaryContainer.withValues(alpha: 89)
+//       : isCancel
+//       ? scheme.errorContainer.withValues(alpha: 64)
+//       : isComplete
+//       ? scheme.primaryContainer.withValues(alpha: 64)
+//       : scheme.surface; // estado "normal"
 
 // 3) Cor da borda do "produto atual" (bloco lá embaixo)
     final itemBorderColor = isSync && isCancel

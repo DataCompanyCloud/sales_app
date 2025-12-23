@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/customer/presentation/router/customer_router.dart';
-import 'package:sales_app/src/features/home/presentation/controllers/home_providers.dart';
 import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/router/sales_order_router.dart';
 import 'package:sales_app/src/features/product/presentation/router/product_router.dart';

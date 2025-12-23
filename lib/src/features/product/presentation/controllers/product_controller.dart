@@ -29,7 +29,7 @@ class ProductController extends AutoDisposeAsyncNotifier<ProductsPagination> {
           await repository.saveAll(products); // Atualiza cache local
         }
       } catch (e) {
-        print(e);
+        // print(e);
       }
     }
 
@@ -65,7 +65,7 @@ class ProductController extends AutoDisposeAsyncNotifier<ProductsPagination> {
           await repository.saveAll(products); // Atualiza cache local
         }
       } catch (e) {
-        print(e);
+        // print(e);
       }
     }
 

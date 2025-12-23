@@ -33,8 +33,8 @@ class CustomerRepositoryImpl extends CustomerRepository{
     // }
 
 
-    final qb = (cond == null) ? box.query() : box.query(cond);
-    final q = qb.build();
+    // final qb = (cond == null) ? box.query() : box.query(cond);
+    final q = box.query(cond).build();
 
     try {
       final models = await q.findAsync();

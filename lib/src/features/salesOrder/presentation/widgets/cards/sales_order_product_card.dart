@@ -141,7 +141,7 @@ class SalesOrderProductCard extends ConsumerWidget {
                               textAlign: TextAlign.center,
                               keyboardType: TextInputType.number,
                               onChanged: (text) {
-                                final n = int.tryParse(text);
+                                int.tryParse(text);
                                 // if (n != null) updateValue(n);
                               },
                               decoration: const InputDecoration(

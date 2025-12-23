@@ -110,54 +110,44 @@ class ProductDetailsCardState extends ConsumerState<ProductDetailsCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          child: Row(
-                            children: [
-                              _tags("Código"),
-                              SizedBox(width: 4),
-                              Text(product.code),
-                            ],
-                          ),
+                        Row(
+                          children: [
+                            _tags("Código"),
+                            SizedBox(width: 4),
+                            Text(product.code),
+                          ],
                         ),
                         SizedBox(height: 2),
-                        Container(
-                          child: Row(
-                            children: [
-                              _tags("Código"),
-                              SizedBox(width: 4),
-                              Text(product.code),
-                            ],
-                          ),
+                        Row(
+                          children: [
+                            _tags("Código"),
+                            SizedBox(width: 4),
+                            Text(product.code),
+                          ],
                         ),
                         SizedBox(height: 2),
-                        Container(
-                          child: Row(
-                            children: [
-                              _tags("Cod. Barras"),
-                              SizedBox(width: 4),
-                              Text(product.barcode?.value ?? "--"),
-                            ],
-                          ),
+                        Row(
+                          children: [
+                            _tags("Cod. Barras"),
+                            SizedBox(width: 4),
+                            Text(product.barcode?.value ?? "--"),
+                          ],
                         ),
                         SizedBox(height: 2),
-                        Container(
-                          child: Row(
-                            children: [
-                              _tags("Preço"),
-                              SizedBox(width: 4),
-                              Text("R\$ ${product.price.format(scale: 2)}")
-                            ],
-                          ),
+                        Row(
+                          children: [
+                            _tags("Preço"),
+                            SizedBox(width: 4),
+                            Text("R\$ ${product.price.format(scale: 2)}")
+                          ],
                         ),
                         SizedBox(height: 2),
-                        Container(
-                          child: Row(
-                            children: [
-                              _tags("Estoque"),
-                              SizedBox(width: 4),
-                              Text("12")
-                            ],
-                          ),
+                        Row(
+                          children: [
+                            _tags("Estoque"),
+                            SizedBox(width: 4),
+                            Text("12")
+                          ],
                         ),
                       ],
                     ),

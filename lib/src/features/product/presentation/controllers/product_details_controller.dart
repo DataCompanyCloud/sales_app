@@ -21,7 +21,7 @@ class ProductDetailsController extends AutoDisposeFamilyAsyncNotifier<Product, i
       await repository.save(remote);
       return remote;
     } catch (e) {
-      print(e);
+      // print(e);
     }
 
     return await repository.fetchById(productId);

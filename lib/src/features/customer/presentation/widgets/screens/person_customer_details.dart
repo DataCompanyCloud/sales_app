@@ -16,7 +16,7 @@ class PersonCustomerDetails extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
