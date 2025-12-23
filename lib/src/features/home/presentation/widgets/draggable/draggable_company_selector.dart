@@ -22,8 +22,8 @@ class DraggableCompanySelectorState extends ConsumerState<DraggableCompanySelect
   @override
   Widget build(BuildContext context) {
     final controller = ref.watch(companyGroupControllerProvider);
-    // final theme = Theme.of(context);
-    // final scheme = theme.colorScheme;
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
 
     return controller.when(
       error: (error, stack) => ErrorPage(
@@ -35,69 +35,115 @@ class DraggableCompanySelectorState extends ConsumerState<DraggableCompanySelect
         return CircularProgressIndicator();
       },
       data: (groups) {
-        // TODO Rever isso aqui
-        final group = groups.first;
-        final companies = group.companies;
 
-        return DraggableScrollableSheet(
-          expand: false,
-          initialChildSize: 1.0,
-          minChildSize: 0.4,
-          maxChildSize: 1.0,
-          builder: (context, scrollController) {
-            return Padding(
-              padding: EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 40,
-                    height: 4,
-                    margin: EdgeInsets.only(bottom: 12),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(2),
-                      color: Colors.grey[300]
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: Text(
-                      "Alterar de Empresa",
-                      style: TextStyle(
-                        fontSize: 22,
+        return SafeArea(
+          child: DraggableScrollableSheet(
+            expand: false,
+            initialChildSize: 0.5,
+            minChildSize: 0.5,
+            maxChildSize: 0.9,
+            builder: (context, scrollController) {
+              return Padding(
+                padding: EdgeInsets.all(6),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 4,
+                      margin: EdgeInsets.only(bottom: 12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(2),
+                        color: scheme.onPrimaryContainer
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      controller: scrollController,
-                      itemCount: companies.length,
-                      itemBuilder: (context, index) {
-                        final company = companies[index];
-                        final isSelected = selectedIndex == index;
-                        return ListTile(
-                          visualDensity: VisualDensity(vertical: 3),
-                          leading: CircleAvatar(
-                            backgroundColor: Colors.grey.shade100,
-                            child: Icon(Icons.factory, color: Colors.black87),
-                          ),
-                          title: Text("Empregador: ${company.tradeName}"),
-                          subtitle: Text("CNPJ: ${company.cnpj.formatted}"),
-                          trailing: Icon(
-                            isSelected ? Icons.check_circle : Icons.circle_outlined
-                          ),
-                          onTap: () {
-                            tapOption(index);
-                            context.pop();
-                          },
-                        );
-                      },
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: Text(
+                        "Alterar de Empresa",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          }
+                    Expanded(
+                      child: ListView.builder(
+                        controller: scrollController,
+                        itemCount: groups.length,
+                        itemBuilder: (context, index) {
+                          final group = groups[index];
+          
+                          return Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8),
+                                child: Text(
+                                  "Grupo ${group.groupId}",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                ),
+                              ),
+                              ...group.companies.map((company) {
+                                final isPrimary = group.primaryCompany?.companyId == company.companyId;
+          
+                                return Card(
+                                  margin: const EdgeInsets.only(bottom: 8),
+                                  child: ListTile(
+                                    visualDensity: const VisualDensity(vertical: 3),
+                                    leading: CircleAvatar(
+                                      backgroundColor: scheme.onSecondary,
+                                      child: Icon(Icons.factory),
+                                    ),
+                                    title: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(company.tradeName),
+                                        ),
+                                        if (isPrimary)
+                                          Container(
+                                            margin: const EdgeInsets.only(left: 8),
+                                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                            decoration: BoxDecoration(
+                                              color: scheme.inversePrimary,
+                                              borderRadius: BorderRadius.circular(12)
+                                            ),
+                                            child: Text(
+                                              "Principal",
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold
+                                              ),
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                    subtitle: Text(
+                                      "CNPJ: ${company.cnpj.formatted}",
+                                    ),
+                                    trailing: Icon(Icons.chevron_right),
+                                    onTap: () {
+                                      ref.read(companyGroupControllerProvider.notifier)
+                                      .setPrimaryCompany(
+                                        groupId: group.groupId,
+                                        companyId: company.companyId
+                                      );
+                                      context.pop(company);
+                                    },
+                                  ),
+                                );
+                              })
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+          ),
         );
       }
     );

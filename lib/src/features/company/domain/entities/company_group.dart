@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sales_app/src/features/company/domain/entities/company.dart';
+
 part 'company_group.freezed.dart';
 part 'company_group.g.dart';
 

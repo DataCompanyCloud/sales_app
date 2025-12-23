@@ -3,11 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/features/company/providers.dart';
+import 'package:sales_app/src/features/customer/presentation/router/customer_router.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_screen.dart';
 import 'package:sales_app/src/features/home/presentation/controllers/home_providers.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/draggable/draggable_company_selector.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/drawers/home_drawer.dart';
 import 'package:sales_app/src/features/home/presentation/widgets/navigator/navigator_bar.dart';
+import 'package:sales_app/src/features/product/presentation/router/product_router.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/router/sales_order_router.dart';
 import 'package:sales_app/src/features/stockTransaction/presentation/router/transaction_router.dart';
 import 'package:sales_app/src/features/storage/presentation/router/storage_router.dart';
@@ -20,6 +22,16 @@ class HomePage extends ConsumerWidget {
     super.key,
     required this.title,
   });
+
+  void _openCompanySelector(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return const DraggableCompanySelector();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -59,9 +71,11 @@ class HomePage extends ConsumerWidget {
                     return SizedBox.shrink();
                   }
 
-                  // TODO Rever isso aqui
-                  final group = groups.first;
-                  final company = group.primaryCompany ?? group.companies.first;
+                  // Lógica para alterar entre as empresas
+                  final company = ref.watch(activeCompanyProvider);
+                  if (company == null) {
+                    return const SizedBox();
+                  }
 
                   return Card(
                     color: scheme.surface,
@@ -76,17 +90,14 @@ class HomePage extends ConsumerWidget {
                     child: ListTile(
                       visualDensity: VisualDensity(vertical: 3),
                       leading: CircleAvatar(
-                        backgroundColor: Colors.grey.shade100,
-                        child: Icon(Icons.factory, color: Colors.black87),
+                        backgroundColor: scheme.onSurface,
+                        child: Icon(Icons.factory, color: scheme.surface),
                       ),
                       title: Text(company.tradeName),
                       subtitle: Text(company.cnpj.formatted),
                       trailing: Icon(Icons.chevron_right),
                       onTap: () {
-                        showModalBottomSheet(
-                            context: context,
-                            builder: (context) => DraggableCompanySelector()
-                        );
+                        _openCompanySelector(context);
                       },
                     ),
                   );
@@ -123,8 +134,8 @@ class HomePage extends ConsumerWidget {
                     ListTile(
                       visualDensity: VisualDensity(vertical: 3),
                       leading: CircleAvatar(
-                        backgroundColor: Colors.grey.shade100,
-                        child: Icon(Icons.format_list_bulleted, color: Colors.black87),
+                        backgroundColor: scheme.onSurface,
+                        child: Icon(Icons.format_list_bulleted, color: scheme.surface),
                       ),
                       title: Text("Lista de Pedidos"),
                       trailing: Icon(Icons.chevron_right),
@@ -135,8 +146,8 @@ class HomePage extends ConsumerWidget {
                     ListTile(
                       visualDensity: VisualDensity(vertical: 3),
                       leading: CircleAvatar(
-                        backgroundColor: Colors.grey.shade100,
-                        child: Icon(Icons.history, color: Colors.black87),
+                        backgroundColor: scheme.onSurface,
+                        child: Icon(Icons.history, color: scheme.surface),
                       ),
                       title: Text("Histórico de Pedido"),
                       trailing: Icon(Icons.chevron_right),
@@ -176,8 +187,8 @@ class HomePage extends ConsumerWidget {
                     ListTile(
                       visualDensity: VisualDensity(vertical: 3),
                       leading: CircleAvatar(
-                        backgroundColor: Colors.grey.shade100,
-                        child: Icon(Icons.star_rounded, color: Colors.black87),
+                        backgroundColor: scheme.onSurface,
+                        child: Icon(Icons.star_rounded, color: scheme.surface),
                       ),
                       title: Text("Meu Estoque"),
                       trailing: Icon(Icons.chevron_right),
@@ -186,8 +197,8 @@ class HomePage extends ConsumerWidget {
                     ListTile(
                       visualDensity: VisualDensity(vertical: 3),
                       leading: CircleAvatar(
-                        backgroundColor: Colors.grey.shade100,
-                        child: Icon(Icons.warehouse, color: Colors.black87),
+                        backgroundColor: scheme.onSurface,
+                        child: Icon(Icons.warehouse, color: scheme.surface),
                       ),
                       title: Text("Lista de Estoques"),
                       trailing: Icon(Icons.chevron_right),
@@ -203,7 +214,7 @@ class HomePage extends ConsumerWidget {
                 color: scheme.surface,
                 margin: EdgeInsets.all(2),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  borderRadius: BorderRadius.circular(12),
                   side: BorderSide(
                     color: scheme.outline,
                     width: 2
@@ -229,8 +240,8 @@ class HomePage extends ConsumerWidget {
                     ListTile(
                       visualDensity: VisualDensity(vertical: 3),
                       leading: CircleAvatar(
-                        backgroundColor: Colors.grey.shade100,
-                        child: Icon(Icons.monetization_on, color: Colors.black87),
+                        backgroundColor: scheme.onSurface,
+                        child: Icon(Icons.monetization_on, color: scheme.surface),
                       ),
                       title: Text("Histórico de Transações"),
                       trailing: Icon(Icons.chevron_right),
@@ -238,6 +249,92 @@ class HomePage extends ConsumerWidget {
                         context.pushNamed(TransactionRouter.transaction.name);
                       },
                     ),
+                  ],
+                ),
+              ),
+              Padding(padding: EdgeInsets.only(top: 12)),
+              Card(
+                color: scheme.surface,
+                margin: EdgeInsets.all(2),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  side: BorderSide(
+                    color: scheme.outline,
+                    width: 2
+                  ),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 12),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 16),
+                        child: Text(
+                          "Produtos",
+                          style: TextStyle(
+                            fontSize: 20
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.only(top: 12)),
+                    ListTile(
+                      visualDensity: VisualDensity(vertical: 3),
+                      leading: CircleAvatar(
+                        backgroundColor: scheme.onSurface,
+                        child: Icon(Icons.shopping_bag, color: scheme.surface),
+                      ),
+                      title: Text("Catálogo de Produtos"),
+                      trailing: Icon(Icons.chevron_right),
+                      onTap: () {
+                        context.goNamed(ProductRouter.product.name);
+                      },
+                    )
+                  ],
+                ),
+              ),
+              Padding(padding: EdgeInsets.only(top: 12)),
+              Card(
+                color: scheme.surface,
+                margin: EdgeInsets.all(2),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  side: BorderSide(
+                    color: scheme.outline,
+                    width: 2
+                  ),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 12),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 16),
+                        child: Text(
+                          "Clientes",
+                          style: TextStyle(
+                            fontSize: 20
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.only(top: 12)),
+                    ListTile(
+                      visualDensity: VisualDensity(vertical: 3),
+                      leading: CircleAvatar(
+                        backgroundColor: scheme.onSurface,
+                        child: Icon(Icons.group, color: scheme.surface),
+                      ),
+                      title: Text("Lista de Clientes"),
+                      trailing: Icon(Icons.chevron_right),
+                      onTap: () {
+                        context.goNamed(CustomerRouter.customer.name);
+                      },
+                    )
                   ],
                 ),
               ),

@@ -32,4 +32,21 @@ class CompanyGroupController extends AutoDisposeAsyncNotifier<List<CompanyGroup>
     // Sempre retorna a lista do banco local (fonte da verdade)
     return await repository.fetchAll(filter);
   }
+
+  void setPrimaryCompany({
+    required int groupId,
+    required int companyId,
+  }) {
+    final useCase = ref.read(setPrimaryCompanyUseCaseProvider);
+
+    state = state.whenData((groups) {
+      final updatedGroups = useCase(
+        groups: groups,
+        groupId: groupId,
+        companyId: companyId,
+      );
+
+      return updatedGroups;
+    });
+  }
 }
