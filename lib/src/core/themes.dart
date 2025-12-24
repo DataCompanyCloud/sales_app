@@ -162,8 +162,8 @@ final ThemeData salesAppLightTheme = (() {
       side: BorderSide(color: scheme.outline),
       labelStyle: TextStyle(color: scheme.onSurface),
       backgroundColor: scheme.surfaceContainerHighest,
-      selectedColor: scheme.primary.withOpacity(.18),
-      disabledColor: scheme.surfaceContainerHighest.withOpacity(.6),
+      selectedColor: scheme.primary.withValues(alpha: .18),
+      disabledColor: scheme.surfaceContainerHighest.withValues(alpha: .6),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
     ),
   );
@@ -258,14 +258,14 @@ final ThemeData salesAppDarkTheme = (() {
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
         borderRadius: radius,
-        side: BorderSide(color: scheme.outline.withOpacity(.4)),
+        side: BorderSide(color: scheme.outline.withValues(alpha: .4)),
       ),
       margin: EdgeInsets.zero,
     ),
 
     // Divisores/bordas suaves
     dividerTheme: DividerThemeData(
-      color: scheme.outline.withOpacity(.4),
+      color: scheme.outline.withValues(alpha: .4),
       thickness: 1,
       space: 1,
     ),
@@ -278,11 +278,11 @@ final ThemeData salesAppDarkTheme = (() {
       labelStyle: TextStyle(color: scheme.onSurface),
       border: OutlineInputBorder(
         borderRadius: radius,
-        borderSide: BorderSide(color: scheme.outline.withOpacity(.5)),
+        borderSide: BorderSide(color: scheme.outline.withValues(alpha: .5)),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: radius,
-        borderSide: BorderSide(color: scheme.outline.withOpacity(.5)),
+        borderSide: BorderSide(color: scheme.outline.withValues(alpha: .5)),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: radius,
@@ -326,18 +326,18 @@ final ThemeData salesAppDarkTheme = (() {
 
     chipTheme: ChipThemeData(
       shape: const StadiumBorder(),
-      side: BorderSide(color: scheme.outline.withOpacity(.5)),
+      side: BorderSide(color: scheme.outline.withValues(alpha: .5)),
       labelStyle: TextStyle(color: scheme.onSurface),
-      backgroundColor: scheme.surfaceContainerHighest.withOpacity(.55),
-      selectedColor: scheme.primary.withOpacity(.24),
-      disabledColor: scheme.surfaceContainerHighest.withOpacity(.35),
+      backgroundColor: scheme.surfaceContainerHighest.withValues(alpha: .55),
+      selectedColor: scheme.primary.withValues(alpha: .24),
+      disabledColor: scheme.surfaceContainerHighest.withValues(alpha: .35),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
     ),
 
     navigationBarTheme: NavigationBarThemeData(
       height: 72,
       backgroundColor: scheme.surface,
-      indicatorColor: scheme.primary.withOpacity(.14),
+      indicatorColor: scheme.primary.withValues(alpha: .14),
       elevation: 0,
       surfaceTintColor: Colors.transparent,
       labelTextStyle: WidgetStateProperty.resolveWith((states) {
