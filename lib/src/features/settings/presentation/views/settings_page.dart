@@ -49,7 +49,7 @@ class SettingsPage extends ConsumerWidget {
                       "Geral".toUpperCase(),
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.grey
+                        color: scheme.onSurfaceVariant
                       ),
                     ),
                   ),
@@ -78,7 +78,7 @@ class SettingsPage extends ConsumerWidget {
                       "Segurança".toUpperCase(),
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.grey
+                        color: scheme.onSurfaceVariant
                       ),
                     ),
                   ),
@@ -103,7 +103,7 @@ class SettingsPage extends ConsumerWidget {
                       "Sobre".toUpperCase(),
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.grey
+                        color: scheme.onSurfaceVariant
                       ),
                     ),
                   ),
@@ -148,7 +148,7 @@ class SettingsPage extends ConsumerWidget {
                       "Outros".toUpperCase(),
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.grey
+                        color: scheme.onSurfaceVariant
                       ),
                     ),
                   ),

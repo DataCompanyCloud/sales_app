@@ -33,7 +33,7 @@ class SalesOrderDetailsPaymentCard extends ConsumerWidget {
                   Icon(
                     Icons.newspaper,
                     size: 18,
-                    color: Colors.grey,
+                    color: scheme.secondary,
                   ),
                   SizedBox(width: 4),
                   Text(
@@ -41,7 +41,7 @@ class SalesOrderDetailsPaymentCard extends ConsumerWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: Colors.grey
+                      color: scheme.secondary
                     ),
                   ),
                 ],
@@ -50,7 +50,7 @@ class SalesOrderDetailsPaymentCard extends ConsumerWidget {
                 padding: const EdgeInsets.only(bottom: 4),
                 child: Divider(
                   thickness: 1.5,
-                  color: Colors.grey.shade500,
+                  color: scheme.secondary,
                 ),
               ),
               Column(
@@ -58,9 +58,9 @@ class SalesOrderDetailsPaymentCard extends ConsumerWidget {
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF2A364B),
+                      color: scheme.onSurface,
                       border: Border.all(
-                        color: Colors.black,
+                        color: scheme.shadow,
                         width: 1,
                       ),
                       borderRadius: BorderRadius.circular(4),
@@ -68,7 +68,7 @@ class SalesOrderDetailsPaymentCard extends ConsumerWidget {
                     child: Text(
                       "MÉTODO DE PAGAMENTO",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: scheme.onSecondary,
                         fontSize: 12,
                         fontWeight: FontWeight.bold
                       ),
@@ -92,9 +92,9 @@ class SalesOrderDetailsPaymentCard extends ConsumerWidget {
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF2A364B),
+                      color: scheme.secondaryContainer,
                       border: Border.all(
-                        color: Colors.black,
+                        color: scheme.shadow,
                         width: 1,
                       ),
                       borderRadius: BorderRadius.circular(4),
@@ -102,7 +102,7 @@ class SalesOrderDetailsPaymentCard extends ConsumerWidget {
                     child: Text(
                       "OBSERVAÇÕES",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: scheme.onSecondary,
                         fontSize: 12,
                         fontWeight: FontWeight.bold
                       ),
@@ -115,7 +115,7 @@ class SalesOrderDetailsPaymentCard extends ConsumerWidget {
                     description.toString(),
                     style: TextStyle(
                       fontSize: 15,
-                      color: Colors.grey,
+                      color: scheme.secondary,
                     ),
                   ),
                 ],

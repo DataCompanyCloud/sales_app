@@ -39,6 +39,9 @@ class OrderDetailsProductScreenState extends ConsumerState<SalesOrderDetailsProd
     final order = widget.order;
     final onClick = ref.watch(onClickProvider);
 
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+
     return order.items.isEmpty
       ? SingleChildScrollView(
         child: Center(
@@ -60,7 +63,7 @@ class OrderDetailsProductScreenState extends ConsumerState<SalesOrderDetailsProd
               child: Text(
                 "Tentar novamente",
                 style: TextStyle(
-                    color: Colors.blue
+                  color: scheme.primary
                 ),
               ),
             ),

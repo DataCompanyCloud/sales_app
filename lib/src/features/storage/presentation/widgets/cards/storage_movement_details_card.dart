@@ -26,7 +26,7 @@ class StorageMovementDetailsCard extends ConsumerWidget {
                     topLeft: Radius.circular(10),
                     bottomLeft: Radius.circular(10)
                   ),
-                  color: Colors.green.shade600
+                  color: scheme.tertiary
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.only(
@@ -35,7 +35,7 @@ class StorageMovementDetailsCard extends ConsumerWidget {
                   ),
                   child: Icon(
                     Icons.move_to_inbox_sharp,
-                    color: Colors.white,
+                    color: scheme.onSurface,
                     size: 38,
                   ),
                 ),
@@ -64,7 +64,7 @@ class StorageMovementDetailsCard extends ConsumerWidget {
                                 padding: EdgeInsets.only(left: 8, right: 8),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
-                                  color: Colors.green
+                                  color: scheme.tertiary
                                 ),
                                 child: Text(
                                   "Texto Aqui",

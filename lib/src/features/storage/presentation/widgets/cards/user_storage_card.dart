@@ -26,7 +26,7 @@ class UserStorageCard extends ConsumerWidget {
                     topLeft: Radius.circular(10),
                     bottomLeft: Radius.circular(10)
                   ),
-                  color: Colors.blue
+                  color: scheme.primary
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.only(
@@ -35,7 +35,7 @@ class UserStorageCard extends ConsumerWidget {
                   ),
                   child: Icon(
                     Icons.star_rounded,
-                    color: Colors.white,
+                    color: scheme.onSurface,
                     size: 38,
                   ),
                 ),

@@ -237,7 +237,7 @@ class ProductPageState extends ConsumerState<ProductPage>{
                                 onTap: () => ref.refresh(productControllerProvider.future),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8),
-                                  child: Text("Tentar novamente", style: TextStyle(color: Colors.blue)),
+                                  child: Text("Tentar novamente", style: TextStyle(color: scheme.primary)),
                                 )
                             ),
                           ],

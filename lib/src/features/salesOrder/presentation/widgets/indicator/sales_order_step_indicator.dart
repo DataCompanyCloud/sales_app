@@ -15,6 +15,8 @@ class SalesOrderStepIndicator extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
 
     return Padding(
       padding: EdgeInsets.only(left: 30, right: 30),
@@ -55,9 +57,9 @@ class SalesOrderStepIndicator extends ConsumerWidget {
                 height: isCurrent ? 50 : 40,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: isCurrent || isCompleted ? Color(0xFF0F4D86) : Colors.grey,
+                  color: isCurrent || isCompleted ? scheme.onSurface : scheme.outlineVariant,
                 ),
-                child: Icon(icon, color: Colors.white, size: 24),
+                child: Icon(icon, color: scheme.onSurface, size: 24),
               ),
             );
           } else {
@@ -67,7 +69,7 @@ class SalesOrderStepIndicator extends ConsumerWidget {
             return Flexible(
               child: Container(
                 height: 2,
-                color: isActive ? Color(0xFF0F4D86) : Colors.grey,
+                color: isActive ? scheme.onSurface : scheme.outlineVariant,
               ),
             );
           }

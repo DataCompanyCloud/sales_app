@@ -12,6 +12,8 @@ class ForgotPasswordPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
 
     return Scaffold(
       body: SizedBox(
@@ -27,7 +29,7 @@ class ForgotPasswordPage extends ConsumerWidget {
                 child: Text(
                   "Esqueceu sua senha?",
                   style: TextStyle(
-                    color: Color(0xFF0081F5),
+                    color: scheme.primary,
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                   ),
@@ -51,8 +53,7 @@ class ForgotPasswordPage extends ConsumerWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)
                     ),
-                    backgroundColor: Color(0xFF0081F5),
-                    foregroundColor: Colors.white
+                    foregroundColor: scheme.onSecondaryContainer
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -78,12 +79,12 @@ class ForgotPasswordPage extends ConsumerWidget {
                 },
                 icon: Icon(
                   Icons.arrow_back,
-                  color: Colors.grey,
+                  color: scheme.secondary,
                 ),
                 label: Text(
                   "Voltar para login",
                   style: TextStyle(
-                    color: Colors.grey
+                    color: scheme.secondary,
                   ),
                 ),
               ),

@@ -14,6 +14,8 @@ class SyncPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
 
     return Scaffold(
       appBar: AppBar(
@@ -45,7 +47,7 @@ class SyncPage extends ConsumerWidget {
         ),
         child: Icon(
           Icons.arrow_forward,
-          color: Colors.white,
+          color: scheme.onSecondaryContainer,
         ),
       ),
     );

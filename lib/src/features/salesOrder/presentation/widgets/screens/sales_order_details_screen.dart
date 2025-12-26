@@ -18,7 +18,8 @@ class SalesOrderDetailsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
     final customer = order.customer;
     final contactInfo = customer?.contactInfo;
     return SingleChildScrollView(
@@ -47,8 +48,8 @@ class SalesOrderDetailsScreen extends ConsumerWidget {
                           color: order.status == SalesOrderStatus.draft
                             ? Colors.orangeAccent
                             : order.status == SalesOrderStatus.confirmed
-                            ? Colors.green
-                            : Colors.red
+                            ? scheme.tertiary
+                            : scheme.error
                           ,
                           width: 2
                         ),
@@ -65,8 +66,8 @@ class SalesOrderDetailsScreen extends ConsumerWidget {
                           color: order.status == SalesOrderStatus.draft
                             ? Colors.orangeAccent
                             : order.status == SalesOrderStatus.confirmed
-                            ? Colors.green
-                            : Colors.red
+                            ? scheme.tertiary
+                            : scheme.error
                         ),
                       ),
                     )
@@ -75,7 +76,7 @@ class SalesOrderDetailsScreen extends ConsumerWidget {
                 Text(
                   "23 de Março, 2025",
                   style: TextStyle(
-                    color: Colors.grey
+                    color: scheme.secondary
                   ),
                 ),
                 customer == null
@@ -88,7 +89,7 @@ class SalesOrderDetailsScreen extends ConsumerWidget {
                       borderType: BorderType.RRect,
                       strokeWidth: 1,
                       dashPattern: [6, 3],
-                      color: Colors.grey,
+                      color: scheme.secondary,
                       radius: Radius.circular(8),
                       child: Center(
                         child: Text(
@@ -96,7 +97,7 @@ class SalesOrderDetailsScreen extends ConsumerWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 24,
-                            color: Colors.grey
+                            color: scheme.secondary
                           ),
                         ),
                       ),

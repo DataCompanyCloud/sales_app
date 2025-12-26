@@ -55,6 +55,8 @@ class SelectProductCardState extends ConsumerState<SelectProductCard> {
     final cart = ref.read(productCartControllerProvider.notifier);
     final product = widget.product;
     final salesOrderProduct = widget.salesOrderProduct;
+
+
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 
@@ -104,7 +106,6 @@ class SelectProductCardState extends ConsumerState<SelectProductCard> {
                   child: const Text(
                     "-30%",
                     style: TextStyle(
-                      color: Colors.white,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
@@ -170,7 +171,7 @@ class SelectProductCardState extends ConsumerState<SelectProductCard> {
                 top: 8,
                 right: 8,
                 child: Card(
-                  color: Colors.red,
+                  color: scheme.error,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadiusGeometry.circular(4),
                     // side: BorderSide(color: scheme.outline, width: 2)
@@ -189,7 +190,7 @@ class SelectProductCardState extends ConsumerState<SelectProductCard> {
                       padding: EdgeInsets.all(2),
                       child: Icon(
                         Icons.delete,
-                        color: Colors.white,
+                        color: scheme.onSurface,
                       ),
                     )
                   ),

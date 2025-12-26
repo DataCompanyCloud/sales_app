@@ -33,7 +33,7 @@ class SalesOrderDetailsContactCard extends ConsumerWidget {
                   Icon(
                     Icons.phone,
                     size: 18,
-                    color: Colors.grey
+                    color: scheme.secondary
                   ),
                   SizedBox(width: 4),
                   Text(
@@ -41,7 +41,7 @@ class SalesOrderDetailsContactCard extends ConsumerWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: Colors.grey
+                      color: scheme.secondary
                     ),
                   ),
                 ],
@@ -50,7 +50,7 @@ class SalesOrderDetailsContactCard extends ConsumerWidget {
                 padding: const EdgeInsets.only(bottom: 4),
                 child: Divider(
                   thickness: 1.5,
-                  color: Colors.grey.shade500,
+                  color: scheme.secondary,
                 ),
               ),
               Column(
@@ -61,9 +61,9 @@ class SalesOrderDetailsContactCard extends ConsumerWidget {
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF2A364B),
+                          color: scheme.secondaryContainer,
                           border: Border.all(
-                            color: Colors.black,
+                            color: scheme.shadow,
                             width: 1,
                           ),
                           borderRadius: BorderRadius.circular(4),
@@ -71,7 +71,7 @@ class SalesOrderDetailsContactCard extends ConsumerWidget {
                         child: Text(
                           "NOME",
                           style: TextStyle(
-                              color: Colors.white,
+                              color: scheme.onSurface,
                               fontSize: 12,
                               fontWeight: FontWeight.bold
                           ),
@@ -92,9 +92,9 @@ class SalesOrderDetailsContactCard extends ConsumerWidget {
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF2A364B),
+                          color: scheme.secondaryContainer,
                           border: Border.all(
-                            color: Colors.black,
+                            color: scheme.shadow,
                             width: 1,
                           ),
                           borderRadius: BorderRadius.circular(4),
@@ -102,7 +102,7 @@ class SalesOrderDetailsContactCard extends ConsumerWidget {
                         child: Text(
                           "EMAIL",
                           style: TextStyle(
-                              color: Colors.white,
+                              color: scheme.onSurface,
                               fontSize: 12,
                               fontWeight: FontWeight.bold
                           ),
@@ -123,9 +123,9 @@ class SalesOrderDetailsContactCard extends ConsumerWidget {
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF2A364B),
+                          color: scheme.secondaryContainer,
                           border: Border.all(
-                            color: Colors.black,
+                            color: scheme.shadow,
                             width: 1,
                           ),
                           borderRadius: BorderRadius.circular(4),
@@ -133,7 +133,7 @@ class SalesOrderDetailsContactCard extends ConsumerWidget {
                         child: Text(
                           "TELEFONE",
                           style: TextStyle(
-                              color: Colors.white,
+                              color: scheme.onSurface,
                               fontSize: 12,
                               fontWeight: FontWeight.bold
                           ),

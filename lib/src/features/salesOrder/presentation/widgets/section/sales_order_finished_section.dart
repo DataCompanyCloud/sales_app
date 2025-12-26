@@ -297,7 +297,6 @@ class SalesOrderFinishedSectionState extends ConsumerState<SalesOrderFinishedSec
                         style: OutlinedButton.styleFrom(
                           backgroundColor: scheme.primary, // fundo transparente
                           side: const BorderSide(
-                            color: Colors.blue, // cor da borda
                             width: 2,
                           ),
                           shape: RoundedRectangleBorder(

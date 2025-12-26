@@ -43,7 +43,6 @@ class HomePage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        foregroundColor: Colors.white,
         title: Text(title),
         centerTitle: true,
         actions: [

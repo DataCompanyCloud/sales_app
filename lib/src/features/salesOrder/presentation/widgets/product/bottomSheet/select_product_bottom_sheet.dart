@@ -92,7 +92,7 @@ class SelectProductBottomSheetState extends ConsumerState<SelectProductBottomShe
                 width: 45,
                 height: 5,
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade400,
+                  color: scheme.secondary,
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -146,7 +146,7 @@ class SelectProductBottomSheetState extends ConsumerState<SelectProductBottomShe
                           height: 220, // <-- tamanho reduzido
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            color: Colors.grey.shade200,
+                            color: scheme.onSurface,
                           ),
                           clipBehavior: Clip.antiAlias,
                           child: SizedBox(
@@ -188,7 +188,7 @@ class SelectProductBottomSheetState extends ConsumerState<SelectProductBottomShe
                                       width: 70,
                                       height: 70,
                                       decoration: BoxDecoration(
-                                        color: Colors.grey.shade300,
+                                        color: scheme.onSurface,
                                       ),
                                       clipBehavior: Clip.antiAlias,
                                       child: ProductImageCachedWidget(

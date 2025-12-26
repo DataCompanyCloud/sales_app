@@ -66,9 +66,9 @@ class TransactionCard extends ConsumerWidget {
                     width: 75,
                     height: 20,
                     decoration: BoxDecoration(
-                      color: type == TypeT.sales ? Colors.green[800]
-                          : type == TypeT.mySales ? Colors.teal[800]
-                          : Colors.blue[800],
+                      color: type == TypeT.sales ? scheme.tertiary
+                          : type == TypeT.mySales ? scheme.onTertiary
+                          : scheme.primary,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
                       ),
@@ -89,9 +89,9 @@ class TransactionCard extends ConsumerWidget {
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(10)
                       ),
-                        color: type == TypeT.sales ? Colors.green
-                            : type == TypeT.mySales ? Colors.teal
-                            : Colors.blue
+                        color: type == TypeT.sales ? scheme.tertiary
+                            : type == TypeT.mySales ? scheme.onTertiary
+                            : scheme.primary
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(
@@ -103,7 +103,7 @@ class TransactionCard extends ConsumerWidget {
                             : type == TypeT.mySales ? Icons.download_sharp
                             : Icons.compare_arrows
                         ,
-                        color: Colors.white,
+                        color: scheme.onSurface,
                         size: 38,
                       ),
                     ),
@@ -138,9 +138,9 @@ class TransactionCard extends ConsumerWidget {
                                 padding: EdgeInsets.only(left: 8, right: 8),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
-                                  color: type == TypeT.sales ? Colors.green
-                                    : type == TypeT.mySales ? Colors.teal
-                                    : Colors.blue
+                                  color: type == TypeT.sales ? scheme.tertiary
+                                    : type == TypeT.mySales ? scheme.onTertiary
+                                    : scheme.primary
                                 ),
                                 child: Text(
                                   type == TypeT.sales ? "Venda"
@@ -164,8 +164,8 @@ class TransactionCard extends ConsumerWidget {
                                         : Icons.archive
                                       ,
                                       color: type == TypeT.transfer
-                                        ? Colors.blue
-                                        : Colors.greenAccent,
+                                        ? scheme.primary
+                                        : scheme.onTertiary,
                                       size: 18
                                     ),
                                     SizedBox(width: 4),
@@ -175,8 +175,8 @@ class TransactionCard extends ConsumerWidget {
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                         color: type == TypeT.transfer
-                                          ? Colors.blue
-                                          : Colors.greenAccent,
+                                          ? scheme.primary
+                                          : scheme.onTertiary,
                                       ),
                                     ),
                                   ],
@@ -191,7 +191,7 @@ class TransactionCard extends ConsumerWidget {
                               Text(
                                 formattedDate,
                                 style: TextStyle(
-                                  color: Colors.grey
+                                  color: scheme.onSurfaceVariant
                                 ),
                               ),
                               // Padding(

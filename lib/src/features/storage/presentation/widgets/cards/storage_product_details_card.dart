@@ -32,7 +32,7 @@ class StorageProductDetailsCard extends ConsumerWidget {
                     topLeft: Radius.circular(10),
                     bottomLeft: Radius.circular(10)
                   ),
-                  color: Colors.blue
+                  color: scheme.primary
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.only(
@@ -41,7 +41,7 @@ class StorageProductDetailsCard extends ConsumerWidget {
                   ),
                   child: Icon(
                     Icons.shopping_cart,
-                    color: Colors.white,
+                    color: scheme.onSurface,
                     size: 38,
                   ),
                 ),
@@ -84,7 +84,7 @@ class StorageProductDetailsCard extends ConsumerWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                             decoration: BoxDecoration(
                               color: scheme.surfaceContainerHighest,
-                              border: Border.all(color: Colors.black),
+                              border: Border.all(color: scheme.shadow),
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(

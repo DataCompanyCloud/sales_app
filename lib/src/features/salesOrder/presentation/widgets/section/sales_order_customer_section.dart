@@ -193,7 +193,7 @@ class SalesOrderCustomerSectionState extends ConsumerState<SalesOrderCustomerSec
                             },
                             icon: Icon(
                               Icons.delete_outline,
-                              color: Colors.red,
+                              color: scheme.error,
                             )
                           )
                         ],

@@ -37,8 +37,8 @@ class SalesOrderCard extends ConsumerWidget {
                       color: order.status == SalesOrderStatus.draft
                         ? Colors.yellow.shade900
                         :  order.status == SalesOrderStatus.confirmed
-                        ? Colors.green.shade900
-                        : Colors.red.shade900
+                        ? scheme.tertiary
+                        : scheme.error
                       ,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
@@ -58,8 +58,8 @@ class SalesOrderCard extends ConsumerWidget {
                       color: order.status == SalesOrderStatus.draft
                         ? Colors.orangeAccent
                         :  order.status == SalesOrderStatus.confirmed
-                        ? Colors.green
-                        : Colors.red
+                        ? scheme.tertiary
+                        : scheme.error
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(
@@ -68,7 +68,7 @@ class SalesOrderCard extends ConsumerWidget {
                       ),
                       child: Icon(
                         Icons.unarchive_sharp,
-                        color: Colors.white,
+                        color: scheme.onSurface,
                         size: 38
                       ),
                     ),
@@ -131,8 +131,8 @@ class SalesOrderCard extends ConsumerWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
                               color: order.serverId == null
-                                ? Colors.red
-                                : Colors.cyan
+                                ? scheme.error
+                                : scheme.inversePrimary
                             ),
                           ),
                         ),

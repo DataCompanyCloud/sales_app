@@ -15,6 +15,9 @@ class MoreOptionsOrderSection extends ConsumerWidget {
     final sellingTable = ref.watch(isSellingTableFixedProvider);
     final isEditable = ref.watch(isMoreOptionsEditableProvider);
 
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+
     void showInfoDialog(BuildContext context, String title, String description, IconData icon) {
       showDialog(
           context: context,
@@ -36,7 +39,7 @@ class MoreOptionsOrderSection extends ConsumerWidget {
               "PEDIDO",
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.grey
+                color: scheme.onSurfaceVariant
               ),
             ),
           ),

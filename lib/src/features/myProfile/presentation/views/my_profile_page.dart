@@ -72,7 +72,7 @@ class MyProfilePage extends ConsumerWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
                     border: Border.all(
-                      color: Colors.blue.shade800,
+                      color: scheme.primaryContainer,
                       width: 2,
                     ),
                   ),
@@ -94,7 +94,7 @@ class MyProfilePage extends ConsumerWidget {
                 child: Text(
                   user.userCode,
                   style: TextStyle(
-                    color: Colors.grey
+                    color: scheme.secondary
                   ),
                 ),
               ),
@@ -133,7 +133,7 @@ class MyProfilePage extends ConsumerWidget {
                           Text(
                             "Email",
                             style: TextStyle(
-                              color: Colors.grey
+                              color: scheme.onSurfaceVariant
                             ),
                           )
                         ],
@@ -165,7 +165,7 @@ class MyProfilePage extends ConsumerWidget {
                           Text(
                             "Telefone",
                             style: TextStyle(
-                              color: Colors.grey
+                              color: scheme.onSurfaceVariant
                             ),
                           )
                         ],
@@ -197,7 +197,7 @@ class MyProfilePage extends ConsumerWidget {
                           Text(
                             "Endereço",
                             style: TextStyle(
-                              color: Colors.grey
+                              color: scheme.onSurfaceVariant
                             ),
                           )
                         ],
@@ -244,7 +244,7 @@ class MyProfilePage extends ConsumerWidget {
                             Text(
                               "Central de ajuda",
                               style: TextStyle(
-                                color: Colors.grey
+                                color: scheme.onSurfaceVariant
                               ),
                             ),
                           ],
@@ -290,7 +290,7 @@ class MyProfilePage extends ConsumerWidget {
                             Text(
                               "Sair",
                               style: TextStyle(
-                                color: Colors.grey
+                                color: scheme.onSurfaceVariant
                               ),
                             ),
                           ],

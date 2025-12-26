@@ -17,8 +17,8 @@ class MoreOptionsCustomerSectionState extends ConsumerState<MoreOptionsCustomerS
 
   @override
   Widget build(BuildContext context) {
-    // final theme = Theme.of(context);
-    // final scheme = theme.colorScheme;
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
     final requiredCnpj = ref.watch(isCnpjRequiredProvider);
     final isEditable = ref.watch(isMoreOptionsEditableProvider);
 
@@ -44,7 +44,7 @@ class MoreOptionsCustomerSectionState extends ConsumerState<MoreOptionsCustomerS
               "CLIENTE",
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.grey
+                color: scheme.onSurfaceVariant
               ),
             ),
           ),

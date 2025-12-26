@@ -74,10 +74,10 @@ class _OrderDetailsCardState extends ConsumerState<SalesOrderDetailsCard>{
                           child: Container(
                             width: 90,
                             height: 90,
-                            color: Color(0xFFE5E7EB),
+                            color: scheme.onSurface,
                             foregroundDecoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16),
-                              border: Border.all(color: Color(0xFFE5E7EB), width: 2),
+                              border: Border.all(color: scheme.shadow, width: 2),
                             ),
                             child:
                             imageUrl == null

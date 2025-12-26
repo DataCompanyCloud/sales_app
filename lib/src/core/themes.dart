@@ -23,8 +23,8 @@ final ThemeData salesAppLightTheme = (() {
     onSurfaceVariant: const Color(0xFF475569), // slate-600
     outline: outline,
     outlineVariant: const Color(0xFF94A3B8),   // slate-400
-    shadow: Colors.black,
-    scrim: Colors.black,
+    shadow: const Color(0xFF000000),
+    scrim: const Color(0xFF000000),
     inverseSurface: const Color(0xFF1E293B),  // dark surface
 
     // Primários (azul)
@@ -42,7 +42,7 @@ final ThemeData salesAppLightTheme = (() {
 
     // Terciários (teal suave para realces)
     tertiary: const Color(0xFF0D9488),
-    onTertiary: Colors.grey,
+    onTertiary: const Color(0xFFFFFFFF),
     tertiaryContainer: const Color(0xFF99F6E4),
     onTertiaryContainer: const Color(0xFF04201C),
 
@@ -152,7 +152,7 @@ final ThemeData salesAppLightTheme = (() {
     ),
 
     // Texto: deixe o scheme cuidar; só garantimos contraste suave
-    textTheme: Typography.blackMountainView.apply(
+    textTheme: Typography.material2021().black.apply(
       bodyColor: scheme.onSurface,
       displayColor: scheme.onSurface,
     ),
@@ -319,7 +319,7 @@ final ThemeData salesAppDarkTheme = (() {
 
     // Textos: deixe o ColorScheme resolver (sem forçar branco)
     // Se quiser um leve ajuste de legibilidade:
-    textTheme: Typography.whiteMountainView.apply(
+    textTheme: Typography.material2021().black.apply(
       bodyColor: scheme.onSurface,
       displayColor: scheme.onSurface,
     ),

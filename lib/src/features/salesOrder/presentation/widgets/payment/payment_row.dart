@@ -15,11 +15,14 @@ class PaymentRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+
     return DottedBorder(
       borderType: BorderType.RRect,
       radius: const Radius.circular(0),
       dashPattern: const [4, 3],
-      color: Colors.grey,
+      color: scheme.outlineVariant,
       strokeWidth: 1,
       padding: EdgeInsets.symmetric(vertical: 8, horizontal: 0),
       customPath: (size) {
@@ -32,7 +35,7 @@ class PaymentRow extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(label, style: TextStyle(color: Colors.grey)),
+            Text(label, style: TextStyle(color: scheme.outlineVariant)),
             Text(value),
           ],
         ),

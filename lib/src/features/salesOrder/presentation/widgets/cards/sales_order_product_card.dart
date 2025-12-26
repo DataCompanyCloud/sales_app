@@ -32,7 +32,7 @@ class SalesOrderProductCard extends ConsumerWidget {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: Colors.grey.shade300,
+              color: scheme.secondary,
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
@@ -72,7 +72,7 @@ class SalesOrderProductCard extends ConsumerWidget {
                         onTap: () {},
                         child: Icon(
                           Icons.delete_outline,
-                          color: Colors.red,
+                          color: scheme.error,
                           size: 20,
                         )
                       ),

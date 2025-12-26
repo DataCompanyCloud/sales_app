@@ -20,7 +20,7 @@ class SalesOrderDetailsList extends ConsumerWidget {
       borderType: BorderType.RRect,
       radius: const Radius.circular(0),
       dashPattern: const [4, 3],
-      color: Colors.grey,
+      color: scheme.secondary,
       strokeWidth: 1,
       padding: EdgeInsets.symmetric(vertical: 8),
       customPath: (size) {
@@ -54,7 +54,7 @@ class SalesOrderDetailsList extends ConsumerWidget {
                         color: scheme.secondaryContainer,
                         borderRadius: BorderRadius.all(Radius.circular(4)),
                         border: Border.all(
-                          color: Colors.black,
+                          color: scheme.shadow,
                           width: 1,
                         ),
                       ),
@@ -62,7 +62,7 @@ class SalesOrderDetailsList extends ConsumerWidget {
                         "x${orderProduct.quantity.toStringAsFixed(0)}",
                         style: TextStyle(
                           fontSize: 16,
-                          color: scheme.onSurface,
+                          color: scheme.secondary,
                           fontWeight: FontWeight.bold
                         )
                       ),
@@ -80,20 +80,20 @@ class SalesOrderDetailsList extends ConsumerWidget {
                       padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4),
-                        color: Colors.red,
+                        color: scheme.error,
                       ),
                       child: Row(
                         children: [
                           Icon(
                             Icons.discount,
-                            color: Colors.white,
+                            color: scheme.onSecondary,
                             size: 16,
                           ),
                           Text(
                             " R\$ -${orderProduct.discountAmount.format()}",
                             style: TextStyle(
                               fontSize: 16,
-                              color: Colors.white
+                              color: scheme.onSecondary,
                             ),
                           ),
                         ],

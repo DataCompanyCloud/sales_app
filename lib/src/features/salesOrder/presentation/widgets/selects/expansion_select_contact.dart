@@ -59,7 +59,7 @@ class _ExpansionSelectCustomerContactState extends ConsumerState<ExpansionSelect
                 child: Icon(
                   Icons.info_outline,
                   size: 20,
-                  color: Colors.red,
+                  color: scheme.error,
                 ),
               )
             : SizedBox.shrink()
@@ -96,7 +96,7 @@ class _ExpansionSelectCustomerContactState extends ConsumerState<ExpansionSelect
                     child: Icon(
                       Icons.info_outline,
                       size: 20,
-                      color: Colors.red,
+                      color: scheme.error,
                     ),
                   )
                 : customer.contacts.length == 1

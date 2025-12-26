@@ -14,14 +14,17 @@ class MoreOptionsStorageSection extends ConsumerWidget {
     final hideItems = ref.watch(isHideItemProvider);
     final isEditable = ref.watch(isMoreOptionsEditableProvider);
 
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+
     void showInfoDialog(BuildContext context, String title, String description, IconData icon) {
       showDialog(
-          context: context,
-          builder: (_) => OptionsDescriptionDialog(
-            title: title,
-            description: description,
-            icon: icon,
-          )
+        context: context,
+        builder: (_) => OptionsDescriptionDialog(
+          title: title,
+          description: description,
+          icon: icon,
+        )
       );
     }
 
@@ -35,7 +38,7 @@ class MoreOptionsStorageSection extends ConsumerWidget {
               "ESTOQUE",
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.grey
+                color: scheme.onSurfaceVariant
               ),
             ),
           ),

@@ -95,7 +95,7 @@ class SalesOrderStatusButtons extends ConsumerWidget {
                       color: selected
                         ? scheme.secondaryContainer
                         : scheme.surfaceContainerHighest,
-                      border: Border.all(color: Colors.black),
+                      border: Border.all(color: scheme.shadow),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(
