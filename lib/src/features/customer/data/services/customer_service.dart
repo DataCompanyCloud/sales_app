@@ -74,7 +74,7 @@ class CustomerService {
     );
 
     if (json['serverId'] == null) {
-      throw Exception('Falha ao criar customer: resposta inválida do servidor');
+      throw AppException(AppExceptionCode.CODE_042_CREATE_CUSTOMER_FAILED, "Falha ao criar cliente: resposta inválida do servidor.");
     }
 
     return json['serverId'] as int;

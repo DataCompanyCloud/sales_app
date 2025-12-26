@@ -41,10 +41,10 @@ class TransactionService {
       final status = e.response?.statusCode;
 
       if (status == 404) {
-        throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Transação não existe");
+        throw AppException(AppExceptionCode.CODE_048_TRANSACTION_DO_NOT_EXIST, "Transação não existe.");
       }
 
-      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Falha em obter transação");
+      throw AppException(AppExceptionCode.CODE_049_TRANSACTION_NOT_FOUND, "Falha em obter transação.");
     } catch (s) {
       throw AppException.errorUnexpected(e.toString());
     }

@@ -1,5 +1,7 @@
 import 'package:sales_app/src/core/api/api_client.dart';
 import 'package:sales_app/src/core/api/endpoints/api_endpoints.dart';
+import 'package:sales_app/src/core/exceptions/app_exception.dart';
+import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/company/domain/entities/company.dart';
 import 'package:sales_app/src/features/company/domain/entities/company_group.dart';
 import 'package:sales_app/src/features/company/domain/repositories/company_group_repository.dart';
@@ -51,7 +53,7 @@ class CompanyGroupService {
     );
 
     if (json['serverId'] == null) {
-      throw Exception('Falha ao criar customer: resposta inválida do servidor');
+      throw AppException(AppExceptionCode.CODE_042_CREATE_CUSTOMER_FAILED, "Falha ao criar cliente: resposta inválida do servidor.");
     }
 
     return json['serverId'] as int;

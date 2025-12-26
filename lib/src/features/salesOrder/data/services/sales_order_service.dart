@@ -43,10 +43,10 @@ class SalesOrderService {
       final status = e.response?.statusCode;
 
       if (status == 404) {
-        throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Pedido não existe");
+        throw AppException(AppExceptionCode.CODE_043_ORDER_DO_NOT_EXIST, "Pedido não existe.");
       }
 
-      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Falha em obter pedido");
+      throw AppException(AppExceptionCode.CODE_044_GET_ORDER_FAILED, "Falha em obter pedido.");
     } catch (o) {
       throw AppException.errorUnexpected(e.toString());
     }
@@ -59,7 +59,7 @@ class SalesOrderService {
       await apiClient.post(ApiEndpoints.orders, data: salesOrder.toJson());
     } on DioException catch (e) {
       e.response?.statusCode;
-      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Falha em obter pedido");
+      throw AppException(AppExceptionCode.CODE_045_SAVE_ORDER_FAILED, "Falha em salvar pedido.");
     } catch (o) {
       throw AppException.errorUnexpected(e.toString());
     }

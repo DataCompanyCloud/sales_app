@@ -44,10 +44,10 @@ class StorageService {
       final status = e.response?.statusCode;
 
       if (status == 404) {
-        throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Estoque não existe");
+        throw AppException(AppExceptionCode.CODE_046_STORAGE_DO_NOT_EXIST, "Estoque não existe.");
       }
 
-      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Falha em obter estoque");
+      throw AppException(AppExceptionCode.CODE_047_STORAGE_NOT_FOUND, "Falha em obter estoque.");
     } catch (s) {
       throw AppException.errorUnexpected(s.toString());
     }
