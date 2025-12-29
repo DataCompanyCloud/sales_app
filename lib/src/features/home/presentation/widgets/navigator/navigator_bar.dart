@@ -5,6 +5,7 @@ import 'package:sales_app/src/features/customer/presentation/router/customer_rou
 import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/router/sales_order_router.dart';
 import 'package:sales_app/src/features/product/presentation/router/product_router.dart';
+import 'package:sales_app/src/features/schedule/presentation/router/schedule_router.dart';
 
 
 class CustomBottomNavigationBar extends ConsumerStatefulWidget {
@@ -32,7 +33,7 @@ class CustomBottomNavigationBarState extends ConsumerState<CustomBottomNavigatio
       1: SalesOrderRouter.list.name,
       2: HomeRouter.home.name,
       3: CustomerRouter.customer.name,
-      // 4: ScheduleRouter.schedule.name,
+      4: ScheduleRouter.schedule.name,
     };
 
     return SafeArea(
