@@ -231,11 +231,11 @@ class OrderListPageState extends ConsumerState<SalesOrderPage>{
                                 return GestureDetector(
                                   onTap: () {
                                     if (order.status == SalesOrderStatus.draft) {
-                                      context.pushNamed(OrderRouter.create.name, queryParameters: {"orderId": order.orderId.toString()});
+                                      context.pushNamed(SalesOrderRouter.create.name, queryParameters: {"orderId": order.orderId.toString()});
                                       return;
                                     }
 
-                                    context.pushNamed(OrderRouter.details.name, pathParameters: {"orderId": order.orderId.toString()});
+                                    context.pushNamed(SalesOrderRouter.details.name, pathParameters: {"orderId": order.orderId.toString()});
                                   },
                                   child: SalesOrderCard(order: order),
                                 );
@@ -259,7 +259,7 @@ class OrderListPageState extends ConsumerState<SalesOrderPage>{
                 backgroundColor: Color(0xFF0081F5),
                 foregroundColor: Colors.white,
                 onPressed: () {
-                  context.pushNamed(OrderRouter.create.name);
+                  context.pushNamed(SalesOrderRouter.create.name);
                 },
                 child: Icon(Icons.add),
               ),

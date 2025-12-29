@@ -55,7 +55,7 @@ class SalesOrdersDraftPage extends ConsumerWidget {
                     return InkWell(
                       onTap: () {
                         final loc = GoRouter.of(context).namedLocation(
-                          OrderRouter.create.name,
+                          SalesOrderRouter.create.name,
                           queryParameters: {"orderId": order.orderId.toString()},
                         );
                         context.push(loc);
@@ -85,7 +85,7 @@ class SalesOrdersDraftPage extends ConsumerWidget {
               }
 
               if (!context.mounted) return;
-              context.goNamed(OrderRouter.create.name);
+              context.goNamed(SalesOrderRouter.create.name);
             },
             child: Icon(Icons.add),
           ),

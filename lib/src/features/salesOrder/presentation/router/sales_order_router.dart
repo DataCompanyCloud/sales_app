@@ -13,19 +13,19 @@ import 'package:sales_app/src/features/salesOrder/presentation/views/select_cust
 import 'package:sales_app/src/features/salesOrder/presentation/views/select_products_page.dart';
 import 'package:sales_app/src/features/salesOrder/providers.dart';
 
-enum OrderRouter {
+enum SalesOrderRouter {
   list,
   details,
   create,
   drafts,
   select_customer,
-  order_products_details,
-  select_products
+  select_products,
+  products_details,
 }
 
 final orderRoutes = GoRoute(
   path: '/sales-order',
-  name: OrderRouter.list.name,
+  name: SalesOrderRouter.list.name,
   builder: (context, state) {
     return SalesOrderPage();
 
@@ -33,7 +33,7 @@ final orderRoutes = GoRoute(
   routes: [
     GoRoute(
       path: 'create', // /orders/create
-      name: OrderRouter.create.name,
+      name: SalesOrderRouter.create.name,
       builder: (context, state) {
         // ?orderId=123
         final orderIdStr = state.uri.queryParameters['orderId'];
@@ -46,7 +46,7 @@ final orderRoutes = GoRoute(
       routes: [
         GoRoute(
           path: 'select-customer',
-          name: OrderRouter.select_customer.name,
+          name: SalesOrderRouter.select_customer.name,
           builder: (context, state) {
             final customerIdStr = state.uri.queryParameters['customerId'];
             final customerId = customerIdStr != null ? int.tryParse(customerIdStr) : null;
@@ -55,7 +55,7 @@ final orderRoutes = GoRoute(
         ),
         GoRoute(
           path: 'order-products-details',
-          name: OrderRouter.order_products_details.name,
+          name: SalesOrderRouter.products_details.name,
           builder: (context, state) {
             // ?orderId=123
             final orderIdStr = state.uri.queryParameters['orderId'];
@@ -66,7 +66,7 @@ final orderRoutes = GoRoute(
           routes: [
             GoRoute(
               path: 'select-products',
-              name: OrderRouter.select_products.name,
+              name: SalesOrderRouter.select_products.name,
               builder: (context, state) {
                 return  SelectProductsPage();
               }
@@ -77,7 +77,7 @@ final orderRoutes = GoRoute(
     ),
     GoRoute(
       path: 'drafts',
-      name: OrderRouter.drafts.name,
+      name: SalesOrderRouter.drafts.name,
         builder: (context, state) {
           const filter = SalesOrderFilter(
             start: 0,
@@ -99,7 +99,7 @@ final orderRoutes = GoRoute(
     ),
     GoRoute(
       path: ':orderId', // /orders/:orderId
-      name: OrderRouter.details.name,
+      name: SalesOrderRouter.details.name,
       builder: (context, state) {
         final idStr = state.pathParameters['orderId'];
         final orderId = int.tryParse(idStr ?? '');

@@ -75,7 +75,7 @@ class SalesOrderCreatePageState extends ConsumerState<SalesOrderCreatePage> {
             actions: [
               IconButton(
                 onPressed: () {
-                  context.pushNamed(OrderRouter.drafts.name);
+                  context.pushNamed(SalesOrderRouter.drafts.name);
                 },
                 icon: Icon(Icons.change_circle_outlined),
               ),

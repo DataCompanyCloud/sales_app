@@ -29,7 +29,7 @@ class CustomBottomNavigationBarState extends ConsumerState<CustomBottomNavigatio
 
     final routeByIndex = <int, String>{
       0: ProductRouter.product.name,
-      1: OrderRouter.create.name,
+      1: SalesOrderRouter.list.name,
       2: HomeRouter.home.name,
       3: CustomerRouter.customer.name,
       // 4: ScheduleRouter.schedule.name,

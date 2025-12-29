@@ -47,11 +47,11 @@ abstract class SalesOrderProduct with _$SalesOrderProduct {
 
     //TODO fazer as validações
     if (productName.trim().isEmpty) {
-      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Nome do produto não pode ser vazio");
+      throw AppException(AppExceptionCode.CODE_054_PRODUCT_NAME_CANNOT_BE_NULL, "Nome do produto não pode ser vazio");
     }
 
     if (quantity.isNegative) {
-      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Quantidade não pode ser um valor negativo");
+      throw AppException(AppExceptionCode.CODE_055_PRODUCT_QUANTITY_CANNOT_BE_NEGATIVE, "Quantidade não pode ser um valor negativo");
     }
 
     return SalesOrderProduct.raw(

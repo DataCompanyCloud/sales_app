@@ -66,16 +66,16 @@ abstract class SalesOrder with _$SalesOrder {
 
     //TODO fazer as validações
     if (confirmedAt != null && confirmedAt.isBefore(createdAt)) {
-      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Um pedido não pode ser confirmado antes de sua criação");
+      throw AppException(AppExceptionCode.CODE_050_ORDER_CANNOT_BE_CONFIRMED_BEFORE_CREATION, "Um pedido não pode ser confirmado antes de sua criação");
     }
     if (cancelledAt != null && cancelledAt.isBefore(createdAt)) {
-      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Um pedido não pode ser cancelado antes de sua criação");
+      throw AppException(AppExceptionCode.CODE_051_ORDER_CANNOT_BE_CANCELLED_BEFORE_CREATION, "Um pedido não pode ser cancelado antes de sua criação");
     }
     if (confirmedAt != null && cancelledAt != null && cancelledAt.isBefore(confirmedAt)) {
-      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Um pedido não pode ser cancelado antes de ser confirmado");
+      throw AppException(AppExceptionCode.CODE_052_ORDER_CANNOT_BE_CANCELLED_BEFORE_CONFIRMED, "Um pedido não pode ser cancelado antes de ser confirmado");
     }
     if (cancelledAt != null && confirmedAt != null && confirmedAt.isAfter(cancelledAt)) {
-      throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Não é possível confirmar um pedido já cancelado");
+      throw AppException(AppExceptionCode.CODE_053_ORDER_ALREADY_CANCELED_CANNOT_CONFIRM, "Não é possível confirmar um pedido já cancelado");
     }
 
     return SalesOrder.raw(

@@ -278,7 +278,7 @@ class SalesOrderCustomerSectionState extends ConsumerState<SalesOrderCustomerSec
   Future<void> _selectCustomer() async {
     final order = widget.order;
     final router = GoRouter.of(context);
-    final selected = await context.pushNamed<Customer?>(OrderRouter.select_customer.name);
+    final selected = await context.pushNamed<Customer?>(SalesOrderRouter.select_customer.name);
 
     if (selected == null) return;
 
@@ -296,6 +296,6 @@ class SalesOrderCustomerSectionState extends ConsumerState<SalesOrderCustomerSec
         .createNewOrder(customer: selected);
 
     if (!context.mounted) return;
-    router.goNamed(OrderRouter.create.name, queryParameters: {"orderId": newOrder.orderId.toString()});
+    router.goNamed(SalesOrderRouter.create.name, queryParameters: {"orderId": newOrder.orderId.toString()});
   }
 }

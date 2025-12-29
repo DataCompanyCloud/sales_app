@@ -139,7 +139,7 @@ class HomePage extends ConsumerWidget {
                       title: Text("Lista de Pedidos"),
                       trailing: Icon(Icons.chevron_right),
                       onTap: () {
-                        context.goNamed(OrderRouter.list.name);
+                        context.goNamed(SalesOrderRouter.list.name);
                       },
                     ),
                     ListTile(
