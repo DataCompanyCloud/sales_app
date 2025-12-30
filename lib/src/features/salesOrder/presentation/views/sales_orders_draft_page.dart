@@ -17,6 +17,9 @@ class SalesOrdersDraftPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.watch(salesOrderControllerProvider);
 
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+
     return controller.when(
       error: (error, stack) => ErrorPage(
         exception: error is AppException
@@ -40,7 +43,7 @@ class SalesOrdersDraftPage extends ConsumerWidget {
               if (controller.isLoading) return;
               final _ = ref.refresh(salesOrderControllerProvider);
             },
-            child: orders.isEmpty
+            child: orders.items.isEmpty
               ? Center(
                   child: Text("Nenhum pedido em aberto"),
                 )
@@ -48,9 +51,9 @@ class SalesOrdersDraftPage extends ConsumerWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListView.builder(
-                  itemCount: orders.length,
+                  itemCount: orders.items.length,
                   itemBuilder: (context, index) {
-                    final order = orders[index];
+                    final order = orders.items[index];
 
                     return InkWell(
                       onTap: () {
@@ -69,10 +72,10 @@ class SalesOrdersDraftPage extends ConsumerWidget {
           ),
           floatingActionButton: FloatingActionButton(
             heroTag: "btn-go",
-            backgroundColor: Color(0xFF0081F5),
-            foregroundColor: Colors.white,
+            backgroundColor: scheme.primary,
+            foregroundColor: scheme.onSurface,
             onPressed: () async {
-              if (orders.isNotEmpty) {
+              if (orders.items.isNotEmpty) {
                 final ok = await showDialog<bool>(
                   context: context,
                   barrierDismissible: false, // obriga escolher uma ação

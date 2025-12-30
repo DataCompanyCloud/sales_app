@@ -10,6 +10,7 @@ import 'package:sales_app/src/features/salesOrder/domain/repositories/sales_orde
 import 'package:sales_app/src/features/salesOrder/presentation/controllers/sales_order_controller.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/controllers/sales_order_create_controller.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/controllers/sales_order_details_controller.dart';
+import 'package:sales_app/src/features/salesOrder/presentation/controllers/valueObjects/sales_orders_pagination.dart';
 
 final salesOrderRepositoryProvider = FutureProvider.autoDispose<SalesOrderRepository>((ref) async {
   final store = await ref.watch(datasourceProvider.future);
@@ -35,7 +36,7 @@ final salesOrderFilterProvider = StateProvider.autoDispose<SalesOrderFilter>((re
   return SalesOrderFilter(start: 0, limit: 20);
 });
 
-final salesOrderControllerProvider = AutoDisposeAsyncNotifierProvider<SalesOrderController, List<SalesOrder>> (() {
+final salesOrderControllerProvider = AutoDisposeAsyncNotifierProvider<SalesOrderController, SalesOrdersPagination> (() {
   return SalesOrderController();
 });
 

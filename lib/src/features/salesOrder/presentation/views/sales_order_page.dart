@@ -70,7 +70,7 @@ class OrderListPageState extends ConsumerState<SalesOrderPage>{
         bottomNavigationBar: CustomBottomNavigationBar(currentIndex: currentIndex),
       ),
       data: (orders) {
-        if (orders.isEmpty) {
+        if (orders.items.isEmpty) {
           return Scaffold(
             appBar: AppBar(
               title: Text("Lista de Pedidos"),
@@ -170,7 +170,7 @@ class OrderListPageState extends ConsumerState<SalesOrderPage>{
                       int countSynced = 0;
                       int countNotSynced = 0;
 
-                      final orderFiltered = orders.where((order) {
+                      final orderFiltered = orders.items.where((order) {
                         countAll++;
 
                         if (order.serverId != null) {
