@@ -39,7 +39,7 @@ class ImageDialog extends ConsumerWidget {
             child: IconButton.filled(
               onPressed: () => context.pop(),
               style: IconButton.styleFrom(
-                backgroundColor: scheme.primaryContainer
+                backgroundColor: scheme.primary
               ),
               icon: Icon(Icons.close, color: scheme.onSurface),
             ),

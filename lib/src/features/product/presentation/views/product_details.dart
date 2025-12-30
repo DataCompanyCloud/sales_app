@@ -31,6 +31,14 @@ import 'package:sales_app/src/features/product/presentation/widgets/dialogs/imag
       pageController = PageController();
     }
 
+    void showImageDialog(BuildContext context, String image) {
+      showDialog(
+        context: context,
+        barrierColor: Colors.black.withAlpha(230),
+        builder: (_) => ImageDialog(image: image),
+      );
+    }
+
     @override
     Widget build(BuildContext context) {
       // final controller = ref.watch(productDetailsControllerProvider);
@@ -108,59 +116,112 @@ import 'package:sales_app/src/features/product/presentation/widgets/dialogs/imag
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     // HEADER com imagem
-                    SizedBox(
-                      height: fortyPercent,
-                      child: Stack(
-                        children: [
-                          Positioned.fill(
-                            child: PageView.builder(
-                              controller: pageController,
-                              itemCount: product.images.length,
-                              onPageChanged: (index) {
-                                currentPage.value = index;
-                              },
-                              itemBuilder: (context, index) {
-                                final image = product.images[index];
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 6),
+                      child: SizedBox(
+                        height: fortyPercent,
+                        child: Stack(
+                          children: [
+                            Positioned.fill(
+                              child: PageView.builder(
+                                controller: pageController,
+                                itemCount: product.images.length,
+                                onPageChanged: (index) {
+                                  currentPage.value = index;
+                                },
+                                itemBuilder: (context, index) {
+                                  final image = product.images[index];
 
-                                return ProductImageCachedWidget(
-                                  productId: product.productId,
-                                  image: image,
-                                  width: 60,
-                                  height: 60,
-                                  fit: BoxFit.cover
-                                );
-                              },
+                                  return ProductImageCachedWidget(
+                                    productId: product.productId,
+                                    image: image,
+                                    width: 60,
+                                    height: 60,
+                                    fit: BoxFit.cover
+                                  );
+                                },
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 8, left: 8),
-                            child: ValueListenableBuilder<int>(
-                              valueListenable: currentPage,
-                              builder: (_, page, _) => Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: List.generate(
-                                  product.images.length,
-                                  (index) => AnimatedContainer(
-                                    curve: Curves.easeInOut,
+                            // Padding(
+                            //   padding: EdgeInsets.only(top: 8, left: 8),
+                            //   child: ValueListenableBuilder<int>(
+                            //     valueListenable: currentPage,
+                            //     builder: (_, page, _) => Column(
+                            //       mainAxisAlignment: MainAxisAlignment.center,
+                            //       children: List.generate(
+                            //         product.images.length,
+                            //         (index) => AnimatedContainer(
+                            //           curve: Curves.easeInOut,
+                            //           duration: Duration(milliseconds: 300),
+                            //           margin: EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+                            //           width: 10,
+                            //           height: 10,
+                            //           decoration: BoxDecoration(
+                            //             shape: BoxShape.circle,
+                            //             color: page == index
+                            //               ? scheme.primary
+                            //               : Colors.transparent,
+                            //             border: Border.all(
+                            //               color: scheme.primary
+                            //             )
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 80,
+                      child: ValueListenableBuilder(
+                        valueListenable: currentPage,
+                        builder: (_, selected, _) {
+                          return ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            padding: const EdgeInsets.symmetric(horizontal: 6),
+                            itemCount: product.images.length,
+                            separatorBuilder: (_, _) => const SizedBox(width: 12),
+                            itemBuilder: (_, index) {
+                              final isSelected = index == selected;
+
+                              return GestureDetector(
+                                onTap: () {
+                                  currentPage.value = index;
+                                  pageController.animateToPage(
+                                    index,
                                     duration: Duration(milliseconds: 300),
-                                    margin: EdgeInsets.symmetric(horizontal: 2, vertical: 2),
-                                    width: 10,
-                                    height: 10,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: page == index
+                                    curve: Curves.easeOut,
+                                  );
+                                },
+                                child: AnimatedContainer(
+                                  duration: Duration(milliseconds: 300),
+                                  padding: const EdgeInsets.all(2),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      color: isSelected
                                         ? scheme.primary
                                         : Colors.transparent,
-                                      border: Border.all(
-                                        color: scheme.primary
-                                      )
+                                      width: 2
+                                    ),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8),
+                                    child: Image.network(
+                                      product.images[index].url,
+                                      width: 64,
+                                      height: 64,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          ),
-                        ],
+                              );
+                            },
+                          );
+                        }
                       ),
                     ),
                     // CONTEÚDO com cantos arredondados no topo
@@ -464,12 +525,4 @@ import 'package:sales_app/src/features/product/presentation/widgets/dialogs/imag
         ),
       );
     }
-  }
-
-  void showImageDialog(BuildContext context, String image) {
-    showDialog(
-      context: context,
-      barrierColor: Colors.black.withAlpha(230),
-      builder: (_) => ImageDialog(image: image),
-    );
   }
