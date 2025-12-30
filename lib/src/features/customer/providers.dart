@@ -7,6 +7,7 @@ import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/features/customer/domain/repositories/customer_repository.dart';
 import 'package:sales_app/src/features/customer/presentation/controllers/customer_controller.dart';
 import 'package:sales_app/src/features/customer/presentation/controllers/customer_details_controller.dart';
+import 'package:sales_app/src/features/customer/presentation/controllers/valueObjects/customers_pagination.dart';
 
 final customerRepositoryProvider = FutureProvider.autoDispose<CustomerRepository>((ref) async {
   final store = await ref.watch(datasourceProvider.future);
@@ -35,7 +36,7 @@ final customerServiceProvider = FutureProvider<CustomerService>((ref) async {
   return CustomerService(apiClient, repository);
 });
 
-final customerControllerProvider = AutoDisposeAsyncNotifierProvider<CustomerController, List<Customer>>(
+final customerControllerProvider = AutoDisposeAsyncNotifierProvider<CustomerController, CustomersPagination>(
   CustomerController.new,
 );
 

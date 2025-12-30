@@ -72,7 +72,7 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
         bottomNavigationBar: CustomBottomNavigationBar(currentIndex: currentIndex),
       ),
       data: (customers) {
-        if(customers.isEmpty) {
+        if(customers.items.isEmpty) {
           return Scaffold(
             body: Center(
               child: SingleChildScrollView(
@@ -156,7 +156,7 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
                       int countSynced    = 0;
                       int countNotSynced = 0;
 
-                      final customerFiltered = customers.where((customer) {
+                      final customerFiltered = customers.items.where((customer) {
                         // conta no “all”
                         countAll++;
 

@@ -2,17 +2,19 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/core/providers/connectivity_provider.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
+import 'package:sales_app/src/features/customer/presentation/controllers/valueObjects/customers_pagination.dart';
 import 'package:sales_app/src/features/customer/providers.dart';
 
-class CustomerController extends AutoDisposeAsyncNotifier<List<Customer>>{
+class CustomerController extends AutoDisposeAsyncNotifier<CustomersPagination>{
 
   /// Primeiro busca no banco local
   /// se não encontrar nada busca da API
   @override
-  FutureOr<List<Customer>> build() async {
+  FutureOr<CustomersPagination> build() async {
     final filter = ref.watch(customerFilterProvider);
     final repository = await ref.read(customerRepositoryProvider.future);
-    state = AsyncLoading();
+
+    var total = await repository.count();
 
     final isConnected = ref.read(isConnectedProvider);
     if (isConnected) {
@@ -28,29 +30,43 @@ class CustomerController extends AutoDisposeAsyncNotifier<List<Customer>>{
       }
     }
 
-    // Sempre retorna a lista do banco local (fonte da verdade)
-    return await repository.fetchAll(filter);
+    final customers = await repository.fetchAll(filter);
+    return CustomersPagination(
+      total: total,
+      items: customers,
+      isLoadingMore: false
+    );
   }
 
-
   Future<void> createCustomer(Customer customer) async {
-    state = const AsyncValue.loading();
+    state = const AsyncLoading();
 
     state = await AsyncValue.guard(() async {
-      final filter = ref.watch(customerFilterProvider);
+      final filter = ref.read(customerFilterProvider);
       final repository = await ref.read(customerRepositoryProvider.future);
       var newCustomer = customer;
 
-      try {
-        final service = await ref.read(customerServiceProvider.future);
-        final serverId = await service.putCustomer(customer);
-        newCustomer = customer.copyWith(serverId: serverId);
-      } catch (e) {
-        // print(e);
+      final isConnected = ref.read(isConnectedProvider);
+      if (isConnected) {
+        try {
+          final service = await ref.read(customerServiceProvider.future);
+          final serverId = await service.putCustomer(customer);
+          newCustomer = customer.copyWith(serverId: serverId);
+        } catch (e) {
+          // print(e);
+        }
       }
 
       await repository.save(newCustomer);
-      return repository.fetchAll(filter);
+
+      final total = await repository.count();
+      final customers = await repository.fetchAll(filter);
+
+      return CustomersPagination(
+        total: total,
+        items: customers,
+        isLoadingMore: false
+      );
     });
   }
 }

@@ -71,7 +71,7 @@ class SalesOrderCreatePageState extends ConsumerState<SelectCustomerPage> {
         body: CustomerPageSkeleton()
       ),
       data: (customers) {
-        if(customers.isEmpty) {
+        if(customers.items.isEmpty) {
           return Scaffold(
             body: Center(
               child: SingleChildScrollView(
@@ -153,7 +153,7 @@ class SalesOrderCreatePageState extends ConsumerState<SelectCustomerPage> {
                       int countSynced    = 0;
                       int countNotSynced = 0;
 
-                      final customerFiltered = customers.where((customer) {
+                      final customerFiltered = customers.items.where((customer) {
                         // conta no “all”
                         countAll++;
 
