@@ -34,10 +34,12 @@ extension AttributeValueModelMapper on AttributeValueModel {
   /// De AttributeValueModel → AttributeValue (Freezed)
   AttributeValue toEntity() {
     final imagesList = images.map((i) => i.toEntity()).toList();
+    final modelPriceDelta = price.target;
+
     return AttributeValue(
       id: attributeValueId,
       value: value,
-      priceDelta: price.target?.toEntity(),
+      priceDelta: modelPriceDelta?.toEntity(),
       images: imagesList
     );
   }

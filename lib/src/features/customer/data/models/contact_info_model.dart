@@ -27,7 +27,7 @@ extension ContactInfoModelMapper on ContactInfoModel {
   ContactInfo toEntity() => ContactInfo.raw(
     name: name,
     isPrimary: isPrimary,
-    phone: phone.target?.toEntity(),
+    phone: null,  // phone.target?.toEntity(),
     email: email != null ? Email(value: email!) : null
   );
 

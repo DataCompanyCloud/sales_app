@@ -38,6 +38,8 @@ extension SalesOrderProductModelMapper on SalesOrderProductModel {
   /// De OrderProductModel → OrderProduct
   SalesOrderProduct toEntity() {
     final price = unitPrice.target?.toEntity();
+    final modelFiscal = fiscal.target;
+    final modelTaxResult = taxResult.target;
 
     return SalesOrderProduct(
       productUuId: productUuId,
@@ -48,8 +50,8 @@ extension SalesOrderProductModelMapper on SalesOrderProductModel {
       unitPrice: price ?? const Money.raw(amount: 0),
       orderId: orderId,
       discountAmount: discountAmount.target?.toEntity(),
-      fiscal: fiscal.target!.toEntity(),
-      taxResult: taxResult.target?.toEntity()
+      fiscal: modelFiscal!.toEntity(),
+      taxResult: modelTaxResult?.toEntity()
     );
   }
 

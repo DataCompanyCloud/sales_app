@@ -55,21 +55,24 @@ extension ProductModelMapper on ProductModel {
     final imagesList = images.map((p) => p.toEntity()).toList();
     final attributesList = attributes.map((p) => p.toEntity()).toList();
     final walletsList = wallets.map((w) => w.toEntity()).toList();
+    final modelPrice = price.target;
+    final modelUnit = unit.target;
+    final modelFiscal = fiscal.target;
 
     return Product.raw(
       productId: productId,
       code: code,
       name: name,
       companyGroupId: companyGroupId,
-      price: price.target!.toEntity(), // Obrigatorio ter
+      price: modelPrice!.toEntity(), // Obrigatorio ter
       barcode: modelBarcode?.toEntity(),
-      unit: unit.target!.toEntity(), // Obrigatorio ter
+      unit: modelUnit!.toEntity(), // Obrigatorio ter
       images: imagesList,
       categories: categoriesList,
       packings: packagingList,
       attributes: attributesList,
       description: description,
-      fiscal: fiscal.target!.toEntity(), // Obrigatorio ter
+      fiscal: modelFiscal!.toEntity(), // Obrigatorio ter
       wallets: walletsList
     );
   }

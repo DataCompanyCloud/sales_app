@@ -20,9 +20,11 @@ class SalesOrderPaymentModel {
 extension SalesOrderPaymentModeMapper on SalesOrderPaymentModel {
   /// De OrderPaymentModel → OrderPayment
   SalesOrderPayment toEntity() {
+    final modelMoney = money.target;
+
     return SalesOrderPayment(
       paymentMethod: PaymentMethod.values[paymentMethod],
-      money: money.target!.toEntity(),
+      money: modelMoney!.toEntity(),
     );
   }
 

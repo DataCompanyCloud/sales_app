@@ -47,30 +47,44 @@ class ProductTaxResultModel {
 extension ProductTaxResultModelMapper on ProductTaxResultModel {
   /// De ProductTaxResult → ProductTaxResult
   ProductTaxResult toEntity() {
+    final modelIcmsBase = icmsBase.target;
+    final modelIcmsValue = icmsValue.target;
+    final modelIcsmSTBase = icmsSTBase.target;
+    final modelIcmsSTValue = icmsSTValue.target;
+    final modelIpiBase = ipiBase.target;
+    final modelIpiValue = ipiValue.target;
+    final modelPisBase = pisBase.target;
+    final modelPisValue = pisValue.target;
+    final modelCofinsBase = cofinsBase.target;
+    final modelCofinsValue = cofinsValue.target;
+    final modelDifalValue = difalValue.target;
+    final modelFcpValue = fcpValue.target;
+    final modelTotalTax = totalTax.target;
+
     return ProductTaxResult(
-      icmsBase: icmsBase.target!.toEntity(),
-      icmsValue: icmsValue.target!.toEntity(),
+      icmsBase: modelIcmsBase!.toEntity(),
+      icmsValue: modelIcmsValue!.toEntity(),
       icmsAliquota: Percentage(value: icmsAliquota),
 
-      icmsSTBase: icmsSTBase.target!.toEntity(),
-      icmsSTValue: icmsSTValue.target!.toEntity(),
+      icmsSTBase: modelIcsmSTBase!.toEntity(),
+      icmsSTValue: modelIcmsSTValue!.toEntity(),
       mva: mva != null ? Percentage(value: mva!) : null,
 
-      ipiBase: ipiBase.target!.toEntity(),
-      ipiValue: ipiValue.target!.toEntity(),
+      ipiBase: modelIpiBase!.toEntity(),
+      ipiValue: modelIpiValue!.toEntity(),
       ipiAliquota: ipiAliquota != null ? Percentage(value: ipiAliquota!) : null,
 
-      pisBase: pisBase.target!.toEntity(),
-      pisValue: pisValue.target!.toEntity(),
+      pisBase: modelPisBase!.toEntity(),
+      pisValue: modelPisValue!.toEntity(),
       pisAliquota: pisAliquota != null ? Percentage(value: ipiAliquota!) : null,
 
-      cofinsBase: cofinsBase.target!.toEntity(),
-      cofinsValue: cofinsValue.target!.toEntity(),
+      cofinsBase: modelCofinsBase!.toEntity(),
+      cofinsValue: modelCofinsValue!.toEntity(),
       cofinsAliquota: cofinsAliquota != null ? Percentage(value: cofinsAliquota!) : null,
 
-      difalValue: difalValue.target!.toEntity(),
-      fcpValue: fcpValue.target!.toEntity(),
-      totalTax: totalTax.target!.toEntity()
+      difalValue: modelDifalValue!.toEntity(),
+      fcpValue: modelFcpValue!.toEntity(),
+      totalTax: modelTotalTax!.toEntity()
     );
   }
 

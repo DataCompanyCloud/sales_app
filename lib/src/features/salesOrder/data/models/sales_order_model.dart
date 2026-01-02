@@ -69,6 +69,8 @@ extension SalesOrderModelMapper on SalesOrderModel {
     final companiesGroupList = companiesGroup.map((i) => i.toEntity()).toList();
     final customers = customer.target?.toEntity();
     final orderPaymentList = orderPaymentMethods.map((o) => o.toEntity()).toList();
+    final modelTotal = total.target;
+    final modelFreight = freight.target;
 
     return SalesOrder(
       orderId: id,
@@ -83,11 +85,11 @@ extension SalesOrderModelMapper on SalesOrderModel {
       cancelledAt: cancelledAt,
       notes: notes,
       itemsCount: itemsCount,
-      total: total.target?.toEntity() ?? Money.zero(),
+      total: modelTotal?.toEntity() ?? Money.zero(),
       orderPaymentMethods: orderPaymentList,
       companyGroup: companiesGroupList,
       customer: customers,
-      freight: freight.target?.toEntity()
+      freight: modelFreight?.toEntity()
     );
   }
 

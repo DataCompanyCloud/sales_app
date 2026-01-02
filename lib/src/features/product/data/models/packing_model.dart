@@ -27,11 +27,14 @@ class PackingModel {
 extension PackingModelMapper on PackingModel {
   /// De PackingModel → Packing
   Packing toEntity() {
+    final modelUnit = unit.target;
+    final modelBarcode = barcode.target;
+
     final packing = Packing(
       packingId: packingId,
       quantity: quantity,
-      unit: unit.target!.toEntity(),
-      barcode: barcode.target?.toEntity()
+      unit: modelUnit!.toEntity(),
+      barcode: modelBarcode?.toEntity()
     );
     return packing;
   }
