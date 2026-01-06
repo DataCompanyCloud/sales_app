@@ -9,6 +9,7 @@ import 'package:sales_app/src/features/salesOrder/presentation/views/sales_order
 import 'package:sales_app/src/features/salesOrder/presentation/views/sales_order_create_page.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/views/sales_order_products_page.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/views/sales_orders_draft_page.dart';
+import 'package:sales_app/src/features/salesOrder/presentation/views/sales_orders_history_page.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/views/select_customer_page.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/views/select_products_page.dart';
 import 'package:sales_app/src/features/salesOrder/providers.dart';
@@ -21,6 +22,7 @@ enum SalesOrderRouter {
   select_customer,
   select_products,
   products_details,
+  history,
 }
 
 final orderRoutes = GoRoute(
@@ -72,8 +74,15 @@ final orderRoutes = GoRoute(
               }
             ),
           ]
-        )
+        ),
       ]
+    ),
+    GoRoute(
+      path: 'sales-orders-history',
+      name: SalesOrderRouter.history.name,
+      builder: (context, state) {
+        return SalesOrdersHistoryPage();
+      }
     ),
     GoRoute(
       path: 'drafts',

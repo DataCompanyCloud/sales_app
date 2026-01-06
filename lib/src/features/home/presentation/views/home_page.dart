@@ -148,9 +148,11 @@ class HomePage extends ConsumerWidget {
                         backgroundColor: scheme.onSurface,
                         child: Icon(Icons.history, color: scheme.surface),
                       ),
-                      title: Text("Histórico de Pedido"),
+                      title: Text("Histórico de Pedidos"),
                       trailing: Icon(Icons.chevron_right),
-                      onTap: () {},
+                      onTap: () {
+                        context.goNamed(SalesOrderRouter.history.name);
+                      },
                     ),
                   ],
                 ),

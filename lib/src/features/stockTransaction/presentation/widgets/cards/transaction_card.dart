@@ -67,7 +67,7 @@ class TransactionCard extends ConsumerWidget {
                     height: 20,
                     decoration: BoxDecoration(
                       color: type == TypeT.sales ? scheme.tertiary
-                          : type == TypeT.mySales ? scheme.onTertiary
+                          : type == TypeT.mySales ? scheme.tertiary
                           : scheme.primary,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
@@ -90,7 +90,7 @@ class TransactionCard extends ConsumerWidget {
                         bottomLeft: Radius.circular(10)
                       ),
                         color: type == TypeT.sales ? scheme.tertiary
-                            : type == TypeT.mySales ? scheme.onTertiary
+                            : type == TypeT.mySales ? scheme.tertiary
                             : scheme.primary
                     ),
                     child: ClipRRect(
@@ -139,7 +139,7 @@ class TransactionCard extends ConsumerWidget {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
                                   color: type == TypeT.sales ? scheme.tertiary
-                                    : type == TypeT.mySales ? scheme.onTertiary
+                                    : type == TypeT.mySales ? scheme.tertiary
                                     : scheme.primary
                                 ),
                                 child: Text(
@@ -165,7 +165,7 @@ class TransactionCard extends ConsumerWidget {
                                       ,
                                       color: type == TypeT.transfer
                                         ? scheme.primary
-                                        : scheme.onTertiary,
+                                        : scheme.tertiary,
                                       size: 18
                                     ),
                                     SizedBox(width: 4),
@@ -176,7 +176,7 @@ class TransactionCard extends ConsumerWidget {
                                         fontWeight: FontWeight.bold,
                                         color: type == TypeT.transfer
                                           ? scheme.primary
-                                          : scheme.onTertiary,
+                                          : scheme.tertiary,
                                       ),
                                     ),
                                   ],

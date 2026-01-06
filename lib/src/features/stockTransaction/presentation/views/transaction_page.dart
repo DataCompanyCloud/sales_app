@@ -36,8 +36,11 @@ class TransactionPage extends ConsumerWidget {
           itemCount: transactions.length,
           itemBuilder: (context, index) {
             final transaction = transactions[index];
-            return TransactionCard(
-              stockTransaction: transaction,
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: TransactionCard(
+                stockTransaction: transaction,
+              ),
             );
           }
         ),
