@@ -61,7 +61,6 @@ class HomeDrawer extends ConsumerWidget {
                     context.pushNamed(MyProfileRouter.myProfile.name);
                   },
                   leading: CircleAvatar(
-                    backgroundColor: Colors.white24,
                     child: Icon(
                       Icons.person,
                     ),

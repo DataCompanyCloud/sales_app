@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sales_app/src/core/themes/helpers/color_opacity.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 // Tema claro
@@ -162,8 +163,8 @@ final ThemeData salesAppLightTheme = (() {
       side: BorderSide(color: scheme.outline),
       labelStyle: TextStyle(color: scheme.onSurface),
       backgroundColor: scheme.surfaceContainerHighest,
-      selectedColor: scheme.primary.withValues(alpha: .18),
-      disabledColor: scheme.surfaceContainerHighest.withValues(alpha: .6),
+      selectedColor: scheme.primary.withOpacityFixed(.18),
+      disabledColor: scheme.surfaceContainerHighest.withOpacityFixed(.6),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
     ),
   );
@@ -278,7 +279,7 @@ final ThemeData salesAppDarkTheme = (() {
       labelStyle: TextStyle(color: scheme.onSurface),
       border: OutlineInputBorder(
         borderRadius: radius,
-        borderSide: BorderSide(color: scheme.outline.withValues(alpha: .5)),
+        borderSide: BorderSide(color: scheme.outline.withOpacityFixed(5)),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: radius,
@@ -326,18 +327,18 @@ final ThemeData salesAppDarkTheme = (() {
 
     chipTheme: ChipThemeData(
       shape: const StadiumBorder(),
-      side: BorderSide(color: scheme.outline.withValues(alpha: .5)),
+      side: BorderSide(color: scheme.outline.withOpacityFixed(.5)),
       labelStyle: TextStyle(color: scheme.onSurface),
-      backgroundColor: scheme.surfaceContainerHighest.withValues(alpha: .55),
-      selectedColor: scheme.primary.withValues(alpha: .24),
-      disabledColor: scheme.surfaceContainerHighest.withValues(alpha: .35),
+      backgroundColor: scheme.surfaceContainerHighest.withOpacityFixed(.55),
+      selectedColor: scheme.primary.withOpacityFixed(.24),
+      disabledColor: scheme.surfaceContainerHighest.withOpacityFixed(.35),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
     ),
 
     navigationBarTheme: NavigationBarThemeData(
       height: 72,
       backgroundColor: scheme.surface,
-      indicatorColor: scheme.primary.withValues(alpha: .14),
+      indicatorColor: scheme.primary.withOpacityFixed(.14),
       elevation: 0,
       surfaceTintColor: Colors.transparent,
       labelTextStyle: WidgetStateProperty.resolveWith((states) {

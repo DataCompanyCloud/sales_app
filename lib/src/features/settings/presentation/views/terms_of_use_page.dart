@@ -35,6 +35,7 @@ class TermsOfUsePage extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: 12),
                 Text(
                   "Ao utilizar este aplicativo, você concorda com os presentes Termos de Uso. Caso não concorde com qualquer condição descrita abaixo, recomendamos que não utilize o aplicativo.",
                   textAlign: TextAlign.justify,
