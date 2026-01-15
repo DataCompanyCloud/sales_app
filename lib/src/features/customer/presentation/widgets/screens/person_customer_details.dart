@@ -42,8 +42,8 @@ class PersonCustomerDetails extends ConsumerWidget {
               indicatorColor: Colors.blue,
               unselectedLabelColor: Colors.grey,
               tabs: const [
-                Tab(text: 'Informações'),
-                Tab(text: 'Pedidos'),
+                Tab(text: "Informações"),
+                Tab(text: "Pedidos"),
               ],
             ),
             const Divider(height: 1),
@@ -51,7 +51,7 @@ class PersonCustomerDetails extends ConsumerWidget {
               child: TabBarView(
                 children: [
                   PersonCustomerInformation(customer: customer),
-                  const Center(child: Text('Nenhum pedido para mostrar'))
+                  const Center(child: Text("Nenhum pedido para mostrar"))
                 ],
               ),
             ),

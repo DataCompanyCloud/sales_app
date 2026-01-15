@@ -6,10 +6,10 @@ import 'package:sales_app/src/features/customer/domain/valueObjects/address_type
 import 'package:sales_app/src/widgets/draggable/address_draggable.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class PersonCustomerInformation extends ConsumerWidget {
-  final PersonCustomer customer;
+class CompanyCustomerInformation extends ConsumerWidget {
+  final CompanyCustomer customer;
 
-  const PersonCustomerInformation({
+  const CompanyCustomerInformation({
     super.key,
     required this.customer
   });
@@ -23,7 +23,7 @@ class PersonCustomerInformation extends ConsumerWidget {
 
     await launchUrl(
       uri,
-      mode: LaunchMode.externalApplication,
+      mode: LaunchMode.externalApplication
     );
   }
 
@@ -43,7 +43,7 @@ class PersonCustomerInformation extends ConsumerWidget {
     if (address == null) {
       return const Padding(
         padding: EdgeInsets.all(16),
-        child: Text('Nenhum endereço cadastrado'),
+        child: Text("Nenhum endereço cadastrado"),
       );
     }
 
@@ -51,9 +51,7 @@ class PersonCustomerInformation extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header
           Row(
             children: [
               Container(
@@ -69,7 +67,7 @@ class PersonCustomerInformation extends ConsumerWidget {
               ),
               const SizedBox(width: 8),
               const Text(
-                'Endereço de Entrega',
+                "Endereço de Entrega",
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 16,
@@ -78,14 +76,11 @@ class PersonCustomerInformation extends ConsumerWidget {
             ],
           ),
           const SizedBox(height: 8),
-          // Endereço
           Text(
             address.formatted,
             style: theme.textTheme.bodyMedium,
           ),
           const SizedBox(height: 8),
-
-          // Preview de mapa (moderno, sem SDK)
           Card(
             elevation: 0,
             shape: RoundedRectangleBorder(
@@ -101,7 +96,6 @@ class PersonCustomerInformation extends ConsumerWidget {
                 ),
                 child: Stack(
                   children: [
-                    // Fake map background
                     Positioned.fill(
                       child: Opacity(
                         opacity: 0.15,
@@ -122,7 +116,7 @@ class PersonCustomerInformation extends ConsumerWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Ver no Maps',
+                            "Ver no Maps",
                             style: theme.textTheme.labelLarge?.copyWith(
                               color: scheme.primary,
                               fontWeight: FontWeight.w600,
