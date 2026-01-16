@@ -5,6 +5,7 @@ import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/auth/providers.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
+import 'package:sales_app/src/widgets/badges/text_badge.dart';
 import 'package:sales_app/src/widgets/dialogs/confirmation_dialog.dart';
 
 class MyProfilePage extends ConsumerWidget {
@@ -44,25 +45,6 @@ class MyProfilePage extends ConsumerWidget {
                 height: 1.0,
               ),
             ),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: Row(
-                  children: [
-                    TextButton.icon(
-                      onPressed: () {},
-                      label: Row(
-                        children: [
-                          Text("Sincronizar"),
-                          SizedBox(width: 6),
-                          Icon(Icons.change_circle_outlined),
-                        ],
-                      )
-                    )
-                  ],
-                ),
-              )
-            ],
           ),
           body: Column(
             children: [
@@ -83,19 +65,30 @@ class MyProfilePage extends ConsumerWidget {
                   ),
                 ),
               ),
+              TextBadge(
+                text: user!.isSync ? "Sincronizado" : "Não-Sincronizado",
+                color: user.isSync ? Colors.green: Colors.red,
+              ),
+              const SizedBox(height: 6),
               Text(
-                user!.userName,
+                user.userName,
                 style: TextStyle(
                   fontSize: 20
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 24),
-                child: Text(
-                  user.userCode,
-                  style: TextStyle(
-                    color: scheme.secondary
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      user.userCode,
+                      style: TextStyle(
+                        color: scheme.secondary
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Padding(
