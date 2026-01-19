@@ -72,7 +72,7 @@ extension SalesOrderModelMapper on SalesOrderModel {
     final modelTotal = total.target;
     final modelFreight = freight.target;
 
-    return SalesOrder(
+    return SalesOrder.raw(
       orderId: id,
       orderUuId: orderUuId,
       orderCode: orderCode,
@@ -170,7 +170,7 @@ extension SalesOrderMapper on SalesOrder {
       notes: notes,
     );
 
-    entity.freight.target = freight.toModel();
+    entity.freight.target = freight?.toModel();
     entity.customer.target = customer?.toModel();
     entity.total.target = total.toModel();
 

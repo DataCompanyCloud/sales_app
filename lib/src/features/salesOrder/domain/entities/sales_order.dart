@@ -35,7 +35,7 @@ abstract class SalesOrder with _$SalesOrder {
     String? notes,
     @Default([]) List<SalesOrderPayment> orderPaymentMethods,
     @Default([]) List<SalesOrderCompanyGroup> companyGroup,
-    @Default(Money.raw(amount: 0)) Money freight, /// Frete
+    @Default(Money.raw(amount: 0)) Money? freight, /// Frete
     /// Itens
     /// Totais armazenados (opcionalmente sincronizados via 'recalculate')
     @Default(Money.raw(amount: 0)) Money itemsSubtotal,
@@ -130,7 +130,7 @@ abstract class SalesOrder with _$SalesOrder {
   );
 
   @JsonKey(includeFromJson: false)
-  Money get calcGrandTotal => calcItemsSubtotal.minus(calcDiscountTotal).plus(freight);
+  Money get calcGrandTotal => calcItemsSubtotal.minus(calcDiscountTotal).plus(freight!);
 
   // Funções
   SalesOrder recalculate() => copyWith(

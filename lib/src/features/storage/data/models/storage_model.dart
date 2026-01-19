@@ -29,7 +29,7 @@ extension StorageModelMapper on StorageModel {
   /// De StorageModel → Storage
   Storage toEntity() {
 
-    return Storage(
+    return Storage.raw(
       storageId: storageId,
       name: name,
       description: description,

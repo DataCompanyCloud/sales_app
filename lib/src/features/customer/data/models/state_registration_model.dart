@@ -21,7 +21,7 @@ class StateRegistrationModel {
 
 extension StateRegistrationModelMapper on StateRegistrationModel {
   /// De StateRegistrationModel → StateRegistration
-  StateRegistration toEntity() => StateRegistration(
+  StateRegistration toEntity() => StateRegistration.raw(
     uf: BrazilianState.values[uf],
     number: number,
     isExempt: isExempt

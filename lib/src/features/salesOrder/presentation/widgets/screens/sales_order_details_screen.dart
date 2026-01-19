@@ -143,7 +143,7 @@ class SalesOrderDetailsScreen extends ConsumerWidget {
                       ),
                       PaymentRow(label: "Subtotal", value: "R\$${order.calcItemsSubtotal.decimalValue}"),
                       PaymentRow(label: "Desconto", value: "R\$${order.calcDiscountTotal.decimalValue}"),
-                      PaymentRow(label: "Frete", value: "R\$${order.freight.decimalValue}"),
+                      PaymentRow(label: "Frete", value: "R\$${order.freight?.decimalValue}"),
                       PaymentRow(label: "Taxa", value: "R\$0.0"),
                     ],
                   ),

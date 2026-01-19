@@ -162,7 +162,7 @@ class SalesOrderFinishedSectionState extends ConsumerState<SalesOrderFinishedSec
                           children: [
                             Text('Frete'),
                             Text(
-                              'R\$ ${salesOrder?.freight.decimalValue ?? 0}',
+                              'R\$ ${salesOrder?.freight?.decimalValue ?? 0}',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold
                               ),

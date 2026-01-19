@@ -31,7 +31,7 @@ class StockTransactionItemModel {
 extension StockTransactionItemModelMapper on StockTransactionItemModel {
   /// De StockTransactionItemModel → StockTransactionItem
   StockTransactionItem toEntity(){
-    return StockTransactionItem(
+    return StockTransactionItem.raw(
       id: itemId,
       code: code,
       serverId: serverId,

@@ -43,7 +43,7 @@ extension StockTransactionModelMapper on StockTransactionModel {
   StockTransaction toEntity() {
     final items = this.items.map((m) => m.toEntity()).toList();
 
-    return StockTransaction(
+    return StockTransaction.raw(
       id: stockId,
       code: code,
       serverId: serverId,
