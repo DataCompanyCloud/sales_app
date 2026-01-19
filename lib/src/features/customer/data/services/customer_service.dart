@@ -5,6 +5,7 @@ import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/features/customer/domain/repositories/customer_repository.dart';
+import 'package:sales_app/src/features/customer/presentation/controllers/valueObjects/customers_pagination.dart';
 
 class CustomerService {
   final CustomerRepository repository;
@@ -12,7 +13,7 @@ class CustomerService {
 
   CustomerService(this.apiClient, this.repository);
 
-  Future<List<Customer>> getAll(CustomerFilter filter) async {
+  Future<CustomersPagination> getAll(CustomerFilter filter) async {
     final json = await apiClient.get<Map<String, dynamic>>(ApiEndpoints.customers, queryParameters: {
       'search': filter.q,
       'start': filter.start,
@@ -22,24 +23,20 @@ class CustomerService {
     final data = json['data'] as List<dynamic>;
 
     final customers = data
-      .map<Customer?>((c) {
-          try {
-            return Customer.fromJson(c);
-          } catch (error) {
-            // print(error);
-            return null;
-          }
-        })
-      .whereType<Customer>()
-      .toList();
+        .map((c) {
+      return Customer.fromJson(c);
+    }).toList();
 
-
-    return customers;
+    return CustomersPagination(
+      total: json['total'] ?? customers.length,
+      items: customers
+    );
   }
 
   Future<Customer> getById(int customerId) async {
     try {
-      final json = await apiClient.get<Map<String, dynamic>>(ApiEndpoints.customerById(customerId: customerId));
+      final json = await apiClient.get<Map<String, dynamic>>(
+          ApiEndpoints.customerById(customerId: customerId));
       return Customer.fromJson(json);
     } on DioException catch (e) {
       final status = e.response?.statusCode;

@@ -20,10 +20,12 @@ class CustomerController extends AutoDisposeAsyncNotifier<CustomersPagination>{
     if (isConnected) {
       try {
         final service = await ref.read(customerServiceProvider.future);
-        final newCustomers = await service.getAll(filter);
+        final pagination = await service.getAll(filter);
+        total = pagination.total;
+        final customers = pagination.items;
 
-        if (newCustomers.isNotEmpty) {
-          await repository.saveAll(newCustomers);
+        if (customers.isNotEmpty) {
+          await repository.saveAll(customers);
         }
       } catch (e) {
         // print('Erro ao sincronizar clientes: $e');
@@ -35,6 +37,46 @@ class CustomerController extends AutoDisposeAsyncNotifier<CustomersPagination>{
       total: total,
       items: customers,
       isLoadingMore: false
+    );
+  }
+
+  Future<void> loadMore() async {
+    if (state.value!.isLoadingMore) return;
+    state = AsyncData(state.value!.copyWith(isLoadingMore: true));
+    final filter = ref.read(customerFilterProvider);
+    final newFilter = filter.copyWith(
+      start: state.value!.items.length,
+    );
+
+    final repository = await ref.watch(customerRepositoryProvider.future);
+    final isConnected = ref.read(isConnectedProvider);
+
+    var total = state.value?.total ?? 0;
+    if (isConnected) {
+      try {
+        final service = await ref.read(customerServiceProvider.future);
+        final pagination = await service.getAll(filter);
+        total = pagination.total;
+        final customers = pagination.items;
+
+        if (customers.isNotEmpty) {
+          await repository.saveAll(customers);
+        }
+      } catch (e) {
+        // print(e);
+      }
+    }
+
+    final items = await repository.fetchAll(newFilter);
+    state = AsyncData(
+      state.value!.copyWith(
+        total: total,
+        items: [
+          ...state.value?.items ?? [],
+          ...items
+        ],
+        isLoadingMore: false
+      )
     );
   }
 

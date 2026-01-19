@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sales_app/src/features/customer/domain/repositories/customer_repository.dart';
 import 'package:sales_app/src/features/customer/providers.dart';
 
 final syncProgressCustomerProvider = StateProvider.autoDispose<double>((ref) => 0.0);
@@ -14,22 +13,22 @@ final syncCustomerProvider = FutureProvider.autoDispose<void>((ref) async {
 
   // 2) itera em páginas
   for (var offset = 0; offset < total; offset += pageSize) {
-    try {
-      // final pageIndex = offset;
-      final batch = await service.getAll(CustomerFilter());
-      // print("$offset - ${offset + pageSize} = ${batch.length}");
-      if (batch.isEmpty) {
-        // print("Cabou");
-        break;
-      }
-      await repository.saveAll(batch);
-
-      // opcional: atualiza progresso
-      final pct = ((offset + batch.length) / total) * 100;
-      ref.read(syncProgressCustomerProvider.notifier).state = pct;
-    } catch (e) {
-      // print(e);
-    }
+    // try {
+    //   // final pageIndex = offset;
+    //   final batch = await service.getAll(CustomerFilter());
+    //   // print("$offset - ${offset + pageSize} = ${batch.length}");
+    //   if (batch.isEmpty) {
+    //     // print("Cabou");
+    //     break;
+    //   }
+    //   await repository.saveAll(batch);
+    //
+    //   // opcional: atualiza progresso
+    //   final pct = ((offset + batch.length) / total) * 100;
+    //   ref.read(syncProgressCustomerProvider.notifier).state = pct;
+    // } catch (e) {
+    //   // print(e);
+    // }
 
   }
 });

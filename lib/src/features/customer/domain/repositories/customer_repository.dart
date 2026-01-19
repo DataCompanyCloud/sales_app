@@ -14,6 +14,20 @@ class CustomerFilter {
     this.q,
     this.direction = CustomerDirection.desc,
   });
+
+  CustomerFilter copyWith ({
+    int? start,
+    // int? limit,
+    String? q,
+    CustomerDirection? direction
+  }) {
+    return CustomerFilter(
+      start: start ?? this.start,
+      limit: limit,
+      q: q ?? this.q,
+      direction: direction ?? this.direction,
+    );
+  }
 }
 
 
