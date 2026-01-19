@@ -6,15 +6,14 @@ import 'package:sales_app/src/core/exceptions/app_exception.dart';
 import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order.dart';
 import 'package:sales_app/src/features/salesOrder/domain/repositories/sales_order_repository.dart';
+import 'package:sales_app/src/features/salesOrder/presentation/controllers/valueObjects/sales_orders_pagination.dart';
 
 class SalesOrderService {
-  final SalesOrderRepository repository;
-
   final ApiClient apiClient;
 
-  SalesOrderService(this.apiClient, this.repository);
+  SalesOrderService(this.apiClient);
 
-  Future<List<SalesOrder>> getAll({
+  Future<SalesOrdersPagination> getAll({
     required SalesOrderFilter filter,
     bool withProducts = false
   }) async {
@@ -31,7 +30,10 @@ class SalesOrderService {
       return SalesOrder.fromJson(o);
     }).toList();
 
-    return orders;
+    return SalesOrdersPagination(
+      total: json['total'] ?? orders.length,
+      items: orders,
+    );
   }
 
   Future<SalesOrder> getById(int orderId) async {

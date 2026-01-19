@@ -50,8 +50,7 @@ final salesOrderDetailsControllerProvider = AsyncNotifierProvider.autoDispose.fa
 
 final salesOrderServiceProvider = FutureProvider.autoDispose<SalesOrderService>((ref) async {
   final apiClient = ref.watch(apiClientProvider);
-  final repository = await ref.watch(salesOrderRepositoryProvider.future);
-  return SalesOrderService(apiClient, repository);
+  return SalesOrderService(apiClient);
 });
 
 

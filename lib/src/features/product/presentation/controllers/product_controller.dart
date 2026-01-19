@@ -4,7 +4,6 @@ import 'package:sales_app/src/core/providers/connectivity_provider.dart';
 import 'package:sales_app/src/features/product/presentation/controllers/valueObjects/products_pagination.dart';
 import 'package:sales_app/src/features/product/providers.dart';
 
-
 class ProductController extends AutoDisposeAsyncNotifier<ProductsPagination> {
 
   /// Primeiro busca no banco local

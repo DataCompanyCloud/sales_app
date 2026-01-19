@@ -16,11 +16,13 @@ class SalesOrderController extends AutoDisposeAsyncNotifier<SalesOrdersPaginatio
     final isConnected = ref.read(isConnectedProvider);
     if (isConnected) {
       try {
-        final service = await ref.watch(salesOrderServiceProvider.future);
-        final newOrders = await service.getAll(filter: filter);
+        final service = await ref.read(salesOrderServiceProvider.future);
+        final pagination = await service.getAll(filter: filter);
+        total = pagination.total;
+        final orders = pagination.items;
 
-        if (newOrders.isNotEmpty) {
-          await repository.saveAll(newOrders);
+        if (orders.isNotEmpty) {
+          await repository.saveAll(orders);
         }
       } catch (e) {
         // print(e);
