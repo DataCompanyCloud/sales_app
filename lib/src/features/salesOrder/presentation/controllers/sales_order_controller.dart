@@ -36,5 +36,44 @@ class SalesOrderController extends AutoDisposeAsyncNotifier<SalesOrdersPaginatio
       isLoadingMore: false
     );
   }
-  
+
+  Future<void> loadMore() async {
+    if (state.value!.isLoadingMore) return;
+    state = AsyncData(state.value!.copyWith(isLoadingMore: true));
+    final filter = ref.read(salesOrderFilterProvider);
+    final newFilter = filter.copyWith(
+      start: state.value!.items.length,
+    );
+
+    final repository = await ref.watch(salesOrderRepositoryProvider.future);
+    final isConnected = ref.read(isConnectedProvider);
+
+    var total = state.value?.total ?? 0;
+    if (isConnected) {
+      try {
+        final service = await ref.read(salesOrderServiceProvider.future);
+        final pagination = await service.getAll(filter: filter);
+        total = pagination.total;
+        final orders = pagination.items;
+
+        if (orders.isNotEmpty) {
+          await repository.saveAll(orders);
+        }
+      } catch (e) {
+        // print(e);
+      }
+    }
+
+    final items = await repository.fetchAll(newFilter);
+    state = AsyncData(
+      state.value!.copyWith(
+        total: total,
+        items: [
+          ...state.value?.items ?? [],
+          ...items
+        ],
+        isLoadingMore: false
+      )
+    );
+  }
 }

@@ -29,9 +29,21 @@ class SalesOrderFilter {
     this.orderBy = SalesOrderSortField.createdAt,
     this.direction = SortDirection.desc,
   });
+
+  SalesOrderFilter copyWith({
+    int? start,
+    // int? limit,
+    String? q,
+    SortDirection? direction,
+  }) {
+    return SalesOrderFilter(
+      start: start ?? this.start,
+      limit: limit,
+      q: q ?? this.q,
+      direction: direction ?? this.direction,
+    );
+  }
 }
-
-
 
 abstract class SalesOrderRepository {
   /// Busca todos os Pedidos
