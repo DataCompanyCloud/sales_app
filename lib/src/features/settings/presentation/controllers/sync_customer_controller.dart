@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/core/notifications/notification_service.dart';
 import 'package:sales_app/src/features/customer/domain/repositories/customer_repository.dart';
@@ -33,71 +32,40 @@ class SyncCustomersNotifier extends AsyncNotifier<SyncState> {
         body: "Preparando sincronização"
       );
 
-      final limit = 20;
-      final totalLocal = await repository.count();
-      final start = max(0, totalLocal);
-      final total = await service.getCount(CustomerFilter());
+      final filter = CustomerFilter();
+      int count = await repository.count();
+      while (true) {
+        final pagination = await service.getAll(filter.copyWith(start: count));
+        final total = pagination.total;
+        final customers = pagination.items;
 
-      if (total == totalLocal) {
-
-        await NotificationService.completeSyncNotification(
-          channel: channel,
-          channelDescription: channelDescription,
-          title: "Sincronização concluída",
-          body: "Todos os clientes foram baixados com sucesso!"
-        );
-
-        state = AsyncData(state.value!.copyWith(status: SyncStatus.complete));
-        return;
-      }
-
-      state = AsyncData(state.value!.copyWith(status: SyncStatus.syncing, total: total));
-
-      int count = start;
-      await NotificationService.showSyncNotification(
-        channel: channel,
-        channelDescription: channelDescription,
-        title: "Sincronização iniciada",
-        body: "Baixando clientes",
-        progress: count,
-        maxProgress: total,
-      );
-
-      for (int i = start; i < total; i += limit) {
-
-        final cancelSync = ref.read(cancelCustomerSyncProvider);
-        if (cancelSync) {
-          NotificationService.completeSyncNotification(
-            channel: channel,
-            channelDescription: channelDescription,
-            title: "Donwload cancelado",
-            body: "O download foi interrompido pelo usuário.",
-          );
-
-          ref.read(cancelCustomerSyncProvider.notifier).state = false;
-          state = AsyncData(state.value!.copyWith(status: SyncStatus.cancel, total: total));
-          return;
+        if (customers.isEmpty) {
+          // Nada mais para processar → encerra
+          break;
         }
 
-        final customers = await service.getAll(
-          CustomerFilter(start: i, limit: limit),
-        );
+        state = AsyncData(state.value!.copyWith(status: SyncStatus.syncing, total: total));
 
-        for (var customer in customers) {
-          state = AsyncData(state.value!.copyWith(itemsSyncAmount: ++count));
+        for (final customer in customers) {
+          var toSave = customer;
 
-          var newCustomer = customer.copyWith();
-          ref.read(currentDownloadingCustomerProvider.notifier).state = newCustomer;
-          await repository.save(newCustomer);
+          await repository.save(toSave);
+          state = AsyncData(state.value!.copyWith(itemsSyncAmount: count++ ));
+          ref.read(currentDownloadingCustomerProvider.notifier).state = toSave;
 
           await NotificationService.showSyncNotification(
             channel: channel,
             channelDescription: channelDescription,
-            title: "Sincronizando clientes",
-            body: "Baixando...",
+            title: "Sincronização iniciada",
+            body: "Baixando clientes",
             progress: count,
             maxProgress: total,
           );
+        }
+
+        if (count >= total) {
+          // Já processou tudo → encerra
+          break;
         }
       }
 
@@ -108,11 +76,10 @@ class SyncCustomersNotifier extends AsyncNotifier<SyncState> {
         body: "Todos os clientes foram baixados com sucesso!",
       );
 
-      state = AsyncData(state.value!.copyWith(status: SyncStatus.complete));
+      state = AsyncData(state.value!.copyWith( status: SyncStatus.complete ));
     } catch (e, st) {
       state = AsyncError(e, st);
     }
   }
-
 
 }
