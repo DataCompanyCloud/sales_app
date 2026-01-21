@@ -9,7 +9,7 @@ class StorageController extends AutoDisposeAsyncNotifier<StoragesPagination> {
   @override
   FutureOr<StoragesPagination> build() async {
     final filter = ref.watch(storageFilterProvider);
-    final repository = await ref.read(storageRepositoryProvider.future);
+    final repository = await ref.watch(storageRepositoryProvider.future);
 
     var total = await repository.count();
 

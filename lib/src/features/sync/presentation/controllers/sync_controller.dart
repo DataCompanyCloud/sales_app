@@ -1,10 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sales_app/src/features/customer/providers.dart';
 
 final syncProgressCustomerProvider = StateProvider.autoDispose<double>((ref) => 0.0);
 final syncCustomerProvider = FutureProvider.autoDispose<void>((ref) async {
-  final repository = await ref.read(customerRepositoryProvider.future);
-  final service = await ref.read(customerServiceProvider.future);
 
   ref.read(syncProgressCustomerProvider.notifier).state = 0.0;
   // 1) pega total real

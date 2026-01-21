@@ -9,16 +9,22 @@ abstract class StorageProduct with _$StorageProduct {
 
   const factory StorageProduct.raw({
     required int productId,
-    required int quantity
+    required String productCode,
+    required int quantity,
+    required String productName
   }) = _StorageProduct;
 
   factory StorageProduct ({
     required int productId,
-    required int quantity
+    required String productCode,
+    required int quantity,
+    required String productName
   }) {
     return StorageProduct(
-        productId: productId,
-      quantity: quantity
+      productId: productId,
+      productCode: productCode,
+      quantity: quantity,
+      productName: productName
     );
   }
 

@@ -4,20 +4,28 @@ import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/storage/presentation/widgets/screens/storage_movement_details_screen.dart';
 import 'package:sales_app/src/features/storage/presentation/widgets/screens/storage_product_details_screen.dart';
 
-class StorageDetailsPage extends ConsumerWidget {
-  final _tabBarIndexProvider = StateProvider((ref) => 0);
+class StorageDetailsPage extends ConsumerStatefulWidget {
   final int storageId;
   final bool isMyStorage;
 
-  StorageDetailsPage({
+  const StorageDetailsPage({
     super.key,
     required this.storageId,
     required this.isMyStorage
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final tabBarIndex = ref.read(_tabBarIndexProvider);
+  ConsumerState<StorageDetailsPage> createState() => StorageDetailsPageState();
+}
+
+class StorageDetailsPageState extends ConsumerState<StorageDetailsPage>{
+  final _tabBarIndexProvider = StateProvider<int>((ref) => 0);
+
+  @override
+  Widget build(BuildContext context) {
+    final tabBarIndex = ref.watch(_tabBarIndexProvider);
+
+    final storageId = widget.storageId;
 
     return DefaultTabController(
       length: 2,
@@ -44,7 +52,6 @@ class StorageDetailsPage extends ConsumerWidget {
         ),
         body: TabBarView(
           children: [
-            // ScreenTest(),
             StorageProductDetailsScreen(storageId: storageId),
             StorageMovementDetailsScreen()
           ]

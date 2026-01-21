@@ -151,7 +151,7 @@ class HomePage extends ConsumerWidget {
                       title: Text("Histórico de Pedidos"),
                       trailing: Icon(Icons.chevron_right),
                       onTap: () {
-                        context.goNamed(SalesOrderRouter.history.name);
+                        // context.goNamed(SalesOrderRouter.history.name);
                       },
                     ),
                   ],
