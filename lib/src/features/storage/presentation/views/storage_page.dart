@@ -23,11 +23,6 @@ class StoragePage extends ConsumerStatefulWidget {
 class StoragePageState extends ConsumerState<StoragePage>{
   final toggleSearchButtonProvider = StateProvider<bool>((_) => false);
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   void _showSearch() {
     final toggled = ref.read(toggleSearchButtonProvider.notifier);
     toggled.state = !toggled.state;

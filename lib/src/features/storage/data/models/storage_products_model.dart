@@ -6,6 +6,7 @@ class StorageProductModel {
   @Id()
   int id;
 
+  int storageId;
   int productId;
   String productCode;
   int quantity;
@@ -13,6 +14,7 @@ class StorageProductModel {
 
   StorageProductModel ({
     this.id = 0,
+    this.storageId = 0,
     this.productId = 0,
     required this.productCode,
     required this.quantity,
@@ -25,11 +27,18 @@ extension StorageProductModelMapper on StorageProductModel {
   StorageProduct toEntity() {
 
     return StorageProduct.raw(
+      storageId: storageId,
       productId: productId,
       productCode: productCode,
       quantity: quantity,
       productName: productName
     );
+  }
+
+  void deleteRecursively({
+    required Box<StorageProductModel> storageProductBox,
+  }) {
+    storageProductBox.remove(id);
   }
 }
 
@@ -37,6 +46,7 @@ extension StorageProductMapper on StorageProduct {
   /// De StorageProduct → StorageProductModel
   StorageProductModel toModel() {
     final model = StorageProductModel(
+      storageId: storageId,
       productId: productId,
       productCode: productCode,
       quantity: quantity,

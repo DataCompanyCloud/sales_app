@@ -22,17 +22,12 @@ class StorageProductsRepositoryImpl extends StorageProductsRepository {
       cond = StorageProductModel_.productName.contains(raw, caseSensitive: false);
     }
 
-    final qb = (cond == null) ? box.query() : box.query(cond);
-
-    final q = qb.build()
+    final q = box.query(cond).build()
       ..offset = filter.start
-      ..limit = filter.limit
-    ;
+      ..limit = filter.limit;
 
     try {
-      final models = await q.findAsync(
-
-      );
+      final models = await q.findAsync();
       return models.map((m) => m.toEntity()).toList();
     } finally {
       q.close();
@@ -40,11 +35,11 @@ class StorageProductsRepositoryImpl extends StorageProductsRepository {
   }
 
   @override
-  Future<StorageProduct> fetchById(int productId) async {
+  Future<StorageProduct> fetchById(int storageId, int productId) async {
     try {
       final storageProductBox = store.box<StorageProductModel>();
 
-      final model = await storageProductBox.getAsync(productId);
+      final model = await storageProductBox.getAsync(storageId);
 
       if (model == null) {
         throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Produtos do estoque não encontrado");
@@ -63,15 +58,17 @@ class StorageProductsRepositoryImpl extends StorageProductsRepository {
     final storageProductBox = store.box<StorageProductModel>();
 
     store.runInTransaction(TxMode.write, () {
-      for (final storage in storageProducts) {
+      for (final storageProduct in storageProducts) {
+        final existingQ = storageProductBox.query(
+          StorageProductModel_.storageId.equals(storageProduct.storageId)
+              .and(StorageProductModel_.productId.equals(storageProduct.productId)),
+        ).build();
+        final existing = existingQ.findFirst();
+        existingQ.close();
 
-        final newModel = storage.maybeMap(
-          raw: (r) => r.toModel(),
-          orElse: () => throw AppException(
-            AppExceptionCode.CODE_000_ERROR_UNEXPECTED,
-            "Dados do Estoque inválidos para atualização",
-          ),
-        );
+        final newModel = storageProduct.toModel();
+
+        newModel.id = existing?.id ?? 0;
 
         storageProductBox.put(newModel);
       }

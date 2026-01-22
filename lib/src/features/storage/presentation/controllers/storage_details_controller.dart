@@ -7,9 +7,8 @@ class StorageDetailsController extends AutoDisposeFamilyAsyncNotifier<Storage, i
 
   @override
   FutureOr<Storage> build(int storageId) async {
-    state = AsyncLoading();
-    final service = await ref.watch(storageServiceProvider.future);
-    final repository = await ref.watch(storageRepositoryProvider.future);
+    final service = await ref.read(storageServiceProvider.future);
+    final repository = await ref.read(storageRepositoryProvider.future);
 
     try {
       final remote = await service.getById(storageId);

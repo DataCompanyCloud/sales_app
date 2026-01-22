@@ -27,6 +27,12 @@ class StorageProductDetailsScreen extends ConsumerWidget {
       data: (pagination) {
         final products = pagination.items;
 
+        if (products.isEmpty) {
+          return const Center(
+            child: Text("Nenhum produto encontrado."),
+          );
+        }
+
         return SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
@@ -35,7 +41,10 @@ class StorageProductDetailsScreen extends ConsumerWidget {
               itemBuilder: (context, i) {
                 final product = products[i];
 
-                return StorageProductDetailsCard(product: product);
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2),
+                  child: StorageProductDetailsCard(product: product),
+                );
               }
             ),
           ),

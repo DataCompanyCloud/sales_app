@@ -1,4 +1,3 @@
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/core/providers/api_client_provider.dart';
 import 'package:sales_app/src/core/providers/datasource_provider.dart';

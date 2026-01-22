@@ -12,6 +12,7 @@ class StorageProductsFilter {
   });
 
   StorageProductsFilter copyWith ({
+    int? storageId,
     int? start,
     // int? limit,
     String? q,
@@ -28,7 +29,7 @@ abstract class StorageProductsRepository {
   /// Busca todos os produtos de um estoque
   Future<List<StorageProduct>> fetchAll(StorageProductsFilter filter);
   /// Busca os produtos de um estoque pelo ID
-  Future<StorageProduct> fetchById(int productId);
+  Future<StorageProduct> fetchById(int storageId, int productId);
   /// Salva vários produtos de um estoque
   Future<void> saveAll(List<StorageProduct> storageProducts);
   /// Salva um produto de um estoque

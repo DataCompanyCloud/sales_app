@@ -189,18 +189,4 @@ class StorageRepositoryImpl extends StorageRepository {
     final storageBox = store.box<StorageModel>();
     return Future.value(storageBox.count());
   }
-
-  // Future<List<StorageProduct>> getProductsByStorage(int storageId) async {
-  //   debugPrint('[Repository] getProductsByStorage($storageId)');
-  //
-  //   return List.generate(
-  //     10,
-  //     (i) => StorageProduct(
-  //       productId: i + 1,
-  //       productCode: "",
-  //       productName: "",
-  //       quantity: (i + 1) * 5,
-  //     ),
-  //   );
-  // }
 }

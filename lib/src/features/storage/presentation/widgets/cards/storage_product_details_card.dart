@@ -67,11 +67,19 @@ class StorageProductDetailsCard extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                "${product.productId}",
+                                product.productCode,
                                 maxLines: 3,
                                 style: TextStyle(
                                   fontSize: 15,
                                   overflow: TextOverflow.ellipsis,
+                                  fontWeight: FontWeight.bold
+                                ),
+                              ),
+                              Text(
+                                product.productName,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  overflow: TextOverflow.ellipsis
                                 ),
                               ),
                             ],
@@ -89,7 +97,8 @@ class StorageProductDetailsCard extends ConsumerWidget {
                             child: Text(
                               "${product.quantity}",
                               style: TextStyle(
-                                color: scheme.onSecondaryContainer
+                                color: scheme.onSecondaryContainer,
+                                fontWeight: FontWeight.bold
                               ),
                             ),
                           ),
