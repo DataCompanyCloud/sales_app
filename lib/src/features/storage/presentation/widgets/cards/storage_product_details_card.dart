@@ -24,27 +24,52 @@ class StorageProductDetailsCard extends ConsumerWidget {
         children: [
           Row(
             children: [
-              Container(
-                width: 75,
-                height: 75,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    bottomLeft: Radius.circular(10)
+              Stack(
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                        width: 75,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          color: scheme.primary,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10)
+                          ),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          product.productCode,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 75,
+                        height: 55,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(10)
+                          ),
+                          color: scheme.primary
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            bottomLeft: Radius.circular(10)
+                          ),
+                          child: Icon(
+                            Icons.shopping_cart,
+                            color: scheme.onSurface,
+                            size: 38,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  color: scheme.primary
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    bottomLeft: Radius.circular(10)
-                  ),
-                  child: Icon(
-                    Icons.shopping_cart,
-                    color: scheme.onSurface,
-                    size: 38,
-                  ),
-                ),
+                ]
               ),
               Expanded(
                 child: Container(
@@ -67,40 +92,33 @@ class StorageProductDetailsCard extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                product.productCode,
-                                maxLines: 3,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  overflow: TextOverflow.ellipsis,
-                                  fontWeight: FontWeight.bold
-                                ),
-                              ),
-                              Text(
                                 product.productName,
                                 style: TextStyle(
                                   fontSize: 15,
                                   overflow: TextOverflow.ellipsis
                                 ),
                               ),
+                              SizedBox(height: 4),
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: scheme.surfaceContainerHighest,
+                                      border: Border.all(color: scheme.shadow),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Text(
+                                      "Quantidade: ${product.quantity}",
+                                      style: TextStyle(
+                                        color: scheme.onSecondaryContainer,
+                                        fontWeight: FontWeight.bold
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
                             ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 12),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: scheme.surfaceContainerHighest,
-                              border: Border.all(color: scheme.shadow),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Text(
-                              "${product.quantity}",
-                              style: TextStyle(
-                                color: scheme.onSecondaryContainer,
-                                fontWeight: FontWeight.bold
-                              ),
-                            ),
                           ),
                         ),
                         Icon(Icons.chevron_right, size: 28),

@@ -15,7 +15,7 @@ class StorageProductsRepositoryImpl extends StorageProductsRepository {
   @override
   Future<List<StorageProduct>> fetchAll(StorageProductsFilter filter) async {
     final box = store.box<StorageProductModel>();
-    Condition<StorageProductModel>? cond;
+    Condition<StorageProductModel> cond = StorageProductModel_.storageId.equals(filter.storageId);
 
     final raw = filter.q?.trim();
     if (raw != null && raw.isNotEmpty) {
@@ -111,6 +111,18 @@ class StorageProductsRepositoryImpl extends StorageProductsRepository {
       );
     }
     return saved.toEntity();
+  }
+
+  @override
+  Future<void> deleteAll(int storageId) async {
+    final storageProductBox = store.box<StorageProductModel>();
+
+    store.runInTransaction(TxMode.write, () {
+      final allStorageProducts = storageProductBox.getAll();
+      for (final model in allStorageProducts) {
+        model.deleteRecursively(storageProductBox: storageProductBox);
+      }
+    });
   }
 
   @override

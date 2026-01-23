@@ -1,11 +1,13 @@
 import 'package:sales_app/src/features/storage/domain/entities/storage_product.dart';
 
 class StorageProductsFilter {
+  final int storageId;
   final int start;
   final int limit;
   final String? q;
 
   const StorageProductsFilter({
+    required this.storageId,
     this.start = 0,
     this.limit = 20,
     this.q,
@@ -18,6 +20,7 @@ class StorageProductsFilter {
     String? q,
   }) {
     return StorageProductsFilter(
+      storageId: storageId ?? this.storageId,
       start: start ?? this.start,
       limit: limit,
       q: q ?? this.q,
@@ -34,6 +37,8 @@ abstract class StorageProductsRepository {
   Future<void> saveAll(List<StorageProduct> storageProducts);
   /// Salva um produto de um estoque
   Future<StorageProduct> save(StorageProduct storage);
+  /// Remove os produtos de um estoque
+  Future<void> deleteAll(int storageId);
   /// Retorna a quantidade total de podutos em um estoque
   Future<int> count();
 }

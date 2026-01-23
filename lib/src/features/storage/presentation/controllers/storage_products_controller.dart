@@ -8,7 +8,7 @@ class StorageProductsController extends AutoDisposeFamilyAsyncNotifier<StoragePr
 
   @override
   FutureOr<StorageProductsPagination> build(int storageId) async {
-    final filter = ref.watch(storageProductsFilterProvider);
+    final filter = ref.watch(storageProductsFilterProvider(storageId));
     final repository = await ref.watch(storageProductRepositoryProvider.future);
 
     var total = await repository.count();
