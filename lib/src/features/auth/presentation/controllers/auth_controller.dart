@@ -28,7 +28,7 @@ class AuthController extends AsyncNotifier<User?> {
 
       final userLogged = user.copyWith(
         isValidated: true,
-        userPassword: userPassword.encrypted
+        password: userPassword.encrypted
       );
 
       final repo = ref.read(authRepositoryProvider);

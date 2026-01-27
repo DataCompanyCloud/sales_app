@@ -71,7 +71,7 @@ class MyProfilePage extends ConsumerWidget {
               ),
               const SizedBox(height: 6),
               Text(
-                user.userName,
+                user.firstName,
                 style: TextStyle(
                   fontSize: 20
                 ),
@@ -83,7 +83,7 @@ class MyProfilePage extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      user.userCode,
+                      user.code,
                       style: TextStyle(
                         color: scheme.secondary
                       ),

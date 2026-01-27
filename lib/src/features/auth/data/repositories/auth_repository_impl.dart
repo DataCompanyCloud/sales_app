@@ -25,7 +25,7 @@ class AuthRepositoryImpl extends AuthRepository{
 
     final Map<String, dynamic> data = jsonDecode(jsonString);
     final user = User.fromJson(data);
-    final isSync = prefs.getBool('${_syncBaseKey}_${user.userId}');
+    final isSync = prefs.getBool('${_syncBaseKey}_${user.id}');
 
     // print(isSync);
     return user.copyWith(isSync: isSync ?? false);
@@ -37,10 +37,10 @@ class AuthRepositoryImpl extends AuthRepository{
     final jsonString = jsonEncode(user.toJson());
     await prefs.setString(_userKey, jsonString);
 
-    final isSync = prefs.getBool('${_syncBaseKey}_${user.userId}');
+    final isSync = prefs.getBool('${_syncBaseKey}_${user.id}');
     // print ('${_syncBaseKey}_${user.userId}');
     if (isSync == null) {
-      await prefs.setBool('${_syncBaseKey}_${user.userId}', false);
+      await prefs.setBool('${_syncBaseKey}_${user.id}', false);
     }
 
     return user.copyWith(
@@ -51,6 +51,6 @@ class AuthRepositoryImpl extends AuthRepository{
   @override
   Future<void> sync(User user) async{
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('${_syncBaseKey}_${user.userId}', user.isSync);
+    await prefs.setBool('${_syncBaseKey}_${user.id}', user.isSync);
   }
 }

@@ -35,7 +35,7 @@ class _AuthPageState extends ConsumerState<AuthPage>{
 
       final userPassword = Password.fromPlain(password);
 
-      if (userPassword.encrypted == user.userPassword) {
+      if (userPassword.encrypted == user.password) {
         await ref.read(authControllerProvider.notifier).authenticate();
       }
     } catch (e) {
@@ -147,8 +147,8 @@ class _AuthPageState extends ConsumerState<AuthPage>{
                       backgroundColor: Colors.grey.shade100,
                       child: Icon(Icons.person, color: Colors.black87),
                     ),
-                    title: Text("${user?.userName}"),
-                    subtitle: Text("${user?.userCode}"),
+                    title: Text("${user?.firstName}"),
+                    subtitle: Text("${user?.code}"),
                   ),
                 ),
               ),

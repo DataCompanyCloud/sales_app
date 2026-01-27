@@ -66,10 +66,10 @@ class HomeDrawer extends ConsumerWidget {
                     ),
                   ),
                   title: Text(
-                    user.userName,
+                    user.firstName,
                   ),
                   subtitle: Text(
-                    user.userCode,
+                    user.code,
                   ),
                 ),
                 Padding(
