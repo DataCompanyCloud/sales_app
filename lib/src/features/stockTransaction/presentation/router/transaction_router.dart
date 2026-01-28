@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:sales_app/src/core/router/widgets/fade_transition.dart';
 import 'package:sales_app/src/features/stockTransaction/presentation/views/transaction_page.dart';
 
 enum TransactionRouter {
@@ -8,7 +9,10 @@ enum TransactionRouter {
 final transactionRoutes = GoRoute(
   path: '/movement',
   name: TransactionRouter.transaction.name,
-  builder: (context, state) {
-    return TransactionPage();
+  pageBuilder: (ctx, state) {
+    return fadePage(
+      child: TransactionPage(),
+      key: state.pageKey
+    );
   }
 );

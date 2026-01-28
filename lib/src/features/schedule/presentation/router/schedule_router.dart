@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:sales_app/src/core/router/widgets/fade_transition.dart';
 import 'package:sales_app/src/features/schedule/presentation/views/agenda_page.dart';
 
 enum ScheduleRouter {
@@ -8,8 +9,8 @@ enum ScheduleRouter {
 final agendaRoutes = GoRoute(
   path: '/schedule',
   name: ScheduleRouter.schedule.name,
-  builder: (context, state) {
-    return SchedulePage();
+  pageBuilder: (ctx, state) {
+    return fadePage(child: SchedulePage(), key: state.pageKey);
   }
   /*
   pageBuilder: (context, state) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sales_app/src/core/router/widgets/fade_transition.dart';
 import 'package:sales_app/src/features/storage/presentation/views/storage_details_page.dart';
 import 'package:sales_app/src/features/storage/presentation/views/storage_page.dart';
 
@@ -11,20 +12,23 @@ enum StorageRouter {
 final storageRoutes = GoRoute(
   path: '/storage',
   name: StorageRouter.storage.name,
-  builder: (context, state) {
-    return StoragePage();
+  pageBuilder: (ctx, state) {
+    return fadePage(child: StoragePage(), key: state.pageKey);
   },
   routes: [
     GoRoute(
       path: 'storage_details',
       name: StorageRouter.storage_details.name,
-      builder: (context, state) {
+      pageBuilder: (ctx, state) {
         final idStr = state.uri.queryParameters['storageId'];
         final storageId = int.tryParse(idStr ?? '');
 
         if (storageId == null) {
-          return Scaffold(
-            body: Center(child: Text('Storage inválido')),
+          return fadePage(
+            child: Scaffold(
+              body: Center(child: Text('Storage inválido')),
+            ),
+            key: state.pageKey
           );
         }
 
@@ -32,9 +36,12 @@ final storageRoutes = GoRoute(
           ? (state.extra as Map)['isMyStorage'] ?? false
           : false;
 
-        return StorageDetailsPage(
-          storageId: storageId,
-          isMyStorage: isMyStorage,
+        return fadePage(
+          child: StorageDetailsPage(
+            storageId: storageId,
+            isMyStorage: isMyStorage,
+          ),
+          key: state.pageKey
         );
       }
     ),

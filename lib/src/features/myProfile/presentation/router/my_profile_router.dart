@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:sales_app/src/core/router/widgets/fade_transition.dart';
 import 'package:sales_app/src/features/myProfile/presentation/views/my_profile_page.dart';
 
 enum MyProfileRouter {
@@ -8,7 +9,10 @@ enum MyProfileRouter {
 final myProfileRoutes = GoRoute(
   path: '/myProfile',
   name: MyProfileRouter.myProfile.name,
-  builder: (context, state) {
-    return MyProfilePage();
+  pageBuilder: (ctx, state) {
+    return fadePage(
+      child: MyProfilePage(),
+      key: state.pageKey
+    );
   }
 );

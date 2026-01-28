@@ -71,9 +71,9 @@
         {
           "id": "2:8250952062357401139",
           "name": "type",
+          "indexId": "2:2691571159805199683",
           "type": 9,
-          "flags": 2048,
-          "indexId": "2:2691571159805199683"
+          "flags": 2048
         },
         {
           "id": "3:4893432178111939310",
@@ -97,9 +97,9 @@
         {
           "id": "2:4334524866163100705",
           "name": "categoryId",
+          "indexId": "6:1985300738700218240",
           "type": 6,
-          "flags": 8,
-          "indexId": "6:1985300738700218240"
+          "flags": 8
         },
         {
           "id": "3:5873845336362637785",
@@ -183,17 +183,17 @@
         {
           "id": "18:2308286988934764764",
           "name": "creditLimitId",
+          "indexId": "25:1693645843509599143",
           "type": 11,
           "flags": 520,
-          "indexId": "25:1693645843509599143",
           "relationTarget": "CreditLimitModel"
         },
         {
           "id": "19:6539882895415375168",
           "name": "stateRegistrationId",
+          "indexId": "26:857115817479836325",
           "type": 11,
           "flags": 520,
-          "indexId": "26:857115817479836325",
           "relationTarget": "StateRegistrationModel"
         },
         {
@@ -244,9 +244,9 @@
         {
           "id": "5:8289909676094047302",
           "name": "code",
+          "indexId": "297:2456460398164702250",
           "type": 9,
-          "flags": 2048,
-          "indexId": "297:2456460398164702250"
+          "flags": 2048
         }
       ],
       "relations": []
@@ -265,9 +265,9 @@
         {
           "id": "2:1583489918122041754",
           "name": "packingId",
+          "indexId": "12:6180320994187454493",
           "type": 6,
-          "flags": 8,
-          "indexId": "12:6180320994187454493"
+          "flags": 8
         },
         {
           "id": "3:1771486295496288613",
@@ -282,17 +282,17 @@
         {
           "id": "5:3778714718957802663",
           "name": "barcodeId",
+          "indexId": "13:8485198419009076946",
           "type": 11,
           "flags": 520,
-          "indexId": "13:8485198419009076946",
           "relationTarget": "BarcodeModel"
         },
         {
           "id": "6:6982876936421027287",
           "name": "unitId",
+          "indexId": "14:7823709490858615673",
           "type": 11,
           "flags": 520,
-          "indexId": "14:7823709490858615673",
           "relationTarget": "UnitModel"
         }
       ],
@@ -361,33 +361,33 @@
         {
           "id": "7:3019468215321917658",
           "name": "barcodeId",
+          "indexId": "15:6495968002961065886",
           "type": 11,
           "flags": 520,
-          "indexId": "15:6495968002961065886",
           "relationTarget": "BarcodeModel"
         },
         {
           "id": "8:7165920836435542154",
           "name": "unitId",
+          "indexId": "16:1271322223027733424",
           "type": 11,
           "flags": 520,
-          "indexId": "16:1271322223027733424",
           "relationTarget": "UnitModel"
         },
         {
           "id": "9:68078108612930995",
           "name": "fiscalId",
+          "indexId": "185:6742770700055980753",
           "type": 11,
           "flags": 520,
-          "indexId": "185:6742770700055980753",
           "relationTarget": "ProductFiscalModel"
         },
         {
           "id": "11:5728620700498732437",
           "name": "priceId",
+          "indexId": "190:2550052365284678520",
           "type": 11,
           "flags": 520,
-          "indexId": "190:2550052365284678520",
           "relationTarget": "MoneyModel"
         },
         {
@@ -438,9 +438,9 @@
         {
           "id": "2:2615879211244039020",
           "name": "unitName",
+          "indexId": "17:7526680580269943140",
           "type": 9,
-          "flags": 2048,
-          "indexId": "17:7526680580269943140"
+          "flags": 2048
         },
         {
           "id": "3:7182332581170065740",
@@ -474,9 +474,9 @@
         {
           "id": "5:4657241283296910199",
           "name": "phoneId",
+          "indexId": "24:1027998153207507134",
           "type": 11,
           "flags": 520,
-          "indexId": "24:1027998153207507134",
           "relationTarget": "PhoneModel"
         },
         {
@@ -559,17 +559,17 @@
         {
           "id": "2:936257682589549982",
           "name": "maximumId",
+          "indexId": "27:361602148838622479",
           "type": 11,
           "flags": 520,
-          "indexId": "27:361602148838622479",
           "relationTarget": "MoneyModel"
         },
         {
           "id": "3:3100924209672933974",
           "name": "availableId",
+          "indexId": "28:7327139915709548040",
           "type": 11,
           "flags": 520,
-          "indexId": "28:7327139915709548040",
           "relationTarget": "MoneyModel"
         }
       ],
@@ -634,16 +634,16 @@
         {
           "id": "2:7324792112294098068",
           "name": "attributeId",
+          "indexId": "117:1989155073985369322",
           "type": 6,
-          "flags": 8,
-          "indexId": "117:1989155073985369322"
+          "flags": 8
         },
         {
           "id": "3:8735188226054985010",
           "name": "name",
+          "indexId": "118:8347113245978082465",
           "type": 9,
-          "flags": 8,
-          "indexId": "118:8347113245978082465"
+          "flags": 8
         }
       ],
       "relations": []
@@ -662,31 +662,31 @@
         {
           "id": "2:705810235541248848",
           "name": "attributeValueId",
+          "indexId": "119:8528470209217172905",
           "type": 6,
-          "flags": 8,
-          "indexId": "119:8528470209217172905"
+          "flags": 8
         },
         {
           "id": "3:7780994988891530591",
           "name": "value",
+          "indexId": "120:8951619601131866608",
           "type": 9,
-          "flags": 8,
-          "indexId": "120:8951619601131866608"
+          "flags": 8
         },
         {
           "id": "5:7349561083214605759",
           "name": "attributesId",
+          "indexId": "128:3264992160061355106",
           "type": 11,
           "flags": 520,
-          "indexId": "128:3264992160061355106",
           "relationTarget": "AttributeModel"
         },
         {
           "id": "6:7867047674238490021",
           "name": "priceId",
+          "indexId": "268:2456316555745401150",
           "type": 11,
           "flags": 520,
-          "indexId": "268:2456316555745401150",
           "relationTarget": "MoneyModel"
         }
       ],
@@ -821,9 +821,9 @@
         {
           "id": "2:9194163300590696535",
           "name": "customerId",
+          "indexId": "146:1346971634031693468",
           "type": 6,
-          "flags": 8,
-          "indexId": "146:1346971634031693468"
+          "flags": 8
         },
         {
           "id": "3:7038605159170459348",
@@ -848,17 +848,17 @@
         {
           "id": "9:3602750399587333317",
           "name": "contactInfoId",
+          "indexId": "171:7632750056877163771",
           "type": 11,
           "flags": 520,
-          "indexId": "171:7632750056877163771",
           "relationTarget": "ContactInfoModel"
         },
         {
           "id": "10:4109330361937866488",
           "name": "addressId",
+          "indexId": "172:5907081507348612539",
           "type": 11,
           "flags": 520,
-          "indexId": "172:5907081507348612539",
           "relationTarget": "AddressModel"
         },
         {
@@ -913,9 +913,9 @@
         {
           "id": "7:6973403192470237046",
           "name": "customerId",
+          "indexId": "346:604767827630410328",
           "type": 11,
           "flags": 520,
-          "indexId": "345:1213741786151329004",
           "relationTarget": "SalesOrderCustomerModel"
         },
         {
@@ -961,17 +961,17 @@
         {
           "id": "16:2957617501459826690",
           "name": "totalId",
+          "indexId": "149:3018514403358807557",
           "type": 11,
           "flags": 520,
-          "indexId": "149:3018514403358807557",
           "relationTarget": "MoneyModel"
         },
         {
           "id": "17:4796886840472765999",
           "name": "freightId",
+          "indexId": "150:7467965319307575406",
           "type": 11,
           "flags": 520,
-          "indexId": "150:7467965319307575406",
           "relationTarget": "MoneyModel"
         }
       ],
@@ -1002,9 +1002,9 @@
         {
           "id": "3:3664147767802372971",
           "name": "moneyId",
+          "indexId": "153:6538287760314802289",
           "type": 11,
           "flags": 520,
-          "indexId": "153:6538287760314802289",
           "relationTarget": "MoneyModel"
         },
         {
@@ -1073,9 +1073,9 @@
         {
           "id": "3:3409579784962619890",
           "name": "contextId",
+          "indexId": "204:8864022351833705632",
           "type": 11,
           "flags": 520,
-          "indexId": "204:8864022351833705632",
           "relationTarget": "TaxContextModel"
         },
         {
@@ -1106,9 +1106,9 @@
         {
           "id": "2:6239859554710114222",
           "name": "productUuId",
+          "indexId": "206:7767946487847353097",
           "type": 9,
-          "flags": 2048,
-          "indexId": "206:7767946487847353097"
+          "flags": 2048
         },
         {
           "id": "3:5613161676632185207",
@@ -1138,33 +1138,33 @@
         {
           "id": "8:6629717973654158215",
           "name": "unitPriceId",
+          "indexId": "207:41487249203401884",
           "type": 11,
           "flags": 520,
-          "indexId": "207:41487249203401884",
           "relationTarget": "MoneyModel"
         },
         {
           "id": "9:2341873734809406381",
           "name": "discountAmountId",
+          "indexId": "208:5986452411877170873",
           "type": 11,
           "flags": 520,
-          "indexId": "208:5986452411877170873",
           "relationTarget": "MoneyModel"
         },
         {
           "id": "10:2374346386612819732",
           "name": "fiscalId",
+          "indexId": "209:1001021677497828847",
           "type": 11,
           "flags": 520,
-          "indexId": "209:1001021677497828847",
           "relationTarget": "ProductFiscalModel"
         },
         {
           "id": "11:3565632761670065926",
           "name": "taxResultId",
+          "indexId": "258:5850555539920037719",
           "type": 11,
           "flags": 520,
-          "indexId": "258:5850555539920037719",
           "relationTarget": "ProductTaxResultModel"
         }
       ],
@@ -1263,9 +1263,9 @@
         {
           "id": "6:1786992667242627908",
           "name": "addressId",
+          "indexId": "212:110621016558928888",
           "type": 11,
           "flags": 520,
-          "indexId": "212:110621016558928888",
           "relationTarget": "AddressModel"
         },
         {
@@ -1320,17 +1320,17 @@
         {
           "id": "2:5925809389208474595",
           "name": "icmsBaseId",
+          "indexId": "244:4535477708779917258",
           "type": 11,
           "flags": 520,
-          "indexId": "244:4535477708779917258",
           "relationTarget": "MoneyModel"
         },
         {
           "id": "3:2849935697609742999",
           "name": "icmsValueId",
+          "indexId": "245:353058975545149947",
           "type": 11,
           "flags": 520,
-          "indexId": "245:353058975545149947",
           "relationTarget": "MoneyModel"
         },
         {
@@ -1341,17 +1341,17 @@
         {
           "id": "5:5257483093712734585",
           "name": "icmsSTBaseId",
+          "indexId": "246:4865594771209513984",
           "type": 11,
           "flags": 520,
-          "indexId": "246:4865594771209513984",
           "relationTarget": "MoneyModel"
         },
         {
           "id": "6:8881939586584152166",
           "name": "icmsSTValueId",
+          "indexId": "247:2121868132827443724",
           "type": 11,
           "flags": 520,
-          "indexId": "247:2121868132827443724",
           "relationTarget": "MoneyModel"
         },
         {
@@ -1362,17 +1362,17 @@
         {
           "id": "8:4419116058579702091",
           "name": "ipiBaseId",
+          "indexId": "248:7094837764909829674",
           "type": 11,
           "flags": 520,
-          "indexId": "248:7094837764909829674",
           "relationTarget": "MoneyModel"
         },
         {
           "id": "9:3435918993790278994",
           "name": "ipiValueId",
+          "indexId": "249:5765221402704368469",
           "type": 11,
           "flags": 520,
-          "indexId": "249:5765221402704368469",
           "relationTarget": "MoneyModel"
         },
         {
@@ -1383,17 +1383,17 @@
         {
           "id": "11:8578029012999146590",
           "name": "pisBaseId",
+          "indexId": "250:2948227922833611101",
           "type": 11,
           "flags": 520,
-          "indexId": "250:2948227922833611101",
           "relationTarget": "MoneyModel"
         },
         {
           "id": "12:3948976290901642341",
           "name": "pisValueId",
+          "indexId": "251:3350115195733702491",
           "type": 11,
           "flags": 520,
-          "indexId": "251:3350115195733702491",
           "relationTarget": "MoneyModel"
         },
         {
@@ -1404,17 +1404,17 @@
         {
           "id": "14:4490222938104728094",
           "name": "cofinsBaseId",
+          "indexId": "252:2082364608085972366",
           "type": 11,
           "flags": 520,
-          "indexId": "252:2082364608085972366",
           "relationTarget": "MoneyModel"
         },
         {
           "id": "15:1853420038763410482",
           "name": "cofinsValueId",
+          "indexId": "253:2956385713521503207",
           "type": 11,
           "flags": 520,
-          "indexId": "253:2956385713521503207",
           "relationTarget": "MoneyModel"
         },
         {
@@ -1425,25 +1425,25 @@
         {
           "id": "17:2778232417339694827",
           "name": "difalValueId",
+          "indexId": "254:7479079834933702300",
           "type": 11,
           "flags": 520,
-          "indexId": "254:7479079834933702300",
           "relationTarget": "MoneyModel"
         },
         {
           "id": "18:773892018203037269",
           "name": "fcpValueId",
+          "indexId": "255:1750522705432612338",
           "type": 11,
           "flags": 520,
-          "indexId": "255:1750522705432612338",
           "relationTarget": "MoneyModel"
         },
         {
           "id": "19:6588199397502164768",
           "name": "totalTaxId",
+          "indexId": "256:355024120289646437",
           "type": 11,
           "flags": 520,
-          "indexId": "256:355024120289646437",
           "relationTarget": "MoneyModel"
         }
       ],
@@ -1473,9 +1473,9 @@
         {
           "id": "4:4219464571439110242",
           "name": "productId",
+          "indexId": "289:2748118631266513636",
           "type": 11,
           "flags": 520,
-          "indexId": "289:2748118631266513636",
           "relationTarget": "ProductModel"
         }
       ],
@@ -1483,7 +1483,7 @@
     },
     {
       "id": "46:5252456856324699566",
-      "lastPropertyId": "5:8829559215357820145",
+      "lastPropertyId": "6:3529550310493641490",
       "name": "StorageProductModel",
       "properties": [
         {
@@ -1511,13 +1511,18 @@
           "id": "5:8829559215357820145",
           "name": "productName",
           "type": 9
+        },
+        {
+          "id": "6:3529550310493641490",
+          "name": "storageId",
+          "type": 6
         }
       ],
       "relations": []
     }
   ],
   "lastEntityId": "46:5252456856324699566",
-  "lastIndexId": "345:1213741786151329004",
+  "lastIndexId": "346:604767827630410328",
   "lastRelationId": "36:6381888187997334906",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
@@ -1812,7 +1817,8 @@
     1094465429079720831,
     4787263514029331780,
     7666014635896786988,
-    8545905057021808473
+    8545905057021808473,
+    1213741786151329004
   ],
   "retiredPropertyUids": [
     3028564120408892828,

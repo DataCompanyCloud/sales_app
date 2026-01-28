@@ -14,12 +14,21 @@ class NotificationService {
 
   Future<void> init() async {
     const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
+
+    const iosInit = DarwinInitializationSettings(
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+    );
+
     const initializationSettings = InitializationSettings(
       android: androidInit,
+      iOS: iosInit,
     );
 
     await _plugin.initialize(initializationSettings);
   }
+
 
 
   static Future<void> initialSyncNotification({

@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sales_app/src/core/router/widgets/fade_transition.dart';
 import 'package:sales_app/src/features/customer/presentation/views/create_company_customer_page.dart';
 import 'package:sales_app/src/features/customer/presentation/views/create_person_customer_page.dart';
 import 'package:sales_app/src/features/customer/presentation/views/customer_details.dart';
@@ -18,8 +19,8 @@ final previousTabIndexProvider = StateProvider<int>((ref) => 3);
 final customerRoutes = GoRoute(
   path: '/customer',
   name: CustomerRouter.customer.name,
-  builder: (context, state) {
-    return CustomerPage();
+  pageBuilder: (ctx, state) {
+    return fadePage(child: CustomerPage(), key: state.pageKey);
   },
   /*
   pageBuilder: (context, state) {
@@ -51,9 +52,9 @@ final customerRoutes = GoRoute(
     GoRoute(
       path: 'customer_details',
       name: CustomerRouter.customerDetails.name,
-      builder: (context, state) {
+      pageBuilder: (ctx, state) {
         final customerId = state.extra as int;
-        return CustomerDetails(customerId: customerId);
+        return fadePage(child: CustomerDetails(customerId: customerId), key: state.pageKey);
       },
       routes: [
         // GoRoute(
@@ -77,15 +78,15 @@ final customerRoutes = GoRoute(
     GoRoute(
       path: 'create_person_customer',
       name: CustomerRouter.createPersonCustomer.name,
-      builder: (context, state) {
-        return CreatePersonCustomerPage();
+      pageBuilder: (ctx, state) {
+        return fadePage(child: CreatePersonCustomerPage(), key: state.pageKey);
       },
     ),
     GoRoute(
       path: 'create_company_customer',
       name: CustomerRouter.createCompanyCustomer.name,
-      builder: (context, state) {
-        return CreateCompanyCustomerPage();
+      pageBuilder: (ctx, state) {
+        return fadePage(child: CreateCompanyCustomerPage(), key: state.pageKey);
       },
     )
   ]

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sales_app/src/core/router/widgets/fade_transition.dart';
 import 'package:sales_app/src/features/salesOrder/domain/repositories/sales_order_repository.dart';
 import 'package:sales_app/src/features/salesOrder/domain/valueObjects/sales_order_status.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/controllers/sales_order_controller.dart';
@@ -28,49 +29,46 @@ enum SalesOrderRouter {
 final orderRoutes = GoRoute(
   path: '/sales-order',
   name: SalesOrderRouter.list.name,
-  builder: (context, state) {
-    return SalesOrderPage();
-
+  pageBuilder: (ctx, state) {
+    return fadePage(child: SalesOrderPage(), key: state.pageKey);
   },
   routes: [
     GoRoute(
       path: 'create', // /orders/create
       name: SalesOrderRouter.create.name,
-      builder: (context, state) {
+      pageBuilder: (ctx, state) {
         // ?orderId=123
         final orderIdStr = state.uri.queryParameters['orderId'];
         final orderId = orderIdStr != null ? int.tryParse(orderIdStr) : null;
 
-        return SalesOrderCreatePage(
-          orderId: orderId,
-        );
+        return fadePage(child: SalesOrderCreatePage(orderId: orderId), key: state.pageKey);
       },
       routes: [
         GoRoute(
           path: 'select-customer',
           name: SalesOrderRouter.select_customer.name,
-          builder: (context, state) {
+          pageBuilder: (ctx, state) {
             final customerIdStr = state.uri.queryParameters['customerId'];
             final customerId = customerIdStr != null ? int.tryParse(customerIdStr) : null;
-            return  SelectCustomerPage(customerId: customerId);
+            return fadePage(child: SelectCustomerPage(customerId: customerId), key: state.pageKey);
           }
         ),
         GoRoute(
           path: 'order-products-details',
           name: SalesOrderRouter.products_details.name,
-          builder: (context, state) {
+          pageBuilder: (ctx, state) {
             // ?orderId=123
             final orderIdStr = state.uri.queryParameters['orderId'];
             final orderId = orderIdStr != null ? int.tryParse(orderIdStr) : null;
 
-            return SalesOrderProductsPage(orderId: orderId);
+            return fadePage(child: SalesOrderProductsPage(orderId: orderId), key: state.pageKey);
           },
           routes: [
             GoRoute(
               path: 'select-products',
               name: SalesOrderRouter.select_products.name,
-              builder: (context, state) {
-                return  SelectProductsPage();
+              pageBuilder: (ctx, state) {
+                return fadePage(child: SelectProductsPage(), key: state.pageKey);
               }
             ),
           ]
@@ -80,14 +78,14 @@ final orderRoutes = GoRoute(
     GoRoute(
       path: 'sales-orders-history',
       name: SalesOrderRouter.history.name,
-      builder: (context, state) {
-        return SalesOrdersHistoryPage();
+      pageBuilder: (ctx, state) {
+        return fadePage(child: SalesOrdersHistoryPage(), key: state.pageKey);
       }
     ),
     GoRoute(
       path: 'drafts',
       name: SalesOrderRouter.drafts.name,
-        builder: (context, state) {
+        pageBuilder: (ctx, state) {
           const filter = SalesOrderFilter(
             start: 0,
             limit: 50,
@@ -97,29 +95,35 @@ final orderRoutes = GoRoute(
             orderBy: SalesOrderSortField.createdAt
           );
 
-          return ProviderScope(
-            overrides: [
-              salesOrderFilterProvider.overrideWith((ref) => filter),
-              salesOrderControllerProvider.overrideWith(SalesOrderController.new),
-            ],
-            child: SalesOrdersDraftPage(),
+          return fadePage(
+            child: ProviderScope(
+              overrides: [
+                salesOrderFilterProvider.overrideWith((ref) => filter),
+                salesOrderControllerProvider.overrideWith(SalesOrderController.new),
+              ],
+              child: SalesOrdersDraftPage(),
+            ),
+            key: state.pageKey
           );
         }
     ),
     GoRoute(
       path: ':orderId', // /orders/:orderId
       name: SalesOrderRouter.details.name,
-      builder: (context, state) {
+      pageBuilder: (ctx, state) {
         final idStr = state.pathParameters['orderId'];
         final orderId = int.tryParse(idStr ?? '');
 
         if (orderId == null) {
-          return  Scaffold(
-            body: Center(child: Text('Order inválida')),
-          );
+           return fadePage(
+             child: Scaffold(
+               body: Center(child: Text('Order inválida')),
+             ),
+             key: state.pageKey
+           );
         }
 
-        return SalesOrderDetailsPage(orderId: orderId);
+        return fadePage(child: SalesOrderDetailsPage(orderId: orderId), key: state.pageKey);
       },
     ),
   ]

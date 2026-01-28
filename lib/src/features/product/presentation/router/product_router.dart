@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sales_app/src/core/router/widgets/fade_transition.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
 import 'package:sales_app/src/features/product/presentation/views/product_details.dart';
 import 'package:sales_app/src/features/product/presentation/views/product_page.dart';
@@ -13,8 +14,8 @@ final previousTabIndexProvider = StateProvider<int>((ref) => 0);
 final productRoutes =  GoRoute(
   path: '/product',
   name: ProductRouter.product.name,
-  builder: (context, state) {
-    return ProductPage();
+  pageBuilder: (ctx, state) {
+    return fadePage(child: ProductPage(), key: state.pageKey);
   },
   /*
   pageBuilder: (context, state) {
@@ -47,9 +48,9 @@ final productRoutes =  GoRoute(
     GoRoute(
       path: 'product_details',
       name: ProductRouter.productDetails.name,
-      builder: (context, state) {
+      pageBuilder: (ctx, state) {
         final product = state.extra as Product;
-        return ProductDetails(product: product);
+        return fadePage(child: ProductDetails(product: product), key: state.pageKey);
       },
     ),
   ]

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sales_app/src/core/router/widgets/fade_transition.dart';
 import 'package:sales_app/src/features/auth/domain/entities/user.dart';
 import 'package:sales_app/src/features/auth/presentation/router/auth_router.dart';
 import 'package:sales_app/src/features/auth/presentation/views/auth_gate.dart';
@@ -109,11 +110,11 @@ final goRouterProvider = Provider((ref) {
     routes: [
       GoRoute(
         path: '/',
-        builder: (ctx, state) => AuthGate(),
+        pageBuilder: (ctx, state) => fadePage(child: const AuthGate(), key: state.pageKey),
       ),
       GoRoute(
           path: '/sync',
-          builder: (ctx, state) => SyncPage()
+          pageBuilder: (ctx, state) => fadePage(child: const SyncPage(), key: state.pageKey),
       ),
       ...authRoutes,
       customerRoutes,
