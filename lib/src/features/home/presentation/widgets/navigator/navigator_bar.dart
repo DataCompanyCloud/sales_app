@@ -33,7 +33,7 @@ class CustomBottomNavigationBarState extends ConsumerState<CustomBottomNavigatio
       1: SalesOrderRouter.list.name,
       2: HomeRouter.home.name,
       3: CustomerRouter.customer.name,
-      4: ScheduleRouter.schedule.name,
+      // 4: ScheduleRouter.schedule.name,
     };
 
     return SafeArea(
