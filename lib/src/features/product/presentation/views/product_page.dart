@@ -234,10 +234,10 @@ class ProductPageState extends ConsumerState<ProductPage>{
                             Text("Nenhum produto para ser mostrado."),
                             SizedBox(height: 16),
                             InkWell(
-                                onTap: () => ref.refresh(productControllerProvider.future),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8),
-                                  child: Text("Tentar novamente", style: TextStyle(color: scheme.primary)),
+                              onTap: () => ref.refresh(productControllerProvider.future),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Text("Tentar novamente", style: TextStyle(color: scheme.primary)),
                                 )
                             ),
                           ],

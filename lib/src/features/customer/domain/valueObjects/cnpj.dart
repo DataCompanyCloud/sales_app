@@ -85,11 +85,22 @@ class CnpjConverter extends JsonConverter<CNPJ, String> {
   const CnpjConverter();
 
   @override
-  CNPJ fromJson(String json) => CNPJ.fromString(json);
-  // ou direto: CNPJ(value: json);
+  CNPJ fromJson(String json) {
+
+    final normalized = json.replaceAll(RegExp(r'\D'), '');
+
+    if (normalized.length != 14) {
+      return CNPJ.raw(value: normalized);
+    }
+
+    try {
+      return CNPJ.fromString(normalized);
+    } catch (_) {
+      return CNPJ.raw(value: normalized);
+    }
+  }
 
   @override
   String toJson(CNPJ object) => object.value;
 }
-
 

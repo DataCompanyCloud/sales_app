@@ -28,14 +28,14 @@ class CustomerController extends AutoDisposeAsyncNotifier<CustomersPagination>{
           await repository.saveAll(customers);
         }
       } catch (e) {
-        // print('Erro ao sincronizar clientes: $e');
+        print('Erro ao sincronizar clientes: $e');
       }
     }
 
-    final customers = await repository.fetchAll(filter);
+    final customer = await repository.fetchAll(filter);
     return CustomersPagination(
       total: total,
-      items: customers,
+      items: customer,
       isLoadingMore: false
     );
   }
@@ -55,7 +55,7 @@ class CustomerController extends AutoDisposeAsyncNotifier<CustomersPagination>{
     if (isConnected) {
       try {
         final service = await ref.read(customerServiceProvider.future);
-        final pagination = await service.getAll(filter);
+        final pagination = await service.getAll(newFilter);
         total = pagination.total;
         final customers = pagination.items;
 

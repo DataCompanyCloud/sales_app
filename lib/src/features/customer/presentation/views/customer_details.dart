@@ -35,7 +35,7 @@ class CustomerDetails extends ConsumerWidget {
             child: Padding(
               padding: const EdgeInsets.all(12.0),
               child: Text(
-                  "Não foi possível mostrar os dados do cliente"
+                "Não foi possível mostrar os dados do cliente"
               ),
             ),
           ),

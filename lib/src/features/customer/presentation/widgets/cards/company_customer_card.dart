@@ -13,12 +13,12 @@ class CompanyCustomerCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final scheme = theme.colorScheme;
 
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: colorScheme.outline, width: 2)
+        border: Border.all(color: scheme.outline, width: 2)
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -57,13 +57,13 @@ class CompanyCustomerCard extends ConsumerWidget {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          bottomLeft: Radius.circular(10)
+                        topLeft: Radius.circular(10),
+                        bottomLeft: Radius.circular(10)
                       ),
                       child: Icon(
-                          Icons.apartment,
-                          color: Colors.white,
-                          size: 38
+                        Icons.apartment,
+                        color: Colors.white,
+                        size: 38
                       ),
                     ),
                   ),
@@ -75,7 +75,7 @@ class CompanyCustomerCard extends ConsumerWidget {
             child: Container(
               height: 75,
               decoration: BoxDecoration(
-                color: colorScheme.surface,
+                color: scheme.surface,
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(10),
                   bottomRight: Radius.circular(10)

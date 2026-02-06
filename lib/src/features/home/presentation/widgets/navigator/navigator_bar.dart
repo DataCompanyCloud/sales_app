@@ -5,7 +5,6 @@ import 'package:sales_app/src/features/customer/presentation/router/customer_rou
 import 'package:sales_app/src/features/home/presentation/router/home_router.dart';
 import 'package:sales_app/src/features/salesOrder/presentation/router/sales_order_router.dart';
 import 'package:sales_app/src/features/product/presentation/router/product_router.dart';
-import 'package:sales_app/src/features/schedule/presentation/router/schedule_router.dart';
 
 
 class CustomBottomNavigationBar extends ConsumerStatefulWidget {

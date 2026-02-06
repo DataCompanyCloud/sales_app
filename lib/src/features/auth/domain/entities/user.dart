@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:sales_app/src/features/company/domain/entities/company.dart';
 
 part 'user.freezed.dart';
 part 'user.g.dart';
@@ -14,9 +13,9 @@ abstract class User with _$User {
     required String email,
     required DateTime createdAt,
     required String token,
-    required String refreshToken,
-    required List<Company> companies,
-    required Company activeCompany,
+    // required String refreshToken,
+    // required List<Company> companies,
+    // required Company activeCompany,
     // required List<Role> roles,
     // required List<Permission> permissions,
 

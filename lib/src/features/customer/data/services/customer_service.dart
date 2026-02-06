@@ -15,7 +15,7 @@ class CustomerService {
 
   Future<CustomersPagination> getAll(CustomerFilter filter) async {
     final json = await apiClient.get<Map<String, dynamic>>(ApiEndpoints.customers, queryParameters: {
-      'search': filter.q,
+      'q': filter.q,
       'start': filter.start,
       'limit': filter.limit,
     });

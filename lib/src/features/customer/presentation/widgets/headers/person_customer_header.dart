@@ -21,7 +21,7 @@ class PersonCustomerHeader extends ConsumerWidget {
         children: [
           CircleAvatar(
             radius: 26,
-            backgroundColor: customer.isActive ? Colors.green: Colors.red,
+            backgroundColor: customer.isActive ? Colors.green : Colors.red,
             child: const Icon(Icons.person),
           ),
           const SizedBox(width: 12),
@@ -63,19 +63,19 @@ class PersonCustomerHeader extends ConsumerWidget {
                 ),
                 const SizedBox(height: 4),
                 if (address != null)
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.location_on,// address.type.icon,
-                        size: 16,
-                      ),
-                      const SizedBox(width: 6),
-                      Text(
-                        '${address.city}, ${address.state.name}',
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    ],
-                  ),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.location_on,// address.type.icon,
+                      size: 16,
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      '${address.city}, ${address.state.name}',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

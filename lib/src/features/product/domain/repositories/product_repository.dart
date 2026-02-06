@@ -38,7 +38,7 @@ abstract class ProductRepository {
   /// Busca todos os Produtos
   Future<List<Product>> fetchAll(ProductFilter filter);
   /// Busca um produto pelo ID
-  Future<Product> fetchById(int id);
+  Future<Product> fetchById(int productId);
   /// Salva vários produtos
   Future<void> saveAll(List<Product> products);
   /// Salva um produto

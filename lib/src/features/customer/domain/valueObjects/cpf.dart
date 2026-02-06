@@ -73,7 +73,23 @@ class CPFConverter extends JsonConverter<CPF, String> {
   const CPFConverter();
 
   @override
-  CPF fromJson(String json) => CPF.fromString(json);
+  CPF fromJson(String json) {
+
+    // remove qualquer coisa que não seja número
+    final normalized = json.replaceAll(RegExp(r'\D'), '');
+
+    if (normalized.length != 11) {
+      // evita quebrar o app
+      return CPF.raw(value: normalized);
+    }
+
+    try {
+      return CPF.fromString(normalized);
+    } catch (_) {
+      // fallback seguro
+      return CPF.raw(value: normalized);
+    }
+  }
 
   @override
   String toJson(CPF object) => object.value;

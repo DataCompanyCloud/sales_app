@@ -41,9 +41,11 @@ class PersonCustomerDetails extends ConsumerWidget {
             TabBar(
               indicatorColor: Colors.blue,
               unselectedLabelColor: Colors.grey,
+              indicatorSize: TabBarIndicatorSize.tab,
               tabs: const [
                 Tab(text: "Informações"),
                 Tab(text: "Pedidos"),
+                Tab(text: "Fiscal"),
               ],
             ),
             const Divider(height: 1),

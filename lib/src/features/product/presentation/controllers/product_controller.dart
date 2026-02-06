@@ -32,10 +32,10 @@ class ProductController extends AutoDisposeAsyncNotifier<ProductsPagination> {
       }
     }
 
-    final items = await repository.fetchAll(filter);
+    final product = await repository.fetchAll(filter);
     return ProductsPagination(
       total: total,
-      items: items,
+      items: product,
       isLoadingMore: false
     );
   }
@@ -56,7 +56,7 @@ class ProductController extends AutoDisposeAsyncNotifier<ProductsPagination> {
       try {
         final service = await ref.read(productServiceProvider.future);
         // Busca o ultimos que sofreram updates
-        final pagination = await service.getAll(filter);
+        final pagination = await service.getAll(newFilter);
         total = pagination.total;
         final products = pagination.items;
 
