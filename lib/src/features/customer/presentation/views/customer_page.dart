@@ -224,8 +224,8 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
                                   orElse: () => SizedBox()
                                 );
                               }
-                            )
-                          )
+                            ),
+                          ),
                         ],
                       );
                     },

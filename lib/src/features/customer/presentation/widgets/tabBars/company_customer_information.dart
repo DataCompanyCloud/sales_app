@@ -7,7 +7,7 @@ import 'package:sales_app/src/widgets/dialogs/confirmation_dialog.dart';
 import 'package:sales_app/src/widgets/draggable/address_draggable.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-final personExpandedProvider = StateProvider.family<bool, String>((ref, customerId) {
+final companyExpandedProvider = StateProvider.family<bool, String>((ref, customerId) {
   return false;
 });
 
@@ -37,7 +37,7 @@ class CompanyCustomerInformation extends ConsumerWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 
-    final expanded = ref.watch(personExpandedProvider(customer.customerUuId));
+    final expanded = ref.watch(companyExpandedProvider(customer.customerUuId));
 
     final address = customer.addresses
       .where((a) => a.type == AddressType.delivery)
@@ -173,7 +173,7 @@ class CompanyCustomerInformation extends ConsumerWidget {
               SizedBox(height: 12),
               GestureDetector(
                 onTap: () {
-                  ref.read(personExpandedProvider(customer.customerUuId).notifier).state = !expanded;
+                  ref.read(companyExpandedProvider(customer.customerUuId).notifier).state = !expanded;
                 },
                 child: Card(
                   child: Padding(
@@ -259,7 +259,7 @@ class CompanyCustomerInformation extends ConsumerWidget {
               SizedBox(
                 height: 24,
                 child: Divider(thickness: 2),
-              )
+              ),
             ],
           ),
         ),

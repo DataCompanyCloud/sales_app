@@ -40,7 +40,7 @@ class CompanyCustomerDetails extends ConsumerWidget {
             tabs: [
               Tab(text: "Informações"),
               Tab(text: "Pedidos"),
-              Tab(text: "Fiscal"),
+              Tab(text: "Financeiro"),
             ],
           ),
         ),

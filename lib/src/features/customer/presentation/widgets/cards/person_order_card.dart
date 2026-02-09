@@ -2,17 +2,14 @@ import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
-import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order.dart';
 import 'package:sales_app/src/widgets/badges/text_badge.dart';
 
-class OrderCard extends ConsumerWidget {
-  final CompanyCustomer customer;
-  // final SalesOrder order;
+class PersonOrderCard extends ConsumerWidget {
+  final PersonCustomer customer;
 
-  const OrderCard({
+  const PersonOrderCard({
     super.key,
     required this.customer,
-    // required this.order
   });
 
   @override
@@ -20,8 +17,8 @@ class OrderCard extends ConsumerWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 
-    final name = faker.food.cuisine();
-    final price = faker.randomGenerator.decimal(min: 10).toStringAsFixed(2);
+    final products = faker.randomGenerator.integer(10000, min: 1);
+    final price = faker.randomGenerator.decimal(scale: 10000, min: 1).toStringAsFixed(2);
 
     return Container(
       decoration: BoxDecoration(
@@ -37,15 +34,15 @@ class OrderCard extends ConsumerWidget {
                 height: 75,
                 alignment: Alignment.center,
                 decoration: const BoxDecoration(
-                  color: Colors.white,
+                  color: Colors.green,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     bottomLeft: Radius.circular(10),
                   ),
                 ),
                 child: const Icon(
-                  Icons.image,
-                  color: Colors.grey,
+                  Icons.archive,
+                  color: Colors.white,
                   size: 38,
                 ),
               ),
@@ -70,13 +67,18 @@ class OrderCard extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          name,
+                          "Qtd. de Produtos: $products",
                           style: TextStyle(
                             overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "R\$$price",
+                          style: TextStyle(
                             fontWeight: FontWeight.w600
                           ),
                         ),
-                        Text("R\$$price"),
                       ],
                     ),
                   ),

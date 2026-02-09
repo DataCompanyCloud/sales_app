@@ -211,22 +211,6 @@ class PersonCustomerInformation extends ConsumerWidget {
                                     ),
                                   ),
                                   Text("$email"),
-                                  const SizedBox(height: 4),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.smartphone,
-                                        size: 16,
-                                      ),
-                                      const SizedBox(width: 4),
-                                      Text(
-                                        "(47) 91234-5678",
-                                        style: TextStyle(
-                                          fontSize: 12
-                                        ),
-                                      ),
-                                    ],
-                                  ),
                                 ],
                               ),
                             ),
@@ -260,23 +244,25 @@ class PersonCustomerInformation extends ConsumerWidget {
                             duration: Duration(milliseconds: 300),
                             curve: Curves.easeOut,
                             child: expanded
-                                ? Column(
-                              children: [
-                                _phoneItem(context, "(47) 98888-1111"),
-                                _phoneItem(context, "(47) 97777-2222"),
-                                _phoneItem(context, "(47) 96666-3333"),
-                              ],
-                            ) : SizedBox.shrink()
+                              ? Padding(
+                                padding: const EdgeInsets.only(top: 12),
+                                child: Column(
+                                  children: [
+                                    _phoneItem(context, "(47) 98888-1111"),
+                                    _phoneItem(context, "(47) 97777-2222"),
+                                    _phoneItem(context, "(47) 96666-3333"),
+                                  ],
+                                ),
+                              ) : SizedBox.shrink()
                         ),
-                        SizedBox(height: 12),
-                        Divider(
-                          height: 2,
-                          color: Colors.red,
-                        )
                       ],
                     ),
                   ),
                 ),
+              ),
+              SizedBox(
+                height: 24,
+                child: Divider(thickness: 2),
               ),
             ],
           ),
@@ -294,8 +280,11 @@ Widget _phoneItem(BuildContext context, String phone) {
     padding: const EdgeInsets.symmetric(vertical: 4),
     child: Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: scheme.onPrimary
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+            color: scheme.secondary,
+            width: 1
+        ),
       ),
       child: Row(
         children: [

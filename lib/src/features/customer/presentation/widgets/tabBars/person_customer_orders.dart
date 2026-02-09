@@ -1,24 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
-import 'package:sales_app/src/features/customer/presentation/controllers/valueObjects/customers_pagination.dart';
-import 'package:sales_app/src/features/customer/presentation/widgets/cards/company_order_card.dart';
-import 'package:sales_app/src/features/customer/providers.dart';
-import 'package:sales_app/src/features/salesOrder/presentation/controllers/valueObjects/sales_orders_pagination.dart';
-import 'package:sales_app/src/features/salesOrder/providers.dart';
+import 'package:sales_app/src/features/customer/presentation/widgets/cards/person_order_card.dart';
 
-class CompanyCustomerOrders extends ConsumerWidget {
-  final CompanyCustomer customer;
+class PersonCustomerOrders extends ConsumerWidget {
+  final PersonCustomer customer;
 
-  const CompanyCustomerOrders({
+  const PersonCustomerOrders ({
     super.key,
     required this.customer,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final orders = ref.watch();
-
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 
@@ -36,7 +30,7 @@ class CompanyCustomerOrders extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(
-                    Icons.archive_sharp,
+                    Icons.archive,
                     color: scheme.primary,
                   ),
                 ),
@@ -53,17 +47,17 @@ class CompanyCustomerOrders extends ConsumerWidget {
             const SizedBox(height: 12),
             Expanded(
               child: ListView.builder(
-                itemCount: 6,
+                itemCount: 12,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  // final order = orders[index];
-
+      
+      
                   return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: CompanyOrderCard(customer: customer),
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: PersonOrderCard(customer: customer),
                   );
-                },
+                }
               ),
             ),
           ],
