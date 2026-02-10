@@ -62,12 +62,10 @@ class CustomerFormNotifier extends StateNotifier<CustomerFormValidate> {
   
   Customer? validate({
     required bool isPerson,
-    required int customerId,             // ObjectBox ID
-    required String customerUuId,        // gerado no app
-    int? serverId,                       // vindo do server
-    int? businessGroupId,
+    required int id,             // ObjectBox ID
+    required String uuId,        // gerado no app
     String? businessSector,
-    String? customerCode,
+    String? code,
     String? fullName,
     String? legalName,
     String? tradeName,
@@ -86,12 +84,11 @@ class CustomerFormNotifier extends StateNotifier<CustomerFormValidate> {
       state = state.clearErrors();
 
       return Customer(
-        customerId: customerId,
-        customerUuId: customerUuId,
-        serverId: serverId,
-        businessGroupId: businessGroupId,
+        id: id,
+        uuId: uuId,
+        code: code,
+        externalId: '',
         businessSector: businessSector,
-        customerCode: customerCode,
         fullName: fullName,
         legalName: legalName,
         tradeName: tradeName,

@@ -308,7 +308,7 @@ class SyncCustomerSectionState extends ConsumerState<SyncCustomersSection> {
                                               ),
                                               SizedBox(height: 4),
                                               Text(
-                                                "CÓDIGO: ${customer.customerCode}",
+                                                "CÓDIGO: ${customer.code}",
                                                 style: TextStyle(fontSize: 12, color: Colors.grey),
                                               ),
                                             ],

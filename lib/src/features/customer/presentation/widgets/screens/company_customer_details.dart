@@ -22,7 +22,7 @@ class CompanyCustomerDetails extends ConsumerWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(customer.customerCode ?? ""),
+          title: Text(customer.code ?? ""),
           leading: IconButton(
             onPressed: () => context.pop(),
             icon: const Icon(Icons.arrow_back_ios_new, size: 22),

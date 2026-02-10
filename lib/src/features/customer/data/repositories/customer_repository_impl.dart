@@ -75,8 +75,8 @@ class CustomerRepositoryImpl extends CustomerRepository{
 
     store.runInTransaction(TxMode.write, () {
       for (final customer in customers) {
-        final CustomerModel? existing = customer.customerId > 0
-          ? customerBox.get(customer.customerId)
+        final CustomerModel? existing = customer.id > 0
+          ? customerBox.get(customer.id)
           : null
         ;
 
@@ -118,8 +118,8 @@ class CustomerRepositoryImpl extends CustomerRepository{
     final stateRegBox = store.box<StateRegistrationModel>();
 
     final id = store.runInTransaction(TxMode.write, () {
-      final CustomerModel? existing = customer.customerId > 0
-        ? customerBox.get(customer.customerId)
+      final CustomerModel? existing = customer.id > 0
+        ? customerBox.get(customer.id)
         : null;
 
       final newModel = customer.maybeMap(
@@ -166,7 +166,7 @@ class CustomerRepositoryImpl extends CustomerRepository{
     final stateRegBox = store.box<StateRegistrationModel>();
 
     store.runInTransaction(TxMode.write, () {
-      final model = customerBox.get(customer.customerId);
+      final model = customerBox.get(customer.id);
 
       if (model == null) {
         throw AppException(AppExceptionCode.CODE_001_CUSTOMER_LOCAL_NOT_FOUND, "Cliente não encontrado");

@@ -36,7 +36,7 @@ class PersonCustomerCard extends ConsumerWidget {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                if (customer.customerCode != null)
+                if (customer.code != null)
                 Positioned(
                   top: 0,
                   left: 0,
@@ -44,16 +44,16 @@ class PersonCustomerCard extends ConsumerWidget {
                     width: 75,
                     height: 20,
                     decoration: BoxDecoration(
-                        color: customer.isActive
-                          ? Colors.green.shade900
-                          : Colors.red.shade900,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                        )
+                      color: customer.isActive
+                        ? Colors.green.shade900
+                        : Colors.red.shade900,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                      )
                     ),
                     alignment: Alignment.center,
                     child: Text(
-                      customer.customerCode ?? "--",
+                      customer.code ?? "--",
                       style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -108,7 +108,7 @@ class PersonCustomerCard extends ConsumerWidget {
                             height: 8,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
-                              color: customer.serverId != null
+                              color: customer.uuId.isNotEmpty
                                 ? Colors.cyan
                                 : Colors.red
                             ),

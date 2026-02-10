@@ -18,10 +18,9 @@ abstract class Customer with _$Customer {
   const Customer._();
 
   const factory Customer.person({
-    required int customerId,             // ObjectBox ID
-    required String customerUuId,        // gerado no app
-    int? serverId,                       // vindo do server
-    required String? customerCode,
+    required int id,             // ObjectBox ID
+    required String uuId,        // gerado no app
+    required String? code,
     required String? fullName,
     CreditLimit? creditLimit,
     TaxRegime? taxRegime, // TODO Remover isso
@@ -34,12 +33,10 @@ abstract class Customer with _$Customer {
   }) = PersonCustomer;
 
   const factory Customer.company({
-    required int customerId,             // ObjectBox ID
-    required String customerUuId,        // gerado no app
-    int? serverId,                       // vindo do server
-    int? businessGroupId,
+    required int id,             // ObjectBox ID
+    required String uuId,        // gerado no app
+    required String? code,
     String? businessSector,
-    required String? customerCode,
     required String? legalName,
     required String? tradeName,
     required StateRegistration stateRegistration,
@@ -55,25 +52,24 @@ abstract class Customer with _$Customer {
 
   /// TODO Precisa fazer as validações somente quando as informações forem diferentes de null!
   factory Customer({
-    required int customerId,             // ObjectBox ID
-    required String customerUuId,        // gerado no app
-    int? serverId,                       // vindo do server
-    int? businessGroupId,
-    String? businessSector,
-    required String? customerCode,
-    required String? fullName,
-    required String? legalName,
-    required String? tradeName,
-    StateRegistration? stateRegistration,
-    CreditLimit? creditLimit,
-    TaxRegime? taxRegime,
-    List<PaymentMethod> paymentMethods = const [],
-    List<ContactInfo> contacts = const [],
-    @CPFConverter() CPF? cpf,
-    @CnpjConverter() CNPJ? cnpj,
+    required int id,             // ObjectBox ID
+    required String uuId,        // gerado no app
+    required String externalId,
+    required String? code,
     required List<Address> addresses,
     required bool isActive,
-    String? notes
+    List<PaymentMethod> paymentMethods = const [],
+    List<ContactInfo> contacts = const [],
+    TaxRegime? taxRegime,
+    String? notes,
+    CreditLimit? creditLimit,
+    required String? fullName,
+    @CPFConverter() CPF? cpf,
+    required String? legalName,
+    required String? tradeName,
+    @CnpjConverter() CNPJ? cnpj,
+    String? businessSector,
+    StateRegistration? stateRegistration,
   }) {
     // validações comuns
 
@@ -108,10 +104,9 @@ abstract class Customer with _$Customer {
       }
 
       return Customer.person(
-        customerId: customerId,
-        customerUuId: customerUuId,
-        serverId: serverId,
-        customerCode: customerCode,
+        id: id,
+        uuId: uuId,
+        code: code,
         fullName: fullName,
         paymentMethods: paymentMethods,
         contacts: contacts,
@@ -138,12 +133,10 @@ abstract class Customer with _$Customer {
     }
 
     return Customer.company(
-      customerId: customerId,
-      customerUuId: customerUuId,
-      serverId: serverId,
-      businessGroupId: businessGroupId,
+      id: id,
+      uuId: uuId,
+      code: code,
       businessSector: businessSector,
-      customerCode: customerCode,
       legalName: legalName,
       tradeName: tradeName,
       stateRegistration: stateRegistration,

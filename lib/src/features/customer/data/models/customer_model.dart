@@ -17,10 +17,9 @@ class CustomerModel {
   /// customerId
   @Id()
   int id;                 // local
-  String customerUuId;    // obrigatório, gerado no app
-  int? serverId;          // nulo até sincronizar
+  String uuId;    // obrigatório, gerado no app
 
-  String? customerCode;
+  String? code;
   String? fullName;
   String? legalName;
   String? tradeName;
@@ -41,12 +40,11 @@ class CustomerModel {
 
   CustomerModel({
     required this.id,
-    required this.customerUuId,
-    this.serverId,
+    required this.uuId,
+    this.code,
     this.cpf,
     this.cnpj,
     this.isActive = true,
-    this.customerCode,
     this.fullName,
     this.legalName,
     this.tradeName,
@@ -70,17 +68,16 @@ extension CustomerModelMapper on CustomerModel {
     }
 
     return Customer(
-      customerId: id,
-      customerUuId: customerUuId,
-      serverId: serverId,
-      customerCode: customerCode,
+      id: id,
+      uuId: uuId,
+      externalId: '',
+      code: code,
       fullName: fullName,
       legalName: legalName,
       tradeName: tradeName,
       stateRegistration: modelStateRegistration,
       paymentMethods: payments,
       businessSector: businessSector,
-      businessGroupId: businessGroupId,
       taxRegime: taxRegime != null ? TaxRegime.values[taxRegime!] : null,
       creditLimit: creditLimit.target?.toEntity(),
       cpf: cpf != null ? CPF.raw(value: cpf!) : null,
@@ -88,7 +85,7 @@ extension CustomerModelMapper on CustomerModel {
       contacts: contactInfoList,
       addresses: addressList,
       isActive: isActive,
-      notes: notes
+      notes: notes,
     );
   }
 
@@ -130,12 +127,11 @@ extension CustomerModelMapper on CustomerModel {
 extension CustomerPersonMapper on PersonCustomer {
   CustomerModel toModel() {
     final model = CustomerModel(
-      id: customerId,
-      customerUuId: customerUuId,
-      serverId: serverId,
+      id: id,
+      uuId: uuId,
+      code: code,
       cpf: cpf?.value,
       isActive: isActive,
-      customerCode: customerCode,
       fullName: fullName,
       paymentMethod: paymentMethods.map((p) => p.index).toList(),
       taxRegime: taxRegime?.index,
@@ -159,18 +155,16 @@ extension CustomerPersonMapper on PersonCustomer {
 extension CustomerCompanyMapper on CompanyCustomer {
   CustomerModel toModel() {
     final model = CustomerModel(
-      id: customerId,
-      customerUuId: customerUuId,
-      serverId: serverId,
+      id: id,
+      uuId: uuId,
+      code: code,
       cnpj: cnpj?.value,
       isActive: isActive,
-      customerCode: customerCode,
       legalName: legalName,
       tradeName: tradeName,
       taxRegime: taxRegime?.index,
       paymentMethod: paymentMethods.map((p) => p.index).toList(),
       businessSector: businessSector,
-      businessGroupId: businessGroupId,
       notes: notes
     );
 

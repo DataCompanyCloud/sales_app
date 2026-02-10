@@ -168,7 +168,7 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
                         }
 
                         // conta sincronizado vs não sincronizado
-                        if (customer.serverId != null) {
+                        if (customer.uuId.isNotEmpty) {
                           countSynced++;
                         } else {
                           countNotSynced++;
@@ -181,10 +181,10 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
                           return !customer.isActive;
                         }
                         if (status == CustomerStatusFilter.synced) {
-                          return customer.serverId != null;
+                          return customer.uuId.isNotEmpty;
                         }
                         if (status == CustomerStatusFilter.notSynced) {
-                          return customer.serverId == null;
+                          return customer.uuId.isNotEmpty;
                         }
                         // Se for "all", retorna todos
                         return true;
@@ -210,14 +210,14 @@ class CustomerPageState extends ConsumerState<CustomerPage>{
                                   person: (person) => Padding(
                                     padding: const EdgeInsets.only(bottom: 4),
                                     child: GestureDetector(
-                                      onTap: () => context.pushNamed(CustomerRouter.customerDetails.name, extra: customer.customerId),
+                                      onTap: () => context.pushNamed(CustomerRouter.customerDetails.name, extra: customer.id),
                                       child: PersonCustomerCard(customer: person)
                                     ),
                                   ),
                                   company: (company) => Padding(
                                     padding: const EdgeInsets.only(bottom: 4),
                                     child: GestureDetector(
-                                      onTap: () => context.pushNamed(CustomerRouter.customerDetails.name, extra: customer.customerId),
+                                      onTap: () => context.pushNamed(CustomerRouter.customerDetails.name, extra: customer.id),
                                       child: CompanyCustomerCard(customer: company)
                                     ),
                                   ),

@@ -2,7 +2,6 @@ import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
-import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order.dart';
 import 'package:sales_app/src/widgets/badges/text_badge.dart';
 
 class CompanyOrderCard extends ConsumerWidget {

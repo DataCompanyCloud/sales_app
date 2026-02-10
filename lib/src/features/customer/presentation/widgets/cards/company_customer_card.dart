@@ -41,7 +41,7 @@ class CompanyCustomerCard extends ConsumerWidget {
                     ),
                     alignment: Alignment.center,
                     child: Text(
-                      customer.customerCode ?? "--",
+                      customer.code ?? "--",
                       style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -114,7 +114,7 @@ class CompanyCustomerCard extends ConsumerWidget {
                             height: 8,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
-                              color: customer.serverId != null
+                              color: customer.uuId.isNotEmpty
                                 ? Colors.cyan
                                 : Colors.red
                             ),

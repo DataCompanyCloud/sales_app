@@ -92,8 +92,8 @@ class CustomerController extends AutoDisposeAsyncNotifier<CustomersPagination>{
       if (isConnected) {
         try {
           final service = await ref.read(customerServiceProvider.future);
-          final serverId = await service.putCustomer(customer);
-          newCustomer = customer.copyWith(serverId: serverId);
+          final id = await service.putCustomer(customer);
+          newCustomer = customer.copyWith(id: id);
         } catch (e) {
           // print(e);
         }

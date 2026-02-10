@@ -364,8 +364,8 @@ class CreatePersonCustomerState extends ConsumerState<CreatePersonCustomerPage>{
 
                 final newCustomer = customerFormNotifier.validate(
                   isPerson: true,
-                  customerId: 0,
-                  customerUuId: UuidV4().generate(),
+                  id: 0,
+                  uuId: UuidV4().generate(),
                   cpf: cpf,
                   fullName: _fullNameController.text,
                   paymentMethods: paymentMethods,

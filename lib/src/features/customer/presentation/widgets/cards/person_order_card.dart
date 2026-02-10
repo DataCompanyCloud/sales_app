@@ -1,6 +1,7 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/widgets/badges/text_badge.dart';
 
@@ -19,6 +20,9 @@ class PersonOrderCard extends ConsumerWidget {
 
     final products = faker.randomGenerator.integer(10000, min: 1);
     final price = faker.randomGenerator.decimal(scale: 10000, min: 1).toStringAsFixed(2);
+
+    final date = DateTime.now();
+    String data = DateFormat('dd/MM/yyyy | HH:mm').format(date);
 
     return Container(
       decoration: BoxDecoration(
@@ -72,12 +76,15 @@ class PersonOrderCard extends ConsumerWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        const SizedBox(height: 8),
                         Text(
                           "R\$$price",
                           style: TextStyle(
                             fontWeight: FontWeight.w600
                           ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          data
                         ),
                       ],
                     ),

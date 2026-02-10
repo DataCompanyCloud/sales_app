@@ -59,9 +59,9 @@ abstract class SalesOrderCustomer with _$SalesOrderCustomer {
     return customer.maybeMap(
       person: (person) {
         return SalesOrderCustomer(
-          customerId: person.customerId,
-          customerCode: person.customerCode,
-          customerUuId: person.customerUuId,
+          customerId: person.id,
+          customerCode: person.code,
+          customerUuId: person.uuId,
           customerName: person.fullName ?? "--",
           contactInfo: person.primaryContact,
           address: person.primaryAddress,
@@ -70,9 +70,9 @@ abstract class SalesOrderCustomer with _$SalesOrderCustomer {
       },
       company: (company) {
         return SalesOrderCustomer(
-          customerId: company.customerId,
-          customerCode: company.customerCode,
-          customerUuId: company.customerUuId,
+          customerId: company.id,
+          customerCode: company.code,
+          customerUuId: company.uuId,
           customerName: company.legalName ?? company.tradeName ?? "--",
           contactInfo: company.primaryContact,
           address: company.primaryAddress,
