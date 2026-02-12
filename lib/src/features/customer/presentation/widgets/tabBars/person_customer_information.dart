@@ -37,7 +37,7 @@ class PersonCustomerInformation extends ConsumerWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 
-    final expanded = ref.watch(personExpandedProvider(customer.uuId));
+    final expanded = ref.watch(personExpandedProvider(customer.uuid));
 
     final address = customer.addresses
       .where((a) => a.type == AddressType.delivery)
@@ -177,7 +177,7 @@ class PersonCustomerInformation extends ConsumerWidget {
               SizedBox(height: 12),
               GestureDetector(
                 onTap: () {
-                  ref.read(personExpandedProvider(customer.uuId).notifier).state = !expanded;
+                  ref.read(personExpandedProvider(customer.uuid).notifier).state = !expanded;
                 },
                 child: Card(
                   child: Padding(

@@ -379,7 +379,7 @@ class CreateCompanyCustomerState extends ConsumerState<CreateCompanyCustomerPage
                 final newCustomer = customerFormNotifier.validate(
                   isPerson: false,
                   id: 0,
-                  uuId: UuidV4().generate(),
+                  uuid: UuidV4().generate(),
                   legalName: _legalNameController.text,
                   tradeName: _tradeNameController.text,
                   cnpj: cnpj,

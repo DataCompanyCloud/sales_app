@@ -63,7 +63,7 @@ class CustomerFormNotifier extends StateNotifier<CustomerFormValidate> {
   Customer? validate({
     required bool isPerson,
     required int id,             // ObjectBox ID
-    required String uuId,        // gerado no app
+    required String uuid,        // gerado no app
     String? businessSector,
     String? code,
     String? fullName,
@@ -85,7 +85,7 @@ class CustomerFormNotifier extends StateNotifier<CustomerFormValidate> {
 
       return Customer(
         id: id,
-        uuId: uuId,
+        uuid: uuid,
         code: code,
         externalId: '',
         businessSector: businessSector,

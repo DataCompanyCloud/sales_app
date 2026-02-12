@@ -1,6 +1,7 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/widgets/badges/text_badge.dart';
 
@@ -19,8 +20,11 @@ class CompanyOrderCard extends ConsumerWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 
-    final name = faker.food.cuisine();
-    final price = faker.randomGenerator.decimal(min: 10).toStringAsFixed(2);
+    final products = faker.randomGenerator.integer(10000, min: 1);
+    final price = faker.randomGenerator.decimal(scale: 10000, min: 1).toStringAsFixed(2);
+
+    final date = DateTime.now();
+    String data = DateFormat('dd/MM/yyyy | HH:mm').format(date);
 
     return Container(
       decoration: BoxDecoration(
@@ -36,15 +40,15 @@ class CompanyOrderCard extends ConsumerWidget {
                 height: 75,
                 alignment: Alignment.center,
                 decoration: const BoxDecoration(
-                  color: Colors.white,
+                  color: Colors.green,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     bottomLeft: Radius.circular(10),
                   ),
                 ),
                 child: const Icon(
-                  Icons.image,
-                  color: Colors.grey,
+                  Icons.archive,
+                  color: Colors.white,
                   size: 38,
                 ),
               ),
@@ -56,8 +60,8 @@ class CompanyOrderCard extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(10),
-                  bottomRight: Radius.circular(10)
+                    topRight: Radius.circular(10),
+                    bottomRight: Radius.circular(10)
                 ),
                 color: scheme.surface,
               ),
@@ -69,13 +73,21 @@ class CompanyOrderCard extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          name,
+                          "Qtd. de Produtos: $products",
                           style: TextStyle(
                             overflow: TextOverflow.ellipsis,
-                            fontWeight: FontWeight.w600
                           ),
                         ),
-                        Text("R\$$price"),
+                        Text(
+                          "R\$$price",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                            data
+                        ),
                       ],
                     ),
                   ),

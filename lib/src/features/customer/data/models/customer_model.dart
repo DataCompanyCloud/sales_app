@@ -17,7 +17,7 @@ class CustomerModel {
   /// customerId
   @Id()
   int id;                 // local
-  String uuId;    // obrigatório, gerado no app
+  String uuid;    // obrigatório, gerado no app
 
   String? code;
   String? fullName;
@@ -40,7 +40,7 @@ class CustomerModel {
 
   CustomerModel({
     required this.id,
-    required this.uuId,
+    required this.uuid,
     this.code,
     this.cpf,
     this.cnpj,
@@ -69,7 +69,7 @@ extension CustomerModelMapper on CustomerModel {
 
     return Customer(
       id: id,
-      uuId: uuId,
+      uuid: uuid,
       externalId: '',
       code: code,
       fullName: fullName,
@@ -128,7 +128,7 @@ extension CustomerPersonMapper on PersonCustomer {
   CustomerModel toModel() {
     final model = CustomerModel(
       id: id,
-      uuId: uuId,
+      uuid: uuid,
       code: code,
       cpf: cpf?.value,
       isActive: isActive,
@@ -156,7 +156,7 @@ extension CustomerCompanyMapper on CompanyCustomer {
   CustomerModel toModel() {
     final model = CustomerModel(
       id: id,
-      uuId: uuId,
+      uuid: uuid,
       code: code,
       cnpj: cnpj?.value,
       isActive: isActive,

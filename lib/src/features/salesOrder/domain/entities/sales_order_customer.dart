@@ -61,7 +61,7 @@ abstract class SalesOrderCustomer with _$SalesOrderCustomer {
         return SalesOrderCustomer(
           customerId: person.id,
           customerCode: person.code,
-          customerUuId: person.uuId,
+          customerUuId: person.uuid,
           customerName: person.fullName ?? "--",
           contactInfo: person.primaryContact,
           address: person.primaryAddress,
@@ -72,7 +72,7 @@ abstract class SalesOrderCustomer with _$SalesOrderCustomer {
         return SalesOrderCustomer(
           customerId: company.id,
           customerCode: company.code,
-          customerUuId: company.uuId,
+          customerUuId: company.uuid,
           customerName: company.legalName ?? company.tradeName ?? "--",
           contactInfo: company.primaryContact,
           address: company.primaryAddress,

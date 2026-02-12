@@ -188,7 +188,8 @@ class HomeDrawer extends ConsumerWidget {
                       context: context,
                       builder: (context) => ConfirmationDialog(
                         title: "Tem certeza que deseja fazer logout?",
-                        description: null,
+                        cancelIcon: Icons.close,
+                        confirmIcon: Icons.check,
                       )
                     ) ?? false;
 

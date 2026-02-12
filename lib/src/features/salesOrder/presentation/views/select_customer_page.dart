@@ -165,7 +165,7 @@ class SalesOrderCreatePageState extends ConsumerState<SelectCustomerPage> {
                         }
 
                         // conta sincronizado vs não sincronizado
-                        if (customer.uuId.isNotEmpty) {
+                        if (customer.uuid.isNotEmpty) {
                           countSynced++;
                         } else {
                           countNotSynced++;
@@ -178,10 +178,10 @@ class SalesOrderCreatePageState extends ConsumerState<SelectCustomerPage> {
                           return !customer.isActive;
                         }
                         if (status == CustomerStatusFilter.synced) {
-                          return customer.uuId.isNotEmpty;
+                          return customer.uuid.isNotEmpty;
                         }
                         if (status == CustomerStatusFilter.notSynced) {
-                          return customer.uuId.isNotEmpty;
+                          return customer.uuid.isNotEmpty;
                         }
                         // Se for "all", retorna todos
                         return true;

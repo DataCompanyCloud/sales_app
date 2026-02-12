@@ -108,7 +108,7 @@ class PersonCustomerCard extends ConsumerWidget {
                             height: 8,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
-                              color: customer.uuId.isNotEmpty
+                              color: customer.uuid.isNotEmpty
                                 ? Colors.cyan
                                 : Colors.red
                             ),

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sales_app/src/features/customer/domain/entities/customer.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/cards/customer_sales_orders_card.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/headers/company_customer_header.dart';
+import 'package:sales_app/src/features/customer/presentation/widgets/tabBars/company_customer_financial.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/tabBars/company_customer_information.dart';
 import 'package:sales_app/src/features/customer/presentation/widgets/tabBars/company_customer_orders.dart';
 
@@ -65,6 +66,7 @@ class CompanyCustomerDetails extends ConsumerWidget {
 
               CompanyCustomerOrders(customer: customer),
 
+              CompanyCustomerFinancial(),
               const Center(
                 child: Text("Nenhum pedido para mostrar"),
               ),

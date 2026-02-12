@@ -19,7 +19,7 @@ abstract class Customer with _$Customer {
 
   const factory Customer.person({
     required int id,             // ObjectBox ID
-    required String uuId,        // gerado no app
+    required String uuid,        // gerado no app
     required String? code,
     required String? fullName,
     CreditLimit? creditLimit,
@@ -34,7 +34,7 @@ abstract class Customer with _$Customer {
 
   const factory Customer.company({
     required int id,             // ObjectBox ID
-    required String uuId,        // gerado no app
+    required String uuid,        // gerado no app
     required String? code,
     String? businessSector,
     required String? legalName,
@@ -53,7 +53,7 @@ abstract class Customer with _$Customer {
   /// TODO Precisa fazer as validações somente quando as informações forem diferentes de null!
   factory Customer({
     required int id,             // ObjectBox ID
-    required String uuId,        // gerado no app
+    required String uuid,        // gerado no app
     required String externalId,
     required String? code,
     required List<Address> addresses,
@@ -105,7 +105,7 @@ abstract class Customer with _$Customer {
 
       return Customer.person(
         id: id,
-        uuId: uuId,
+        uuid: uuid,
         code: code,
         fullName: fullName,
         paymentMethods: paymentMethods,
@@ -134,7 +134,7 @@ abstract class Customer with _$Customer {
 
     return Customer.company(
       id: id,
-      uuId: uuId,
+      uuid: uuid,
       code: code,
       businessSector: businessSector,
       legalName: legalName,

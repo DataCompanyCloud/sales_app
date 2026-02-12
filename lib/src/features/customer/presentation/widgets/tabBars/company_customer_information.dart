@@ -37,7 +37,7 @@ class CompanyCustomerInformation extends ConsumerWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 
-    final expanded = ref.watch(companyExpandedProvider(customer.uuId));
+    final expanded = ref.watch(companyExpandedProvider(customer.uuid));
 
     final address = customer.addresses
       .where((a) => a.type == AddressType.delivery)
@@ -55,7 +55,7 @@ class CompanyCustomerInformation extends ConsumerWidget {
     if (address == null) {
       return const Padding(
         padding: EdgeInsets.all(16),
-        child: Text("Nenhum endereço cadastrado"),
+        child: Text("Nenhum endereço cadastrado."),
       );
     }
 
@@ -173,7 +173,7 @@ class CompanyCustomerInformation extends ConsumerWidget {
               SizedBox(height: 12),
               GestureDetector(
                 onTap: () {
-                  ref.read(companyExpandedProvider(customer.uuId).notifier).state = !expanded;
+                  ref.read(companyExpandedProvider(customer.uuid).notifier).state = !expanded;
                 },
                 child: Card(
                   child: Padding(
