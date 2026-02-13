@@ -142,7 +142,7 @@ class SelectProductsPageState extends ConsumerState<SelectProductsPage>{
                     itemCount: products.length,
                     itemBuilder: (context, i) {
                       final product = products[i];
-                      final salesOrderProduct = cart[product.productId];
+                      final salesOrderProduct = cart[product.id];
 
                       return SelectProductCard(
                         product: product,

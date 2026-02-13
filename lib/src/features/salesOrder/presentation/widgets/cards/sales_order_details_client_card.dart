@@ -15,7 +15,7 @@ class SalesOrderDetailsClientCard extends ConsumerWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 
-    final customer = order.customer;
+    final customer = order.customerId;
     return Card(
       color: scheme.surface,
       elevation: 3,

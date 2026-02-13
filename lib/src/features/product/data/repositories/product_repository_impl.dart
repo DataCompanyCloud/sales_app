@@ -95,7 +95,7 @@ class ProductRepositoryImpl extends ProductRepository {
   Future<void> saveAll(List<Product> products) async {
     store.runInTransaction(TxMode.write, () {
       for (final product in products) {
-        final existing = productBox.get(product.productId);
+        final existing = productBox.get(product.id);
         final newModel = product.toModel();
 
         newModel.id = existing?.id ?? 0;
@@ -123,7 +123,7 @@ class ProductRepositoryImpl extends ProductRepository {
   @override
   Future<Product> save(Product product) async {
     final id = store.runInTransaction(TxMode.write, () {
-      final existing = productBox.get(product.productId);
+      final existing = productBox.get(product.id);
 
       // Cria o modelo novo a partir da entity
       final newModel = product.toModel();
@@ -161,7 +161,7 @@ class ProductRepositoryImpl extends ProductRepository {
   @override
   Future<void> delete(Product product) async {
     store.runInTransaction(TxMode.write, () async {
-      final model = await productBox.getAsync(product.productId);
+      final model = await productBox.getAsync(product.id);
 
       if (model == null) {
         throw AppException(AppExceptionCode.CODE_004_PRODUCT_LOCAL_NOT_FOUND, "Produto não encontrado");

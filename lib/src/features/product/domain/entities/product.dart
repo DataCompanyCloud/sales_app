@@ -10,6 +10,7 @@ import 'package:sales_app/src/features/product/domain/valueObjects/product_fisca
 import 'package:sales_app/src/features/product/domain/valueObjects/product_wallet.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/unit.dart';
 import 'package:sales_app/src/features/product/domain/valueObjects/category.dart';
+import 'package:sales_app/src/features/product/domain/valueObjects/uom.dart';
 
 part 'product.freezed.dart';
 part 'product.g.dart';
@@ -20,17 +21,24 @@ abstract class Product with _$Product {
 
   /// criar sem validação
   const factory Product.raw({
-    required int productId,
+    required int id,
+    required String uuid,
     required String code,
     required String name,
-    required int companyGroupId, // Representa qual empresa esse produto pertence
     String? description,
     required Money price,
+    String? externalId,
     Barcode? barcode,
-    required Unit unit,
+    List<Packing>? packings,
+    Uom? uom,
     required List<ImageEntity> images,
+    required DateTime createdAt,
+    DateTime? updatedAt,
+    DateTime? deletedAt,
+    required bool isActive,
+    required int companyGroupId, // Representa qual empresa esse produto pertence
+    required Unit unit,
     required List<Category> categories,
-    required List<Packing> packings,
     required List<Attribute> attributes,
     required ProductFiscal fiscal,
     @Default([]) List<ProductWallet> wallets,
@@ -38,17 +46,24 @@ abstract class Product with _$Product {
 
   /// TODO Precisa fazer as validações somente quando as informações forem diferentes de null!
   factory Product ({
-    required int productId,
+    required int id,
+    required String uuid,
     required String code,
     required String name,
-    required int companyGroupId,
     String? description,
     required Money price,
+    String? externalId,
     Barcode? barcode,
-    required Unit unit,
+    List<Packing>? packings,
+    Uom? uom,
     required List<ImageEntity> images,
+    required DateTime createdAt,
+    DateTime? updatedAt,
+    DateTime? deletedAt,
+    required bool isActive,
+    required int companyGroupId,
+    required Unit unit,
     required List<Category> categories,
-    required List<Packing> packings,
     required List<Attribute> attributes,
     required ProductFiscal fiscal,
     List<ProductWallet>? wallets,
@@ -58,18 +73,25 @@ abstract class Product with _$Product {
     }
 
     return Product.raw(
-      productId: productId,
+      id: id,
+      uuid: uuid,
       code: code,
       name: name,
-      companyGroupId: companyGroupId,
-      price: price,
-      barcode: barcode,
-      unit: unit,
-      images: images,
-      categories: categories,
-      packings: packings,
-      attributes: attributes,
       description: description,
+      price: price,
+      externalId: externalId,
+      barcode: barcode,
+      packings: packings,
+      uom: uom,
+      images: images,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      deletedAt: deletedAt,
+      isActive: isActive,
+      companyGroupId: companyGroupId,
+      unit: unit,
+      categories: categories,
+      attributes: attributes,
       fiscal: fiscal,
       wallets: wallets ?? []
     );

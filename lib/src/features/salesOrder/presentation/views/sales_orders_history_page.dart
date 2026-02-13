@@ -56,9 +56,9 @@ List<SalesOrder> genSalesOrders (int max) {
   for (int i=0; i<max; i++) {
     output.add(
       SalesOrder(
-        orderId: i+1,
-        orderUuId: "",
-        orderCode: (i+1).toString().padLeft(5, "0"),
+        id: i+1,
+        uuid: "",
+        code: (i+1).toString().padLeft(5, "0"),
         createdAt: DateTime.now(),
         itemsCount: random.integer(100, min: 1),
         total: getFakeMoney(),

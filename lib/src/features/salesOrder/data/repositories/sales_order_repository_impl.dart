@@ -30,7 +30,7 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
     // Texto
     final raw = filter.q?.trim();
     if (raw != null && raw.isNotEmpty) {
-      cond = SalesOrderModel_.customerName.contains(raw, caseSensitive: false) | SalesOrderModel_.orderCode.contains(raw, caseSensitive: false);
+      cond = SalesOrderModel_.customerName.contains(raw, caseSensitive: false) | SalesOrderModel_.code.contains(raw, caseSensitive: false);
     }
 
     if (filter.status != null) {
@@ -104,7 +104,7 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
 
     store.runInTransaction(TxMode.write, () {
       for (final order in orders) {
-        final existingQ = salesOrderBox.query(SalesOrderModel_.orderUuId.equals(order.orderUuId)).build();
+        final existingQ = salesOrderBox.query(SalesOrderModel_.uuid.equals(order.uuid)).build();
         final existing  = existingQ.findFirst();
         existingQ.close();
 
@@ -149,7 +149,7 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
     final productTaxResultBox = store.box<ProductTaxResultModel>();
 
     final id = store.runInTransaction(TxMode.write, () {
-      final existingQ = salesOrderBox.query(SalesOrderModel_.orderUuId.equals(order.orderUuId)).build();
+      final existingQ = salesOrderBox.query(SalesOrderModel_.uuid.equals(order.uuid)).build();
       final existing  = existingQ.findFirst();
       existingQ.close();
 
@@ -200,7 +200,7 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
     final productTaxResultBox = store.box<ProductTaxResultModel>();
 
     store.runInTransaction(TxMode.write, () {
-      final existingQ = salesOrderBox.query(SalesOrderModel_.orderUuId.equals(order.orderUuId)).build();
+      final existingQ = salesOrderBox.query(SalesOrderModel_.uuid.equals(order.uuid)).build();
       final model  = existingQ.findFirst();
       existingQ.close();
 

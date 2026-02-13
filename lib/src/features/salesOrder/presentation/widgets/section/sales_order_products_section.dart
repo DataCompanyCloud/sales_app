@@ -45,7 +45,7 @@ class SalesOrderProductsSectionState extends ConsumerState<SalesOrderProductsSec
           ),
           child: InkWell(
             onTap: () {
-              context.pushNamed(SalesOrderRouter.products_details.name, queryParameters: {"orderId": salesOrder?.orderId.toString()});
+              context.pushNamed(SalesOrderRouter.products_details.name, queryParameters: {"orderId": salesOrder?.id.toString()});
             },
             child: Container(
               padding: EdgeInsets.all(8),

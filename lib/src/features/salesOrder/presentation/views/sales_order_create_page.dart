@@ -66,7 +66,7 @@ class SalesOrderCreatePageState extends ConsumerState<SalesOrderCreatePage> {
                 ),
                 SizedBox(width: 8),
                 Text(
-                  order?.orderCode ?? "Criar Pedido",
+                  order?.code ?? "Criar Pedido",
                   textAlign: TextAlign.center,
                 )
               ],

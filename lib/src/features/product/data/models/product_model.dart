@@ -10,6 +10,7 @@ import 'package:sales_app/src/features/product/data/models/attribute_model.dart'
 import 'package:sales_app/src/features/product/data/models/product_fiscal_model.dart';
 import 'package:sales_app/src/features/product/data/models/product_wallet_model.dart';
 import 'package:sales_app/src/features/product/data/models/unit_model.dart';
+import 'package:sales_app/src/features/product/data/models/uom_model.dart';
 import 'package:sales_app/src/features/product/domain/entities/product.dart';
 
 @Entity()
@@ -18,18 +19,23 @@ class ProductModel {
   @Id(assignable: true)
   int id;
 
-  int productId;
+  String uuid;
   String code;
   String name;
   String? description;
+  String? externalId;
+  DateTime createdAt;
+  DateTime? updatedAt;
+  DateTime? deletedAt;
+  bool isActive;
   int companyGroupId;
-
 
   final price = ToOne<MoneyModel>();
   final barcode = ToOne<BarcodeModel>();
   final categories = ToMany<CategoryModel>();
   final images = ToMany<ImageModel>();
   final packaging = ToMany<PackingModel>();
+  final uom = ToOne<UomModel>();
   final unit = ToOne<UnitModel>();
   final attributes = ToMany<AttributeModel>();
   final fiscal = ToOne<ProductFiscalModel>();
@@ -39,10 +45,15 @@ class ProductModel {
 
   ProductModel ({
     this.id = 0,
-    this.productId = 0,
+    required this.uuid,
     required this.code,
     required this.name,
     this.description,
+    this.externalId,
+    required this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    required this.isActive,
     required this.companyGroupId
   });
 }
@@ -50,6 +61,7 @@ class ProductModel {
 extension ProductModelMapper on ProductModel {
   Product toEntity() {
     final modelBarcode = barcode.target;
+    final modelUom = uom.target!.toEntity();
     final packagingList = packaging.map((p) => p.toEntity()).toList();
     final categoriesList = categories.map((p) => p.toEntity()).toList();
     final imagesList = images.map((p) => p.toEntity()).toList();
@@ -60,18 +72,25 @@ extension ProductModelMapper on ProductModel {
     final modelFiscal = fiscal.target;
 
     return Product.raw(
-      productId: productId,
+      id: id,
+      uuid: uuid,
       code: code,
       name: name,
-      companyGroupId: companyGroupId,
+      description: description,
       price: modelPrice!.toEntity(), // Obrigatorio ter
+      externalId: externalId,
       barcode: modelBarcode?.toEntity(),
-      unit: modelUnit!.toEntity(), // Obrigatorio ter
+      packings: packagingList,
+      uom: modelUom,
       images: imagesList,
       categories: categoriesList,
-      packings: packagingList,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      deletedAt: deletedAt,
+      isActive: isActive,
+      companyGroupId: companyGroupId,
+      unit: modelUnit!.toEntity(), // Obrigatorio ter
       attributes: attributesList,
-      description: description,
       fiscal: modelFiscal!.toEntity(), // Obrigatorio ter
       wallets: walletsList
     );
@@ -134,13 +153,20 @@ extension ProductModelMapper on ProductModel {
 extension ProductMapper on Product {
   ProductModel toModel() {
     final entity = ProductModel(
-      productId: productId,
+      id: id,
+      uuid: uuid,
       code: code,
       name: name,
       description: description,
+      externalId: externalId,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      deletedAt: deletedAt,
+      isActive: isActive,
       companyGroupId: companyGroupId
     );
 
+    entity.uom.target = uom?.toModel();
     entity.unit.target = unit.toModel();
     entity.fiscal.target = fiscal.toModel();
     entity.price.target = price.toModel();
@@ -154,8 +180,8 @@ extension ProductMapper on Product {
     if (categories.isNotEmpty) {
       entity.categories.addAll(categories.map((c) => c.toModel()));
     }
-    if (packings.isNotEmpty) {
-      entity.packaging.addAll(packings.map((p) => p.toModel()));
+    if (packings!.isNotEmpty) {
+      entity.packaging.addAll(packings!.map((p) => p.toModel()));
     }
     if (attributes.isNotEmpty) {
       entity.attributes.addAll(attributes.map((p) => p.toModel()));

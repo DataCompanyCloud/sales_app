@@ -16,7 +16,7 @@ class SalesOrderCard extends ConsumerWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 
-    final customer = order.customer;
+    final customer = order.customerId;
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
@@ -45,7 +45,7 @@ class SalesOrderCard extends ConsumerWidget {
                       )
                     ),
                     alignment: Alignment.center,
-                    child: Text("${order.orderCode}"),
+                    child: Text("${order.code}"),
                   ),
                   Container(
                     padding: EdgeInsets.only(bottom: 8),

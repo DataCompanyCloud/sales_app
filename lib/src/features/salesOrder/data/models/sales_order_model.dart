@@ -18,8 +18,8 @@ import 'package:sales_app/src/features/salesOrder/domain/valueObjects/sales_orde
 class SalesOrderModel {
   @Id()
   int id;
-  String orderUuId;
-  String? orderCode;
+  String uuid;
+  String? code;
 
   @Property(type: PropertyType.date)
   DateTime createdAt;
@@ -47,20 +47,21 @@ class SalesOrderModel {
 
   SalesOrderModel({
     this.id = 0,
-    required this.orderUuId,
-    required this.orderCode,
-    required this.createdAt,
-    required this.itemsCount,
+    required this.uuid,
+    required this.code,
+    this.customerId,
     required this.status,
+    required this.createdAt,
+    this.updatedAt,
+
+    required this.itemsCount,
     required this.needsSync,
     this.serverId,
-    this.customerId,
     this.customerName,
-    this.updatedAt,
     this.syncedAt,
     this.confirmedAt,
     this.cancelledAt,
-    this.notes
+    this.notes,
   });
 }
 
@@ -73,22 +74,23 @@ extension SalesOrderModelMapper on SalesOrderModel {
     final modelFreight = freight.target;
 
     return SalesOrder.raw(
-      orderId: id,
-      orderUuId: orderUuId,
-      orderCode: orderCode,
-      createdAt: createdAt,
-      syncedAt: syncedAt,
-      updatedAt: updatedAt,
-      serverId: serverId,
+      id: id,
+      uuid: uuid,
+      code: code,
+      customerId: customers,
       status: SalesOrderStatus.values[status],
+      total: modelTotal?.toEntity() ?? Money.zero(),
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+
+      syncedAt: syncedAt,
+      serverId: serverId,
       confirmedAt: confirmedAt,
       cancelledAt: cancelledAt,
       notes: notes,
       itemsCount: itemsCount,
-      total: modelTotal?.toEntity() ?? Money.zero(),
       orderPaymentMethods: orderPaymentList,
       companyGroup: companiesGroupList,
-      customer: customers,
       freight: modelFreight?.toEntity()
     );
   }
@@ -155,9 +157,9 @@ extension SalesOrderMapper on SalesOrder {
   }
   SalesOrderModel toModel() {
     final entity = SalesOrderModel(
-      id: orderId,
-      orderUuId: orderUuId,
-      orderCode: orderCode,
+      id: id,
+      uuid: uuid,
+      code: code,
       createdAt: createdAt,
       itemsCount: itemsCount,
       serverId: serverId,
@@ -171,7 +173,7 @@ extension SalesOrderMapper on SalesOrder {
     );
 
     entity.freight.target = freight?.toModel();
-    entity.customer.target = customer?.toModel();
+    entity.customer.target = customerId?.toModel();
     entity.total.target = total.toModel();
 
     if (companyGroup.isNotEmpty) {

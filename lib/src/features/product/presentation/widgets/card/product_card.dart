@@ -57,7 +57,7 @@ class ProductCardState extends ConsumerState<ProductCard> {
                     // border: Border.all(color: Color(0xFFE5E7EB), width: 2),
                   ),
                   child: ProductImageCachedWidget(
-                    productId: product.productId,
+                    productId: product.id,
                     image: product.imagePrimary,
                     width: double.infinity,
                     height: 160,

@@ -19,16 +19,17 @@ abstract class SalesOrder with _$SalesOrder {
   const SalesOrder._();
 
   const factory SalesOrder.raw({
-    required int orderId,
-    required String orderUuId,
-    required String? orderCode,
-    required DateTime createdAt,
-    required int itemsCount,
-    required Money total,
-    SalesOrderCustomer? customer,
-    int? serverId,
+    required int id,
+    required String uuid,
+    required String? code,
+    SalesOrderCustomer? customerId,
     @Default(SalesOrderStatus.draft) SalesOrderStatus status,
+    required Money total,
+    required DateTime createdAt,
     DateTime? updatedAt,
+
+    required int itemsCount,
+    int? serverId,
     DateTime? syncedAt,
     DateTime? confirmedAt,
     DateTime? cancelledAt,
@@ -45,18 +46,19 @@ abstract class SalesOrder with _$SalesOrder {
   }) = _SalesOrder;
 
   factory SalesOrder({
-    required int orderId,
-    required String orderUuId,
-    required String? orderCode,
-    required DateTime createdAt,
-    required int itemsCount,
+    required int id,
+    required String uuid,
+    required String? code,
+    SalesOrderCustomer? customerId,
+    SalesOrderStatus status = SalesOrderStatus.draft,
     required Money total,
+    required DateTime createdAt,
+    DateTime? updatedAt,
+
+    required int itemsCount,
     required List<SalesOrderPayment> orderPaymentMethods,
     required List<SalesOrderCompanyGroup> companyGroup,
-    SalesOrderCustomer? customer,
     int? serverId,
-    SalesOrderStatus status = SalesOrderStatus.draft,
-    DateTime? updatedAt,
     DateTime? syncedAt,
     DateTime? confirmedAt,
     DateTime? cancelledAt,
@@ -79,21 +81,24 @@ abstract class SalesOrder with _$SalesOrder {
     }
 
     return SalesOrder.raw(
-      orderId: orderId,
-      orderUuId: orderUuId,
-      orderCode: orderCode,
-      createdAt: createdAt,
-      serverId: serverId,
+      id: id,
+      uuid: uuid,
+      code: code,
+      customerId: customerId,
       status: status,
+      total: total,
+      createdAt: createdAt,
       updatedAt: updatedAt,
+
+      serverId: serverId,
       syncedAt: syncedAt,
       confirmedAt: confirmedAt,
       cancelledAt: cancelledAt,
       notes: notes,
       itemsCount: itemsCount,
-      total: total,
+
       orderPaymentMethods: orderPaymentMethods,
-      customer: customer,
+
       freight: freight ?? Money.zero(),
       companyGroup: companyGroup,
       //TODO Mudar isso aqui
@@ -151,21 +156,21 @@ abstract class SalesOrder with _$SalesOrder {
 
   SalesOrder updateCustomer(Customer? newCustomer) {
     return copyWith(
-      customer: newCustomer == null ? null : SalesOrderCustomer.fromCustomer(newCustomer),
+      customerId: newCustomer == null ? null : SalesOrderCustomer.fromCustomer(newCustomer),
       updatedAt: DateTime.now()
     );
   }
 
   SalesOrder updateCustomerAddress(Address? address) {
     return copyWith(
-      customer: customer?.copyWith(address: address),
+      customerId: customerId?.copyWith(address: address),
       updatedAt: DateTime.now()
     );
   }
 
   SalesOrder updateCustomerContact(ContactInfo? contact) {
     return copyWith(
-      customer: customer?.copyWith(contactInfo: contact),
+      customerId: customerId?.copyWith(contactInfo: contact),
       updatedAt: DateTime.now()
     );
   }

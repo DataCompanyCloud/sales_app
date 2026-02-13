@@ -204,7 +204,7 @@ class SalesOrderFinishedSectionState extends ConsumerState<SalesOrderFinishedSec
           ),
           Column(
             children: [
-              salesOrder?.customer == null
+              salesOrder?.customerId == null
                 ? Container(
                     padding: const EdgeInsets.all(8),
                     width: double.infinity,

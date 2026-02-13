@@ -20,7 +20,7 @@ class SalesOrderDetailsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
-    final customer = order.customer;
+    final customer = order.customerId;
     final contactInfo = customer?.contactInfo;
     return SingleChildScrollView(
       child: Center(
@@ -34,7 +34,7 @@ class SalesOrderDetailsScreen extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "#${order.orderCode}",
+                      "#${order.code}",
                       style: TextStyle(
                         fontSize: 24,
                       ),

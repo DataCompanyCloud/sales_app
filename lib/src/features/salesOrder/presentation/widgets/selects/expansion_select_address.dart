@@ -36,7 +36,7 @@ class _ExpansionSelectCustomerAddressState extends ConsumerState<ExpansionSelect
 
     final customer = widget.customer;
     final salesOrder = widget.salesOrder;
-    final salesCustomer = salesOrder.customer;
+    final salesCustomer = salesOrder.customerId;
 
     if (customer.addresses.isEmpty) {
       return Row(
@@ -139,7 +139,7 @@ class _ExpansionSelectCustomerAddressState extends ConsumerState<ExpansionSelect
                   return InkWell(
                     onTap: () {
                       final updated = salesOrder.updateCustomerAddress(address);
-                      ref.read(salesOrderCreateControllerProvider(salesOrder.orderId).notifier).saveEdits(updated);
+                      ref.read(salesOrderCreateControllerProvider(salesOrder.id).notifier).saveEdits(updated);
                       ref.read(isOpenProvider.notifier).state = false;
                     },
                     child: Padding(

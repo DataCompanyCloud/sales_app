@@ -88,7 +88,7 @@ class SalesOrderCreateController extends AutoDisposeFamilyAsyncNotifier<SalesOrd
                   companyId: product.companyGroupId,
                   items: [
                     SalesOrderProduct(
-                        productId: product.productId,
+                        productId: product.id,
                         productUuId: const Uuid().v4(),
                         productCode: product.code,
                         productName: product.name,
@@ -106,7 +106,7 @@ class SalesOrderCreateController extends AutoDisposeFamilyAsyncNotifier<SalesOrd
 
         groups[map[product.companyGroupId]!].addItem(
             SalesOrderProduct(
-                productId: product.productId,
+                productId: product.id,
                 productUuId: const Uuid().v4(),
                 productCode: product.code,
                 productName: product.name,
@@ -120,12 +120,12 @@ class SalesOrderCreateController extends AutoDisposeFamilyAsyncNotifier<SalesOrd
 
 
       final newOrder = SalesOrder(
-          orderId: 0,
-          orderUuId: const Uuid().v4(),
-          orderCode: null,
+          id: 0,
+          uuid: const Uuid().v4(),
+          code: null,
           createdAt: DateTime.now(),
           itemsCount: randomProducts.length,
-          customer: salesOrderCustomer,
+          customerId: salesOrderCustomer,
           total: Money.zero(),
           companyGroup: groups,
           orderPaymentMethods: []
@@ -196,13 +196,13 @@ SalesOrder fakerOrder(int index) {
   });
 
   return SalesOrder(
-      orderId: index,
-      orderUuId: const Uuid().v4(),
-      orderCode: random.boolean() ? random.integer(1000, min: 10).toString().padLeft(2, "00000"): null,
+      id: index,
+      uuid: const Uuid().v4(),
+      code: random.boolean() ? random.integer(1000, min: 10).toString().padLeft(2, "00000"): null,
       createdAt: DateTime.now(),
       status: SalesOrderStatus.draft,
       itemsCount: items.length,
-      customer: random.boolean() ? null: fakerOrderCustomer(),
+      customerId: random.boolean() ? null: fakerOrderCustomer(),
       total: total,
       // items: items,
       orderPaymentMethods: [], companyGroup: []

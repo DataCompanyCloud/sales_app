@@ -34,7 +34,7 @@ class SalesOrdersHistoryCard extends ConsumerWidget {
                     height: 20,
                     alignment: Alignment.center,
                     child: Text(
-                      salesOrder.orderCode ?? "--",
+                      salesOrder.code ?? "--",
                       style: TextStyle(
                         fontWeight: FontWeight.bold
                       ),
@@ -92,7 +92,7 @@ class SalesOrdersHistoryCard extends ConsumerWidget {
                             ),
                           ),
                           Text(
-                            "${salesOrder.customer}",
+                            "${salesOrder.customerId}",
                             style: TextStyle(
                               fontSize: 15
                             ),

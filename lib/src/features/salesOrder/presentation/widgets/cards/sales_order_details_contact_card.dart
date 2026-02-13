@@ -16,7 +16,7 @@ class SalesOrderDetailsContactCard extends ConsumerWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 
-    final customer = order.customer;
+    final customer = order.customerId;
     final contact = customer?.contactInfo;
     return Card(
       color: scheme.surface,

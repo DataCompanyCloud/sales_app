@@ -13,14 +13,14 @@ class ProductCartController extends Notifier<Map<int, SalesOrderProduct>> {
     if (quantity <= 0) {
       // REMOVE se a quantidade ficar 0
       final newState = {...state};
-      newState.remove(product.productId);
+      newState.remove(product.id);
       state = newState;
       return;
     }
 
     final salesOrderProduct = SalesOrderProduct.raw(
       productUuId: const Uuid().v4(),
-      productId: product.productId,
+      productId: product.id,
       productCode: product.code,
       productName: product.name,
       quantity: quantity.toDouble(),
@@ -33,7 +33,7 @@ class ProductCartController extends Notifier<Map<int, SalesOrderProduct>> {
 
     state = {
       ...state,
-      product.productId: salesOrderProduct,
+      product.id: salesOrderProduct,
     };
   }
 

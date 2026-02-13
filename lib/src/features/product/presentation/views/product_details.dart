@@ -133,7 +133,7 @@ import 'package:sales_app/src/features/product/presentation/widgets/dialogs/imag
                                   final image = product.images[index];
 
                                   return ProductImageCachedWidget(
-                                    productId: product.productId,
+                                    productId: product.id,
                                     image: image,
                                     width: 60,
                                     height: 60,

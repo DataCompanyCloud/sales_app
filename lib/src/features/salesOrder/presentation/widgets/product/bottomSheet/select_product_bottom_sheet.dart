@@ -152,7 +152,7 @@ class SelectProductBottomSheetState extends ConsumerState<SelectProductBottomShe
                           child: SizedBox(
                             height: 220,
                             child:  ProductImageCachedWidget(
-                              productId: product.productId,
+                              productId: product.id,
                               image: imagePreview,
                               fit: BoxFit.cover,
                             ),
@@ -192,7 +192,7 @@ class SelectProductBottomSheetState extends ConsumerState<SelectProductBottomShe
                                       ),
                                       clipBehavior: Clip.antiAlias,
                                       child: ProductImageCachedWidget(
-                                        productId: product.productId,
+                                        productId: product.id,
                                         image: image,
                                         fit: BoxFit.cover,
                                       ),
@@ -437,7 +437,7 @@ class SelectProductBottomSheetState extends ConsumerState<SelectProductBottomShe
                           onPressed: () {
                             final selected = SalesOrderProduct(
                               productUuId: const Uuid().v4(),
-                              productId: product.productId,
+                              productId: product.id,
                               productCode: product.code,
                               productName: product.name,
                               quantity: 1,

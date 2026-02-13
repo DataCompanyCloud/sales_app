@@ -86,7 +86,7 @@ class SelectProductCardState extends ConsumerState<SelectProductCard> {
                   ),
                   child:
                   ProductImageCachedWidget(
-                    productId: product.productId,
+                    productId: product.id,
                     image: product.imagePrimary,
                     width: double.infinity,
                     height: 160,

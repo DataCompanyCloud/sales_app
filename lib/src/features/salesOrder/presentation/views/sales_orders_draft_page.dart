@@ -59,7 +59,7 @@ class SalesOrdersDraftPage extends ConsumerWidget {
                       onTap: () {
                         final loc = GoRouter.of(context).namedLocation(
                           SalesOrderRouter.create.name,
-                          queryParameters: {"orderId": order.orderId.toString()},
+                          queryParameters: {"orderId": order.id.toString()},
                         );
                         context.push(loc);
                       },

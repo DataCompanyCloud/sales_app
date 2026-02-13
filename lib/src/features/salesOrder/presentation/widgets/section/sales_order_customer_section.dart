@@ -29,7 +29,7 @@ class SalesOrderCustomerSectionState extends ConsumerState<SalesOrderCustomerSec
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final salesOrder = widget.order;
-    final salesOrderCustomer = salesOrder?.customer;
+    final salesOrderCustomer = salesOrder?.customerId;
 
     if (salesOrderCustomer == null || salesOrder == null) {
       return Column(
@@ -189,7 +189,7 @@ class SalesOrderCustomerSectionState extends ConsumerState<SalesOrderCustomerSec
                           IconButton(
                             onPressed: () {
                               final updated = salesOrder.updateCustomer(null);
-                              ref.read(salesOrderCreateControllerProvider(salesOrder.orderId).notifier).saveEdits(updated);
+                              ref.read(salesOrderCreateControllerProvider(salesOrder.id).notifier).saveEdits(updated);
                             },
                             icon: Icon(
                               Icons.delete_outline,
@@ -286,16 +286,16 @@ class SalesOrderCustomerSectionState extends ConsumerState<SalesOrderCustomerSec
       final newOrder = order.updateCustomer(selected);
 
       await ref
-          .read(salesOrderCreateControllerProvider(order.orderId).notifier)
+          .read(salesOrderCreateControllerProvider(order.id).notifier)
           .saveEdits(newOrder);
       return;
     }
 
     final newOrder = await ref
-        .read(salesOrderCreateControllerProvider(order?.orderId).notifier)
+        .read(salesOrderCreateControllerProvider(order?.id).notifier)
         .createNewOrder(customer: selected);
 
     if (!context.mounted) return;
-    router.goNamed(SalesOrderRouter.create.name, queryParameters: {"orderId": newOrder.orderId.toString()});
+    router.goNamed(SalesOrderRouter.create.name, queryParameters: {"orderId": newOrder.id.toString()});
   }
 }

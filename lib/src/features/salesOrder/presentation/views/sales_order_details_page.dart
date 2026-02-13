@@ -57,7 +57,7 @@ class SalesOrderDetailsPage extends ConsumerWidget {
                 IconButton(
                   onPressed: () {
                     if (controller.isLoading) return;
-                    final _ = ref.refresh(salesOrderDetailsControllerProvider(order.orderId));
+                    final _ = ref.refresh(salesOrderDetailsControllerProvider(order.id));
                   },
                   icon: Icon(Icons.refresh, size: 22,)
                 ),

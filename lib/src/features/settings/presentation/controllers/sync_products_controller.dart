@@ -20,7 +20,7 @@ class SyncProductsNotifier extends AsyncNotifier<SyncState> {
   }
 
   Future<Product> _saveProductImages(Product product) async {
-    final cacheService = ref.read(imageCacheServiceProvider("products/${product.productId}"));
+    final cacheService = ref.read(imageCacheServiceProvider("products/${product.id}"));
 
     final allImages = product.imagesAll;
 
