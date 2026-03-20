@@ -67,7 +67,7 @@ class StorageRepositoryImpl extends StorageRepository {
 
     store.runInTransaction(TxMode.write, () {
       for (final storage in storages) {
-        final existing = storageBox.get(storage.storageId);
+        final existing = storageBox.get(storage.id);
 
         final newModel = storage.maybeMap(
           raw: (r) => r.toModel(),
@@ -95,7 +95,7 @@ class StorageRepositoryImpl extends StorageRepository {
     final storageBox = store.box<StorageModel>();
 
     final id = store.runInTransaction(TxMode.write, () {
-      final existing = storageBox.get(storage.storageId);
+      final existing = storageBox.get(storage.id);
 
       final newModel = storage.maybeMap(
         raw: (r) => r.toModel(),
@@ -152,7 +152,7 @@ class StorageRepositoryImpl extends StorageRepository {
     final stockTransactionBox = store.box<StockTransactionModel>();
 
     store.runInTransaction(TxMode.write, () async {
-      final model = await storageBox.getAsync(storage.storageId);
+      final model = await storageBox.getAsync(storage.id);
 
       if (model == null) {
         throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Estoque não encontrado");

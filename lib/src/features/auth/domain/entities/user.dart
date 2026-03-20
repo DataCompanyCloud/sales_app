@@ -7,11 +7,12 @@ part 'user.g.dart';
 abstract class User with _$User {
   const factory User({
     required int id,
-    required String code,
+    required String uuid,
     required String firstName,
     required String lastName,
     required String email,
     required DateTime createdAt,
+    required String code,
     required String token,
     // required String refreshToken,
     // required List<Company> companies,

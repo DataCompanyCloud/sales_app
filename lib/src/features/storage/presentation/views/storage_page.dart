@@ -94,10 +94,10 @@ class StoragePageState extends ConsumerState<StoragePage>{
                           padding: const EdgeInsets.only(bottom: 4),
                           child: GestureDetector(
                             onTap: () {
-                              debugPrint('Clicando storageId: ${storage.storageId}');
+                              debugPrint('Clicando storageId: ${storage.id}');
 
                               context.pushNamed(
-                                StorageRouter.storage_details.name, queryParameters: {'storageId': storage.storageId.toString()},
+                                StorageRouter.storage_details.name, queryParameters: {'storageId': storage.id.toString()},
                                 extra: {
                                   'isMyStorage': false,
                                 }

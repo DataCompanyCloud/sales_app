@@ -1,4 +1,5 @@
 import 'package:objectbox/objectbox.dart';
+import 'package:sales_app/src/features/company/domain/entities/company.dart';
 import 'package:sales_app/src/features/stockTransaction/data/models/stock_transaction_model.dart';
 import 'package:sales_app/src/features/storage/domain/entities/storage.dart';
 
@@ -7,21 +8,31 @@ class StorageModel {
   @Id()
   int id;
 
-  int storageId;
+  String uuid;
+  String code;
   String name;
-  String? description;
+  bool isSystem;
   bool isActive;
-  DateTime updatedAt;
+  int? companyId;
+  Company? company;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? description;
 
   final transaction = ToMany<StockTransactionModel>();
 
   StorageModel ({
     this.id = 0,
-    this.storageId = 0,
+    required this.uuid,
+    required this.code,
     required this.name,
-    this.description,
+    required this.isSystem,
     required this.isActive,
-    required this.updatedAt
+    this.companyId,
+    this.company,
+    this.createdAt,
+    this.updatedAt,
+    this.description,
   });
 }
 
@@ -30,11 +41,17 @@ extension StorageModelMapper on StorageModel {
   Storage toEntity() {
 
     return Storage.raw(
-      storageId: storageId,
+      id: id,
+      uuid: uuid,
+      code: code,
       name: name,
-      description: description,
+      isSystem: isSystem,
       isActive: isActive,
+      companyId: companyId,
+      company: company,
+      createdAt: createdAt,
       updatedAt: updatedAt,
+      description: description,
     );
   }
 }
@@ -43,11 +60,17 @@ extension StorageMapper on Storage {
   /// De Storage → StorageModel
   StorageModel toModel() {
     final model = StorageModel(
-      storageId: storageId,
+      id: id,
+      uuid: uuid,
+      code: code,
       name: name,
-      description: description,
+      isSystem: isSystem,
       isActive: isActive,
+      companyId: companyId,
+      company: company,
+      createdAt: createdAt,
       updatedAt: updatedAt,
+      description: description,
     );
 
     return model;

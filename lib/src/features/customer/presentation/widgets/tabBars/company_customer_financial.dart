@@ -25,6 +25,7 @@ class CompanyCustomerFinancial extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Crédito
             Row(
               children: [
                 Container(
@@ -34,13 +35,13 @@ class CompanyCustomerFinancial extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(
-                    Icons.monetization_on,
+                    Icons.credit_card,
                     color: scheme.primary,
                   ),
                 ),
                 const SizedBox(width: 8),
                 const Text(
-                  "Informações Adicionais",
+                  "Crédito",
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
@@ -48,7 +49,7 @@ class CompanyCustomerFinancial extends ConsumerWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             Row(
               children: [
                 const Text(
@@ -69,32 +70,6 @@ class CompanyCustomerFinancial extends ConsumerWidget {
                 Text(
                   generatePrice(),
                   style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                const Text(
-                  "Limite Disponível",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: DottedLine(
-                        dashLength: 1,
-                        dashColor: Colors.white
-                    ),
-                  ),
-                ),
-                Text(
-                  generatePrice(),
-                  style: TextStyle(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -127,6 +102,57 @@ class CompanyCustomerFinancial extends ConsumerWidget {
               ],
             ),
             const SizedBox(height: 8),
+            Row(
+              children: [
+                const Text(
+                  "Limite Disponível",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: DottedLine(
+                        dashLength: 1,
+                        dashColor: Colors.white
+                    ),
+                  ),
+                ),
+                Text(
+                  generatePrice(),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            // Títulos
+            Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: scheme.primary.withValues(alpha: .12),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(
+                    Icons.receipt_long,
+                    color: scheme.primary,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                const Text(
+                  "Títulos",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
             Row(
               children: [
                 const Text(
@@ -230,7 +256,32 @@ class CompanyCustomerFinancial extends ConsumerWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 16),
+            // Informações adicionais
+            Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: scheme.primary.withValues(alpha: .12),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(
+                    Icons.monetization_on,
+                    color: scheme.primary,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                const Text(
+                  "Informações Adicionais",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
             Row(
               children: [
                 const Text(
@@ -260,7 +311,7 @@ class CompanyCustomerFinancial extends ConsumerWidget {
             Row(
               children: [
                 const Text(
-                  "Valor médio do pedido",
+                  "Data do pedido de maior valor",
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                   ),
@@ -286,7 +337,7 @@ class CompanyCustomerFinancial extends ConsumerWidget {
             Row(
               children: [
                 const Text(
-                  "Data do pedido de maior valor",
+                  "Valor médio do pedido",
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                   ),
