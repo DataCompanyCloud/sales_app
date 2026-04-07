@@ -7,6 +7,7 @@ import 'package:sales_app/src/core/exceptions/app_exception_code.dart';
 import 'package:sales_app/src/features/auth/domain/entities/user.dart';
 import 'package:sales_app/src/features/company/domain/entities/company_group.dart';
 import 'package:sales_app/src/features/company/domain/repositories/company_group_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   final ApiClient apiClient;
@@ -20,6 +21,10 @@ class AuthService {
         'login': login,
         'password': password,
       });
+
+      final token = json['token'];
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('token', token);
 
       final userJson = json['user'] as Map<String, dynamic>;
       final groupsJson = json['groups'] as List<dynamic>;
