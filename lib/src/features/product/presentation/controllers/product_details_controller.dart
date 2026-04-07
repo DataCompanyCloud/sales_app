@@ -10,20 +10,20 @@ import 'package:sales_app/src/features/product/providers.dart';
 //
 // }
 
-class ProductDetailsController extends AutoDisposeFamilyAsyncNotifier<Product, int>{
+class ProductDetailsController extends AutoDisposeFamilyAsyncNotifier<Product, String>{
   @override
-  FutureOr<Product> build(int productId) async {
+  FutureOr<Product> build(String code) async {
     final service = await ref.watch(productServiceProvider.future);
     final repository = await ref.watch(productRepositoryProvider.future);
 
     try {
-      final remote = await service.getById(productId);
+      final remote = await service.getById(code);
       await repository.save(remote);
       return remote;
     } catch (e) {
       // print(e);
     }
 
-    return await repository.fetchById(productId);
+    return await repository.fetchByCode(code);
   }
 }

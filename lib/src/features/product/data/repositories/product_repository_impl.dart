@@ -73,11 +73,12 @@ class ProductRepositoryImpl extends ProductRepository {
   }
 
   @override
-  Future<Product> fetchById(int productId) async {
+  Future<Product> fetchByCode(String code) async {
     try {
       final productBox = store.box<ProductModel>();
 
-      final model = await productBox.getAsync(productId);
+      final query = productBox.query(ProductModel_.code.equals(code)).build();
+      final model = await query.findFirstAsync();
 
       if (model == null) {
         throw AppException(AppExceptionCode.CODE_004_PRODUCT_LOCAL_NOT_FOUND, "Produto não encontrado");
