@@ -53,8 +53,8 @@ final customerRoutes = GoRoute(
       path: 'customer_details',
       name: CustomerRouter.customerDetails.name,
       pageBuilder: (ctx, state) {
-        final customerId = state.extra as int;
-        return fadePage(child: CustomerDetails(customerId: customerId), key: state.pageKey);
+        final uuid = state.extra as String;
+        return fadePage(child: CustomerDetails(uuid: uuid), key: state.pageKey);
       },
       routes: [
         // GoRoute(

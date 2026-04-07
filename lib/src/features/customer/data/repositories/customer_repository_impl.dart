@@ -45,11 +45,13 @@ class CustomerRepositoryImpl extends CustomerRepository{
   }
 
   @override
-  Future<Customer> fetchById(int customerId) async {
+  Future<Customer> fetchByUuId(String uuid) async {
     try {
       final customerBox = store.box<CustomerModel>();
 
-      final model = await customerBox.getAsync(customerId);
+      final query = customerBox.query(CustomerModel_.uuid.equals(uuid)).build();
+      final model = await query.findFirstAsync();
+      query.close();
 
       if (model == null) {
         throw AppException(AppExceptionCode.CODE_001_CUSTOMER_LOCAL_NOT_FOUND, "Cliente não encontrado");

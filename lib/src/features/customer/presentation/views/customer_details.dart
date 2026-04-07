@@ -9,16 +9,16 @@ import 'package:sales_app/src/features/customer/providers.dart';
 import 'package:sales_app/src/features/error/presentation/views/error_page.dart';
 
 class CustomerDetails extends ConsumerWidget {
-  final int customerId;
+  final String uuid;
 
   const CustomerDetails ({
     super.key,
-    required this.customerId
+    required this.uuid
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = ref.watch(customerDetailsControllerProvider(customerId));
+    final controller = ref.watch(customerDetailsControllerProvider(uuid));
 
     return controller.when(
       error: (error, stack) => ErrorPage(

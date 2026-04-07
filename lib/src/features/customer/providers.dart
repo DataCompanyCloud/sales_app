@@ -40,6 +40,6 @@ final customerControllerProvider = AutoDisposeAsyncNotifierProvider<CustomerCont
   CustomerController.new,
 );
 
-final customerDetailsControllerProvider = AsyncNotifierProvider.autoDispose.family<CustomerDetailsController,Customer,int>(
+final customerDetailsControllerProvider = AsyncNotifierProvider.autoDispose.family<CustomerDetailsController,Customer,String>(
   CustomerDetailsController.new,
 );

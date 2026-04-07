@@ -17,6 +17,8 @@ class CustomerModel {
   /// customerId
   @Id()
   int id;                 // local
+
+  @Index()
   String uuid;    // obrigatório, gerado no app
 
   String? code;

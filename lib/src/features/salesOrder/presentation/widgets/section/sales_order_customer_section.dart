@@ -111,7 +111,7 @@ class SalesOrderCustomerSectionState extends ConsumerState<SalesOrderCustomerSec
       );
     }
 
-    final controller = ref.watch(customerDetailsControllerProvider(salesOrderCustomer.customerId));
+    final controller = ref.watch(customerDetailsControllerProvider(salesOrderCustomer.customerUuId));
     return controller.when(
       error: (error, stack) => Text("error"),
       loading: _skeleton,

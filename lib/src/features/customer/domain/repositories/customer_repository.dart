@@ -35,7 +35,7 @@ abstract class CustomerRepository {
   /// Busca todos os Clientes
   Future<List<Customer>> fetchAll(CustomerFilter filter);
   /// Busca um cliente pelo ID
-  Future<Customer> fetchById(int customerId);
+  Future<Customer> fetchByUuId(String uuid);
   /// Salva vários cliente
   Future<void> saveAll(List<Customer> customers);
   /// Salva um cliente
