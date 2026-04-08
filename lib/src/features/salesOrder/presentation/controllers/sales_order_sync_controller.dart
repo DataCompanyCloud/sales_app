@@ -4,11 +4,11 @@ import 'package:sales_app/src/core/providers/connectivity_provider.dart';
 import 'package:sales_app/src/features/salesOrder/domain/entities/sales_order.dart';
 import 'package:sales_app/src/features/salesOrder/providers.dart';
 
-class SalesOrderSyncController extends AutoDisposeFamilyAsyncNotifier<SalesOrder?, int?> {
+class SalesOrderSyncController extends AutoDisposeFamilyAsyncNotifier<SalesOrder?, String?> {
 
   @override
-  Future<SalesOrder?> build(int? orderId) async {
-    if (orderId == null) return null;
+  Future<SalesOrder?> build(String? uuid) async {
+    if (uuid == null) return null;
 
     final isConnected = ref.read(isConnectedProvider);
     // Se não está conectado → não sincroniza
@@ -16,7 +16,7 @@ class SalesOrderSyncController extends AutoDisposeFamilyAsyncNotifier<SalesOrder
 
     try {
       final repository = await ref.read(salesOrderRepositoryProvider.future);
-      final remote = await repository.fetchById(orderId);
+      final remote = await repository.fetchByUuId(uuid);
 
       final service = await ref.read(salesOrderServiceProvider.future);
       await service.save(remote);

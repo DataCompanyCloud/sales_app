@@ -49,7 +49,7 @@ abstract class SalesOrderRepository {
   /// Busca todos os Pedidos
   Future<List<SalesOrder>> fetchAll(SalesOrderFilter filter);
   /// Busca um pedido pelo ID
-  Future<SalesOrder> fetchById(int orderId);
+  Future<SalesOrder> fetchByUuId(String uuid);
   /// Salva vários pedidos
   Future<void> saveAll(List<SalesOrder> orders);
   /// Salva um pedido

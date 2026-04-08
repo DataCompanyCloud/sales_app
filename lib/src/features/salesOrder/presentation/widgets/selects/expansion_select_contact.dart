@@ -134,7 +134,7 @@ class _ExpansionSelectCustomerContactState extends ConsumerState<ExpansionSelect
                     return InkWell(
                       onTap: () {
                         final updated = salesOrder.updateCustomerContact(contact);
-                        ref.read(salesOrderCreateControllerProvider(salesOrder.id).notifier).saveEdits(updated);
+                        ref.read(salesOrderCreateControllerProvider(salesOrder.uuid).notifier).saveEdits(updated);
                         ref.read(isOpenProvider.notifier).state = false;
                       },
                       child: Padding(

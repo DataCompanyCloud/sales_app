@@ -36,10 +36,10 @@ class SalesOrderService {
     );
   }
 
-  Future<SalesOrder> getById(int orderId) async {
+  Future<SalesOrder> getByUuId(String uuid) async {
     try {
       final json = await apiClient.get<Map<String, dynamic>>(
-        ApiEndpoints.orderById(orderId: orderId));
+        ApiEndpoints.orderByUuId(uuid: uuid));
       return SalesOrder.fromJson(json);
     } on DioException catch (e) {
       final status = e.response?.statusCode;

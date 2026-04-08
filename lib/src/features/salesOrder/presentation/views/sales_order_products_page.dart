@@ -11,11 +11,11 @@ import 'package:sales_app/src/features/salesOrder/providers.dart';
 
 
 class SalesOrderProductsPage extends ConsumerStatefulWidget {
-  final int? orderId;
+  final String? uuid;
 
   const SalesOrderProductsPage({
     super.key,
-    required this.orderId
+    required this.uuid
   });
 
 
@@ -27,7 +27,7 @@ class SalesOrderProductsPageState extends ConsumerState<SalesOrderProductsPage> 
 
   @override
   Widget build(BuildContext context) {
-    final controller = ref.watch(salesOrderCreateControllerProvider(widget.orderId));
+    final controller = ref.watch(salesOrderCreateControllerProvider(widget.uuid));
 
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;

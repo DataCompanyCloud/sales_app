@@ -38,10 +38,9 @@ final orderRoutes = GoRoute(
       name: SalesOrderRouter.create.name,
       pageBuilder: (ctx, state) {
         // ?orderId=123
-        final orderIdStr = state.uri.queryParameters['orderId'];
-        final orderId = orderIdStr != null ? int.tryParse(orderIdStr) : null;
+        final uuid = state.uri.queryParameters['uuid'];
 
-        return fadePage(child: SalesOrderCreatePage(orderId: orderId), key: state.pageKey);
+        return fadePage(child: SalesOrderCreatePage(uuid: uuid,), key: state.pageKey);
       },
       routes: [
         GoRoute(
@@ -58,10 +57,9 @@ final orderRoutes = GoRoute(
           name: SalesOrderRouter.products_details.name,
           pageBuilder: (ctx, state) {
             // ?orderId=123
-            final orderIdStr = state.uri.queryParameters['orderId'];
-            final orderId = orderIdStr != null ? int.tryParse(orderIdStr) : null;
+            final uuid = state.uri.queryParameters['uuid'];
 
-            return fadePage(child: SalesOrderProductsPage(orderId: orderId), key: state.pageKey);
+            return fadePage(child: SalesOrderProductsPage(uuid: uuid), key: state.pageKey);
           },
           routes: [
             GoRoute(
@@ -111,10 +109,9 @@ final orderRoutes = GoRoute(
       path: ':orderId', // /orders/:orderId
       name: SalesOrderRouter.details.name,
       pageBuilder: (ctx, state) {
-        final idStr = state.pathParameters['orderId'];
-        final orderId = int.tryParse(idStr ?? '');
+        final uuid = state.pathParameters['uuid'];
 
-        if (orderId == null) {
+        if (uuid == null) {
            return fadePage(
              child: Scaffold(
                body: Center(child: Text('Order inválida')),
@@ -123,7 +120,7 @@ final orderRoutes = GoRoute(
            );
         }
 
-        return fadePage(child: SalesOrderDetailsPage(orderId: orderId), key: state.pageKey);
+        return fadePage(child: SalesOrderDetailsPage(uuid: uuid), key: state.pageKey);
       },
     ),
   ]

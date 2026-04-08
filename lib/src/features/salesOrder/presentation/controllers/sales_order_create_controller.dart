@@ -15,30 +15,30 @@ import 'package:sales_app/src/features/salesOrder/domain/valueObjects/sales_orde
 import 'package:sales_app/src/features/salesOrder/providers.dart';
 import 'package:uuid/uuid.dart';
 
-class SalesOrderCreateController extends AutoDisposeFamilyAsyncNotifier<SalesOrder?, int?>{
+class SalesOrderCreateController extends AutoDisposeFamilyAsyncNotifier<SalesOrder?, String?>{
 
   @override
-  FutureOr<SalesOrder?> build(int? orderId) async {
-    if (orderId == null) return null;
+  FutureOr<SalesOrder?> build(String? uuid) async {
+    if (uuid == null) return null;
 
     final service = await ref.watch(salesOrderServiceProvider.future);
     final repository = await ref.watch(salesOrderRepositoryProvider.future);
 
     try {
-      final remote = await service.getById(orderId);
+      final remote = await service.getByUuId(uuid);
       await repository.save(remote);
 
     } catch (e) {
       // print(e);
     }
 
-    return await repository.fetchById(orderId);
+    return await repository.fetchByUuId(uuid);
   }
 
   /// 1) Refresh "global" — força a tela voltar pra loading
   Future<void> refresh() async {
-    final orderId = arg; // em Riverpod 2.x, `arg` é o parâmetro da family
-    if (orderId == null) return;
+    final uuid = arg; // em Riverpod 2.x, `arg` é o parâmetro da family
+    if (uuid == null) return;
 
     state = const AsyncLoading(); // aqui SIM queremos loading global
 
@@ -46,10 +46,10 @@ class SalesOrderCreateController extends AutoDisposeFamilyAsyncNotifier<SalesOrd
     final repository = await ref.read(salesOrderRepositoryProvider.future);
 
     try {
-      final remote = await service.getById(orderId);
+      final remote = await service.getByUuId(uuid);
       await repository.save(remote);
 
-      final local = await repository.fetchById(orderId);
+      final local = await repository.fetchByUuId(uuid);
       state = AsyncData(local);
     } catch (e, st) {
       state = AsyncError(e, st);
@@ -162,54 +162,53 @@ class SalesOrderCreateController extends AutoDisposeFamilyAsyncNotifier<SalesOrd
 }
 
 
-SalesOrderCustomer fakerOrderCustomer () {
-  return SalesOrderCustomer(
-      customerId: random.integer(1000, min: 1),
-      customerCode: random.integer(1000, min: 1).toString().padLeft(2, "00000"),
-      customerUuId: const Uuid().v4(),
-      customerName: "${faker.company.name()} ${faker.company.name()}",
-      contactInfo: null,
-      address: null
-  );
-}
-
-
-SalesOrderProduct fakerOrderProduct (int index, Money unitPrice) {
-  return SalesOrderProduct(
-      productId: index,
-      productUuId: const Uuid().v4(),
-      productCode: index.toString().padLeft(2, "00000"),
-      productName: "${faker.animal.name()} ${faker.food.cuisine()}",
-      quantity: random.integer(10, min: 1).toDouble(),
-      unitPrice: unitPrice,
-      fiscal: ProductFiscal(ncm: "", origem: 0, icmsInterno: Percentage(value: 0.0))
-  );
-}
-
-SalesOrder fakerOrder(int index) {
-  Money total = Money.zero();
-
-  final items = List.generate(random.integer(5, min: 0), (index) {
-    final money = Money(amount: random.integer(50, min: 1));
-    total = total.plus(money);
-    return fakerOrderProduct(index, money);
-  });
-
-  return SalesOrder(
-      id: index,
-      uuid: const Uuid().v4(),
-      code: random.boolean() ? random.integer(1000, min: 10).toString().padLeft(2, "00000"): null,
-      createdAt: DateTime.now(),
-      status: SalesOrderStatus.draft,
-      itemsCount: items.length,
-      customerId: random.boolean() ? null: fakerOrderCustomer(),
-      total: total,
-      // items: items,
-      orderPaymentMethods: [], companyGroup: []
-  );
-}
-
-List<SalesOrder> fakerOrders () {
-  final orders = List.generate(random.integer(5, min: 0), (index) => fakerOrder(index));
-  return orders;
-}
+// SalesOrderCustomer fakerOrderCustomer () {
+//   return SalesOrderCustomer(
+//       customerId: random.integer(1000, min: 1),
+//       customerCode: random.integer(1000, min: 1).toString().padLeft(2, "00000"),
+//       customerUuId: const Uuid().v4(),
+//       customerName: "${faker.company.name()} ${faker.company.name()}",
+//       contactInfo: null,
+//       address: null
+//   );
+// }
+//
+// SalesOrderProduct fakerOrderProduct (int index, Money unitPrice) {
+//   return SalesOrderProduct(
+//       productId: index,
+//       productUuId: const Uuid().v4(),
+//       productCode: index.toString().padLeft(2, "00000"),
+//       productName: "${faker.animal.name()} ${faker.food.cuisine()}",
+//       quantity: random.integer(10, min: 1).toDouble(),
+//       unitPrice: unitPrice,
+//       fiscal: ProductFiscal(ncm: "", origem: 0, icmsInterno: Percentage(value: 0.0))
+//   );
+// }
+//
+// SalesOrder fakerOrder(int index) {
+//   Money total = Money.zero();
+//
+//   final items = List.generate(random.integer(5, min: 0), (index) {
+//     final money = Money(amount: random.integer(50, min: 1));
+//     total = total.plus(money);
+//     return fakerOrderProduct(index, money);
+//   });
+//
+//   return SalesOrder(
+//       id: index,
+//       uuid: const Uuid().v4(),
+//       code: random.boolean() ? random.integer(1000, min: 10).toString().padLeft(2, "00000"): null,
+//       createdAt: DateTime.now(),
+//       status: SalesOrderStatus.draft,
+//       itemsCount: items.length,
+//       customerId: random.boolean() ? null: fakerOrderCustomer(),
+//       total: total,
+//       // items: items,
+//       orderPaymentMethods: [], companyGroup: []
+//   );
+// }
+//
+// List<SalesOrder> fakerOrders () {
+//   final orders = List.generate(random.integer(5, min: 0), (index) => fakerOrder(index));
+//   return orders;
+// }

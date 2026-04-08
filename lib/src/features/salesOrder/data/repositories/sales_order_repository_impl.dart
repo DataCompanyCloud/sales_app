@@ -69,11 +69,13 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
   }
 
   @override
-  Future<SalesOrder> fetchById(int orderId) async {
+  Future<SalesOrder> fetchByUuId(String uuid) async {
     try {
       final salesOrderBox = store.box<SalesOrderModel>();
 
-      final model = await salesOrderBox.getAsync(orderId);
+      final query = salesOrderBox.query(SalesOrderModel_.uuid.equals(uuid)).build();
+      final model = await query.findFirstAsync();
+      query.close();
 
       if (model == null) {
         throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Pedido não encontrado");

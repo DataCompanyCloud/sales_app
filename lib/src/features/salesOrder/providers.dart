@@ -40,11 +40,11 @@ final salesOrderControllerProvider = AutoDisposeAsyncNotifierProvider<SalesOrder
   return SalesOrderController();
 });
 
-final salesOrderCreateControllerProvider = AsyncNotifierProvider.autoDispose.family<SalesOrderCreateController, SalesOrder?, int?>(
+final salesOrderCreateControllerProvider = AsyncNotifierProvider.autoDispose.family<SalesOrderCreateController, SalesOrder?, String?>(
   SalesOrderCreateController.new,
 );
 
-final salesOrderDetailsControllerProvider = AsyncNotifierProvider.autoDispose.family<SalesOrderDetailsController, SalesOrder, int>(
+final salesOrderDetailsControllerProvider = AsyncNotifierProvider.autoDispose.family<SalesOrderDetailsController, SalesOrder, String>(
   SalesOrderDetailsController.new,
 );
 

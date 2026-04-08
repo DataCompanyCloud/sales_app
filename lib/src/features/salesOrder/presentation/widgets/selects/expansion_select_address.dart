@@ -139,7 +139,7 @@ class _ExpansionSelectCustomerAddressState extends ConsumerState<ExpansionSelect
                   return InkWell(
                     onTap: () {
                       final updated = salesOrder.updateCustomerAddress(address);
-                      ref.read(salesOrderCreateControllerProvider(salesOrder.id).notifier).saveEdits(updated);
+                      ref.read(salesOrderCreateControllerProvider(salesOrder.uuid).notifier).saveEdits(updated);
                       ref.read(isOpenProvider.notifier).state = false;
                     },
                     child: Padding(

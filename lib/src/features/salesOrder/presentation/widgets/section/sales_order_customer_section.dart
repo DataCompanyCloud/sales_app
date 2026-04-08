@@ -189,7 +189,7 @@ class SalesOrderCustomerSectionState extends ConsumerState<SalesOrderCustomerSec
                           IconButton(
                             onPressed: () {
                               final updated = salesOrder.updateCustomer(null);
-                              ref.read(salesOrderCreateControllerProvider(salesOrder.id).notifier).saveEdits(updated);
+                              ref.read(salesOrderCreateControllerProvider(salesOrder.uuid).notifier).saveEdits(updated);
                             },
                             icon: Icon(
                               Icons.delete_outline,
@@ -286,13 +286,13 @@ class SalesOrderCustomerSectionState extends ConsumerState<SalesOrderCustomerSec
       final newOrder = order.updateCustomer(selected);
 
       await ref
-          .read(salesOrderCreateControllerProvider(order.id).notifier)
+          .read(salesOrderCreateControllerProvider(order.uuid).notifier)
           .saveEdits(newOrder);
       return;
     }
 
     final newOrder = await ref
-        .read(salesOrderCreateControllerProvider(order?.id).notifier)
+        .read(salesOrderCreateControllerProvider(order?.uuid).notifier)
         .createNewOrder(customer: selected);
 
     if (!context.mounted) return;

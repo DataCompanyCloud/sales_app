@@ -14,11 +14,11 @@ import 'package:sales_app/src/features/salesOrder/presentation/widgets/skeleton/
 import 'package:sales_app/src/features/salesOrder/providers.dart';
 
 class SalesOrderCreatePage extends ConsumerStatefulWidget {
-  final int? orderId;
+  final String? uuid;
 
   const SalesOrderCreatePage({
     super.key,
-    required this.orderId,
+    required this.uuid,
   });
 
 
@@ -34,7 +34,7 @@ class SalesOrderCreatePageState extends ConsumerState<SalesOrderCreatePage> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = ref.watch(salesOrderCreateControllerProvider(widget.orderId));
+    final controller = ref.watch(salesOrderCreateControllerProvider(widget.uuid));
     
     return controller.when(
       error: (error, stack ) => ErrorPage(

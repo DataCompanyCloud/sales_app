@@ -10,17 +10,17 @@ import 'package:sales_app/src/features/salesOrder/presentation/widgets/skeleton/
 import 'package:sales_app/src/features/salesOrder/providers.dart';
 
 class SalesOrderDetailsPage extends ConsumerWidget {
-  final int orderId;
+  final String uuid;
   final _tabBarIndexProvider = StateProvider((ref) => 0);
 
   SalesOrderDetailsPage({
     super.key,
-    required this.orderId,
+    required this.uuid,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = ref.watch(salesOrderDetailsControllerProvider(orderId));
+    final controller = ref.watch(salesOrderDetailsControllerProvider(uuid));
     final tabBarIndex = ref.watch(_tabBarIndexProvider);
 
 
@@ -57,7 +57,7 @@ class SalesOrderDetailsPage extends ConsumerWidget {
                 IconButton(
                   onPressed: () {
                     if (controller.isLoading) return;
-                    final _ = ref.refresh(salesOrderDetailsControllerProvider(order.id));
+                    final _ = ref.refresh(salesOrderDetailsControllerProvider(order.uuid));
                   },
                   icon: Icon(Icons.refresh, size: 22,)
                 ),
