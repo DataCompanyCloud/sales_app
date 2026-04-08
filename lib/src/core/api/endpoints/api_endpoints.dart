@@ -11,7 +11,7 @@ class ApiEndpoints {
   /// /customers
   /// Rota para obter customers
   static const String customers = '/$api/$version/customers';
-  static String customerById({required String uuid}) => '/$api/$version/customers/$uuid';
+  static String customerByUuId({required String uuid}) => '/$api/$version/customers/$uuid';
 
 // Posts
   // static const String postsList     = '/posts';
@@ -20,12 +20,12 @@ class ApiEndpoints {
   /// /products
   /// Rota para obter products
   static const String products = '/$api/$version/products';
-  static String productById({required String code}) => '/$api/$version/products/${code.trim().toUpperCase()}';
+  static String productByCode({required String code}) => '/$api/$version/products/${code.trim().toUpperCase()}';
 
   /// /orders
   /// Rota para obter orders
   static const String orders = '/$api/$version/orders';
-  static String orderById({required int orderId}) => '/$api/$version/orders/$orderId';
+  static String orderByUuId({required String uuid}) => '/$api/$version/orders/$uuid';
 
   /// /storages
   /// Rota para obter storages
