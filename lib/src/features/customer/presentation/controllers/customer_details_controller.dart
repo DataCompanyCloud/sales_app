@@ -12,7 +12,7 @@ class CustomerDetailsController extends AutoDisposeFamilyAsyncNotifier<Customer,
 
     // 1) Tenta servidor
     try {
-      final remote = await service.getById(uuid);
+      final remote = await service.getByUuId(uuid);
       await repository.save(remote); // mantém cache atualizado
       return remote;
     } catch (e) {

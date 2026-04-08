@@ -33,10 +33,10 @@ class CustomerService {
     );
   }
 
-  Future<Customer> getById(String uuid) async {
+  Future<Customer> getByUuId(String uuid) async {
     try {
       final json = await apiClient.get<Map<String, dynamic>>(
-          ApiEndpoints.customerById(uuid: uuid));
+          ApiEndpoints.customerByUuId(uuid: uuid));
       return Customer.fromJson(json);
     } on DioException catch (e) {
       final status = e.response?.statusCode;
