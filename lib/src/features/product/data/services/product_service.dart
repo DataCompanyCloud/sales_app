@@ -36,7 +36,7 @@ class ProductService {
   Future<Product> getById(String code) async {
     try {
       final json = await apiClient.get<Map<String, dynamic>>(
-          ApiEndpoints.productById(code: code));
+          ApiEndpoints.productByCode(code: code));
       return Product.fromJson(json);
     } on DioException catch (e) {
       final status = e.response?.statusCode;
