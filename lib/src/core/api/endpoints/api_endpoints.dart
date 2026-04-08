@@ -30,9 +30,9 @@ class ApiEndpoints {
   /// /storages
   /// Rota para obter storages
   static const String storages = '/$api/$version/storages';
-  static String storageById({required int storageId}) => '/$api/$version/storages/$storageId';
-  static String storageProducts({required int storageId}) => '/$api/$version/storages/$storageId/products';
-  static String storageProductById({required int storageId, required int productId}) => '/$api/$version/storages/$storageId/products/$productId';
+  static String storageByCode({required String code}) => '/$api/$version/storages/$code';
+  static String storageProducts({required String storageCode}) => '/$api/$version/storages/$storageCode/products';
+  static String storageProductByCode({required String storageCode, required String productCode}) => '/$api/$version/storages/${storageCode.trim().toUpperCase()}/products/${productCode.trim().toUpperCase()}';
 
   /// /stockTransaction
   /// Rota para obter stockTransactions
