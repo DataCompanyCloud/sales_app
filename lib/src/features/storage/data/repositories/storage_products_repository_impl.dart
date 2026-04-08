@@ -15,7 +15,7 @@ class StorageProductsRepositoryImpl extends StorageProductsRepository {
   @override
   Future<List<StorageProduct>> fetchAll(StorageProductsFilter filter) async {
     final box = store.box<StorageProductModel>();
-    Condition<StorageProductModel> cond = StorageProductModel_.storageId.equals(filter.storageId);
+    Condition<StorageProductModel> cond = StorageProductModel_.storageCode.equals(filter.storageCode);
 
     final raw = filter.q?.trim();
     if (raw != null && raw.isNotEmpty) {
@@ -35,11 +35,13 @@ class StorageProductsRepositoryImpl extends StorageProductsRepository {
   }
 
   @override
-  Future<StorageProduct> fetchById(int storageId, int productId) async {
+  Future<StorageProduct> fetchByCode(String storageCode, String productCode) async {
     try {
       final storageProductBox = store.box<StorageProductModel>();
 
-      final model = await storageProductBox.getAsync(storageId);
+      final query = storageProductBox.query(StorageProductModel_.storageCode.equals(storageCode)).build();
+      final model = await query.findFirstAsync();
+      query.close();
 
       if (model == null) {
         throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Produtos do estoque não encontrado");
@@ -114,7 +116,7 @@ class StorageProductsRepositoryImpl extends StorageProductsRepository {
   }
 
   @override
-  Future<void> deleteAll(int storageId) async {
+  Future<void> deleteAll(String storageCode) async {
     final storageProductBox = store.box<StorageProductModel>();
 
     store.runInTransaction(TxMode.write, () {

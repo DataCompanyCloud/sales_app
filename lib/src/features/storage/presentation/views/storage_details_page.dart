@@ -5,12 +5,12 @@ import 'package:sales_app/src/features/storage/presentation/widgets/screens/stor
 import 'package:sales_app/src/features/storage/presentation/widgets/screens/storage_product_details_screen.dart';
 
 class StorageDetailsPage extends ConsumerStatefulWidget {
-  final int storageId;
+  final String storageCode;
   final bool isMyStorage;
 
   const StorageDetailsPage({
     super.key,
-    required this.storageId,
+    required this.storageCode,
     required this.isMyStorage
   });
 
@@ -25,7 +25,7 @@ class StorageDetailsPageState extends ConsumerState<StorageDetailsPage>{
   Widget build(BuildContext context) {
     final tabBarIndex = ref.watch(_tabBarIndexProvider);
 
-    final storageId = widget.storageId;
+    final storageCode = widget.storageCode;
 
     return DefaultTabController(
       length: 2,
@@ -52,7 +52,7 @@ class StorageDetailsPageState extends ConsumerState<StorageDetailsPage>{
         ),
         body: TabBarView(
           children: [
-            StorageProductDetailsScreen(storageId: storageId),
+            StorageProductDetailsScreen(storageCode: storageCode),
             StorageMovementDetailsScreen()
           ]
         ),

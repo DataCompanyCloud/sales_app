@@ -28,8 +28,8 @@ final storageFilterProvider = StateProvider.autoDispose<StorageFilter>((ref) {
   return StorageFilter();
 });
 
-final storageProductsFilterProvider = StateProvider.autoDispose.family<StorageProductsFilter, int>((ref, storageId) {
-  return StorageProductsFilter(storageId: storageId);
+final storageProductsFilterProvider = StateProvider.autoDispose.family<StorageProductsFilter, String>((ref, storageCode) {
+  return StorageProductsFilter(storageCode: storageCode);
 });
 
 enum StorageMovementStatusFilter {
@@ -50,11 +50,11 @@ final storageControllerProvider = AutoDisposeAsyncNotifierProvider<StorageContro
   return StorageController();
 });
 
-final storageProductsControllerProvider = AsyncNotifierProvider.autoDispose.family<StorageProductsController, StorageProductsPagination, int>(
+final storageProductsControllerProvider = AsyncNotifierProvider.autoDispose.family<StorageProductsController, StorageProductsPagination, String>(
   StorageProductsController.new,
 );
 
-final storageDetailsControllerProvider = AsyncNotifierProvider.autoDispose.family<StorageDetailsController, Storage, int?>(
+final storageDetailsControllerProvider = AsyncNotifierProvider.autoDispose.family<StorageDetailsController, Storage, String?>(
   StorageDetailsController.new,
 );
 

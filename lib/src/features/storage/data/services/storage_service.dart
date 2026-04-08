@@ -35,10 +35,10 @@ class StorageService {
     );
   }
 
-  Future<Storage> getById(int storageId) async {
+  Future<Storage> getByCode(String code) async {
     try {
       final json = await apiClient.get<Map<String, dynamic>>(
-          ApiEndpoints.storageById(storageId: storageId));
+          ApiEndpoints.storageByCode(code: code));
       return Storage.fromJson(json);
     } on DioException catch (e) {
       final status = e.response?.statusCode;

@@ -42,11 +42,13 @@ class StorageRepositoryImpl extends StorageRepository {
   }
 
   @override
-  Future<Storage> fetchById(int storageId) async {
+  Future<Storage> fetchByCode(String storageCode) async {
     try {
       final storageBox = store.box<StorageModel>();
 
-      final model = await storageBox.getAsync(storageId);
+      final query = storageBox.query(StorageModel_.code.equals(storageCode)).build();
+      final model = await query.findFirstAsync();
+      query.close();
 
       if (model == null) {
         throw AppException(AppExceptionCode.CODE_000_ERROR_UNEXPECTED, "Estoque não encontrado");

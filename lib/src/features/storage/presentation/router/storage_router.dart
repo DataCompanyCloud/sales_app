@@ -32,13 +32,14 @@ final storageRoutes = GoRoute(
           );
         }
 
+        final storageCode = state.extra as String;
         final isMyStorage = state.extra is Map
           ? (state.extra as Map)['isMyStorage'] ?? false
           : false;
 
         return fadePage(
           child: StorageDetailsPage(
-            storageId: storageId,
+            storageCode: storageCode,
             isMyStorage: isMyStorage,
           ),
           key: state.pageKey

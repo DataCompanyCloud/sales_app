@@ -8,6 +8,7 @@ class StorageProductModel {
 
   int storageId;
   int productId;
+  String storageCode;
   String productCode;
   int quantity;
   String productName;
@@ -16,6 +17,7 @@ class StorageProductModel {
     this.id = 0,
     this.storageId = 0,
     this.productId = 0,
+    required this.storageCode,
     required this.productCode,
     required this.quantity,
     required this.productName
@@ -29,6 +31,7 @@ extension StorageProductModelMapper on StorageProductModel {
     return StorageProduct.raw(
       storageId: storageId,
       productId: productId,
+      storageCode: storageCode,
       productCode: productCode,
       quantity: quantity,
       productName: productName
@@ -48,6 +51,7 @@ extension StorageProductMapper on StorageProduct {
     final model = StorageProductModel(
       storageId: storageId,
       productId: productId,
+      storageCode: storageCode,
       productCode: productCode,
       quantity: quantity,
       productName: productName

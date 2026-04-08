@@ -6,16 +6,16 @@ import 'package:sales_app/src/features/storage/presentation/widgets/cards/storag
 import 'package:sales_app/src/features/storage/providers.dart';
 
 class StorageProductDetailsScreen extends ConsumerWidget {
-  final int storageId;
+  final String storageCode;
 
   const StorageProductDetailsScreen({
     super.key,
-    required this.storageId,
+    required this.storageCode,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = ref.watch(storageProductsControllerProvider(storageId));
+    final controller = ref.watch(storageProductsControllerProvider(storageCode));
 
     return controller.when(
       error: (error, stack) => ErrorPage(

@@ -29,7 +29,7 @@ abstract class StorageRepository {
   /// Busca todos os estoques
   Future<List<Storage>> fetchAll(StorageFilter filter);
   /// Busca um estoque pelo ID
-  Future<Storage> fetchById(int storageId);
+  Future<Storage> fetchByCode(String code);
   /// Salva vários estoques
   Future<void> saveAll(List<Storage> storages);
   /// Salva um estoque
