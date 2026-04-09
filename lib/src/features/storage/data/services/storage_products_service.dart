@@ -15,9 +15,9 @@ class StorageProductsService {
 
   StorageProductsService(this.apiClient, this.repository);
 
-  Future<StorageProductsPagination> getAll(StorageProductsFilter filter, String storageCode) async {
+  Future<StorageProductsPagination> getAll(StorageProductsFilter filter, String code) async {
     final json = await apiClient.get<Map<String, dynamic>>(
-      ApiEndpoints.storageProducts(storageCode: storageCode), queryParameters: {
+      ApiEndpoints.storageProducts(code: code), queryParameters: {
         'q': filter.q,
         'start': filter.start,
         'limit': filter.limit,
@@ -36,11 +36,15 @@ class StorageProductsService {
     );
   }
 
-  Future<StorageProduct> fetchByStorage(String storageCode, String productCode) async {
+  Future<List<StorageProduct>> fetchByStorage(String uuid) async {
     try {
       final json = await apiClient.get<Map<String, dynamic>>(
-          ApiEndpoints.storageProductByCode(storageCode: storageCode, productCode: productCode));
-      return StorageProduct.fromJson(json);
+        ApiEndpoints.storageProductByUuId(uuid: uuid)
+      );
+
+      final items = json['items'] as List;
+
+      return items.map((e) => StorageProduct.fromJson(e)).toList();
     } on DioException catch (e) {
       final status = e.response?.statusCode;
 

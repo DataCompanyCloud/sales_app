@@ -31,8 +31,8 @@ class ApiEndpoints {
   /// Rota para obter storages
   static const String storages = '/$api/$version/storages';
   static String storageByCode({required String code}) => '/$api/$version/storages/$code';
-  static String storageProducts({required String storageCode}) => '/$api/$version/storages/$storageCode/products';
-  static String storageProductByCode({required String storageCode, required String productCode}) => '/$api/$version/storages/${storageCode.trim().toUpperCase()}/products/${productCode.trim().toUpperCase()}';
+  static String storageProducts({required String code}) => '/$api/$version/storages/$code/products';
+  static String storageProductByUuId({required String uuid}) => '/$api/$version/storage-products/$uuid';
 
   /// /stockTransaction
   /// Rota para obter stockTransactions

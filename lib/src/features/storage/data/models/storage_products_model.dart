@@ -6,21 +6,21 @@ class StorageProductModel {
   @Id()
   int id;
 
-  int storageId;
-  int productId;
-  String storageCode;
-  String productCode;
+  String uuid;
   int quantity;
   String productName;
+  String productCode;
+  DateTime createdAt;
+  DateTime? updatedAt;
 
   StorageProductModel ({
     this.id = 0,
-    this.storageId = 0,
-    this.productId = 0,
-    required this.storageCode,
-    required this.productCode,
+    required this.uuid,
     required this.quantity,
-    required this.productName
+    required this.productName,
+    required this.productCode,
+    required this.createdAt,
+    this.updatedAt
   });
 }
 
@@ -29,12 +29,13 @@ extension StorageProductModelMapper on StorageProductModel {
   StorageProduct toEntity() {
 
     return StorageProduct.raw(
-      storageId: storageId,
-      productId: productId,
-      storageCode: storageCode,
-      productCode: productCode,
+      id: id,
+      uuid: uuid,
       quantity: quantity,
-      productName: productName
+      productName: productName,
+      productCode: productCode,
+      createdAt: createdAt,
+      updatedAt: updatedAt
     );
   }
 
@@ -49,12 +50,13 @@ extension StorageProductMapper on StorageProduct {
   /// De StorageProduct → StorageProductModel
   StorageProductModel toModel() {
     final model = StorageProductModel(
-      storageId: storageId,
-      productId: productId,
-      storageCode: storageCode,
-      productCode: productCode,
+      id: id,
+      uuid: uuid,
       quantity: quantity,
-      productName: productName
+      productName: productName,
+      productCode: productCode,
+      createdAt: createdAt,
+      updatedAt: updatedAt
     );
 
     return model;

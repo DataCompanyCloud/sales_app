@@ -15,7 +15,7 @@ class StorageProductsRepositoryImpl extends StorageProductsRepository {
   @override
   Future<List<StorageProduct>> fetchAll(StorageProductsFilter filter) async {
     final box = store.box<StorageProductModel>();
-    Condition<StorageProductModel> cond = StorageProductModel_.storageCode.equals(filter.storageCode);
+    Condition<StorageProductModel> cond = StorageProductModel_.uuid.equals(filter.storageUuid);
 
     final raw = filter.q?.trim();
     if (raw != null && raw.isNotEmpty) {
@@ -35,11 +35,11 @@ class StorageProductsRepositoryImpl extends StorageProductsRepository {
   }
 
   @override
-  Future<StorageProduct> fetchByCode(String storageCode, String productCode) async {
+  Future<StorageProduct> fetchByUuId(String storageUuid) async {
     try {
       final storageProductBox = store.box<StorageProductModel>();
 
-      final query = storageProductBox.query(StorageProductModel_.storageCode.equals(storageCode)).build();
+      final query = storageProductBox.query(StorageProductModel_.uuid.equals(storageUuid)).build();
       final model = await query.findFirstAsync();
       query.close();
 
@@ -62,8 +62,8 @@ class StorageProductsRepositoryImpl extends StorageProductsRepository {
     store.runInTransaction(TxMode.write, () {
       for (final storageProduct in storageProducts) {
         final existingQ = storageProductBox.query(
-          StorageProductModel_.storageId.equals(storageProduct.storageId)
-              .and(StorageProductModel_.productId.equals(storageProduct.productId)),
+          StorageProductModel_.id.equals(storageProduct.id)
+              .and(StorageProductModel_.id.equals(storageProduct.id)),
         ).build();
         final existing = existingQ.findFirst();
         existingQ.close();
@@ -82,7 +82,7 @@ class StorageProductsRepositoryImpl extends StorageProductsRepository {
     final storageProductBox = store.box<StorageProductModel>();
 
     final id = store.runInTransaction(TxMode.write, () {
-      final existing = storageProductBox.get(storage.productId);
+      final existing = storageProductBox.get(storage.id);
 
       final newModel = storage.maybeMap(
         raw: (r) => r.toModel(),

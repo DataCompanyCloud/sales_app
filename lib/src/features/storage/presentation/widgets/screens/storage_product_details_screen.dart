@@ -43,7 +43,7 @@ class StorageProductDetailsScreen extends ConsumerWidget {
 
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 2),
-                  child: StorageProductDetailsCard(product: product),
+                  child: StorageProductDetailsCard(sProduct: product),
                 );
               }
             ),

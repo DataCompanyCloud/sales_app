@@ -3,11 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sales_app/src/features/storage/domain/entities/storage_product.dart';
 
 class StorageProductDetailsCard extends ConsumerWidget {
-  final StorageProduct product;
+  final StorageProduct sProduct;
 
   const StorageProductDetailsCard({
     super.key,
-    required this.product
+    required this.sProduct
   });
 
   @override
@@ -39,7 +39,7 @@ class StorageProductDetailsCard extends ConsumerWidget {
                         ),
                         alignment: Alignment.center,
                         child: Text(
-                          product.productCode,
+                          sProduct.productCode,
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold
@@ -92,7 +92,7 @@ class StorageProductDetailsCard extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                product.productName,
+                                sProduct.productName,
                                 style: TextStyle(
                                   fontSize: 15,
                                   overflow: TextOverflow.ellipsis
@@ -109,7 +109,7 @@ class StorageProductDetailsCard extends ConsumerWidget {
                                       borderRadius: BorderRadius.circular(4),
                                     ),
                                     child: Text(
-                                      "Quantidade: ${product.quantity}",
+                                      "Quantidade: ${sProduct.quantity}",
                                       style: TextStyle(
                                         color: scheme.onSecondaryContainer,
                                         fontWeight: FontWeight.bold
