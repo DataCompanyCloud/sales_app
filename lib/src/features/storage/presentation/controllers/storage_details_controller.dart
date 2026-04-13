@@ -6,18 +6,18 @@ import 'package:sales_app/src/features/storage/providers.dart';
 class StorageDetailsController extends AutoDisposeFamilyAsyncNotifier<Storage, String>{
 
   @override
-  FutureOr<Storage> build(String storageCode) async {
+  FutureOr<Storage> build(String storageUuid) async {
     final service = await ref.read(storageServiceProvider.future);
     final repository = await ref.read(storageRepositoryProvider.future);
 
     try {
-      final remote = await service.getByCode(storageCode);
+      final remote = await service.getByUuid(storageUuid);
       await repository.save(remote);
       return remote;
     } catch (e) {
       // print(e);
     }
 
-    return await repository.fetchByCode(storageCode);
+    return await repository.fetchByCode(storageUuid);
   }
 }

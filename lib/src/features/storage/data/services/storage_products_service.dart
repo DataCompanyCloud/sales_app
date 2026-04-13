@@ -15,9 +15,9 @@ class StorageProductsService {
 
   StorageProductsService(this.apiClient, this.repository);
 
-  Future<StorageProductsPagination> getAll(StorageProductsFilter filter, String code) async {
+  Future<StorageProductsPagination> getAll(StorageProductsFilter filter, String uuid) async {
     final json = await apiClient.get<Map<String, dynamic>>(
-      ApiEndpoints.storageProducts(code: code), queryParameters: {
+      ApiEndpoints.storageProducts(uuid: uuid), queryParameters: {
         'q': filter.q,
         'start': filter.start,
         'limit': filter.limit,
@@ -39,7 +39,7 @@ class StorageProductsService {
   Future<List<StorageProduct>> fetchByStorage(String uuid) async {
     try {
       final json = await apiClient.get<Map<String, dynamic>>(
-        ApiEndpoints.storageProductByUuId(uuid: uuid)
+        ApiEndpoints.storageProductByUuid(uuid: uuid)
       );
 
       final items = json['items'] as List;
