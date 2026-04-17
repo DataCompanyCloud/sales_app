@@ -10,7 +10,6 @@ abstract class StockTransactionItem with _$StockTransactionItem {
   const factory StockTransactionItem.raw({
     required int id,      // id local
     required String code, // Sinc com o servidor
-    int? serverId,
     int? movementId,
     required int productId,
     required String productCode,
@@ -21,7 +20,6 @@ abstract class StockTransactionItem with _$StockTransactionItem {
   factory StockTransactionItem ({
     required int id,
     required String code,
-    int? serverId,
     int? movementId,
     required int productId,
     required String productCode,

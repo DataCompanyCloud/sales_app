@@ -10,13 +10,12 @@ class StockTransactionModel {
   @Id()
   int id;
 
-  int stockId;
+  String uuid;
   String code;
-  int? serverId;
   OwnerTransaction? owner;
   String? description;
   int? orderId;
-  DateTime createAt;
+  DateTime createdAt;
   StorageEndpoint? fromStorage;
   StorageEndpoint? toStorage;
   int type;
@@ -25,13 +24,12 @@ class StockTransactionModel {
 
   StockTransactionModel ({
     this.id = 0,
-    this.stockId = 0,
+    required this.uuid,
     required this.code,
-    this.serverId,
     this.owner,
     this.description,
     this.orderId = 0,
-    required this.createAt,
+    required this.createdAt,
     this.fromStorage,
     this.toStorage,
     required this.type
@@ -44,13 +42,13 @@ extension StockTransactionModelMapper on StockTransactionModel {
     final items = this.items.map((m) => m.toEntity()).toList();
 
     return StockTransaction.raw(
-      id: stockId,
+      id: id,
+      uuid: uuid,
       code: code,
-      serverId: serverId,
       owner: owner,
       description: description,
       orderId: orderId,
-      createAt: createAt,
+      createdAt: createdAt,
       fromStorage: fromStorage,
       toStorage: toStorage,
       type: TransactionType.values[type],
@@ -63,13 +61,13 @@ extension StockTransactionMapper on StockTransaction {
   /// De StockMovement → StockMovementModel
   StockTransactionModel toModel() {
     final model = StockTransactionModel(
-      stockId: id,
+      id: id,
+      uuid: uuid,
       code: code,
-      serverId: serverId,
       owner: owner,
       description: description,
       orderId: orderId,
-      createAt: createAt,
+      createdAt: createdAt,
       fromStorage: fromStorage,
       toStorage: toStorage,
       type: type.index

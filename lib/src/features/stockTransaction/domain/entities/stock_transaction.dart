@@ -13,12 +13,12 @@ abstract class StockTransaction with _$StockTransaction {
 
   const factory StockTransaction.raw({
     required int id,      // id local
+    required String uuid,
     required String code,
-    int? serverId,             // id do servidor
     OwnerTransaction? owner,
     String? description,
     int? orderId,              // Link com um pedido
-    required DateTime createAt,
+    required DateTime createdAt,
     required TransactionType type,
     StorageEndpoint? fromStorage,
     StorageEndpoint? toStorage,
@@ -28,12 +28,13 @@ abstract class StockTransaction with _$StockTransaction {
   /// TODO: Fazer as validações
   factory StockTransaction ({
     required int id,
+    required String uuid,
     required String code,
     int? serverId,
     OwnerTransaction? owner,
     String? description,
     int? orderId,
-    required DateTime createAt,
+    required DateTime createdAt,
     required TransactionType type,
     StorageEndpoint? fromStorage,
     StorageEndpoint? toStorage,
@@ -42,12 +43,12 @@ abstract class StockTransaction with _$StockTransaction {
 
     return StockTransaction.raw(
       id: id,
+      uuid: uuid,
       code: code,
-      serverId: serverId,
       owner: owner,
       description: description,
       orderId: orderId,
-      createAt: createAt,
+      createdAt: createdAt,
       type: type,
       fromStorage: fromStorage,
       toStorage: toStorage,

@@ -8,7 +8,6 @@ class StockTransactionItemModel {
 
   int itemId;
   String code;
-  int? serverId;
   int? movementId;
   int productId;
   String productCode;
@@ -19,7 +18,6 @@ class StockTransactionItemModel {
     this.id = 0,
     this.itemId = 0,
     required this.code,
-    this.serverId,
     this.movementId,
     required this.productId,
     required this.productCode,
@@ -34,7 +32,6 @@ extension StockTransactionItemModelMapper on StockTransactionItemModel {
     return StockTransactionItem.raw(
       id: itemId,
       code: code,
-      serverId: serverId,
       movementId: movementId,
       productId: productId,
       productCode: productCode,
@@ -50,7 +47,6 @@ extension StockTransactionItemMapper on StockTransactionItem {
     final model = StockTransactionItemModel(
       itemId: id,
       code: code,
-      serverId: serverId,
       movementId: movementId,
       productId: productId,
       productCode: productCode,

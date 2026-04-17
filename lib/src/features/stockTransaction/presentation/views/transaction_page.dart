@@ -58,8 +58,9 @@ List<StockTransaction> genStockTransactions (int max) {
     output.add(
       StockTransaction(
         id: i+1,
-        code: (i+1).toString().padLeft(5, "0"), // 1 => "00001"
-        createAt: DateTime.now(),
+        uuid: "",
+        code: (i+1).toString().padLeft(5, "0"), // 1 => "00001,
+        createdAt: DateTime.now(),
         type: random.element([TransactionType.stockIn, TransactionType.stockOut, TransactionType.transfer]),
         items: genItems(),
         orderId: random.boolean() ? random.integer(1000, min: 1) : null,

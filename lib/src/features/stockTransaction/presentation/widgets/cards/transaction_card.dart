@@ -45,7 +45,7 @@ class TransactionCard extends ConsumerWidget {
     final scheme = theme.colorScheme;
     final type = getType();
 
-    final date = stockTransaction.createAt;
+    final date = stockTransaction.createdAt;
     final formatter = DateFormat('dd/MM/yy HH:mm', 'pt-BR');
     final formattedDate = formatter.format(date);
 
