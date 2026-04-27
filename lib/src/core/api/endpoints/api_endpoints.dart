@@ -4,6 +4,7 @@ class ApiEndpoints {
 
   // auth
   static const String login = '/$api/$version/auth/login';
+  static const String loginMobile = '/$api/$version/auth/login/mobile';
 
   // products
   static const String product = '/$api/$version/product';
@@ -24,8 +25,8 @@ class ApiEndpoints {
 
   /// /orders
   /// Rota para obter orders
-  static const String orders = '/$api/$version/orders';
-  static String orderByUuId({required String uuid}) => '/$api/$version/orders/$uuid';
+  static const String orders = '/$api/$version/sales-orders';
+  static String orderByUuId({required String uuid}) => '/$api/$version/sales-orders/$uuid';
 
   /// /storages
   /// Rota para obter storages

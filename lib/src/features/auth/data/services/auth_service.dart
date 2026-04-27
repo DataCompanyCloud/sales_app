@@ -17,7 +17,7 @@ class AuthService {
 
   Future<User> login(String login, String password) async {
     try {
-      final json = await apiClient.post<Map<String, dynamic>>(ApiEndpoints.login, data: {
+      final json = await apiClient.post<Map<String, dynamic>>(ApiEndpoints.loginMobile, data: {
         'login': login,
         'password': password,
       });
@@ -75,7 +75,7 @@ class AuthService {
 
   Future<User> authenticateWithPassword(String password) async {
     try {
-      final json = await apiClient.post<Map<String, dynamic>>(ApiEndpoints.login, data: {
+      final json = await apiClient.post<Map<String, dynamic>>(ApiEndpoints.loginMobile, data: {
         'password': password,
       });
 
